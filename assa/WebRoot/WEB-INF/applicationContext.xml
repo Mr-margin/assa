@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                        http://www.springframework.org/schema/aop
+                        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+
+
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" >
+		    <value>org.logicalcobwebs.proxool.ProxoolDriver</value>
+		</property>
+		<property name="url">
+ 			<value>proxool.DBPool</value>
+ 		</property>
+ 		
+	</bean>
+	    <bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		
+		<!-- Mybatis自身的配置文件，一般用来声明别名 -->
+		<property name="configLocation" value="classpath:configuration.xml" />
+		
+		<!-- 要映射类的包路径，如果使用了这种方式，则configLocation中不必再进行声明 -->
+		<property name="typeAliasesPackage" value="com.gistone.mybatis.model" />
+		
+		<!-- mybatis的映射文件 -->
+		<property name="mapperLocations" value="classpath*:com/gistone/mybatis/mapper/*.xml" />
+	</bean>
+
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.gistone.mybatis.inter" />
+	</bean>
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+</beans>

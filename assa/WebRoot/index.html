@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+	<meta charset="utf-8">
+	<meta http-equiv="Expires" content="0">
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" CONTENT="no-cache, must-revalidate"> 
+	<meta http-equiv="Cache-Control" content="no-siteapp" />
+	<meta http-equiv="Cache" content="no-cache">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="renderer" content="webkit">
+	<title>鄂尔多斯精准扶贫大数据管理平台</title>
+
+    <!--[if lt IE 8]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+    
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="css/bootstrap.min.css?v=3.3.5" rel="stylesheet" media="screen">
+    <link href="css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="css/animate.min.css" rel="stylesheet">
+    <link href="css/style.min.css?v=4.0.0" rel="stylesheet">
+    <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="css/style.css" />
+    <base target="_blank">
+	<style>
+		.c_red {
+			font-size: 13px;
+			background-color: #FFF;
+			color: red;
+			font-weight: bold;
+		}
+		.c_green {
+			font-size: 13px;
+			background-color: #FFF;
+			color: #1ab394;
+			font-weight: bold;
+		}
+	</style>
+</head>
+  
+  <body class="gray-bg top-navigation">
+	<div id="wrapper">
+        <div id="page-wrapper" class="gray-bg">
+        
+        	<!-- 头部菜单 -->
+            <div class="row border-bottom white-bg">
+                <nav class="navbar navbar-static-top" role="navigation">
+                    <div class="navbar-header">
+                        <span><img alt="image" class="img" src="img/logo_1.png" /></span>
+                    </div>
+                    <div class="navbar-collapse collapse" id="navbar">
+                        <ul class="nav navbar-nav navbar-right">
+                        	<li class="active">
+                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown" id="in"> 扶贫概况</a>
+                            </li>
+                            <li class="dropdown" id="H_li" style="display:none;">
+                            	<a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> 扶贫手册 <span class="caret"></span></a>
+                            	<ul role="menu" class="dropdown-menu">
+                            		<li id="H1_li" style="display:none;"><a id="H1">扶贫手册录入</a></li>
+                            		<li id="H2_li" style="display:none;"><a id="H2">帮扶信息查询</a></li>
+                            		<li id="H2_1_li" style="display:none;" ><a id="H2_1">工作台账</a></li>
+                            	</ul>
+                            </li>
+                            
+                            <li class="dropdown" id="H7_li" style="display:none;">
+                            	<a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> 易地扶贫搬迁 <span class="caret"></span></a>
+                            	<ul role="menu" class="dropdown-menu">
+                            		<li id="H7-1_li" style="display:none;"><a id="H7-1">安置点维护</a></li>
+                            		<li id="H7-2_li" style="display:none;"><a id="H7-2">工程进度统计</a></li>
+                            	</ul>
+                            </li>
+                            
+                            <!-- <li class="dropdown" id="H1_li" style="display:none;">
+                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown" id="H1"> 扶贫手册录入 </a>
+                            </li>
+                            <li class="dropdown" id="H2_li" style="display:none">
+                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown" id="H2"> 帮扶信息查询 </a>
+                            </li> -->
+                            
+                            <li class="dropdown" id="H3_li" style="display:none">
+                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown" id="H3-2"> 挂图作战 </a>
+                            </li>
+                            
+                            <!--  <li class="dropdown" id="H3_li" style="display:none;">
+                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> 统计分析<span class="caret"></span></a>
+                                <ul role="menu" class="dropdown-menu">
+                                    <li id="H3-1_li" style="display:none;"><a id="H3-1">综合查询</a></li>
+                                    <li id="H3-2_li" style="display:none;"><a id="H3-2">统计汇总</a></li>
+                                </ul>
+                            </li> -->
+                            
+                            <li class="dropdown" id="H4_li" style="display:none;">
+                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown" id="H4"> 识别与退出 </a>
+                            </li>
+                            <li class="dropdown" id="H5_li" style="display:none;">
+                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> 系统管理 <span class="caret"></span></a>
+                                <ul role="menu" class="dropdown-menu">
+                                    <li id="H5-1_li" style="display:none;"><a id="H5-1">帮扶干部维护</a></li>
+                                    <li id="H5-4_li" style="display:none;"><a id="H5-3">帮扶单位维护</a></li>
+                                    <li id="H5-2_li" style="display:none;"><a id="H6-1">账号查询</a></li>
+                                    <li id="H5-3_li" style="display:none;"><a id="H5-2">维护控制</a></li>
+                                    <li id="H8_li" style="display:none;"><a id="H8">系统查看</a></li>
+                                    <li id="H9_li" style="display:none;"><a id="H9">数据统计</a></li>
+                                    <li id="H10_li" style="display:none;"><a id="H10">查询录入情况</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown" id="yonghuxiangguan"></li>
+                        </ul>
+                    </div>
+                </nav>
+            </div><!-- 头部菜单 -->
+            
+			<!-- 中间部分 -->
+			<div class="wrapper wrapper-content">
+				<div class="container">
+					<!-- 第二行表格加地图 -->
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="ibox float-e-margins">
+								<div class="ibox-title">
+									<div style="display:inline;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+									<div id="anniu_1" style="display:inline;">
+										<button type="button" class="btn btn-primary btn-xs"
+											onclick="tuxing()" style="font-size: 14px;">图形</button>
+										<div style="display:inline;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+										<button type="button"
+											class="btn btn-outline btn-primary btn-xs" onclick="biaoge()"
+											style="font-size: 14px;">表格</button>
+									</div>
+								</div>
+
+								<div class="ibox-content">
+
+									<div class="row">
+										<div class="col-sm-4">
+											<table class="table table-hover margin bottom">
+												<thead>
+													<tr>
+														<th style="width: 60%" class="text-center"
+															id="index_yi_title">旗县</th>
+														<th style="width: 20%" class="text-center">贫困户</th>
+														<th style="width: 20%" class="text-center">贫困人数</th>
+													</tr>
+												</thead>
+												<tbody id="shangfangzongbiao">
+												</tbody>
+											</table>
+										</div>
+										<div class="col-sm-8">
+											<div id="mapChart" style="height: 500px;windth: 629px;"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- 第二行表格加地图 -->
+
+					<!-- 第四行可以出表格 -->
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="ibox float-e-margins">
+								<div class="ibox-content">
+									<div class="table-responsive">
+										<div style="display:inline;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+										<div id="anniu_3" style="display:inline;"></div>
+										<table class="table table-striped">
+											<thead>
+												<tr id="sy_xfbg_1">
+													<th class="text-center" id="index_er_title">旗县</th>
+													<th class="text-center">贫困户</th>
+													<th class="text-center">贫困人口</th>
+													<th class="text-center">落实帮扶责任人(户)</th>
+													<th class="text-center">制定帮扶计划(户)</th>
+													<th class="text-center">落实帮扶措施(户)</th>
+													<th class="text-center">责任人走访情况(户)</th>
+												</tr>
+											</thead>
+											<tbody id="xiafangzongbiao">
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- 第四行可以出表格 -->
+				</div>
+			</div>
+			<!-- 中间部分 -->
+
+			<!-- 尾部 -->
+            <div class="footer" id="weibu_title"></div><!-- 尾部 -->
+        </div>
+    </div>
+
+    <!-- 弹出窗口使用 -->
+    <div id="gray"></div>
+
+<div class="popup" id="popup" style="width: 732px;">
+
+	<div class="top_nav" id='top_nav' style="width: 732px;">
+		<div align="center">
+			<i></i>
+			<span>登录账号</span>
+			<a class="guanbi"></a>
+		</div>
+	</div>
+	
+	<div class="min" style="width: 732px;">
+	
+		<div class="tc_login" style="width: 700px;">
+			<h3 align="center">欢迎使用鄂尔多斯精准扶贫大数据管理平台</h3>
+			<div class="left">
+				<div align="center">&nbsp;</div>
+				
+				<div align="center">&nbsp;
+				</div>
+				<div align="center">
+					<div align="center">&nbsp;</div>
+					
+					<div align="center">
+						<img id="huzhu_pic_show" alt="image" class="img-responsive" style="width:180px;height:180px;" src="img/20160501122136.png">
+					</div>
+					<h5 align="left" style="display:inline;">&nbsp;扫描二维码下载安卓版<br>鄂尔多斯精准扶贫帮扶通</h5>
+				</div>
+				<dd>
+					<div align="center">
+						<h5 align="left" style="display:inline;">工作平台Q群：</h5>
+						<h6 align="right" style="display:inline;">560702402</h6><br/>
+						<h5 align="left" style="display:inline;">技术支持QQ：</h5>
+						<h6 align="right" style="display:inline;">3434914209</h6><br>
+					</div>
+				</dd>
+			</div>  
+			<div class="left">
+				<div align="center">&nbsp;</div>
+				
+				<div align="center">&nbsp;
+				</div>
+				<div align="center">
+					<div align="center">&nbsp;</div>
+					
+					<div align="center">
+						<img id="huzhu" alt="image" class="img-responsive" style="width:180px;height:180px;" src="img/1476669685.png">
+					</div>
+					<h5 align="left" style="display:inline;">&nbsp;扫描二维码下载安卓版<br>鄂尔多斯社会扶贫捐助平台</h5>
+				</div>
+				<dd>
+					<div align="center">
+						<h5 align="left" style="display:inline;">&nbsp;</h5>
+						<h6 align="right" style="display:inline;">&nbsp;</h6><br/>
+						<h5 align="left" style="display:inline;">&nbsp;</h5>
+						<h6 align="right" style="display:inline;">&nbsp;</h6><br>
+					</div>
+				</dd>
+			</div>
+		
+			<div class="right">
+				<form method="POST" name="" target="" onsubmit='return false'>
+					<div align="center">&nbsp;</div>
+					<div align="center">&nbsp;</div>
+					<div align="center">
+						<div align="center">
+							<h4 style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;请登录：</h4>
+						</div>
+						<input type="text" name="name" id="name" required="required" placeholder="用户名" autocomplete="off" class="input_yh">
+						<div align="center">&nbsp;&nbsp;&nbsp;</div>
+						<input type="password" name="pass" id="pass" required="required" placeholder="密码" autocomplete="off" class="input_mm">
+					</div>
+					
+					<div align="center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
+					<div align="center"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+					<div align="center">&nbsp;</div>
+					<div align="center">
+						<input type="submit"   style="  -webkit-appearance: none;
+													    background: #36a803;
+													    border: none;
+													    border-radius: 2px;
+													    color: #fff;
+													    cursor: pointer;
+													    height: 50px;
+													    font-family: 'Open Sans', sans-serif;
+													    font-size: 1.2em;
+													    letter-spacing: 0.05em;
+													    text-align: center;
+													    text-transform: uppercase;
+													    transition: background 0.3s ease-in-out;
+													    width: 220px;
+													    padding: 0 50px 0 50px;
+   														font-weight: bold;"
+   						 onclick="denglu()" value="登&nbsp;&nbsp;录">
+					</div>
+				</form>   
+			</div>
+		
+		</div>
+	
+	</div>
+
+</div>
+
+	<!-- 修改密码页面 -->
+    <div id="gray_2"></div>
+
+<div class="popup" id="popup_2">
+
+	<div class="top_nav" >
+		<div align="center">
+			<i></i>
+			<span>修改密码</span>
+			<a class="guanbi"></a>
+		</div>
+	</div>
+	
+	<div class="main">
+		<div class="tc_login">
+			<div class="center">
+					<div align="center">
+						<div align="center">
+						<br/>
+						<h4 style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;请输入原密码：</h4>
+						</div>
+						<br/>
+						<div>
+						<form class="" id="changepassword_form" onsubmit='return false' >
+							<input type="text" id="yhid" style="display:none;"  class="input_yh">
+							<div align="center">&nbsp;&nbsp;&nbsp;</div>
+							<div class="form-group" style="text-align:left;">
+								<input type="password" name="old_pass" id="old_pass" style="margin-left: 133px;" required="required" cp="true"  placeholder="原密码" autocomplete="off" class="input_mm">
+								<div align="center">&nbsp;&nbsp;&nbsp;</div>
+								<input type="password" name="new_pass" id="new_pass" style="margin-left: 133px;" required="required"  placeholder="新密码" autocomplete="off" class="input_mm">
+								<div align="center">&nbsp;&nbsp;&nbsp;</div>
+								<input type="password" name="new_pass_2" id="new_pass_2" style="margin-left: 133px;" required equalTo="#new_pass" placeholder="请再次输入新密码" autocomplete="off" class="input_mm">
+							</div>
+						</form>
+						</div>
+					</div>
+					
+					
+					<div align="center">
+						<input type="submit"   style="  -webkit-appearance: none;
+													    background: #36a803;
+													    border: none;
+													    border-radius: 2px;
+													    color: #fff;
+													    cursor: pointer;
+													    height: 50px;
+													    font-family: 'Open Sans', sans-serif;
+													    font-size: 1.2em;
+													    letter-spacing: 0.05em;
+													    text-align: center;
+													    text-transform: uppercase;
+													    transition: background 0.3s ease-in-out;
+													    width: 220px;
+													    padding: 0 50px 0 50px;
+   														font-weight: bold;"
+   							onclick="xiugaimima_anniu()" value="修&nbsp;改&nbsp;密&nbsp;码">
+					</div>
+			</div>
+		</div>
+	</div>
+</div>
+    <script src="js/Include.js"></script>
+	<script>
+		loadSMLibs("index");
+	</script>
+  </body>
+</html>

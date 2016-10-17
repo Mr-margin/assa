@@ -1,0 +1,196 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>meDialog提示框美化</title>
+<script src="js/jquery-1.9.1.min.js"></script>
+<link rel="stylesheet" type="text/css" href="tanc.css"/>
+</head>
+<body>
+<!--//
+* @author 神的清风
+* @date 2015-09-13
+//-->
+<div class="main clearfix">
+  <!--//
+    //调用方式
+    meDialog.tips({
+        'width': '宽度（比如 50% 或 600px）',
+		'height': '宽度（比如 50% 或 600px）',
+		'autoClose': '自动关闭时间，比如 1000 （毫秒计算）',
+		'title': '标题',
+		'button': '按钮（详情见按钮说明）',
+		'content': '内容'
+    })
+    
+    //按钮说明
+    按钮最多能设置两个，一个确定，一个取消，两个按钮都可自定义回调方法
+    'button': {
+		'ok': {
+			'text': '自定义按钮名称',
+			'handler': function(){ 回调方法 }
+		},
+		'cancel': {
+			'text': '自定义按钮名称',
+			'handler': false
+		}
+	}
+    
+    //各种动画效果名称
+    fade
+    slide-botton
+    newspaper
+    fall
+    side-fall
+    slide-stick-top
+    flip-horizontal
+    sign
+    super-scaled
+    just-me
+    slit
+    rotate-bottom
+    rotate-left
+    
+    meDialog.init({'animate':'动画效果名称'});
+
+  //-->
+  <button class="button" onClick="meDialog.tips({
+  	  'title': '警告',
+      'content':'系统报错'
+     })">按钮一</button>
+  <button class="button" onClick="meDialog.tips({
+      'content':'系统报错',
+      'button':true
+     })">按钮二</button>
+</div>
+<script>
+var meDialog = {
+	'getID': {
+		'b': 'meButton' + (new Date()).valueOf(),
+		'c': 'meContent' + (new Date()).valueOf(),
+		'i': 'meDialog' + (new Date()).valueOf(),
+		'o': 'meOverlay' + (new Date()).valueOf(),
+		't': 'meTtile' + (new Date()).valueOf(),
+		'ob': 'meOBtn' + (new Date()).valueOf(),
+		'cb': 'meCBtn' + (new Date()).valueOf()
+	},
+	'button': {
+		'ok': {
+			'text': '确定',
+			'handler': false
+		},
+		'cancel': {
+			'text': '取消',
+			'handler': false
+		}
+	},
+	'config': {
+		'width': '50%',
+		'height': 'auto',
+		'timer': false,
+		'autoClose': false,
+		'title': false,
+		'close': false,
+		'button': false,
+		'animate': 'fade',
+		'content': 'Error...'
+	},
+	'custom': function(a) {
+		var c = this.config;
+		var r = Array;
+		$.each(c, function(n) {
+			r[n] = a && a[n] ? a[n] : c[n]
+		});
+		return r
+	},
+	'tips': function(a) {
+		this.close();
+		var config = this.custom(a);
+		var id = this.getID;
+		var content = "<div class=\"meContentBox\" id=\"" + id.c + "\">" + config.content + "</div>";
+		if (config.title) {
+			content = "<h3 id=\"" + id.t + "\">" + config.title + "</h3>" + content
+		}
+		if (config.button) {
+			var button = '<button class="allButton" id="' + id.ob + '">' + this.button.ok.text + '</button>';
+			if (config.button.ok || config.button.cancel) {
+				var ok = '';
+				var cancel = '';
+				var oc = 'rightButton';
+				var cc = 'leftButton';
+
+				if (config.button.ok) {
+					oc = config.button.cancel ? oc : 'allButton';
+					ok = '<button class="' + oc + '" id="' + id.ob + '">' + config.button.ok.text + '</button>'
+				}
+				if (config.button.cancel) {
+					cc = config.button.ok ? cc : 'allButton';
+					cancel = '<button class="' + cc + '" id="' + id.cb + '">' + config.button.cancel.text + '</button>'
+				}
+				button = ok + cancel
+			}
+			content = content + "<div class=\"meButton\" id=\"" + id.b + "\">" + button + "</div>"
+		}
+
+		$("#" + id.i + " .meContent").html(content).css({
+			'width': config.width,
+			'height': config.height
+		});
+		$("#" + id.i).addClass("meShow");
+
+		if ($("#" + id.ob)[0]) {
+			$("#" + id.ob).bind('click', function() {
+				if (config.button.ok && config.button.ok.handler) {
+					meDialog.trigger(config.button.ok.handler);
+				} else {
+					meDialog.close();
+				}
+			})
+		}
+
+		if ($("#" + id.cb)[0]) {
+			$("#" + id.cb).bind('click', function() {
+				if (config.button.cancel && config.button.cancel.handler) {
+					meDialog.trigger(config.button.cancel.handler);
+				} else {
+					meDialog.close();
+				}
+			})
+		}
+
+		$("#" + id.o).bind("click", function() {
+			meDialog.close()
+		});
+
+		if (config.button) {
+			$("#" + id.o).unbind("click");
+		}
+
+		if (config.autoClose && config.button === false) {
+			this.config.timer = setInterval(this.close, config.autoClose)
+		}
+	},
+	'close': function(a) {
+		var id = meDialog.getID;
+		$("#" + id.i).removeClass("meShow");
+		clearInterval(meDialog.config.timer)
+	},
+	'trigger': function(a) {
+		meDialog.close();
+		return a.call();
+	},
+	'init': function(a) {
+		var config = this.custom(a);
+		var id = this.getID;
+		if (!$("#" + id.i)[0]) {
+			var html = "<div class=\"meDialog me-effect-" + config.animate + "\" id=\"" + id.i + "\"><div class=\"meContent\"></div></div><div class=\"meOverlay\" id=\"" + id.o + "\"></div>";
+			$("body").prepend(html);
+		}
+	}
+};
+meDialog.init({
+	'animate': 'fade'
+});
+</script>
+</body>
+</html>

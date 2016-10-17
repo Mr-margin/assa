@@ -1,0 +1,3463 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="Expires" content="0">
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" CONTENT="no-cache, must-revalidate"> 
+	<meta http-equiv="Cache-Control" content="no-siteapp" />
+	<meta http-equiv="Cache" content="no-cache">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="renderer" content="webkit">
+	<title>鄂尔多斯精准扶贫大数据管理平台</title>
+
+    
+    <link rel="shortcut icon" href="favicon.ico">
+	<link href="css/bootstrap.min.css?v=3.3.5" rel="stylesheet" media="screen">
+	<link href="css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+	<link href="css/animate.min.css" rel="stylesheet">
+	<link href="css/style.min.css?v=4.0.0" rel="stylesheet">
+	<link href="css/plugins/webuploader/webuploader.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" type="text/css" href="css/plugins/webuploader/webuploader-demo.min.css">
+	<link href="css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+	<link href="css/table/table.css" rel="stylesheet">
+	<link href="css/plugins/blueimp/css/blueimp-gallery.min.css" rel="stylesheet">
+	<link href="css/plugins/iCheck/custom.css" rel="stylesheet">
+	<link href="css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+	<link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
+	<link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+	<link href="css/H1-2css.css" rel="stylesheet">
+	<link type="text/css" rel="stylesheet" href="css/style.css" />
+    <base target="_blank">
+	<style>
+		.c_red {
+			font-size: 13px;
+			background-color: #FFF;
+			color: red;
+			font-weight: bold;
+		}
+		.c_green {
+			font-size: 13px;
+			background-color: #FFF;
+			color: #1ab394;
+			font-weight: bold;
+		}
+	</style>
+</head>
+
+<body class="gray-bg top-navigation">
+	<div id="wrapper">
+		<div id="page-wrapper" class="gray-bg">
+
+			<!-- 头部菜单 -->
+            <div class="row border-bottom white-bg">
+                <nav class="navbar navbar-static-top" role="navigation">
+                    <div class="navbar-header">
+                        <span><img alt="image" class="img" src="img/logo_1.png" /></span>
+                    </div>
+                    <div class="navbar-collapse collapse" id="navbar">
+                        <ul class="nav navbar-nav navbar-right">
+                        	<li class="dropdown">
+                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown" id="in"> 扶贫概况</a>
+                            </li>
+                            <li class="active" id="H_li" style="display:none;">
+                            	<a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> 扶贫手册 <span class="caret"></span></a>
+                            	<ul role="menu" class="dropdown-menu">
+                            		<li id="H1_li" style="display:none;"><a id="H1">扶贫手册录入</a></li>
+                            		<li id="H2_li" style="display:none;"><a id="H2">帮扶信息查询</a></li>
+                            		<li id="H2_1_li" style="display:none;" ><a id="H2_1">工作台账</a></li>
+                            	</ul>
+                            </li>
+                            
+                            <li class="dropdown" id="H7_li" style="display:none;">
+                            	<a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> 易地扶贫搬迁 <span class="caret"></span></a>
+                            	<ul role="menu" class="dropdown-menu">
+                            		<li id="H7-1_li" style="display:none;"><a id="H7-1">安置点维护</a></li>
+                            		<li id="H7-2_li" style="display:none;"><a id="H7-2">工程进度统计</a></li>
+                            	</ul>
+                            </li>
+                            
+                            <li class="dropdown" id="H3_li" style="display:none">
+                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown" id="H3-2"> 挂图作战 </a>
+                            </li>
+                            
+                            <li class="dropdown" id="H4_li" style="display:none;">
+                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown" id="H4"> 识别与退出 </a>
+                            </li>
+                            <li class="dropdown" id="H5_li" style="display:none;">
+                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> 系统管理 <span class="caret"></span></a>
+                                <ul role="menu" class="dropdown-menu">
+                                    <li id="H5-1_li" style="display:none;"><a id="H5-1">帮扶干部维护</a></li>
+                                    <li id="H5-4_li" style="display:none;"><a id="H5-3">帮扶单位维护</a></li>
+                                    <li id="H5-2_li" style="display:none;"><a id="H6-1">账号查询</a></li>
+                                    <li id="H5-3_li" style="display:none;"><a id="H5-2">维护控制</a></li>
+                                    <li id="H8_li" style="display:none;"><a id="H8">系统查看</a></li>
+                                    <li id="H9_li" style="display:none;"><a id="H9">数据统计</a></li>
+                                    <li id="H10_li" style="display:none;"><a id="H10">查询录入情况</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown" id="yonghuxiangguan"></li>
+                        </ul>
+                    </div>
+                </nav>
+            </div><!-- 头部菜单 -->
+
+
+			<!-- 中间部分 -->
+			<div id="show-content" class="wrapper wrapper-content">
+				<div class="container">
+
+					<!-- 表格与查询 -->
+					<div class="row" id="shang_yi">
+
+						<div class="ibox float-e-margins">
+							<!-- 外层面板 -->
+							<div class="ibox-content">
+								<!-- 面板内容 -->
+
+								<div class="row">
+									<div class="col-sm-12">
+										<div class="ibox panel panel-success border-bottom">
+											<div class="ibox-title panel-heading">
+												<h5 id="chauxnshiousuo_title">查询条件</h5>
+												<div class="ibox-tools">
+													<a class="collapse-link" id="chauxnshiousuo"> 
+													<!-- <i class="fa fa-chevron-down"></i><strong id="title_tle" onclick="title_tle_zhankai()">展开</strong> -->
+													</a>
+												</div>
+											</div>
+											<div class="ibox-content panel-body" style="display: none;">
+												<form class="form-horizontal" id="cha_Form">
+	
+													<div class="form-group" style="margin-bottom: 0px" id="chauxn_quanxian">
+														<div class="col-sm-4">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 5px;">旗县</label>
+															<div class="col-sm-7">
+																<select class="form-control m-b" id="cha_qx" name="cha_qx" onchange="getinfo_xiang(this.value,$('#cha_smx'))">
+																	<option>请选择</option>
+																	<option>杭锦旗</option>
+																	<option>市级标准</option>
+																</select>
+															</div>
+														</div>
+	
+														<div class="col-sm-4">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 5px;">苏木乡</label>
+															<div class="col-sm-7">
+																<select class="form-control m-b" id="cha_smx" name="cha_smx" onchange="getinfo_cun(this.value,$('#cha_gcc'))">
+																	<option>请选择</option>
+																</select>
+															</div>
+														</div>
+	
+														<div class="col-sm-4">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 5px;">嘎查村</label>
+															<div class="col-sm-7">
+																<select class="form-control m-b" id="cha_gcc" name="cha_gcc">
+																	<option>请选择</option>
+																</select>
+															</div>
+														</div>
+													</div>
+													<div class="form-group" style="margin-bottom: 0px">
+	
+														<div class="col-sm-4">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 5px;">识别标准</label>
+															<div class="col-sm-7">
+																<select class="form-control m-b" id="cha_sbbz" name="cha_sbbz">
+																	<option>请选择</option>
+																	<option>国家级贫困人口</option>
+																	<option>市级低收入人口</option>
+																</select>
+															</div>
+														</div>
+	
+														<div class="col-sm-4">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 5px;">贫困户属性</label>
+															<div class="col-sm-7">
+																<select class="form-control m-b" id="cha_pksx" name="znegjia_xb_0">
+																	<option>请选择</option>
+																	<option>一般贫困户</option>
+																	<option>低保户</option>
+																	<option>五保户</option>
+																	<option>一般农户</option>
+																	<option>低保贫困户</option>
+																	<option>五保贫困户</option>
+																</select>
+															</div>
+														</div>
+	
+														<div class="col-sm-4">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 5px;">主要致贫原因</label>
+															<div class="col-sm-7">
+																<select class="form-control m-b" id="cha_zpyy" name="cha_zpyy">
+																	<option>请选择</option>
+																	<option>因病</option>
+																	<option>因残</option>
+																	<option>因学</option>
+																</select>
+															</div>
+														</div>
+	
+													</div>
+													<div class="form-group" style="margin-bottom: 0px">
+	
+														<div class="col-sm-4">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 5px;">户主民族</label>
+															<div class="col-sm-7">
+																<select class="form-control m-b" id="cha_mz" name="cha_mz">
+																</select>
+															</div>
+														</div>
+	
+														<div class="col-sm-4">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 5px;">贫困户人口</label>
+															<div class="col-sm-7">
+																<select class="form-control m-b" id="cha_renkou" name="cha_renkou">
+																	<option>请选择</option>
+																	<option>1人</option>
+																	<option>2人</option>
+																	<option>3人</option>
+																	<option>4人</option>
+																	<option>5人以上</option>
+																</select>
+															</div>
+														</div>
+	
+														<div class="col-sm-4">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 3px;">脱贫属性</label>
+															<div class="col-sm-7">
+																<select class="form-control m-b" id="cha_banqian" name="cha_banqian">
+																	<option>请选择</option>
+																	<option>返贫</option>
+																	<option>未脱贫</option>
+																</select>
+															</div>
+														</div>
+	
+													</div>
+													<div class="form-group" style="margin-bottom: 0px">
+	
+														<div class="col-sm-4">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 3px;">户主姓名</label>
+															<div class="col-sm-7">
+																<input type="text" placeholder="请填写户主姓名" class="form-control" id="cha_v6" name="cha_v6">
+															</div>
+														</div>
+														<div class="col-sm-4">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 3px;">身份证号</label>
+															<div class="col-sm-7">
+																<input type="text" placeholder="请填写身份证号" class="form-control" id="cha_v8" name="cha_v8">
+															</div>
+														</div>
+	
+														<div class="col-sm-4">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 3px;">年龄范围</label>
+															<div class="col-sm-7">
+																<select class="form-control m-b" id="cha_v8_1" name="cha_v8_1">
+																	<option>请选择</option>
+																	<option>大于60岁</option>
+																	<option>小于16岁</option>
+																	<option>17岁至59岁</option>
+																</select>
+															</div>
+														</div>
+	
+													</div>
+													<div class="form-group" style="margin-bottom: 0px">
+														<div class="col-sm-4">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 3px;">帮扶单位</label>
+															<div class="col-sm-7">
+																<input type="text" placeholder="请填写帮扶单位" class="form-control" id="cha_bfdw" name="cha_bfdw">
+															</div>
+														</div>
+														<div class="col-sm-4">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 3px;">帮扶责任人</label>
+															<div class="col-sm-7">
+																<input type="text" placeholder="请填写帮扶责任人" class="form-control" id="cha_bfzrr" name="cha_bfzrr">
+															</div>
+														</div>
+														<div class="col-sm-4">
+															<div class="col-sm-3"></div>
+															<div class="col-sm-9">
+																<button type="button" class="btn btn-primary" id="cha_button" name="cha_button" >
+																	<i class="fa fa-search"></i>&nbsp;&nbsp;<span class="bold">查询</span>
+																</button>
+																<button type="button" class="btn btn-outline btn-warning pull-right" id="close_cha_button" name="close_cha_button" style="margin-right:50px;">
+																	<i class="fa fa-remove"></i>&nbsp;&nbsp;<span class="bold">清空</span>
+																</button>
+															</div>
+														</div>
+													</div>
+												</form>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-sm-12">
+										<div class="example-wrap">
+											<div class="example">
+												<div class=" " id="fpsc_update_tools" role="group">
+				                                    <button style="display:none" id="add_hu_but" type="button" class="btn btn-info btn-outline" data-toggle="modal" data-target="#addModal_hu"><i class="fa fa-save"></i> 添加贫困户</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				                                    <a  style="display:none" class="btn btn-info btn-outline" id="del_hu"><i class="fa fa-remove"></i> 删除贫困户</a>
+				                                </div>
+												<input type="text" style="display: none;" id="hu_pkid" name="hu_pkid">
+												<table id="metTable_bxbxxb">
+													<thead>
+														<tr>
+															<th data-field="state" data-checkbox="true"></th>
+															<th data-field="pkid" data-visible="false">序号</th>
+															<th id="v3" data-field="v3" data-halign="center" data-align="center">旗县</th>
+															<th id="v4" data-field="v4" data-halign="center" data-align="center">苏木乡镇</th>
+															<th id="v5" data-field="v5" data-halign="center" data-align="center">嘎查村</th>
+															<th data-field="v6" data-halign="center" data-align="center">户主姓名</th>
+															<th data-field="sys_standard" data-halign="center" data-align="center">识别标准</th>
+															<th data-field="jbqk" data-halign="center" data-align="center">基本情况</th>
+															<th data-field="dqsz" data-halign="center" data-align="center">当前收支</th>
+															<th data-field="bfdwr" data-halign="center" data-align="center">帮扶责任人和计划</th>
+															<th data-field="bfcs" data-halign="center" data-align="center">帮扶措施</th>
+															<th data-field="zfqk" data-halign="center" data-align="center">走访情况</th>
+															<th data-field="bfcx" data-halign="center" data-align="center">帮扶成效</th>
+															<th data-field="bfhsz" data-halign="center" data-align="center">帮扶后收支分析</th>
+														</tr>
+													</thead>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+
+							</div>
+							<!-- 面板内容 -->
+						</div>
+						<!-- 外层面板 -->
+
+					</div>
+
+					<div class="row">
+						<!-- 基本情况 -->
+						<div class="tabs-container" id="tab_jbqk" style="display:none">
+				                        
+		                    <ul class="nav nav-tabs" id="jiben_ul"><!-- 分栏目的标题 -->
+		                    	<li class="active" id="jiben_moren_li">
+		                        	<a data-toggle="tab" href="#tab-j-1" aria-expanded="true"><i class="fa fa-user"></i> 户主情况</a>
+		                        </li>
+		                        <li class="">
+		                        	<a data-toggle="tab" href="#tab-j-2" aria-expanded="false"><i class="fa fa-users"></i> 家庭成员</a>
+		                        </li>
+		                        <li class="">
+		                        	<a data-toggle="tab" href="#tab-j-3" aria-expanded="false"><i class="fa fa-wrench"></i> 生产条件</a>
+		                        </li>
+		                        <li class="">
+		                        	<a data-toggle="tab" href="#tab-j-4" aria-expanded="false"><i class="fa fa-institution"></i> 生活条件</a>
+		                        </li>
+		                        <li class="" id="ydfpbq" style="display:none">
+		                        	<a data-toggle="tab" href="#tab-j-5" aria-expanded="false"><i class="fa fa-send-o"></i> 易地扶贫搬迁</a>
+		                        </li>
+		                    </ul><!-- 分栏目的标题 -->
+		                    <div class="tab-content" id="jiben_tab"><!-- tab页面的内容 -->
+								
+								<!-- 户主情况 -->
+								<div id="tab-j-1" class="tab-pane active">
+									<div class="panel-body" id="huzhu">
+										
+										<div class="row">
+											<div class="col-sm-3" style="width:20%;float:right;">
+												<div class="text-center">
+													<img id="huzhu_pic_show" alt="image" class="img-responsive" style="width:180px;height:180px;" src="img/zw.jpg">
+												</div>
+												
+												<form class="form-horizontal" id="huzhu_ImportForm" name="huzhu_ImportForm" enctype="multipart/form-data" method="post">
+													<div id="file-pretty">
+													
+														<div class="form-inline" style="text-align: center;">
+														
+															<br><label class="font-noraml" id="huzhuzhaopian_path">支持格式：gif,jpg,jpeg,png,bmp</label><br>
+															<br>
+															<div class="input-append input-group">
+																<span class="input-group-btn">
+																	<button class="btn btn-success btn-xs" type="button">
+																		<i class="fa fa-copy"></i>&nbsp;&nbsp;<span class="bold">选择文件 </span>
+																	</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+																</span>
+																<input class="input-large form-control" type="text" style="display:none">
+															</div>
+															&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+															<button class="btn btn-success btn-xs" type="button" id="shh_hu_pic">
+																<i class="fa fa-upload"></i>&nbsp;&nbsp;<span class="bold">上传图片</span>
+															</button>
+															<input type="file" id="filename" name="filename" class="form-control" style="display:none">
+														</div>
+														
+														<input type="text" style="display: none;" id="type" name="type">
+														<input type="text" style="display: none;" id="pkid" name="pkid">
+														
+													</div>
+												</form>
+												
+											</div>
+											<div class="col-sm-9" >
+												<form class="form-horizontal" id="huzhu_Form">
+													<div class="row">
+														<div class="col-sm-6 ">
+															<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;">户主姓名</label>
+															<div class="col-sm-8">
+																<input type="text" placeholder="户主姓名" class="form-control" id="v6" name="v6">
+															</div>
+														</div>
+														<div class="col-sm-6">
+															<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;">性别</label>
+															<div class="col-sm-8">
+																<select class="form-control" id="v7" name="v7">
+																	<option>请选择</option>
+																	<option>男</option>
+																	<option>女</option>
+																</select>
+															</div>
+														</div>
+													</div>
+													<br>
+													<div class="row">
+														<div class="col-sm-6">
+															<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;">所属民族</label>
+															<div class="col-sm-8">
+																<select class="form-control" id="v11" name="v11"></select>
+															</div>
+														</div>
+														<div class="col-sm-6">
+															<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;">联系电话</label> 
+															<div class="col-sm-8">
+																<input class="form-control" type="text" placeholder="联系电话" id="v25" name="v25">
+															</div>
+														</div>
+													</div>
+													<br>
+													<div class="row">
+														<div class="col-sm-6">
+															<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;">身份证号</label> 
+															<div class="col-sm-8">
+																<input class="form-control" type="text" placeholder="身份证号" id="v8" name="v8">
+															</div>
+														</div>
+														<div class="col-sm-6">
+															<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;">政治面貌</label>
+															<div class="col-sm-8">
+																<select class="form-control" id="v28" name="v28">
+																	<option>请选择</option>
+																	<option>中共党员</option>
+																	<option>共青团员</option>
+																	<option>群众</option>
+																	<option>民主党派成员</option>
+																</select>
+															</div>
+														</div>
+													</div>	
+													<br>
+													<div class="row">
+														<div class="col-sm-6">
+															<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;">开户银行</label> 
+															<div class="col-sm-8">
+																<input class="form-control" type="text" placeholder="开户银行（选填）" id="v26" name="v26">
+															</div>
+														</div>
+														<div class="col-sm-6">
+															<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;">银行账号</label> 
+															<div class="col-sm-8">
+																<input class="form-control" type="text" placeholder="银行账号（选填）" id="v27" name="v27">
+															</div>
+														</div>
+													</div>	
+													<br>
+													<div class="row">
+														<div class="col-sm-12" style="padding-left:10px;">
+															<label class="col-sm-2 control-label" style="text-align:right;margin-top: 5px;">家庭住址</label>
+															<div class="col-sm-10">
+																<input class="form-control" type="text" placeholder="家庭住址" id="hz_jtzz" name="hz_jtzz">
+															</div>
+														</div>
+													</div>
+													<br>
+													<div class="row">
+														<div class="col-sm-6">
+															<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;">识别标准</label> 
+															<div class="col-sm-8">
+																<select class="form-control" id="sys_standard" name="sys_standard">
+																	<option>请选择</option>
+																	<option>国家级贫困人口</option>
+																	<option>市级低收入人口</option>
+																</select>
+															</div>
+														</div>
+														<div class="col-sm-6">
+															<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;">贫困户属性</label> 
+															<div class="col-sm-8">
+																<select class="form-control" id="v22" name="v22"></select>
+															</div>
+														</div>
+													</div>	
+													<br>
+													
+													<div class="row">
+														<div class="col-sm-6">
+															<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;">文化程度</label>
+															<div class="col-sm-8">
+																<select class="form-control"  id="v12" name="v12"></select>
+															</div>
+														</div>
+														<div class="col-sm-6">
+															<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;">是否在校</label>
+															<div class="col-sm-8">
+																<select class="form-control" id="v13" name="v13"></select>
+															</div>
+														</div>
+													</div>
+													<br>
+													<div class="row">
+														<div class="col-sm-6">
+															<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;">健康状况</label>
+															<div class="col-sm-8">
+																<select class="form-control" id="v14" name="v14">
+																	<option>请选择</option>
+																	<option>健康</option>
+																	<option>长期慢性病</option>
+																	<option>患有大病</option>
+																	<option>残疾</option>
+																</select>
+															</div>
+														</div>
+														<div class="col-sm-6">
+															<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;">劳动力</label>
+															<div class="col-sm-8">
+																<select class="form-control" id="v15" name="v15">
+																	<option>请选择</option>
+																	<option>普通劳动力</option>
+																	<option>技能劳动力</option>
+																	<option>丧失劳动力</option>
+																	<option>无劳动力</option>
+																</select>
+															</div>
+														</div>
+													</div>
+													<br>
+													<div class="row">
+														<div class="col-sm-6">
+															<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;">务工情况</label> 
+															<div class="col-sm-8">
+																<select class="form-control" id="v16" name="v16">
+																	<option>请选择</option>
+																	<option>乡（镇）内务工</option>
+																	<option>乡（镇）外县内务工</option>
+																	<option>县外省内务工</option>
+																	<option>省外务工</option>
+																	<option>其他</option>
+																</select>
+															</div>
+														</div>
+														<div class="col-sm-6">
+															<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;">务工时间</label>
+															<div class="col-sm-8">
+																<input class="form-control" type="text" placeholder="务工时间" id="v17" name="v17">
+															</div>
+														</div>
+													</div>	
+													<div class="row">
+														<div class="col-sm-6">
+															<label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;">是否参加新农合</label>
+															<div class="col-sm-8">
+																<div class="radio i-checks" id="v18_div">
+																	<label><input type="radio" value="是" id="v18" name="v18"> <i></i>是</label> 
+																	<label><input type="radio" value="否" id="v18" name="v18"> <i></i>否</label>
+																</div>
+															</div>
+														</div>
+														<div class="col-sm-6">
+															<label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;">是否参加养老保险</label>
+															<div class="col-sm-8">
+																<div class="radio i-checks" id="v19_div">
+																	<label><input type="radio" value="是" id="v19" name="v19"> <i></i>是</label> 
+																	<label><input type="radio" value="否" id="v19" name="v19"> <i></i>否</label>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="row">
+														<div class="col-sm-6">
+															<label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;">是否军烈属</label>
+															<div class="col-sm-8">
+																<div class="radio i-checks" id="v29_div">
+																	<label><input type="radio" value="是" id="v29" name="v29"> <i></i>是</label> 
+																	<label><input type="radio" value="否" id="v29" name="v29"> <i></i>否</label>
+																</div>
+															</div>
+														</div>
+														<div class="col-sm-6">
+															<label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;">是否现役军人</label>
+															<div class="col-sm-8">
+																<div class="radio i-checks" id="v32_div">
+																	<label><input type="radio" value="是" id="v32" name="v32"> <i></i>是</label> 
+																	<label><input type="radio" value="否" id="v32" name="v32"> <i></i>否</label>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="row">
+														<div class="col-sm-6">
+															<label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;">是否独生子女户</label>
+															<div class="col-sm-8">
+																<div class="radio i-checks" id="v30_div">
+																	<label><input type="radio" value="是" id="v30" name="v30"> <i></i>是</label> 
+																	<label><input type="radio" value="否" id="v30" name="v30"> <i></i>否</label>
+																</div>
+															</div>
+														</div>
+														<div class="col-sm-6">
+															<label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;">是否双女户</label>
+															<div class="col-sm-8">
+																<div class="radio i-checks" id="v31_div">
+																	<label><input type="radio" value="是" id="v31" name="v31"> <i></i>是</label> 
+																	<label><input type="radio" value="否" id="v31" name="v31"> <i></i>否</label>
+																</div>
+															</div>
+														</div>
+													</div>
+													<br>
+													<div class="row">
+														<div class="col-sm-12">
+															<div id="txm">
+																<label class="col-sm-2 control-label" style="text-align:right;">主要致贫原因 &nbsp;</label>
+																<div class="col-sm-10">
+																	<div class="radio i-checks" id="v23_div">
+																		<label><input type="radio" id="v23" name="v23" value="因病"> <i></i>因病</label> 
+																		<label><input type="radio" id="v23" name="v23" value="因残"><i></i>因残</label> 
+																		<label><input type="radio" id="v23" name="v23" value="因学"><i></i>因学</label> 
+																		<label><input type="radio" id="v23" name="v23" value="因灾"><i></i>因灾</label>
+																		<label><input type="radio" id="v23" name="v23" value="缺土地"> <i></i>缺土地</label> 
+																		<label><input type="radio" id="v23" name="v23" value="缺住房"> <i></i>缺住房</label> 
+																		<label><input type="radio" id="v23" name="v23" value="缺水"> <i></i>缺水</label> 
+																		<label><input type="radio" id="v23" name="v23" value="缺电"> <i></i>缺电</label> 
+																		<label><input type="radio" id="v23" name="v23" value="缺技术"> <i></i>缺技术</label> 
+																		<label><input type="radio" id="v23" name="v23" value="缺劳动力"> <i></i>缺劳动力</label> 
+																		<label><input type="radio" id="v23" name="v23" value="缺资金"> <i></i>缺资金</label> 
+																		<label><input type="radio" id="v23" name="v23" value="交通条件落后"> <i></i>交通条件落后</label> 
+																		<label><input type="radio" id="v23" name="v23" value="自身发展动力不足"> <i></i>自身发展动力不足</label> 
+																		<label><input type="radio" id="v23" name="v23" value="其他"> <i></i>其他</label>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>	
+													<br>
+													
+													<div class="row">
+														<div class="col-sm-12">
+															<div id="txm">
+																<label class="col-sm-2 control-label" style="text-align:right;">其他致贫原因 &nbsp;</label>
+																<div class="col-sm-10">
+																	<div class="checkbox i-checks" id="v33_div" name="v33_div">
+																		<label><input type="checkbox" id="v33" name="v33" value="因病"> <i></i>因病</label> 
+																		<label><input type="checkbox" id="v33" name="v33" value="因残"><i></i>因残</label> 
+																		<label><input type="checkbox" id="v33" name="v33" value="因学"><i></i>因学</label> 
+																		<label><input type="checkbox" id="v33" name="v33" value="因灾"><i></i>因灾</label>
+																		<label><input type="checkbox" id="v33" name="v33" value="缺土地"> <i></i>缺土地</label> 
+																		<label><input type="checkbox" id="v33" name="v33" value="缺住房"> <i></i>缺住房</label> 
+																		<label><input type="checkbox" id="v33" name="v33" value="缺水"> <i></i>缺水</label> 
+																		<label><input type="checkbox" id="v33" name="v33" value="缺电"> <i></i>缺电</label> 
+																		<label><input type="checkbox" id="v33" name="v33" value="缺技术"> <i></i>缺技术</label> 
+																		<label><input type="checkbox" id="v33" name="v33" value="缺劳动力"> <i></i>缺劳动力</label> 
+																		<label><input type="checkbox" id="v33" name="v33" value="缺资金"> <i></i>缺资金</label> 
+																		<label><input type="checkbox" id="v33" name="v33" value="交通条件落后"> <i></i>交通条件落后</label> 
+																		<label><input type="checkbox" id="v33" name="v33" value="自身发展动力不足"> <i></i>自身发展动力不足</label> 
+																		<label><input type="checkbox" id="v33" name="v33" value="其他"> <i></i>其他</label>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>	
+													<br>
+													<div class="row">
+														<div class="col-sm-12">
+															<div class="form-group">
+																<label class="col-sm-2 control-label" style="text-align:right;margin-top: 2px;">致贫原<br>因说明</label>
+																<div class="col-sm-10">
+																	<textarea class="form-control" id="hz_zpyy" name="hz_zpyy"></textarea>
+																</div>
+															</div>
+														</div>
+													</div>
+												</form>
+											</div>
+										</div>
+										<button type="button" class="btn btn-primary" id="save" style="float:right;margin-right:20px; margin-bottom:20px;"><i class="fa fa-save"></i> 保存 </button>
+										
+									</div>
+								</div>
+	
+								<!-- 家庭成员 -->
+								<div id="tab-j-2" class="tab-pane">
+									<div class="panel-body" id="jiatingchengyuan">
+										
+										<div class="row">
+											<div class="col-sm-12">
+												<button style="display:none" id="add_new_jiatingchngyuan" type="button" class="btn btn-info btn-outline btn-sm" data-toggle="modal" data-target="#upModal_jiating"><i class="fa fa-save"></i> 添加新成员 </button>
+											</div>
+										</div>
+										<br>
+										<div class="row">
+											
+											<div class="table-responsive">
+												<table class="table table-striped table-bordered tabbb">
+													<thead>
+														<tr>
+															<th style="text-align:center;">序号</th>
+															<th style="text-align:center;">姓名</th>
+															<th style="text-align:center;">性别</th>
+															<th style="text-align:center;">与户主关系</th>
+															<th style="text-align:center;">身份证号</th>
+															<th style="text-align:center;">民族</th>
+															<th style="text-align:center;">政治面貌</th>
+															<th style="text-align:center;">现役军人</th>
+															<th style="text-align:center;">文化程度</th>
+															<th style="text-align:center;">是否在校</th>
+															<th style="text-align:center;">健康状况</th>
+															<th style="text-align:center;">劳动力</th>
+															<th style="text-align:center;">务工情况</th>
+															<th style="text-align:center;">务工时间</th>
+															<th style="text-align:center;">新农合</th>
+															<th style="text-align:center;">养老保险</th>
+														</tr>
+													</thead>
+													<tbody id="jiating_table" onmouseover="this.style.cursor='pointer'"></tbody>
+												</table>
+											</div>
+											<div class="hr-line-dashed"></div>
+											<div id="jieting_up_div" style="display:none">
+												<div class="col-sm-9" >
+													<form class="form-horizontal" id="jiatingchengyuan_Form">
+														<div class="row">
+															<div class="col-sm-6">
+																<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;">姓名</label>
+																<div class="col-sm-8">
+																	<input type="text" class="form-control" placeholder="家庭成员姓名" id="v6" name="v6">
+																</div>
+															</div>
+															<div class="col-sm-6">
+																<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;">性别</label>
+																<div class="col-sm-8">
+																	<select class="form-control" id="v7" name="v7">
+																		<option>请选择</option>
+																		<option>男</option>
+																		<option>女</option>
+																	</select>
+																</div>
+															</div>
+														</div>
+														<br>
+														<div class="row">
+															<div class="col-sm-6">
+																<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;">民族</label>
+																<div class="col-sm-8">
+																	<select class="form-control" id="v11" name="v11"></select>
+																</div>
+															</div>
+															<div class="col-sm-6">
+																<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;">身份证号</label>
+																<div class="col-sm-8">
+																	<input type="text" class="form-control" placeholder="身份证号" id="v8" name="v8">
+																</div>
+															</div>
+														</div>
+														<br>
+														<div class="row">
+															<div class="col-sm-6">
+																<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;">政治面貌</label>
+																<div class="col-sm-8">
+																	<select class="form-control" id="v28" name="v28">
+																		<option>请选择</option>
+																		<option>中共党员</option>
+																		<option>共青团员</option>
+																		<option>群众</option>
+																		<option>民主党派成员</option>
+																	</select>
+																</div>
+															</div>
+															<div class="col-sm-6">
+																<label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;">是否现役军人</label>
+																<div class="col-sm-8">
+																	<div class="radio i-checks" id="v32_div">
+																		<label><input type="radio" value="是" id="v32" name="v32"> <i></i>是</label> 
+																		<label><input type="radio" value="否" id="v32" name="v32"> <i></i>否</label>
+																	</div>
+																</div>
+															</div>
+														</div>
+														<br>
+														<div class="row">
+															<div class="col-sm-6">
+																<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;">与户主关系</label>
+																<div class="col-sm-8">
+																	<select class="form-control" id="v10" name="v10"></select>
+																</div>
+															</div>
+															<div class="col-sm-6">
+																<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;">文化程度</label>
+																<div class="col-sm-8">
+																	<select class="form-control"  id="v12" name="v12"></select>
+																</div>
+															</div>
+														</div>
+														<br>
+														<div class="row">
+															<div class="col-sm-6">
+																<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;">是否在校</label>
+																<div class="col-sm-8">
+																	<select class="form-control" id="v13" name="v13"></select>
+																</div>
+															</div>
+															<div class="col-sm-6">
+																<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;">健康状况</label>
+																<div class="col-sm-8">
+																	<select class="form-control" id="v14" name="v14">
+																		<option>请选择</option>
+																		<option>健康</option>
+																		<option>长期慢性病</option>
+																		<option>患有大病</option>
+																		<option>残疾</option>
+																	</select>
+																</div>
+															</div>
+														</div>
+														<br>
+														<div class="row">
+															<div class="col-sm-6">
+																<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;">劳动力</label>
+																<div class="col-sm-8">
+																	<select class="form-control" id="v15" name="v15">
+																		<option>请选择</option>
+																		<option>普通劳动力</option>
+																		<option>技能劳动力</option>
+																		<option>丧失劳动力</option>
+																		<option>无劳动力</option>
+																	</select>
+																</div>
+															</div>
+														</div>
+														<br>
+														<div class="row">
+															<div class="col-sm-6">
+																<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;">务工情况</label> 
+																<div class="col-sm-8">
+																	<select class="form-control" id="v16" name="v16">
+																		<option>请选择</option>
+																		<option>乡（镇）内务工</option>
+																		<option>乡（镇）外县内务工</option>
+																		<option>县外省内务工</option>
+																		<option>省外务工</option>
+																		<option>其他</option>
+																	</select>
+																</div>
+															</div>
+															<div class="col-sm-6">
+																<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;">务工时间</label>
+																<div class="col-sm-8">
+																	<input class="form-control" type="text" placeholder="务工时间" id="v17" name="v17">
+																</div>
+															</div>
+														</div>	
+														<div class="row">
+															<div class="col-sm-6">
+																<label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;">是否参加新农合</label>
+																<div class="col-sm-8">
+																	<div class="radio i-checks" id="v18_div">
+																		<label><input type="radio" value="是" id="v18" name="v18"> <i></i>是</label> 
+																		<label><input type="radio" value="否" id="v18" name="v18"> <i></i>否</label>
+																	</div>
+																</div>
+															</div>
+															<div class="col-sm-6">
+																<label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;">是否参加养老保险</label>
+																<div class="col-sm-8">
+																	<div class="radio i-checks" id="v19_div">
+																		<label><input type="radio" value="是" id="v19" name="v19"> <i></i>是</label> 
+																		<label><input type="radio" value="否" id="v19" name="v19"> <i></i>否</label>
+																	</div>
+																</div>
+															</div>
+														</div>
+														<br>
+														<div class="row">
+															<div class="col-sm-12" style="text-align:center;">
+																<button style="display:none" type="button" class="btn btn-info btn-outline" id="del_jiatingchengyaun"><i class="fa fa-remove"></i> 删除 </button>
+																&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+																<button type="button" class="btn btn-primary" id="save"><i class="fa fa-save"></i> 保存 </button>
+															</div>
+														</div>
+														<input type="text" style="display: none;" id="jiating_pkid" name="jiating_pkid">
+													</form>
+												</div>
+												<div class="col-sm-3" >
+												
+													<div class="text-center" style="text-align: center;">
+														<img id="jtcy_pic_show" alt="image" class="img-responsive" style="width:180px;height:180px;display:inline;" src="img/zw.jpg">
+													</div>
+													
+													<form class="form-horizontal" id="jtcy_ImportForm" name="jtcy_ImportForm" enctype="multipart/form-data" method="post">
+														<div id="file-pretty">
+														
+															<div class="form-inline" style="text-align: center;">
+															
+																<br><label class="font-noraml" id="huzhuzhaopian_path">支持格式：gif,jpg,jpeg,png,bmp</label><br>
+																<br>
+																<div class="input-append input-group">
+																	<span class="input-group-btn">
+																		<button class="btn btn-success btn-xs" type="button">
+																			<i class="fa fa-copy"></i>&nbsp;&nbsp;<span class="bold">选择文件 </span>
+																		</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+																	</span>
+																	<input class="input-large form-control" type="text" style="display:none">
+																</div>
+																&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+																<button class="btn btn-success btn-xs" type="button" id="shh_jtcy_pic">
+																	<i class="fa fa-upload"></i>&nbsp;&nbsp;<span class="bold">上传图片</span>
+																</button>
+																<input type="file" id="filename" name="filename" class="form-control" style="display:none">
+															</div>
+															
+															<input type="text" style="display: none;" id="type" name="type">
+															<input type="text" style="display: none;" id="pkid" name="pkid">
+															
+														</div>
+													</form>
+													
+													
+													
+													
+												</div>
+											</div>
+												
+										</div>
+										
+									</div>
+								</div>
+								
+								<!-- 生产条件 -->
+								<div id="tab-j-3" class="tab-pane">
+									<div class="panel-body" id="shengchan">
+												
+										<form class="form-horizontal" id="shengchan_Form">
+											<div class="row">
+												<div class="col-sm-8">
+													<div class="row">
+														<div class="col-sm-6">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 5px;">耕地面积</label>
+															<div class="col-sm-7">
+																<input type="text" class="form-control" placeholder="亩" id="v1" name="v1" number="true">
+															</div>
+														</div>
+														<div class="col-sm-6">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 5px;">有效灌溉地面积</label>
+															<div class="col-sm-7">
+																<input type="text" class="form-control" placeholder="亩" id="v2" name="v2" number="true">
+															</div>
+														</div>
+													</div>
+													<br>
+													<div class="row">
+														<div class="col-sm-6">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 5px;">林地面积</label>
+															<div class="col-sm-7">
+																<input type="text" class="form-control" placeholder="亩" id="v3" name="v3" number="true">
+															</div>
+														</div>
+														<div class="col-sm-6">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 5px;">退耕还林面积</label>
+															<div class="col-sm-7">
+																<input type="text" class="form-control" placeholder="亩" id="v4" name="v4" number="true">
+															</div>
+														</div>
+													</div>
+													<br>
+													<div class="row">
+														<div class="col-sm-6">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 5px;">林果面积</label>
+															<div class="col-sm-7">
+																<input type="text" class="form-control" placeholder="亩" id="v13" name="v13" number="true">
+															</div>
+														</div>
+														<div class="col-sm-6">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 5px;">水面面积</label>
+															<div class="col-sm-7">
+																<input type="text" class="form-control" placeholder="亩" id="v14" name="v14" number="true">
+															</div>
+														</div>
+													</div>
+													<br>
+													<div class="row">
+														<div class="col-sm-6">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 5px;">草牧场面积</label>
+															<div class="col-sm-7">
+																<input type="text" class="form-control" placeholder="亩" id="v5" name="v5" number="true">
+															</div>
+														</div>
+														
+														<div class="col-sm-6">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 5px;">生产用房面积</label>
+															<div class="col-sm-7">
+																<input type="text" class="form-control" placeholder="㎡" id="v6" name="v6" number="true">
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="col-sm-4">
+													<div class="row">
+														<div class="col-sm-12">
+															<label class="col-sm-3 control-label" style="text-align:right;">其他</label>
+															<div class="col-sm-9">
+																<textarea class="form-control" rows="6" id="v7" name="v7"></textarea>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="hr-line-dashed"></div>
+											<div class="row">
+												<div class="col-sm-8">
+													<div class="row">
+														<div class="col-sm-6">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 5px;">家禽</label>
+															<div class="col-sm-7">
+																<input type="text" class="form-control" placeholder="只" id="v8" name="v8">
+															</div>
+														</div>
+														<div class="col-sm-6">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 5px;">牛</label>
+															<div class="col-sm-7">
+																<input type="text" class="form-control" placeholder="头" id="v9" name="v9" number="true">
+															</div>
+														</div>
+													</div>
+													<br>
+													<div class="row">
+														<div class="col-sm-6">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 5px;">羊</label>
+															<div class="col-sm-7">
+																<input type="text" class="form-control" placeholder="只" id="v10" name="v10" number="true">
+															</div>
+														</div>
+														<div class="col-sm-6">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 5px;">猪</label>
+															<div class="col-sm-7">
+																<input type="text" class="form-control" placeholder="头" id="v11" name="v11" number="true">
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="col-sm-4">
+													<div class="row">
+														<div class="col-sm-12">
+															<label class="col-sm-3 control-label"  style="text-align:right;">其他</label>
+															<div class="col-sm-9">
+																<textarea class="form-control" rows="3" id="v12" name="v12"></textarea>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</form>
+										<button type="button" class="btn btn-primary" id="save" style="float:right;margin-right:20px; margin-bottom:0px;"><i class="fa fa-save"></i> 保存 </button>
+										
+									</div>
+								</div>
+								
+								<!-- 生活条件 -->
+								<div id="tab-j-4" class="tab-pane">
+									<div class="panel-body" id="shenghuo">
+									
+										<div class="row">
+											<div class="col-sm-12" >
+												<form class="form-horizontal" id="shenghuo_Form">
+													<div class="row">
+														<div class="col-sm-12">
+															<label class="col-sm-2 control-label" style="text-align:right;margin-top: 5px;">住房面积&nbsp;&nbsp;</label>
+															<div class="col-sm-4">
+																<input type="text" class="form-control" placeholder="平方米" id="v1" name="v1" number="true">
+															</div>
+														</div>
+													</div>
+													<br>
+													<div class="row">
+														<div class="col-sm-6">
+															<label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;">是否危房</label>
+															<div class="col-sm-8">
+																<div class="radio i-checks">
+																	<label><input type="radio" value="是" id="v2" name="v2"> <i></i>是</label> 
+																	<label><input type="radio" value="否" id="v2" name="v2"> <i></i>否</label>
+																</div>
+															</div>
+														</div>
+														<div class="col-sm-6">
+															<label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;">是否纳入易地扶贫搬迁</label> 
+															<div class="col-sm-8">
+																<div class="radio i-checks">
+																	<label><input type="radio" value="是" id="v3" name="v3"> <i></i>是</label>
+																	<label><input type="radio" value="否" id="v3" name="v3"> <i></i>否</label>
+																</div>
+															</div>
+														</div>
+													</div>
+													<br>
+													<div class="row">
+														<div class="col-sm-12">
+															<label class="col-sm-2 control-label" style="text-align:right;margin-top: 10px;">饮水情况&nbsp;&nbsp;</label>
+															<div class="col-sm-9">
+																<div class="checkbox i-checks" id="v4_div" name="v4_div">
+																	<label><input type="checkbox" id="v4" name="v4" value="自来水"><i></i>自来水</label> 
+																	<label><input type="checkbox" id="v4" name="v4" value="井水"> <i></i>井水</label> 
+																	<label><input type="checkbox" id="v4" name="v4" value="水窖水"> <i></i>水窖水</label> 
+																	<label><input type="checkbox" id="v4" name="v4" value="其他"> <i></i>其他</label>
+																</div>
+															</div>
+														</div>
+													</div>
+													<br>
+													<div class="row">
+														<div class="col-sm-6">
+															<label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;">饮水是否困难</label>
+															<div class="col-sm-8">
+																<div class="radio i-checks">
+																	<label><input type="radio" value="是" id="v8" name="v8"> <i></i>是</label>
+																	<label><input type="radio" value="否" id="v8" name="v8"> <i></i>否</label>
+																</div>
+															</div>
+														</div>
+														<div class="col-sm-6">
+															<label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;">饮水是否安全</label>
+															<div class="col-sm-8">
+																<div class="radio i-checks">
+																	<label><input type="radio" value="是" id="v9" name="v9"> <i></i>是</label>
+																	<label><input type="radio" value="否" id="v9" name="v9"> <i></i>否</label>
+																</div>
+															</div>
+														</div>
+													</div>
+													<br>
+													<div class="row">
+														<div class="col-sm-12">
+															<label class="col-sm-2 control-label" style="text-align:right;margin-top: 10px;">通电情况&nbsp;&nbsp;</label>
+															<div class="col-sm-9">
+																<div class="checkbox i-checks" id="v5_div" name="v5_div">
+																	<label><input type="checkbox" id="v5" name="v5" value="生产用电"><i></i>生产用电</label> 
+																	<label><input type="checkbox" id="v5" name="v5" value="生活用电"> <i></i>生活用电</label> 
+																	<label><input type="checkbox" id="v5" name="v5" value="无通电"> <i></i>无通电</label> 
+																</div>
+															</div>
+														</div>
+													</div>
+													<br>
+													<div class="row">
+														<div class="col-sm-12">
+															<label class="col-sm-2 control-label" style="text-align:right;margin-top: 10px;">入户路类型&nbsp;&nbsp;</label>
+															<div class="col-sm-9">
+																<div class="checkbox i-checks" id="v6_div" name="v6_div">
+																	<label><input type="checkbox" id="v6" name="v6" value="普通人行道路"><i></i>普通人行道路</label> 
+																	<label><input type="checkbox" id="v6" name="v6" value="普通泥土公路"><i></i>普通泥土公路</label> 
+																	<label><input type="checkbox" id="v6" name="v6" value="沙石公路"><i></i>沙石公路</label> 
+																	<label><input type="checkbox" id="v6" name="v6" value="水泥路面公路"><i></i>水泥路面公路</label> 
+																	<label><input type="checkbox" id="v6" name="v6" value="沥青路面公路"><i></i>沥青路面公路</label> 
+																</div>
+															</div>
+														</div>
+													</div>
+													<br>
+													<div class="row">
+														<div class="col-sm-6">
+															<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;">与村主干路距离</label>
+															<div class="col-sm-8">
+																<input type="text" class="form-control" placeholder="公里" id="v7" name="v7" number="true">
+															</div>
+														</div>
+														<div class="col-sm-6">
+															<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;">主要燃料类型</label>
+															<div class="col-sm-8">
+																<select class="form-control" id="v10" name="v10">
+																	<option>请选择</option>
+																	<option>柴草</option>
+																	<option>干畜粪</option>
+																	<option>煤炭</option>
+																	<option>清洁能源</option>
+																	<option>其它</option>
+																</select>
+															</div>
+														</div>
+													</div>
+													<br>
+													<div class="row">
+														<div class="col-sm-6">
+															<label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;">是否加入农民专业合作社</label>
+															<div class="col-sm-8">
+																<div class="radio i-checks">
+																	<label><input type="radio" value="是" id="v11" name="v11"> <i></i>是</label>
+																	<label><input type="radio" value="否" id="v11" name="v11"> <i></i>否</label>
+																</div>
+															</div>
+														</div>
+														<div class="col-sm-6">
+															<label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;">有无卫生厕所</label>
+															<div class="col-sm-8">
+																<div class="radio i-checks">
+																	<label><input type="radio" value="是" id="v12" name="v12"> <i></i>是</label>
+																	<label><input type="radio" value="否" id="v12" name="v12"> <i></i>否</label>
+																</div>
+															</div>
+														</div>
+													</div>
+												</form>
+											</div>
+											<!-- <div class="col-sm-3" >
+												照片
+											</div> -->
+											
+										</div>
+										<div class="row">
+											<div class="col-sm-10"></div>
+											<div class="col-sm-1">
+												<button type="button" class="btn btn-primary" id="save"><i class="fa fa-save"></i> 保存 </button>
+											</div>
+										</div>
+									</div>
+								</div>
+	
+								<!-- 易地扶贫搬迁 -->
+								<div id="tab-j-5" class="tab-pane">
+									<div class="panel-body" id="yidifupinbanqian">
+										<div class="row">
+										
+											<div class="col-sm-8">
+												<form class="form-horizontal" id="yidifupinbanqian_Form">
+													<div class="row">
+														<div class="col-sm-12">
+															<label class="col-sm-2 control-label" style="text-align:right;margin-top: 10px;">搬迁方式</label>
+															<div class="col-sm-10">
+																<div class="radio i-checks">
+																	<label><input type="radio" value="行政区整体搬迁" id="v1" name="v1"> <i></i>行政区整体搬迁</label> 
+																	<label><input type="radio" value="自然村(村民小组)整体搬迁" id="v1" name="v1"> <i></i>自然村(村民小组)整体搬迁</label>
+																	<label><input type="radio" value="建档立卡贫困户个别搬迁" id="v1" name="v1"> <i></i>建档立卡贫困户个别搬迁</label>
+																</div>
+															</div>
+														</div>
+													</div>
+													<br>
+													<div class="row">
+														<div class="col-sm-12">
+															<label class="col-sm-2 control-label" style="text-align:right;margin-top: 10px;">安置方式</label>
+															<div class="col-sm-10">
+																<div class="radio i-checks" id="move_type_div">
+																	<label><input type="radio" value="集中安置" id="move_type" name="move_type"> <i></i>集中安置</label> 
+																	<label><input type="radio" value="分散安置" id="move_type" name="move_type"> <i></i>分散安置</label>
+																</div>
+															</div>
+														</div>
+													</div>
+													<br>
+													<div class="row">
+														<div class="col-sm-12">
+															<label class="col-sm-2 control-label" style="text-align:right;margin-top: 10px;">安置地</label>
+															<div class="col-sm-10">
+																<div class="radio i-checks">
+																	<label><input type="radio" value="县城安置" id="v2" name="v2"> <i></i>县城安置</label> 
+																	<label><input type="radio" value="乡镇安置" id="v2" name="v2"> <i></i>乡镇安置</label>
+																	<label><input type="radio" value="村内安置" id="v2" name="v2"> <i></i>村内安置</label>
+																	<label><input type="radio" value="村外安置" id="v2" name="v2"> <i></i>村外安置</label>
+																	<label><input type="radio" value="县外安置" id="v2" name="v2"> <i></i>县外安置</label>
+																</div>
+															</div>
+														</div>
+													</div>
+													<br>
+													<div class="row">
+														<div class="col-sm-12">
+															<label class="col-sm-2 control-label" style="text-align:right;margin-top: 10px;">搬迁可能存在的困难</label>
+															<div class="col-sm-10">
+																<div class="checkbox i-checks" id="v3_div" name="v3_div">
+																	<label><input type="checkbox" id="v3" name="v3" value="缺乏资金"><i></i>缺乏资金</label> 
+																	<label><input type="checkbox" id="v3" name="v3" value="搬迁后找不到工作"> <i></i>搬迁后找不到工作</label> 
+																	<label><input type="checkbox" id="v3" name="v3" value="搬迁后生活没着落"> <i></i>搬迁后生活没着落</label> 
+																	<label><input type="checkbox" id="v3" name="v3" value="其他"> <i></i>其他</label>
+																</div>
+															</div>
+														</div>
+													</div>
+													<br>
+													<div class="row" id="leixing_1" style="display:none">
+														<div class="col-sm-12">
+															<label class="col-sm-2 control-label" style="text-align:right;margin-top: 5px;">集中安置类型</label>
+															<div class="col-sm-6">
+																<select class="form-control m-b" id="focus_info" name="focus_info">
+																	<option>请选择</option>
+																	<option>行政嘎查村内就近安置点</option>
+																	<option>建设移民新村安置点</option>
+																	<option>小城镇安置点</option>
+																	<option>特困人员集中供养安置</option>
+																	<option>其他安置点</option>
+																</select>
+															</div>
+														</div>
+													</div>
+													<div class="row" id="leixing_2" style="display:none">
+														<div class="col-sm-12">
+															<label class="col-sm-2 control-label" style="text-align:right;margin-top: 5px;">分散安置类型</label>
+															<div class="col-sm-6">
+																<select class="form-control m-b" id="dispersed_info" name="dispersed_info" onchange="getDispersed(this.value)">
+																	<option>请选择</option>
+																	<option>自建房</option>
+																	<option>进城购房</option>
+																	<option>其他</option>
+																</select>
+															</div>
+														</div>
+													</div>
+													<div class="row" id="fangyuandi" style="display:none">
+														<div class="col-sm-12">
+															<label class="col-sm-2 control-label" style="text-align:right;margin-top: 5px;">房源地</label>
+															<div class="col-sm-6">
+																<input type="text" class="form-control" placeholder="房源地" id="dispersed_address" name="dispersed_address" number="true">
+															</div>
+														</div>
+													</div>
+													<br>
+													<div class="row" id="fangjia" style="display:none">
+														<div class="col-sm-12">
+															<label class="col-sm-2 control-label" style="text-align:right;margin-top: 5px;">房价</label>
+															<div class="col-sm-6">
+																<input type="text" class="form-control" placeholder="房价（万元）" id="dispersed_price" name="dispersed_price" number="true">
+															</div>
+														</div>
+													</div>
+													<div class="row" id="yonggongxieyi" style="display:none">
+														<div class="col-sm-12">
+															<label class="col-sm-2 control-label" style="text-align:right;margin-top: 10px;">与用工企业签订就业安置协议</label>
+															<div class="col-sm-10">
+																<div class="radio i-checks">
+																	<label><input type="radio" value="是" id="dispersed_agreement" name="dispersed_agreement"> <i></i>是</label> 
+																	<label><input type="radio" value="否" id="dispersed_agreement" name="dispersed_agreement"> <i></i>否</label>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="row">
+														<div class="col-sm-5"></div>
+														<div class="col-sm-2" style="text-align:center;">
+															<button type="button" class="btn btn-primary" style="margin-top: 20px;" id="save"><i class="fa fa-save"></i> 保存 </button>
+														</div>
+													</div>
+													<br>
+													<div class="row">
+														<div class="col-sm-12"  id="yidi_pic_show"><!-- 照片列表，可以删除 -->
+															<div class="" id="qilegeguaile">
+																<div class="lightBoxGallery">
+																	<div class="queueList filled">
+																		<ul class="filelist" id="poht_list"></ul>
+																	</div>
+																	<div id="blueimp-gallery" class="blueimp-gallery">
+										                                <div class="slides"></div><a class="prev">‹</a><a class="next">›</a><a class="close">×</a><a class="play-pause"></a><ol class="indicator"></ol>
+										                            </div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</form>
+											</div>
+											
+											<div class="col-sm-4"><!-- 照片的查看与上传 -->
+												<div class="row">
+													<div class="col-sm-12" id="yidi_pic_div"><!-- 新上传照片-->
+														<div class="panel panel-info">
+															<div class="panel-body" id="yidi_img_load"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+											
+										
+										</div>
+									</div>
+								</div><!-- 易地扶贫搬迁 -->
+							
+							
+							</div><!-- tab页面的内容 -->
+						</div><!-- 基本情况 -->
+						
+						<!-- 当前收支 -->
+						<div class="tabs-container" id="tab_dqszh" style="display:none">
+						
+							<ul class="nav nav-tabs"><!-- 分栏目的标题 -->
+		                    	<li class="active">
+		                        	<a data-toggle="tab" href="#tab-d-1" aria-expanded="true"><i class="fa fa-sign-in"></i> 当前收入情况</a>
+		                        </li>
+		                        <li class="">
+		                        	<a data-toggle="tab" href="#tab-d-2" aria-expanded="false"><i class="fa fa-sign-out"></i> 当前支出情况</a>
+		                        </li>
+		                    </ul><!-- 分栏目的标题 -->
+							<div class="tab-content"><!-- tab页面的内容 -->
+								
+								<!-- 当前收入情况 -->
+								<div id="tab-d-1" class="tab-pane active">
+									<div class="panel-body" id="shouru">
+									
+										<form id="shouru_Form">
+										
+											<div class="panel panel-info">
+												<div class="panel-body">
+													<h5>生产经营性收入</h5>
+													<div class="ibox-content">
+														
+														<div class="row">
+															<div class="col-sm-6">
+																<label class="col-sm-3 control-label" style="text-align:right;">农业(水产)</label>
+																<div class="col-sm-9 form-inline">
+									                                <input type="text" placeholder="收入明细" id="v1" name="v1" class="form-control" style="width:250px;">
+									                                <input type="text" placeholder="金额(元)" id="v2" name="v2" class="form-control" style="width:80px;" number="true">
+																</div>
+															</div>
+															<div class="col-sm-6">
+																<label class="col-sm-3 control-label" style="text-align:right;">畜牧业</label>
+																<div class="col-sm-9 form-inline">
+									                                <input type="text" placeholder="收入明细" id="v3" name="v3" class="form-control" style="width:250px;">
+									                                <input type="text" placeholder="金额(元)" id="v4" name="v4" class="form-control" style="width:80px;" number="true">
+																</div>
+															</div>
+														</div>
+														<br>
+														<div class="row">
+															<div class="col-sm-6">
+																<label class="col-sm-3 control-label" style="text-align:right;">林业</label>
+																<div class="col-sm-9 form-inline">
+									                                <input type="text" placeholder="收入明细" id="v5" name="v5" class="form-control" style="width:250px;">
+									                                <input type="text" placeholder="金额(元)" id="v6" name="v6" class="form-control" style="width:80px;" number="true">
+																</div>
+															</div>
+															<div class="col-sm-6">
+																<label class="col-sm-3 control-label" style="text-align:right;">其他</label>
+																<div class="col-sm-9 form-inline">
+									                                <input type="text" placeholder="收入明细" id="v7" name="v7" class="form-control" style="width:250px;">
+									                                <input type="text" placeholder="金额(元)" id="v8" name="v8" class="form-control" style="width:80px;" number="true">
+																</div>
+															</div>
+								                        </div>
+														
+													</div>
+												</div>
+											</div>
+										
+											<div class="panel panel-info">
+												<div class="panel-body">
+													<h5>政策性收入</h5>
+													<div class="ibox-content">
+													
+														<div class="row">
+															<div class="col-sm-6">
+																<label class="col-sm-3 control-label" style="text-align:right;margin-top: 0px;">生态补偿金</label>
+																<div class="col-sm-9 form-inline">
+									                                <input type="text" placeholder="收入明细" id="v11" name="v11" class="form-control" style="width:250px;">
+									                                <input type="text" placeholder="金额(元)" id="v12" name="v12" class="form-control" style="width:80px;" number="true">
+																</div>
+															</div>
+															<div class="col-sm-6">
+																<label class="col-sm-3 control-label" style="text-align:right;">养老保险金</label>
+																<div class="col-sm-9 form-inline">
+									                                <input type="text" placeholder="收入明细" id="v13" name="v13" class="form-control" style="width:250px;">
+									                                <input type="text" placeholder="金额(元)" id="v14" name="v14" class="form-control" style="width:80px;" number="true">
+																</div>
+															</div>
+														</div>
+														<br>
+														<div class="row">
+															<div class="col-sm-6">
+																<label class="col-sm-3 control-label" style="text-align:right;">低保金</label>
+																<div class="col-sm-9 form-inline">
+									                                <input type="text" placeholder="收入明细" id="v15" name="v15" class="form-control" style="width:250px;">
+									                                <input type="text" placeholder="金额(元)" id="v16" name="v16" class="form-control" style="width:80px;" number="true">
+																</div>
+															</div>
+															<div class="col-sm-6">
+																<label class="col-sm-3 control-label" style="text-align:right;">五保金</label>
+																<div class="col-sm-9 form-inline">
+									                                <input type="text" placeholder="收入明细" id="v42" name="v42" class="form-control" style="width:250px;">
+									                                <input type="text" placeholder="金额(元)" id="v43" name="v43" class="form-control" style="width:80px;" number="true">
+																</div>
+															</div>
+														</div>
+														<br>
+														<div class="row">
+															<div class="col-sm-6">
+																<label class="col-sm-3 control-label" style="text-align:right;">燃煤补贴</label>
+																<div class="col-sm-9 form-inline">
+									                                <input type="text" placeholder="收入明细" id="v17" name="v17" class="form-control" style="width:250px;">
+									                                <input type="text" placeholder="金额(元)" id="v18" name="v18" class="form-control" style="width:80px;" number="true">
+																</div>
+															</div>
+															<div class="col-sm-6">
+																<label class="col-sm-3 control-label" style="text-align:right;">计划生育金</label>
+																<div class="col-sm-9 form-inline">
+									                                <input type="text" placeholder="收入明细" id="v40" name="v40" class="form-control" style="width:250px;">
+									                                <input type="text" placeholder="金额(元)" id="v41" name="v41" class="form-control" style="width:80px;" number="true">
+																</div>
+															</div>
+														</div>
+														<br>
+														<div class="row">
+															<div class="col-sm-6">
+																<label class="col-sm-3 control-label" style="text-align:right;">其他</label>
+																<div class="col-sm-9 form-inline">
+									                                <input type="text" placeholder="收入明细" id="v19" name="v19" class="form-control" style="width:250px;">
+									                                <input type="text" placeholder="金额(元)" id="v20" name="v20" class="form-control" style="width:80px;" number="true">
+																</div>
+															</div>
+								                        </div>
+													
+													</div>
+												</div>
+											</div>
+											
+											
+											<div class="panel panel-info">
+												<div class="panel-body">
+													<h5>财产性收入</h5>
+													<div class="ibox-content">
+													
+														<div class="row">
+															<div class="col-sm-6">
+																<label class="col-sm-3 control-label" style="text-align:right;margin-top: 0px;">土地、草牧<br>场流转</label>
+																<div class="col-sm-9 form-inline">
+									                                <input type="text" placeholder="收入明细" id="v23" name="v23" class="form-control" style="width:250px;">
+									                                <input type="text" placeholder="金额(元)" id="v24" name="v24" class="form-control" style="width:80px;" number="true">
+																</div>
+															</div>
+															<div class="col-sm-6">
+																<label class="col-sm-3 control-label" style="text-align:right;">其他</label>
+																<div class="col-sm-9 form-inline">
+									                                <input type="text" placeholder="收入明细" id="v25" name="v25" class="form-control" style="width:250px;">
+									                                <input type="text" placeholder="金额(元)" id="v26" name="v26" class="form-control" style="width:80px;" number="true">
+																</div>
+															</div>
+														</div>
+													
+													</div>
+												</div>
+											</div>
+											
+					                        
+					                        <div class="row">
+					                        
+					                        	<div class="col-sm-6">
+					                        		<div class="panel panel-info">
+														<div class="panel-body">
+															<h5>工资性收入</h5>
+															<div class="ibox-content">
+																<div class="row">
+																	<div class="col-sm-12 form-inline">
+																		<input type="text" placeholder="工资性收入项目" id="v35" name="v35" class="form-control" style="width:180px;">
+										                                <input type="text" placeholder="收入明细" id="v27" name="v27" class="form-control" style="width:180px;">
+										                                <input type="text" placeholder="金额(元)" id="v28" name="v28" class="form-control" style="width:80px;" number="true">
+																	</div>
+																</div>
+																<br>
+																<div class="row">
+																	<div class="col-sm-12 form-inline">
+										                                <input type="text" placeholder="工资性收入项目" id="v36" name="v36" class="form-control" style="width:180px;">
+										                                <input type="text" placeholder="收入明细" id="v29" name="v29" class="form-control" style="width:180px;">
+										                                <input type="text" placeholder="金额(元)" id="v30" name="v30" class="form-control" style="width:80px;" number="true">
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+					                        	</div>
+					                        	
+					                        	<div class="col-sm-6">
+					                        		<div class="panel panel-info">
+														<div class="panel-body">
+															<h5>其他收入</h5>
+															<div class="ibox-content">
+																<div class="row">
+																	<div class="col-sm-12 form-inline">
+										                                <input type="text" placeholder="其他收入项目" id="v37" name="v37" class="form-control" style="width:180px;">
+										                                <input type="text" placeholder="收入明细" id="v31" name="v31" class="form-control" style="width:180px;">
+										                                <input type="text" placeholder="金额(元)" id="v32" name="v32" class="form-control" style="width:80px;" number="true">
+																	</div>
+																</div>
+																<br>
+																<div class="row">
+																	<div class="col-sm-12 form-inline">
+										                                <input type="text" placeholder="其他收入项目" id="v38" name="v38" class="form-control" style="width:180px;">
+										                                <input type="text" placeholder="收入明细" id="v33" name="v33" class="form-control" style="width:180px;">
+										                                <input type="text" placeholder="金额(元)" id="v34" name="v34" class="form-control" style="width:80px;" number="true">
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+					                        	</div>
+					                        
+					                        </div>
+											
+											<div class="row">
+												<div class="col-sm-5"></div>
+												<div class="col-sm-2" style="text-align:center;">
+													<button type="button" class="btn btn-primary" style="margin-top: 20px;" id="save"><i class="fa fa-save"></i> 保存 </button>
+												</div>
+											</div>
+										</form>
+				                        
+									</div>
+								</div>
+							
+								<!-- 当前支出情况 -->
+								<div id="tab-d-2" class="tab-pane">
+									<div class="panel-body" id="zhichu">
+										<form id="zhichu_Form">
+										
+											<div class="panel panel-info">
+												<div class="panel-body">
+													<h5>生产经营性支出</h5>
+													<div class="ibox-content">
+										
+														<div class="row">
+															<div class="col-sm-6">
+																<label class="col-sm-3 control-label" style="text-align:right;">农资费用</label>
+																<div class="col-sm-9 form-inline">
+									                                <input type="text" placeholder="支出明细" id="v1" name="v1" class="form-control" style="width:250px;">
+									                                <input type="text" placeholder="金额(元)" id="v2" name="v2" class="form-control" style="width:80px;" number="true">
+																</div>
+															</div>
+															<div class="col-sm-6">
+																<label class="col-sm-3 control-label" style="text-align:right;margin-top: 0px;">固定资产折<br>旧和租赁费</label>
+																<div class="col-sm-9 form-inline">
+									                                <input type="text" placeholder="支出明细" id="v3" name="v3" class="form-control" style="width:250px;">
+									                                <input type="text" placeholder="金额(元)" id="v4" name="v4" class="form-control" style="width:80px;" number="true">
+																</div>
+															</div>
+														</div>
+														<br>
+														<div class="row">
+															<div class="col-sm-6">
+																<label class="col-sm-3 control-label" style="text-align:right;">水电燃料支出</label>
+																<div class="col-sm-9 form-inline">
+									                                <input type="text" placeholder="支出明细" id="v5" name="v5" class="form-control" style="width:250px;">
+									                                <input type="text" placeholder="金额(元)" id="v6" name="v6" class="form-control" style="width:80px;" number="true">
+																</div>
+															</div>
+															<div class="col-sm-6">
+																<label class="col-sm-3 control-label" style="text-align:right;margin-top: 0px;">承包土地<br>草场费用</label>
+																<div class="col-sm-9 form-inline">
+									                                <input type="text" placeholder="支出明细" id="v7" name="v7" class="form-control" style="width:250px;">
+									                                <input type="text" placeholder="金额(元)" id="v8" name="v8" class="form-control" style="width:80px;" number="true">
+																</div>
+															</div>
+								                        </div>
+								                        <br>
+								                        <div class="row">
+															<div class="col-sm-6">
+																<label class="col-sm-3 control-label" style="text-align:right;">饲草料</label>
+																<div class="col-sm-9 form-inline">
+									                                <input type="text" placeholder="支出明细" id="v9" name="v9" class="form-control" style="width:250px;">
+									                                <input type="text" placeholder="金额(元)" id="v10" name="v10" class="form-control" style="width:80px;" number="true">
+																</div>
+															</div>
+															<div class="col-sm-6">
+																<label class="col-sm-3 control-label" style="text-align:right;">防疫防治支出</label>
+																<div class="col-sm-9 form-inline">
+									                                <input type="text" placeholder="支出明细" id="v11" name="v11" class="form-control" style="width:250px;">
+									                                <input type="text" placeholder="金额(元)" id="v12" name="v12" class="form-control" style="width:80px;" number="true">
+																</div>
+															</div>
+														</div>
+														<br>
+														<div class="row">
+															<div class="col-sm-6">
+																<label class="col-sm-3 control-label" style="text-align:right;">种（仔）畜</label>
+																<div class="col-sm-9 form-inline">
+									                                <input type="text" placeholder="支出明细" id="v13" name="v13" class="form-control" style="width:250px;">
+									                                <input type="text" placeholder="金额(元)" id="v14" name="v14" class="form-control" style="width:80px;" number="true">
+																</div>
+															</div>
+															<div class="col-sm-6">
+																<label class="col-sm-3 control-label" style="text-align:right;margin-top: 0px;">销售费用<br>通讯费用</label>
+																<div class="col-sm-9 form-inline">
+									                                <input type="text" placeholder="支出明细" id="v15" name="v15" class="form-control" style="width:250px;">
+									                                <input type="text" placeholder="金额(元)" id="v16" name="v16" class="form-control" style="width:80px;" number="true">
+																</div>
+															</div>
+														</div>
+														<br>
+														<div class="row">
+															<div class="col-sm-6">
+																<label class="col-sm-3 control-label" style="text-align:right;">借贷利息</label>
+																<div class="col-sm-9 form-inline">
+									                                <input type="text" placeholder="支出明细" id="v17" name="v17" class="form-control" style="width:250px;">
+									                                <input type="text" placeholder="金额(元)" id="v18" name="v18" class="form-control" style="width:80px;" number="true">
+																</div>
+															</div>
+								                        </div>
+										
+													</div>
+												</div>
+											</div>
+										
+										
+											<div class="row">
+					                        
+					                        	<div class="col-sm-6">
+					                        		<div class="panel panel-info">
+														<div class="panel-body">
+															<h5>政策性支出</h5>
+															<div class="ibox-content">
+																<div class="row">
+																	<div class="col-sm-12 form-inline">
+										                                <input type="text" placeholder="政策性支出项目" id="v23" name="v23" class="form-control" style="width:180px;">
+										                                <input type="text" placeholder="支出明细" id="v19" name="v19" class="form-control" style="width:180px;">
+						                                				<input type="text" placeholder="金额(元)" id="v20" name="v20" class="form-control" style="width:80px;" number="true">
+																	</div>
+																</div>
+																<br>
+																<div class="row">
+																	<div class="col-sm-12 form-inline">
+										                                <input type="text" placeholder="政策性支出项目" id="v24" name="v24" class="form-control" style="width:180px;">
+										                                <input type="text" placeholder="支出明细" id="v21" name="v21" class="form-control" style="width:180px;">
+						                                				<input type="text" placeholder="金额(元)" id="v22" name="v22" class="form-control" style="width:80px;" number="true">
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+					                        	</div>
+					                        	
+					                        	<div class="col-sm-6">
+					                        		<div class="panel panel-info">
+														<div class="panel-body">
+															<h5>其他支出</h5>
+															<div class="ibox-content">
+																<div class="row">
+																	<div class="col-sm-12 form-inline">
+										                                <input type="text" placeholder="其他支出项目" id="v25" name="v25" class="form-control" style="width:180px;">
+										                                <input type="text" placeholder="支出明细" id="v26" name="v26" class="form-control" style="width:180px;">
+						                               					<input type="text" placeholder="金额(元)" id="v27" name="v27" class="form-control" style="width:80px;" number="true">
+																	</div>
+																</div>
+																<br>
+																<div class="row">
+																	<div class="col-sm-12 form-inline">
+										                                <input type="text" placeholder="其他支出项目" id="v28" name="v28" class="form-control" style="width:180px;">
+										                                <input type="text" placeholder="支出明细" id="v29" name="v29" class="form-control" style="width:180px;">
+						                               					<input type="text" placeholder="金额(元)" id="v30" name="v30" class="form-control" style="width:80px;" number="true">
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+					                        	</div>
+					                        
+					                        </div>
+										
+											<div class="row">
+												<div class="col-sm-5"></div>
+												<div class="col-sm-2" style="text-align:center;">
+													<button type="button" class="btn btn-primary" style="margin-top: 20px;" id="save"><i class="fa fa-save"></i> 保存 </button>
+												</div>
+											</div>
+										</form>
+									
+									</div>
+								</div>
+								
+							</div>
+						</div>
+	
+						<!-- 帮扶单位与责任人 -->
+						<div class="tabs-container" id="tab_bfdwyzrr" style="display:none;">
+						
+							<ul class="nav nav-tabs"><!-- 分栏目的标题 -->
+		                    	<li class="active">
+		                        	<a data-toggle="tab" href="#tab-b-1" aria-expanded="true"><i class="fa fa-user"></i> 帮扶责任人</a>
+		                        </li>
+		                        <li class="">
+		                        	<a data-toggle="tab" href="#tab-b-3" aria-expanded="false"><i class="fa fa-sign-out"></i> 帮扶计划</a>
+		                        </li>
+		                        <li class="">
+		                        	<a data-toggle="tab" href="#tab-b-2" aria-expanded="false"><i class="fa fa-sign-out"></i> 脱贫计划（选填）</a>
+		                        </li>
+		                    </ul><!-- 分栏目的标题 -->
+							
+							<div class="tab-content" id="bangfuren"><!-- tab页面的内容 -->
+								
+								<!-- 帮扶责任人 -->
+								<div id="tab-b-1" class="tab-pane active">
+									<div class="panel-body">
+										<div class="row">
+											<div class="col-sm-3">
+												<select class="form-control" id="sys_company_id" name="sys_company_id" onchange="getbangfuren(this.value)"></select>
+											</div>
+											<div class="col-sm-9"><!-- 联系人信息 -->
+												<div class="input-group"><!-- 搜索 -->
+													<input type="text" placeholder="添加新帮扶责任人" class="input form-control" id="add_bangfuren_test" name="add_bangfuren_test"> 
+													<div class="input-group-btn">
+														<button type="button" onclick="save_bangfuren();" class="btn btn btn-primary" id="add_bangfuren" name="add_bangfuren">
+															<i class="fa fa-save"></i>  保存
+														</button>
+														<ul class="dropdown-menu dropdown-menu-right" role="menu">
+			                                            </ul>
+													</div>
+												</div>
+											</div>
+											<div class="col-sm-12">
+												<div class="clients-list">
+													<div class="tab-content">
+														<div class="full-height-scroll">
+															<div class="table-responsive">
+																<table class="table table-striped table-hover">
+																	<tbody class="dzdjz" id="bangfu_table" name="bangfu_table"></tbody>
+																</table>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<!-- 联系人信息 -->
+										</div>
+									</div>
+								</div>
+								<!-- 帮扶责任人 -->
+								
+								<!-- 帮扶计划 -->
+								<div id="tab-b-3" class="tab-pane">
+									<div class="panel-body">
+										<form id="bangfujihua_Form">
+											<div class="row">
+					                        	<div class="col-sm-6">
+					                        		<div class="panel panel-info">
+														<div class="panel-body">
+															<h5><code>帮扶目标</code></h5>
+															<div class="ibox-content">
+																<div class="row">
+																	<div class="col-sm-12" style="padding-right: 0px;padding-left: 0px;">
+																		<textarea class="form-control" rows="6" id="v1" name="v1"></textarea>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+					                        	</div>
+					                        	<div class="col-sm-6">
+					                        		<div class="panel panel-info">
+														<div class="panel-body">
+															<h5><code>帮扶时限</code></h5>
+															<div class="ibox-content">
+																<div class="row">
+																	<div class="col-sm-12" style="padding-right: 0px;padding-left: 0px;">
+																		<textarea class="form-control" rows="6" id="v2" name="v2"></textarea>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+					                        	</div>
+					                        </div>
+					                        <div class="row">
+					                        	<div class="col-sm-12">
+					                        		<div class="panel panel-info">
+														<div class="panel-body">
+															<h5><code>帮扶计划</code></h5>
+															<div class="ibox-content">
+																<div class="row">
+																	<div class="col-sm-12" style="padding-right: 0px;padding-left: 0px;">
+																		<textarea class="form-control" rows="6" id="v3" name="v3"></textarea>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+					                        	</div>
+					                        </div>
+					                        <div class="row">
+												<div class="col-sm-5"></div>
+												<div class="col-sm-2" style="text-align:center;">
+													<button type="button" class="btn btn-primary" style="margin-top: 20px;" id="save"><i class="fa fa-save"></i> 保存 </button>
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
+								<!-- 帮扶计划 -->
+								
+								<!-- 脱贫计划 -->
+								<div id="tab-b-2" class="tab-pane">
+									<div class="panel-body">
+										<form id="tuopinjihua_Form">
+										
+										
+											<div class="row">
+					                        	<div class="col-sm-6">
+					                        		<div class="panel panel-info">
+														<div class="panel-body">
+															<h5>贫困户人均可支配收入&nbsp;&nbsp;&nbsp;&nbsp;<code>目标：高于当年国家扶贫标准</code></h5>
+															<div class="ibox-content">
+																<div class="row">
+																	<div class="col-sm-12" style="padding-right: 0px;padding-left: 0px;">
+																		<label class="col-sm-3 control-label" style="text-align:right;margin-top: 10px;padding-right: 0px;padding-left: 0px;">建档立卡贫困现状</label>
+																		<div class="col-sm-9">
+											                                <input type="text" placeholder="" id="v2" name="v2" class="form-control">
+																		</div>
+																	</div>
+																</div>
+																<br>
+																<div class="row">
+																	<div class="col-sm-6" style="padding-right: 0px;padding-left: 0px;">
+										                                <label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;padding-right: 0px;padding-left: 0px;">2016年计划</label>
+																		<div class="col-sm-8">
+											                                <input type="text" placeholder="" id="v3_2016" name="v3_2016" class="form-control">
+																		</div>
+																	</div>
+																	<div class="col-sm-6" style="padding-right: 0px;padding-left: 0px;">
+										                                <label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;padding-right: 0px;padding-left: 0px;">完成情况</label>
+																		<div class="col-sm-8">
+											                                <input type="text" placeholder="年末统一填写" id="v4_2016" name="v4_2016" class="form-control" readonly="readonly">
+																		</div>
+																	</div>
+																</div>
+																<br>
+																<div class="row">
+																	<div class="col-sm-6" style="padding-right: 0px;padding-left: 0px;">
+										                                <label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;padding-right: 0px;padding-left: 0px;">2017年计划</label>
+																		<div class="col-sm-8">
+											                                <input type="text" placeholder="" id="v3_2017" name="v3_2017" class="form-control">
+																		</div>
+																	</div>
+																	<div class="col-sm-6" style="padding-right: 0px;padding-left: 0px;">
+										                                <label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;padding-right: 0px;padding-left: 0px;">完成情况</label>
+																		<div class="col-sm-8">
+											                                <input type="text" placeholder="年末统一填写" id="v4_2017" name="v4_2017" class="form-control" readonly="readonly">
+																		</div>
+																	</div>
+																</div><br>
+																<div class="row">
+																	<div class="col-sm-6" style="padding-right: 0px;padding-left: 0px;">
+										                                <label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;padding-right: 0px;padding-left: 0px;">2018年计划</label>
+																		<div class="col-sm-8">
+											                                <input type="text" placeholder="" id="v3_2018" name="v3_2018" class="form-control">
+																		</div>
+																	</div>
+																	<div class="col-sm-6" style="padding-right: 0px;padding-left: 0px;">
+										                                <label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;padding-right: 0px;padding-left: 0px;">完成情况</label>
+																		<div class="col-sm-8">
+											                                <input type="text" placeholder="年末统一填写" id="v4_2018" name="v4_2018" class="form-control" readonly="readonly">
+																		</div>
+																	</div>
+																</div><br>
+																<div class="row">
+																	<div class="col-sm-6" style="padding-right: 0px;padding-left: 0px;">
+										                                <label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;padding-right: 0px;padding-left: 0px;">2019年计划</label>
+																		<div class="col-sm-8">
+											                                <input type="text" placeholder="" id="v3_2019" name="v3_2019" class="form-control">
+																		</div>
+																	</div>
+																	<div class="col-sm-6" style="padding-right: 0px;padding-left: 0px;">
+										                                <label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;padding-right: 0px;padding-left: 0px;">完成情况</label>
+																		<div class="col-sm-8">
+											                                <input type="text" placeholder="年末统一填写" id="v4_2019" name="v4_2019" class="form-control" readonly="readonly">
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+					                        	</div>
+					                        	
+					                        	
+					                        	
+					                        	<div class="col-sm-6">
+					                        		<div class="panel panel-info">
+														<div class="panel-body">
+															<h5>安全住房&nbsp;&nbsp;&nbsp;&nbsp;<code>目标：有</code></h5>
+															<div class="ibox-content">
+																<div class="row">
+																	<div class="col-sm-12" style="padding-right: 0px;padding-left: 0px;">
+																		<label class="col-sm-3 control-label" style="text-align:right;margin-top: 10px;padding-right: 0px;padding-left: 0px;">建档立卡贫困现状</label>
+																		<div class="col-sm-9">
+											                                <input type="text" placeholder="" id="v5" name="v5" class="form-control">
+																		</div>
+																	</div>
+																</div>
+																<br>
+																<div class="row">
+																	<div class="col-sm-6" style="padding-right: 0px;padding-left: 0px;">
+										                                <label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;padding-right: 0px;padding-left: 0px;">2016年计划</label>
+																		<div class="col-sm-8">
+											                                <input type="text" placeholder="" id="v6_2016" name="v6_2016" class="form-control">
+																		</div>
+																	</div>
+																	<div class="col-sm-6" style="padding-right: 0px;padding-left: 0px;">
+										                                <label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;padding-right: 0px;padding-left: 0px;">完成情况</label>
+																		<div class="col-sm-8">
+											                                <input type="text" placeholder="年末统一填写" id="v7_2016" name="v7_2016" class="form-control" readonly="readonly">
+																		</div>
+																	</div>
+																</div>
+																<br>
+																<div class="row">
+																	<div class="col-sm-6" style="padding-right: 0px;padding-left: 0px;">
+										                                <label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;padding-right: 0px;padding-left: 0px;">2017年计划</label>
+																		<div class="col-sm-8">
+											                                <input type="text" placeholder="" id="v6_2017" name="v6_2017" class="form-control">
+																		</div>
+																	</div>
+																	<div class="col-sm-6" style="padding-right: 0px;padding-left: 0px;">
+										                                <label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;padding-right: 0px;padding-left: 0px;">完成情况</label>
+																		<div class="col-sm-8">
+											                                <input type="text" placeholder="年末统一填写" id="v7_2017" name="v7_2017" class="form-control" readonly="readonly">
+																		</div>
+																	</div>
+																</div><br>
+																<div class="row">
+																	<div class="col-sm-6" style="padding-right: 0px;padding-left: 0px;">
+										                                <label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;padding-right: 0px;padding-left: 0px;">2018年计划</label>
+																		<div class="col-sm-8">
+											                                <input type="text" placeholder="" id="v6_2018" name="v6_2018" class="form-control">
+																		</div>
+																	</div>
+																	<div class="col-sm-6" style="padding-right: 0px;padding-left: 0px;">
+										                                <label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;padding-right: 0px;padding-left: 0px;">完成情况</label>
+																		<div class="col-sm-8">
+											                                <input type="text" placeholder="年末统一填写" id="v7_2018" name="v7_2018" class="form-control" readonly="readonly">
+																		</div>
+																	</div>
+																</div><br>
+																<div class="row">
+																	<div class="col-sm-6" style="padding-right: 0px;padding-left: 0px;">
+										                                <label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;padding-right: 0px;padding-left: 0px;">2019年计划</label>
+																		<div class="col-sm-8">
+											                                <input type="text" placeholder="" id="v6_2019" name="v6_2019" class="form-control">
+																		</div>
+																	</div>
+																	<div class="col-sm-6" style="padding-right: 0px;padding-left: 0px;">
+										                                <label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;padding-right: 0px;padding-left: 0px;">完成情况</label>
+																		<div class="col-sm-8">
+											                                <input type="text" placeholder="年末统一填写" id="v7_2019" name="v7_2019" class="form-control" readonly="readonly">
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+					                        	</div>
+					                        	
+					                        	
+					                        	<div class="col-sm-6">
+					                        		<div class="panel panel-info">
+														<div class="panel-body">
+															<h5>因贫辍学学生&nbsp;&nbsp;&nbsp;&nbsp;<code>目标：无</code></h5>
+															<div class="ibox-content">
+																<div class="row">
+																	<div class="col-sm-12" style="padding-right: 0px;padding-left: 0px;">
+																		<label class="col-sm-3 control-label" style="text-align:right;margin-top: 10px;padding-right: 0px;padding-left: 0px;">建档立卡贫困现状</label>
+																		<div class="col-sm-9">
+											                                <input type="text" placeholder="" id="v8" name="v8" class="form-control">
+																		</div>
+																	</div>
+																</div>
+																<br>
+																<div class="row">
+																	<div class="col-sm-6" style="padding-right: 0px;padding-left: 0px;">
+										                                <label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;padding-right: 0px;padding-left: 0px;">2016年计划</label>
+																		<div class="col-sm-8">
+											                                <input type="text" placeholder="" id="v9_2016" name="v9_2016" class="form-control">
+																		</div>
+																	</div>
+																	<div class="col-sm-6" style="padding-right: 0px;padding-left: 0px;">
+										                                <label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;padding-right: 0px;padding-left: 0px;">完成情况</label>
+																		<div class="col-sm-8">
+											                                <input type="text" placeholder="年末统一填写" id="v10_2016" name="v10_2016" class="form-control" readonly="readonly">
+																		</div>
+																	</div>
+																</div>
+																<br>
+																<div class="row">
+																	<div class="col-sm-6" style="padding-right: 0px;padding-left: 0px;">
+										                                <label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;padding-right: 0px;padding-left: 0px;">2017年计划</label>
+																		<div class="col-sm-8">
+											                                <input type="text" placeholder="" id="v9_2017" name="v9_2017" class="form-control">
+																		</div>
+																	</div>
+																	<div class="col-sm-6" style="padding-right: 0px;padding-left: 0px;">
+										                                <label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;padding-right: 0px;padding-left: 0px;">完成情况</label>
+																		<div class="col-sm-8">
+											                                <input type="text" placeholder="年末统一填写" id="v10_2017" name="v10_2017" class="form-control" readonly="readonly">
+																		</div>
+																	</div>
+																</div><br>
+																<div class="row">
+																	<div class="col-sm-6" style="padding-right: 0px;padding-left: 0px;">
+										                                <label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;padding-right: 0px;padding-left: 0px;">2018年计划</label>
+																		<div class="col-sm-8">
+											                                <input type="text" placeholder="" id="v9_2018" name="v9_2018" class="form-control">
+																		</div>
+																	</div>
+																	<div class="col-sm-6" style="padding-right: 0px;padding-left: 0px;">
+										                                <label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;padding-right: 0px;padding-left: 0px;">完成情况</label>
+																		<div class="col-sm-8">
+											                                <input type="text" placeholder="年末统一填写" id="v10_2018" name="v10_2018" class="form-control" readonly="readonly">
+																		</div>
+																	</div>
+																</div><br>
+																<div class="row">
+																	<div class="col-sm-6" style="padding-right: 0px;padding-left: 0px;">
+										                                <label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;padding-right: 0px;padding-left: 0px;">2019年计划</label>
+																		<div class="col-sm-8">
+											                                <input type="text" placeholder="" id="v9_2019" name="v9_2019" class="form-control">
+																		</div>
+																	</div>
+																	<div class="col-sm-6" style="padding-right: 0px;padding-left: 0px;">
+										                                <label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;padding-right: 0px;padding-left: 0px;">完成情况</label>
+																		<div class="col-sm-8">
+											                                <input type="text" placeholder="年末统一填写" id="v10_2019" name="v10_2019" class="form-control" readonly="readonly">
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+					                        	</div>
+					                        	
+					                        	
+					                        	<div class="col-sm-6">
+					                        		<div class="panel panel-info">
+														<div class="panel-body">
+															<h5>因病致贫返贫&nbsp;&nbsp;&nbsp;&nbsp;<code>目标：无</code></h5>
+															<div class="ibox-content">
+																<div class="row">
+																	<div class="col-sm-12" style="padding-right: 0px;padding-left: 0px;">
+																		<label class="col-sm-3 control-label" style="text-align:right;margin-top: 10px;padding-right: 0px;padding-left: 0px;">建档立卡贫困现状</label>
+																		<div class="col-sm-9">
+											                                <input type="text" placeholder="" id="v11" name="v11" class="form-control">
+																		</div>
+																	</div>
+																</div>
+																<br>
+																<div class="row">
+																	<div class="col-sm-6" style="padding-right: 0px;padding-left: 0px;">
+										                                <label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;padding-right: 0px;padding-left: 0px;">2016年计划</label>
+																		<div class="col-sm-8">
+											                                <input type="text" placeholder="" id="v12_2016" name="v12_2016" class="form-control">
+																		</div>
+																	</div>
+																	<div class="col-sm-6" style="padding-right: 0px;padding-left: 0px;">
+										                                <label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;padding-right: 0px;padding-left: 0px;">完成情况</label>
+																		<div class="col-sm-8">
+											                                <input type="text" placeholder="年末统一填写" id="v13_2016" name="v13_2016" class="form-control" readonly="readonly">
+																		</div>
+																	</div>
+																</div>
+																<br>
+																<div class="row">
+																	<div class="col-sm-6" style="padding-right: 0px;padding-left: 0px;">
+										                                <label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;padding-right: 0px;padding-left: 0px;">2017年计划</label>
+																		<div class="col-sm-8">
+											                                <input type="text" placeholder="" id="v12_2017" name="v12_2017" class="form-control">
+																		</div>
+																	</div>
+																	<div class="col-sm-6" style="padding-right: 0px;padding-left: 0px;">
+										                                <label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;padding-right: 0px;padding-left: 0px;">完成情况</label>
+																		<div class="col-sm-8">
+											                                <input type="text" placeholder="年末统一填写" id="v13_2017" name="v13_2017" class="form-control" readonly="readonly">
+																		</div>
+																	</div>
+																</div><br>
+																<div class="row">
+																	<div class="col-sm-6" style="padding-right: 0px;padding-left: 0px;">
+										                                <label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;padding-right: 0px;padding-left: 0px;">2018年计划</label>
+																		<div class="col-sm-8">
+											                                <input type="text" placeholder="" id="v12_2018" name="v12_2018" class="form-control">
+																		</div>
+																	</div>
+																	<div class="col-sm-6" style="padding-right: 0px;padding-left: 0px;">
+										                                <label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;padding-right: 0px;padding-left: 0px;">完成情况</label>
+																		<div class="col-sm-8">
+											                                <input type="text" placeholder="年末统一填写" id="v13_2018" name="v13_2018" class="form-control" readonly="readonly">
+																		</div>
+																	</div>
+																</div><br>
+																<div class="row">
+																	<div class="col-sm-6" style="padding-right: 0px;padding-left: 0px;">
+										                                <label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;padding-right: 0px;padding-left: 0px;">2019年计划</label>
+																		<div class="col-sm-8">
+											                                <input type="text" placeholder="" id="v12_2019" name="v12_2019" class="form-control">
+																		</div>
+																	</div>
+																	<div class="col-sm-6" style="padding-right: 0px;padding-left: 0px;">
+										                                <label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;padding-right: 0px;padding-left: 0px;">完成情况</label>
+																		<div class="col-sm-8">
+											                                <input type="text" placeholder="年末统一填写" id="v13_2019" name="v13_2019" class="form-control" readonly="readonly">
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+					                        	</div>
+					                        	
+					                        	
+					                        	<div class="col-sm-6">
+					                        		<div class="panel panel-info">
+														<div class="panel-body">
+															<h5>新型农村合作医疗&nbsp;&nbsp;&nbsp;&nbsp;<code>目标：参加</code></h5>
+															<div class="ibox-content">
+																<div class="row">
+																	<div class="col-sm-12" style="padding-right: 0px;padding-left: 0px;">
+																		<label class="col-sm-3 control-label" style="text-align:right;margin-top: 10px;padding-right: 0px;padding-left: 0px;">建档立卡贫困现状</label>
+																		<div class="col-sm-9">
+											                                <input type="text" placeholder="" id="v14" name="v14" class="form-control">
+																		</div>
+																	</div>
+																</div>
+																<br>
+																<div class="row">
+																	<div class="col-sm-6" style="padding-right: 0px;padding-left: 0px;">
+										                                <label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;padding-right: 0px;padding-left: 0px;">2016年计划</label>
+																		<div class="col-sm-8">
+											                                <input type="text" placeholder="" id="v15_2016" name="v15_2016" class="form-control">
+																		</div>
+																	</div>
+																	<div class="col-sm-6" style="padding-right: 0px;padding-left: 0px;">
+										                                <label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;padding-right: 0px;padding-left: 0px;">完成情况</label>
+																		<div class="col-sm-8">
+											                                <input type="text" placeholder="年末统一填写" id="v16_2016" name="v16_2016" class="form-control" readonly="readonly">
+																		</div>
+																	</div>
+																</div>
+																<br>
+																<div class="row">
+																	<div class="col-sm-6" style="padding-right: 0px;padding-left: 0px;">
+										                                <label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;padding-right: 0px;padding-left: 0px;">2017年计划</label>
+																		<div class="col-sm-8">
+											                                <input type="text" placeholder="" id="v15_2017" name="v15_2017" class="form-control">
+																		</div>
+																	</div>
+																	<div class="col-sm-6" style="padding-right: 0px;padding-left: 0px;">
+										                                <label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;padding-right: 0px;padding-left: 0px;">完成情况</label>
+																		<div class="col-sm-8">
+											                                <input type="text" placeholder="年末统一填写" id="v16_2017" name="v16_2017" class="form-control" readonly="readonly">
+																		</div>
+																	</div>
+																</div><br>
+																<div class="row">
+																	<div class="col-sm-6" style="padding-right: 0px;padding-left: 0px;">
+										                                <label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;padding-right: 0px;padding-left: 0px;">2018年计划</label>
+																		<div class="col-sm-8">
+											                                <input type="text" placeholder="" id="v15_2018" name="v15_2018" class="form-control">
+																		</div>
+																	</div>
+																	<div class="col-sm-6" style="padding-right: 0px;padding-left: 0px;">
+										                                <label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;padding-right: 0px;padding-left: 0px;">完成情况</label>
+																		<div class="col-sm-8">
+											                                <input type="text" placeholder="年末统一填写" id="v16_2018" name="v16_2018" class="form-control" readonly="readonly">
+																		</div>
+																	</div>
+																</div><br>
+																<div class="row">
+																	<div class="col-sm-6" style="padding-right: 0px;padding-left: 0px;">
+										                                <label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;padding-right: 0px;padding-left: 0px;">2019年计划</label>
+																		<div class="col-sm-8">
+											                                <input type="text" placeholder="" id="v15_2019" name="v15_2019" class="form-control">
+																		</div>
+																	</div>
+																	<div class="col-sm-6" style="padding-right: 0px;padding-left: 0px;">
+										                                <label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;padding-right: 0px;padding-left: 0px;">完成情况</label>
+																		<div class="col-sm-8">
+											                                <input type="text" placeholder="年末统一填写" id="v16_2019" name="v16_2019" class="form-control" readonly="readonly">
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+					                        	</div>
+					                        	
+					                        	
+					                        	<div class="col-sm-6">
+					                        		<div class="panel panel-info">
+														<div class="panel-body">
+															<h5>城乡居民基本养老保险&nbsp;&nbsp;&nbsp;&nbsp;<code>目标：参加</code></h5>
+															<div class="ibox-content">
+																<div class="row">
+																	<div class="col-sm-12" style="padding-right: 0px;padding-left: 0px;">
+																		<label class="col-sm-3 control-label" style="text-align:right;margin-top: 10px;padding-right: 0px;padding-left: 0px;">建档立卡贫困现状</label>
+																		<div class="col-sm-9">
+											                                <input type="text" placeholder="" id="v17" name="v17" class="form-control">
+																		</div>
+																	</div>
+																</div>
+																<br>
+																<div class="row">
+																	<div class="col-sm-6" style="padding-right: 0px;padding-left: 0px;">
+										                                <label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;padding-right: 0px;padding-left: 0px;">2016年计划</label>
+																		<div class="col-sm-8">
+											                                <input type="text" placeholder="" id="v18_2016" name="v18_2016" class="form-control">
+																		</div>
+																	</div>
+																	<div class="col-sm-6" style="padding-right: 0px;padding-left: 0px;">
+										                                <label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;padding-right: 0px;padding-left: 0px;">完成情况</label>
+																		<div class="col-sm-8">
+											                                <input type="text" placeholder="年末统一填写" id="v19_2016" name="v19_2016" class="form-control" readonly="readonly">
+																		</div>
+																	</div>
+																</div>
+																<br>
+																<div class="row">
+																	<div class="col-sm-6" style="padding-right: 0px;padding-left: 0px;">
+										                                <label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;padding-right: 0px;padding-left: 0px;">2017年计划</label>
+																		<div class="col-sm-8">
+											                                <input type="text" placeholder="" id="v18_2017" name="v18_2017" class="form-control">
+																		</div>
+																	</div>
+																	<div class="col-sm-6" style="padding-right: 0px;padding-left: 0px;">
+										                                <label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;padding-right: 0px;padding-left: 0px;">完成情况</label>
+																		<div class="col-sm-8">
+											                                <input type="text" placeholder="年末统一填写" id="v19_2017" name="v19_2017" class="form-control" readonly="readonly">
+																		</div>
+																	</div>
+																</div><br>
+																<div class="row">
+																	<div class="col-sm-6" style="padding-right: 0px;padding-left: 0px;">
+										                                <label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;padding-right: 0px;padding-left: 0px;">2018年计划</label>
+																		<div class="col-sm-8">
+											                                <input type="text" placeholder="" id="v18_2018" name="v18_2018" class="form-control">
+																		</div>
+																	</div>
+																	<div class="col-sm-6" style="padding-right: 0px;padding-left: 0px;">
+										                                <label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;padding-right: 0px;padding-left: 0px;">完成情况</label>
+																		<div class="col-sm-8">
+											                                <input type="text" placeholder="年末统一填写" id="v19_2018" name="v19_2018" class="form-control" readonly="readonly">
+																		</div>
+																	</div>
+																</div><br>
+																<div class="row">
+																	<div class="col-sm-6" style="padding-right: 0px;padding-left: 0px;">
+										                                <label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;padding-right: 0px;padding-left: 0px;">2019年计划</label>
+																		<div class="col-sm-8">
+											                                <input type="text" placeholder="" id="v18_2019" name="v18_2019" class="form-control">
+																		</div>
+																	</div>
+																	<div class="col-sm-6" style="padding-right: 0px;padding-left: 0px;">
+										                                <label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;padding-right: 0px;padding-left: 0px;">完成情况</label>
+																		<div class="col-sm-8">
+											                                <input type="text" placeholder="年末统一填写" id="v19_2019" name="v19_2019" class="form-control" readonly="readonly">
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+					                        	</div>
+					                        	
+					                        	
+					                        </div>
+					                        
+					                        
+					                        
+											
+											<div class="row">
+												<div class="col-sm-5"></div>
+												<div class="col-sm-2" style="text-align:center;">
+													<button type="button" class="btn btn-primary" style="margin-top: 20px;" id="save"><i class="fa fa-save"></i> 保存 </button>
+												</div>
+											</div>
+											
+											
+										</form>
+									</div>
+								</div>
+								<!-- 脱贫计划 -->
+								
+							</div>
+							
+						</div>	
+								
+						
+						<!-- 帮扶措施 -->
+						<div id="tab_bfcsh" class="tab-pane" style="display:none;">
+							<div class="panel-body" id="bangfucuoshi">
+							
+								<div class="row">
+									<div class="ibox">
+										<div class="ibox-content">
+											<div class="clients-list">
+												<div class="tab-content">
+													<div class="full-height-scroll">
+														<div class="table-responsive">
+															<div class=" " id="tz_cuoshi_tools" role="group">
+							                                    <button id="add_hu_but" onClick="show_add_tz_cuoshi();" type="button" class="btn btn-info btn-outline"><i class="fa fa-save"></i> 添加新措施</button>
+							                                </div>
+															<table id="cuoshi_tz_table">
+																<thead>
+																	<tr>
+																		<th data-field="v1" data-halign="center" data-align="center">项目类别</th>
+																		<th data-field="v2" data-halign="center" data-align="center">扶持措施</th>
+																		<th data-field="v3" data-halign="center" data-align="center">是否符合扶持条件</th>
+																		<th data-field="caozuo" data-halign="center" data-align="center">操作</th>
+																		<th data-field="v4_2016" data-visible="false"></th>
+																		<th data-field="v5_2016" data-visible="false"></th>
+																		<th data-field="v6_2016" data-visible="false"></th>
+																		<th data-field="v4_2017" data-visible="false"></th>
+																		<th data-field="v5_2017" data-visible="false"></th>
+																		<th data-field="v6_2017" data-visible="false"></th>
+																		<th data-field="v4_2018" data-visible="false"></th>
+																		<th data-field="v5_2018" data-visible="false"></th>
+																		<th data-field="v6_2018" data-visible="false"></th>
+																		<th data-field="v4_2019" data-visible="false"></th>
+																		<th data-field="v5_2019" data-visible="false"></th>
+																		<th data-field="v6_2019" data-visible="false"></th>
+																		
+																	</tr>
+																</thead>
+															</table>
+															
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								
+							</div>
+						</div><!-- 帮扶措施 -->
+						
+						
+						<!-- 走访情况 -->
+						<div id="tab_zfqk" class="tab-pane" style="display:none;">
+							<div class="panel-body" id="zoufangqingkaung">
+	
+								<div class="row">
+												
+									<div class="col-sm-8">
+										<div class="row">
+											<div class="ibox">
+												<div class="ibox-content">
+													<div class="clients-list">
+														<div class="tab-content">
+															<div class="full-height-scroll">
+																<div class="table-responsive">
+																	<table class="table table-striped table-hover">
+																		<tbody class="dzdjz" id="cuoshi_table" name="cuoshi_table"></tbody>
+																	</table>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+	
+									
+									<div class="col-sm-4">
+										<div class="row">
+										
+											<div class="col-sm-12" id="new_cuoshi">
+												<div class="panel panel-info">
+													<div class="panel-body">
+														<input type="text" style="display: none;" id="cuoshi_pkid" name="cuoshi_pkid">
+														<div class="form-inline" id="data_1">
+															<label class="control-label" style="text-align:right;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;时间</label>
+															<div class="input-group date">
+								                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+								                                <input type="text" class="form-control" id="v1" name="v1" value="" style="width:198px">
+								                            </div>
+														</div>
+														<br>
+														
+														<div class="form-inline">
+															<label class="control-label" style="text-align:right;">帮扶干部</label>
+							                                <input type="text" placeholder="帮扶干部" id="v2" name="v2" class="form-control" style="width:240px">
+														</div>
+														<br>
+														
+														<div class="form-inline">
+															<label class="control-label" style="text-align:right;">走访情况</label>
+							                                <textarea class="form-control" placeholder="走访情况" rows="3" id="v3" name="v3" style="width:240px"></textarea>
+														</div>
+														
+														
+														<div class="shangjiao pull-right">
+															<br>
+															<button type="button" class="btn btn-primary btn-ms" id="v1_tj_zoufang" name="v1_tj_zoufang"><i class="fa fa-file-text-o"></i> 添加 </button>
+															<button type="button" class="btn btn-primary btn-ms" id="v1_bc_zoufang" name="v1_bc_zoufang"><i class="fa fa-save"></i> 保存 </button>
+														</div>
+													</div>
+												</div>
+											</div>
+											
+											<div class="col-sm-12" id="poht_list_div"><!-- 照片列表，可以删除 -->
+												<div class="panel panel-info">
+													<div class="panel-body" id="qilegeguaile">
+														<div class="lightBoxGallery">
+															<div class="queueList filled">
+																<ul class="filelist" id="poht_list"></ul>
+															</div>
+															<div id="blueimp-gallery" class="blueimp-gallery">
+								                                <div class="slides"></div><a class="prev">‹</a><a class="next">›</a><a class="close">×</a><a class="play-pause"></a><ol class="indicator"></ol>
+								                            </div>
+														</div>
+													</div>
+												</div>
+											</div>
+											
+											<div class="col-sm-12" id="webup_div"><!-- 新上传照片-->
+												<div class="panel panel-info">
+													<div class="panel-body" id="cuoshi_img_load"></div>
+												</div>
+											</div>
+											
+										</div>
+									</div>
+	
+								</div>
+	
+							</div>
+						</div><!-- 走访情况 -->
+						
+						
+						<!-- 帮扶成效 -->
+						<div id="tab_bfcx" class="tab-pane" style="display:none;">
+							<div class="panel-body" id="bangfuchengxiao">
+							
+								<div class="row">
+												
+									<div class="col-sm-8">
+										<div class="row">
+											<div class="ibox">
+												<div class="ibox-content">
+													<div class="clients-list">
+														<div class="tab-content">
+															<div class="full-height-scroll">
+																<div class="table-responsive">
+																	<table class="table table-striped table-hover">
+																		<tbody class="dzdjz" id="cuoshi_table" name="cuoshi_table"></tbody>
+																	</table>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+	
+									
+									<div class="col-sm-4">
+										<div class="row">
+										
+											<div class="col-sm-12" id="new_cuoshi">
+												<div class="panel panel-info">
+													<div class="panel-body">
+														<input type="text" style="display: none;" id="cuoshi_pkid" name="cuoshi_pkid">
+														<div class="form-inline" id="data_1">
+															<label class="control-label" style="text-align:right;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;时间</label>
+															<div class="input-group date">
+								                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+								                                <input type="text" class="form-control" id="v1" name="v1" value="" style="width:198px">
+								                            </div>
+														</div>
+														<br>
+														
+														<div class="form-inline">
+															<label class="control-label" style="text-align:right;">成效内容</label>
+							                                <textarea class="form-control" placeholder="成效内容" rows="3" id="v2" name="v2" style="width:240px"></textarea>
+														</div>
+														<br>
+														
+														<div class="form-inline">
+															<label class="control-label" style="text-align:right;">&nbsp;&nbsp;&nbsp;贫困户</label>
+							                                <input type="text" placeholder="贫困户确认" id="v3" name="v3" class="form-control" style="width:240px">
+														</div>
+														
+														
+														<div class="shangjiao pull-right">
+															<br>
+															<button type="button" class="btn btn-primary btn-ms" id="v1_tj_zoufang" name="v1_tj_zoufang"><i class="fa fa-file-text-o"></i> 添加 </button>
+															<button type="button" class="btn btn-primary btn-ms" id="v1_bc_zoufang" name="v1_bc_zoufang"><i class="fa fa-save"></i> 保存 </button>
+														</div>
+													</div>
+												</div>
+											</div>
+											
+											<div class="col-sm-12" id="poht_list_div"><!-- 照片列表，可以删除 -->
+												<div class="panel panel-info">
+													<div class="panel-body" id="qilegeguaile">
+														<div class="lightBoxGallery">
+															<div class="queueList filled">
+																<ul class="filelist" id="poht_list"></ul>
+															</div>
+															<div id="blueimp-gallery" class="blueimp-gallery">
+								                                <div class="slides"></div><a class="prev">‹</a><a class="next">›</a><a class="close">×</a><a class="play-pause"></a><ol class="indicator"></ol>
+								                            </div>
+														</div>
+													</div>
+												</div>
+											</div>
+											
+											<div class="col-sm-12" id="webup_div"><!-- 新上传照片-->
+												<div class="panel panel-info">
+													<div class="panel-body" id="cuoshi_img_load"></div>
+												</div>
+											</div>
+											
+										</div>
+									</div>
+	
+								</div>
+							
+							</div>
+						</div><!-- 帮扶成效 -->
+		
+						
+						<!-- 帮扶后收支分析 -->
+						<div class="tabs-container" id="tab_bfgshzhfx" style="display:none;">
+						
+							<ul class="nav nav-tabs"><!-- 分栏目的标题 -->
+		                    	<li class="active">
+		                        	<a data-toggle="tab" href="#tab-h-1" aria-expanded="true"><i class="fa fa-sign-in"></i> 帮扶后收入情况</a>
+		                        </li>
+		                        <li class="">
+		                        	<a data-toggle="tab" href="#tab-h-2" aria-expanded="false"><i class="fa fa-sign-out"></i> 帮扶后支出情况</a>
+		                        </li>
+		                    </ul><!-- 分栏目的标题 -->
+							<div class="tab-content"><!-- tab页面的内容 -->
+								
+								<!-- 当前收入情况 -->
+								<div id="tab-h-1" class="tab-pane active">
+									<div class="panel-body" id="bangfuhoushouru">
+										<form id="bangfuhoushouru_Form">
+										
+											<div class="panel panel-info">
+												<div class="panel-body">
+													<h5>生产经营性收入</h5>
+													<div class="ibox-content">
+														
+														<div class="row">
+															<div class="col-sm-6">
+																<label class="col-sm-3 control-label" style="text-align:right;">农业(水产)</label>
+																<div class="col-sm-9 form-inline">
+									                                <input type="text" placeholder="收入明细" id="v1" name="v1" class="form-control" style="width:250px;">
+									                                <input type="text" placeholder="金额(元)" id="v2" name="v2" class="form-control" style="width:80px;" number="true">
+																</div>
+															</div>
+															<div class="col-sm-6">
+																<label class="col-sm-3 control-label" style="text-align:right;">畜牧业</label>
+																<div class="col-sm-9 form-inline">
+									                                <input type="text" placeholder="收入明细" id="v3" name="v3" class="form-control" style="width:250px;">
+									                                <input type="text" placeholder="金额(元)" id="v4" name="v4" class="form-control" style="width:80px;" number="true">
+																</div>
+															</div>
+														</div>
+														<br>
+														<div class="row">
+															<div class="col-sm-6">
+																<label class="col-sm-3 control-label" style="text-align:right;">林业</label>
+																<div class="col-sm-9 form-inline">
+									                                <input type="text" placeholder="收入明细" id="v5" name="v5" class="form-control" style="width:250px;">
+									                                <input type="text" placeholder="金额(元)" id="v6" name="v6" class="form-control" style="width:80px;" number="true">
+																</div>
+															</div>
+															<div class="col-sm-6">
+																<label class="col-sm-3 control-label" style="text-align:right;">其他</label>
+																<div class="col-sm-9 form-inline">
+									                                <input type="text" placeholder="收入明细" id="v7" name="v7" class="form-control" style="width:250px;">
+									                                <input type="text" placeholder="金额(元)" id="v8" name="v8" class="form-control" style="width:80px;" number="true">
+																</div>
+															</div>
+								                        </div>
+														
+													</div>
+												</div>
+											</div>
+										
+										
+										
+											<div class="panel panel-info">
+												<div class="panel-body">
+													<h5>政策性收入</h5>
+													<div class="ibox-content">
+													
+														<div class="row">
+															<div class="col-sm-6">
+																<label class="col-sm-3 control-label" style="text-align:right;margin-top: 0px;">农林牧草<br>生态等补贴</label>
+																<div class="col-sm-9 form-inline">
+									                                <input type="text" placeholder="收入明细" id="v11" name="v11" class="form-control" style="width:250px;">
+									                                <input type="text" placeholder="金额(元)" id="v12" name="v12" class="form-control" style="width:80px;" number="true">
+																</div>
+															</div>
+															<div class="col-sm-6">
+																<label class="col-sm-3 control-label" style="text-align:right;">养老金</label>
+																<div class="col-sm-9 form-inline">
+									                                <input type="text" placeholder="收入明细" id="v13" name="v13" class="form-control" style="width:250px;">
+									                                <input type="text" placeholder="金额(元)" id="v14" name="v14" class="form-control" style="width:80px;" number="true">
+																</div>
+															</div>
+														</div>
+														<br>
+														<div class="row">
+															<div class="col-sm-6">
+																<label class="col-sm-3 control-label" style="text-align:right;">低保(五保)补贴</label>
+																<div class="col-sm-9 form-inline">
+									                                <input type="text" placeholder="收入明细" id="v15" name="v15" class="form-control" style="width:250px;">
+									                                <input type="text" placeholder="金额(元)" id="v16" name="v16" class="form-control" style="width:80px;" number="true">
+																</div>
+															</div>
+															<div class="col-sm-6">
+																<label class="col-sm-3 control-label" style="text-align:right;">燃煤补贴</label>
+																<div class="col-sm-9 form-inline">
+									                                <input type="text" placeholder="收入明细" id="v17" name="v17" class="form-control" style="width:250px;">
+									                                <input type="text" placeholder="金额(元)" id="v18" name="v18" class="form-control" style="width:80px;" number="true">
+																</div>
+															</div>
+														</div>
+														<br>
+														<div class="row">
+															<div class="col-sm-6">
+																<label class="col-sm-3 control-label" style="text-align:right;">其他</label>
+																<div class="col-sm-9 form-inline">
+									                                <input type="text" placeholder="收入明细" id="v19" name="v19" class="form-control" style="width:250px;">
+									                                <input type="text" placeholder="金额(元)" id="v20" name="v20" class="form-control" style="width:80px;" number="true">
+																</div>
+															</div>
+								                        </div>
+													
+													</div>
+												</div>
+											</div>
+											
+											
+											<div class="panel panel-info">
+												<div class="panel-body">
+													<h5>财产性收入</h5>
+													<div class="ibox-content">
+													
+														<div class="row">
+															<div class="col-sm-6">
+																<label class="col-sm-3 control-label" style="text-align:right;margin-top: 0px;">土地、草牧<br>场流转</label>
+																<div class="col-sm-9 form-inline">
+									                                <input type="text" placeholder="收入明细" id="v23" name="v23" class="form-control" style="width:250px;">
+									                                <input type="text" placeholder="金额(元)" id="v24" name="v24" class="form-control" style="width:80px;" number="true">
+																</div>
+															</div>
+															<div class="col-sm-6">
+																<label class="col-sm-3 control-label" style="text-align:right;">其他</label>
+																<div class="col-sm-9 form-inline">
+									                                <input type="text" placeholder="收入明细" id="v25" name="v25" class="form-control" style="width:250px;">
+									                                <input type="text" placeholder="金额(元)" id="v26" name="v26" class="form-control" style="width:80px;" number="true">
+																</div>
+															</div>
+														</div>
+													
+													</div>
+												</div>
+											</div>
+											
+					                        
+					                        <div class="row">
+					                        
+					                        	<div class="col-sm-6">
+					                        		<div class="panel panel-info">
+														<div class="panel-body">
+															<h5>工资性收入</h5>
+															<div class="ibox-content">
+																<div class="row">
+																	<div class="col-sm-12 form-inline">
+																		<input type="text" placeholder="工资性收入项目" id="v35" name="v35" class="form-control" style="width:180px;">
+										                                <input type="text" placeholder="收入明细" id="v27" name="v27" class="form-control" style="width:180px;">
+										                                <input type="text" placeholder="金额(元)" id="v28" name="v28" class="form-control" style="width:80px;" number="true">
+																	</div>
+																</div>
+																<br>
+																<div class="row">
+																	<div class="col-sm-12 form-inline">
+										                                <input type="text" placeholder="工资性收入项目" id="v36" name="v36" class="form-control" style="width:180px;">
+										                                <input type="text" placeholder="收入明细" id="v29" name="v29" class="form-control" style="width:180px;">
+										                                <input type="text" placeholder="金额(元)" id="v30" name="v30" class="form-control" style="width:80px;" number="true">
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+					                        	</div>
+					                        	
+					                        	<div class="col-sm-6">
+					                        		<div class="panel panel-info">
+														<div class="panel-body">
+															<h5>其他收入</h5>
+															<div class="ibox-content">
+																<div class="row">
+																	<div class="col-sm-12 form-inline">
+										                                <input type="text" placeholder="其他收入项目" id="v37" name="v37" class="form-control" style="width:180px;">
+										                                <input type="text" placeholder="收入明细" id="v31" name="v31" class="form-control" style="width:180px;">
+										                                <input type="text" placeholder="金额(元)" id="v32" name="v32" class="form-control" style="width:80px;" number="true">
+																	</div>
+																</div>
+																<br>
+																<div class="row">
+																	<div class="col-sm-12 form-inline">
+										                                <input type="text" placeholder="其他收入项目" id="v38" name="v38" class="form-control" style="width:180px;">
+										                                <input type="text" placeholder="收入明细" id="v33" name="v33" class="form-control" style="width:180px;">
+										                                <input type="text" placeholder="金额(元)" id="v34" name="v34" class="form-control" style="width:80px;" number="true">
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+					                        	</div>
+					                        
+					                        </div>
+											<div class="row">
+												<div class="col-sm-5"></div>
+												<div class="col-sm-2" style="text-align:center;">
+													<button type="button" class="btn btn-primary" style="margin-top: 20px;" id="save"><i class="fa fa-save"></i> 保存 </button>
+												</div>
+											</div>
+										</form>
+				                        
+									</div>
+								</div>
+							
+								<!-- 当前支出情况 -->
+								<div id="tab-h-2" class="tab-pane">
+									<div class="panel-body" id="bangfuhouzhichu">
+										<form id="bangfuhouzhichu_Form">
+										
+											<div class="panel panel-info">
+												<div class="panel-body">
+													<h5>生产经营性支出</h5>
+													<div class="ibox-content">
+										
+														<div class="row">
+															<div class="col-sm-6">
+																<label class="col-sm-3 control-label" style="text-align:right;">农资费用</label>
+																<div class="col-sm-9 form-inline">
+									                                <input type="text" placeholder="支出明细" id="v1" name="v1" class="form-control" style="width:250px;">
+									                                <input type="text" placeholder="金额(元)" id="v2" name="v2" class="form-control" style="width:80px;" number="true">
+																</div>
+															</div>
+															<div class="col-sm-6">
+																<label class="col-sm-3 control-label" style="text-align:right;margin-top: 0px;">固定资产折<br>旧和租赁费</label>
+																<div class="col-sm-9 form-inline">
+									                                <input type="text" placeholder="支出明细" id="v3" name="v3" class="form-control" style="width:250px;">
+									                                <input type="text" placeholder="金额(元)" id="v4" name="v4" class="form-control" style="width:80px;" number="true">
+																</div>
+															</div>
+														</div>
+														<br>
+														<div class="row">
+															<div class="col-sm-6">
+																<label class="col-sm-3 control-label" style="text-align:right;">水电燃料支出</label>
+																<div class="col-sm-9 form-inline">
+									                                <input type="text" placeholder="支出明细" id="v5" name="v5" class="form-control" style="width:250px;">
+									                                <input type="text" placeholder="金额(元)" id="v6" name="v6" class="form-control" style="width:80px;" number="true">
+																</div>
+															</div>
+															<div class="col-sm-6">
+																<label class="col-sm-3 control-label" style="text-align:right;margin-top: 0px;">承包土地<br>草场费用</label>
+																<div class="col-sm-9 form-inline">
+									                                <input type="text" placeholder="支出明细" id="v7" name="v7" class="form-control" style="width:250px;">
+									                                <input type="text" placeholder="金额(元)" id="v8" name="v8" class="form-control" style="width:80px;" number="true">
+																</div>
+															</div>
+								                        </div>
+								                        <br>
+								                        <div class="row">
+															<div class="col-sm-6">
+																<label class="col-sm-3 control-label" style="text-align:right;">饲草料</label>
+																<div class="col-sm-9 form-inline">
+									                                <input type="text" placeholder="支出明细" id="v9" name="v9" class="form-control" style="width:250px;">
+									                                <input type="text" placeholder="金额(元)" id="v10" name="v10" class="form-control" style="width:80px;" number="true">
+																</div>
+															</div>
+															<div class="col-sm-6">
+																<label class="col-sm-3 control-label" style="text-align:right;">防疫防治支出</label>
+																<div class="col-sm-9 form-inline">
+									                                <input type="text" placeholder="支出明细" id="v11" name="v11" class="form-control" style="width:250px;">
+									                                <input type="text" placeholder="金额(元)" id="v12" name="v12" class="form-control" style="width:80px;" number="true">
+																</div>
+															</div>
+														</div>
+														<br>
+														<div class="row">
+															<div class="col-sm-6">
+																<label class="col-sm-3 control-label" style="text-align:right;">种（仔）畜</label>
+																<div class="col-sm-9 form-inline">
+									                                <input type="text" placeholder="支出明细" id="v13" name="v13" class="form-control" style="width:250px;">
+									                                <input type="text" placeholder="金额(元)" id="v14" name="v14" class="form-control" style="width:80px;" number="true">
+																</div>
+															</div>
+															<div class="col-sm-6">
+																<label class="col-sm-3 control-label" style="text-align:right;margin-top: 0px;">销售费用<br>通讯费用</label>
+																<div class="col-sm-9 form-inline">
+									                                <input type="text" placeholder="支出明细" id="v15" name="v15" class="form-control" style="width:250px;">
+									                                <input type="text" placeholder="金额(元)" id="v16" name="v16" class="form-control" style="width:80px;" number="true">
+																</div>
+															</div>
+														</div>
+														<br>
+														<div class="row">
+															<div class="col-sm-6">
+																<label class="col-sm-3 control-label" style="text-align:right;">借贷利息</label>
+																<div class="col-sm-9 form-inline">
+									                                <input type="text" placeholder="支出明细" id="v17" name="v17" class="form-control" style="width:250px;">
+									                                <input type="text" placeholder="金额(元)" id="v18" name="v18" class="form-control" style="width:80px;" number="true">
+																</div>
+															</div>
+								                        </div>
+										
+													</div>
+												</div>
+											</div>
+										
+										
+											<div class="row">
+					                        
+					                        	<div class="col-sm-6">
+					                        		<div class="panel panel-info">
+														<div class="panel-body">
+															<h5>政策性支出</h5>
+															<div class="ibox-content">
+																<div class="row">
+																	<div class="col-sm-12 form-inline">
+										                                <input type="text" placeholder="政策性支出项目" id="v23" name="v23" class="form-control" style="width:180px;">
+										                                <input type="text" placeholder="支出明细" id="v19" name="v19" class="form-control" style="width:180px;">
+						                                				<input type="text" placeholder="金额(元)" id="v20" name="v20" class="form-control" style="width:80px;" number="true">
+																	</div>
+																</div>
+																<br>
+																<div class="row">
+																	<div class="col-sm-12 form-inline">
+										                                <input type="text" placeholder="政策性支出项目" id="v24" name="v24" class="form-control" style="width:180px;">
+										                                <input type="text" placeholder="支出明细" id="v21" name="v21" class="form-control" style="width:180px;">
+						                                				<input type="text" placeholder="金额(元)" id="v22" name="v22" class="form-control" style="width:80px;" number="true">
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+					                        	</div>
+					                        	
+					                        	<div class="col-sm-6">
+					                        		<div class="panel panel-info">
+														<div class="panel-body">
+															<h5>其他支出</h5>
+															<div class="ibox-content">
+																<div class="row">
+																	<div class="col-sm-12 form-inline">
+										                                <input type="text" placeholder="其他支出项目" id="v25" name="v25" class="form-control" style="width:180px;">
+										                                <input type="text" placeholder="支出明细" id="v26" name="v26" class="form-control" style="width:180px;">
+						                               					<input type="text" placeholder="金额(元)" id="v27" name="v27" class="form-control" style="width:80px;" number="true">
+																	</div>
+																</div>
+																<br>
+																<div class="row">
+																	<div class="col-sm-12 form-inline">
+										                                <input type="text" placeholder="其他支出项目" id="v28" name="v28" class="form-control" style="width:180px;">
+										                                <input type="text" placeholder="支出明细" id="v29" name="v29" class="form-control" style="width:180px;">
+						                               					<input type="text" placeholder="金额(元)" id="v30" name="v30" class="form-control" style="width:80px;" number="true">
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+					                        	</div>
+					                        
+					                        </div>
+											<div class="row">
+												<div class="col-sm-5"></div>
+												<div class="col-sm-2" style="text-align:center;">
+													<button type="button" class="btn btn-primary" style="margin-top: 20px;" id="save"><i class="fa fa-save"></i> 保存 </button>
+												</div>
+											</div>
+										</form>
+									
+									</div>
+								</div>
+								
+							</div>
+							
+						</div><!-- 帮扶后收支分析 -->
+					
+					</div>
+					
+				</div>
+			</div>
+			<!-- 中间部分 -->
+
+
+			<!-- 尾部 -->
+			<div class="footer" id="weibu_title"></div><!-- 尾部 -->
+		</div>
+	</div>
+
+
+
+	<!--  添加新的贫困户 -->
+    <div class="modal inmodal" id="addModal_hu" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content animated bounceInRight">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">关闭</span>
+                    </button>
+                    <h2 class="modal-title">补充新的贫困户</h2>
+				</div>
+				<div class="modal-body">
+                    
+					<form class="form-horizontal" id="addForm">
+						<div class="form-group">
+							<label class="col-sm-3 control-label" style="margin-top: 3px;">旗县：</label>
+							<div class="col-sm-8">
+								<select class="form-control m-b" id="cha_qx_add" name="cha_qx_add" onchange="getinfo_xiang(this.value,$('#cha_smx_add'))" qingxuanze="true">
+									
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label" style="margin-top: 3px;">苏木乡镇：</label>
+							<div class="col-sm-8">
+								<select class="form-control m-b" id="cha_smx_add" name="cha_smx_add" onchange="getinfo_cun(this.value,$('#cha_gcc_add'))" qingxuanze="true">
+									<option>请选择</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label" style="margin-top: 3px;">嘎查村：</label>
+							<div class="col-sm-8">
+								<select class="form-control m-b" id="cha_gcc_add" name="cha_gcc_add" qingxuanze="true">
+									<option>请选择</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label" style="margin-top: 3px;">户主姓名：</label>
+							<div class="col-sm-8">
+								<input type="text" placeholder="请填写户主姓名" maxlength="12" class="form-control" id="huname_add" name="huname_add" required="true" aria-required="true" chinese="true">
+							</div>
+						</div>
+					</form>
+            
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-white" data-dismiss="modal" id="close_hu">关闭</button>
+					<button type="button" class="btn btn-primary" id="save_hu" >保存</button>
+				</div>
+			</div>
+		</div>
+	</div><!--  添加新的元数据结构 -->
+	
+	
+	<!--  编辑台账帮扶措施 -->
+    <div class="modal inmodal" id="updateModal_tz_cuoshi" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg"">
+            <div class="modal-content animated bounceInRight">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">关闭</span>
+                    </button>
+                    <h2 class="modal-title" id="cuoshi_title"></h2>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal" id="cuoshi_tz_Form">
+						<input type="text" style="display: none;" id="v1" name="v1">
+                   		<input type="text" style="display: none;" id="v2" name="v2">
+						<div class="row">
+							<div class="col-sm-6">
+								<label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;">是否符合扶持条件</label>
+								<div class="col-sm-8">
+									<div class="radio i-checks" id="v3_div">
+										<label><input type="radio" value="是" id="v3" name="v3"> <i></i>是</label> 
+										<label><input type="radio" value="否" id="v3" name="v3"> <i></i>否</label>
+									</div>
+								</div>
+							</div>
+						</div>
+						<br>
+						<div class="panel panel-info">
+							<div class="panel-body">
+								<h5>2016年</h5>
+								<div class="ibox-content">
+									<div class="row">
+										<div class="col-sm-5" style="padding-right:2px;padding-left:2px;">
+											<label class="col-sm-3 control-label" style="text-align:right;margin-top: 5px;padding-right:2px;padding-left:2px;">项目需求量</label>
+											<div class="col-sm-9" style="padding-right:2px;padding-left:2px;">
+				                                <input type="text" placeholder="项目需求量" id="v4_2016" name="v4_2016" class="form-control" style="padding-right:2px;padding-left:2px;">
+											</div>
+										</div>
+										<div class="col-sm-4" style="padding-right:2px;padding-left:2px;">
+											<label class="col-sm-4 control-label" style="text-align:right;margin-top: 0px;padding-right:2px;padding-left:2px;">受益资金/政策</label>
+											<div class="col-sm-8" style="padding-right:2px;padding-left:2px;">
+				                                <input type="text" placeholder="受益资金/政策" id="v5_2016" name="v5_2016" class="form-control" style="padding-right:2px;padding-left:2px;">
+											</div>
+										</div>
+										<div class="col-sm-3" style="padding-right:2px;padding-left:2px;">
+											<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;padding-right:2px;padding-left:2px;">落实时间</label>
+											<div class="col-sm-8" style="padding-right:2px;padding-left:2px;">
+				                                <input type="text" placeholder="落实时间" id="v6_2016" name="v6_2016" class="form-control" style="padding-right:2px;padding-left:2px;">
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="panel panel-info">
+							<div class="panel-body">
+								<h5>2017年</h5>
+								<div class="ibox-content">
+									<div class="row">
+										<div class="col-sm-5" style="padding-right:2px;padding-left:2px;">
+											<label class="col-sm-3 control-label" style="text-align:right;margin-top: 5px;padding-right:2px;padding-left:2px;">项目需求量</label>
+											<div class="col-sm-9" style="padding-right:2px;padding-left:2px;">
+				                                <input type="text" placeholder="项目需求量" id="v4_2017" name="v4_2017" class="form-control" style="padding-right:2px;padding-left:2px;">
+											</div>
+										</div>
+										<div class="col-sm-4" style="padding-right:2px;padding-left:2px;">
+											<label class="col-sm-4 control-label" style="text-align:right;margin-top: 0px;padding-right:2px;padding-left:2px;">受益资金/政策</label>
+											<div class="col-sm-8" style="padding-right:2px;padding-left:2px;">
+				                                <input type="text" placeholder="受益资金/政策" id="v5_2017" name="v5_2017" class="form-control" style="padding-right:2px;padding-left:2px;">
+											</div>
+										</div>
+										<div class="col-sm-3" style="padding-right:2px;padding-left:2px;">
+											<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;padding-right:2px;padding-left:2px;">落实时间</label>
+											<div class="col-sm-8" style="padding-right:2px;padding-left:2px;">
+				                                <input type="text" placeholder="落实时间" id="v6_2017" name="v6_2017" class="form-control" style="padding-right:2px;padding-left:2px;">
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="panel panel-info">
+							<div class="panel-body">
+								<h5>2018年</h5>
+								<div class="ibox-content">
+									<div class="row">
+										<div class="col-sm-5" style="padding-right:2px;padding-left:2px;">
+											<label class="col-sm-3 control-label" style="text-align:right;margin-top: 5px;padding-right:2px;padding-left:2px;">项目需求量</label>
+											<div class="col-sm-9" style="padding-right:2px;padding-left:2px;">
+				                                <input type="text" placeholder="项目需求量" id="v4_2018" name="v4_2018" class="form-control" style="padding-right:2px;padding-left:2px;">
+											</div>
+										</div>
+										<div class="col-sm-4" style="padding-right:2px;padding-left:2px;">
+											<label class="col-sm-4 control-label" style="text-align:right;margin-top: 0px;padding-right:2px;padding-left:2px;">受益资金/政策</label>
+											<div class="col-sm-8" style="padding-right:2px;padding-left:2px;">
+				                                <input type="text" placeholder="受益资金/政策" id="v5_2018" name="v5_2018" class="form-control" style="padding-right:2px;padding-left:2px;">
+											</div>
+										</div>
+										<div class="col-sm-3" style="padding-right:2px;padding-left:2px;">
+											<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;padding-right:2px;padding-left:2px;">落实时间</label>
+											<div class="col-sm-8" style="padding-right:2px;padding-left:2px;">
+				                                <input type="text" placeholder="落实时间" id="v6_2018" name="v6_2018" class="form-control" style="padding-right:2px;padding-left:2px;">
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="panel panel-info">
+							<div class="panel-body">
+								<h5>2019年</h5>
+								<div class="ibox-content">
+									<div class="row">
+										<div class="col-sm-5" style="padding-right:2px;padding-left:2px;">
+											<label class="col-sm-3 control-label" style="text-align:right;margin-top: 5px;padding-right:2px;padding-left:2px;">项目需求量</label>
+											<div class="col-sm-9" style="padding-right:2px;padding-left:2px;">
+				                                <input type="text" placeholder="项目需求量" id="v4_2019" name="v4_2019" class="form-control" style="padding-right:2px;padding-left:2px;">
+											</div>
+										</div>
+										<div class="col-sm-4" style="padding-right:2px;padding-left:2px;">
+											<label class="col-sm-4 control-label" style="text-align:right;margin-top: 0px;padding-right:2px;padding-left:2px;">受益资金/政策</label>
+											<div class="col-sm-8" style="padding-right:2px;padding-left:2px;">
+				                                <input type="text" placeholder="受益资金/政策" id="v5_2019" name="v5_2019" class="form-control" style="padding-right:2px;padding-left:2px;">
+											</div>
+										</div>
+										<div class="col-sm-3" style="padding-right:2px;padding-left:2px;">
+											<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;padding-right:2px;padding-left:2px;">落实时间</label>
+											<div class="col-sm-8" style="padding-right:2px;padding-left:2px;">
+				                                <input type="text" placeholder="落实时间" id="v6_2019" name="v6_2019" class="form-control" style="padding-right:2px;padding-left:2px;">
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-white" data-dismiss="modal" id="close">关闭</button>
+					<button type="button" class="btn btn-primary" id="save" >保存</button>
+				</div>
+			</div>
+		</div>
+	</div><!--  编辑台账帮扶措施 -->
+	
+	
+	<!-- 添加新的帮扶措施 -->
+    <div class="modal inmodal" id="addModal_tz_cuoshi" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg"">
+            <div class="modal-content animated bounceInRight">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">关闭</span>
+                    </button>
+                    <h2 class="modal-title" id="cuoshi_title"></h2>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal" id="add_cuoshi_tz_Form">
+						
+						<div class="row">
+							<div class="col-sm-6">
+								<label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;">扶持措施</label>
+								<div class="col-sm-8">
+									<select class="form-control" id="v1" name="v1"></select>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;">是否符合扶持条件</label>
+								<div class="col-sm-8">
+									<div class="radio i-checks" id="v3_div">
+										<label><input type="radio" value="是" id="v3" name="v3"> <i></i>是</label> 
+										<label><input type="radio" value="否" id="v3" name="v3"> <i></i>否</label>
+									</div>
+								</div>
+							</div>
+						</div>
+						<br>
+						<div class="panel panel-info">
+							<div class="panel-body">
+								<h5>2016年</h5>
+								<div class="ibox-content">
+									<div class="row">
+										<div class="col-sm-5" style="padding-right:2px;padding-left:2px;">
+											<label class="col-sm-3 control-label" style="text-align:right;margin-top: 5px;padding-right:2px;padding-left:2px;">项目需求量</label>
+											<div class="col-sm-9" style="padding-right:2px;padding-left:2px;">
+				                                <input type="text" placeholder="项目需求量" id="v4_2016" name="v4_2016" class="form-control" style="padding-right:2px;padding-left:2px;">
+											</div>
+										</div>
+										<div class="col-sm-4" style="padding-right:2px;padding-left:2px;">
+											<label class="col-sm-4 control-label" style="text-align:right;margin-top: 0px;padding-right:2px;padding-left:2px;">受益资金/政策</label>
+											<div class="col-sm-8" style="padding-right:2px;padding-left:2px;">
+				                                <input type="text" placeholder="受益资金/政策" id="v5_2016" name="v5_2016" class="form-control" style="padding-right:2px;padding-left:2px;">
+											</div>
+										</div>
+										<div class="col-sm-3" style="padding-right:2px;padding-left:2px;">
+											<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;padding-right:2px;padding-left:2px;">落实时间</label>
+											<div class="col-sm-8" style="padding-right:2px;padding-left:2px;">
+				                                <input type="text" placeholder="落实时间" id="v6_2016" name="v6_2016" class="form-control" style="padding-right:2px;padding-left:2px;">
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="panel panel-info">
+							<div class="panel-body">
+								<h5>2017年</h5>
+								<div class="ibox-content">
+									<div class="row">
+										<div class="col-sm-5" style="padding-right:2px;padding-left:2px;">
+											<label class="col-sm-3 control-label" style="text-align:right;margin-top: 5px;padding-right:2px;padding-left:2px;">项目需求量</label>
+											<div class="col-sm-9" style="padding-right:2px;padding-left:2px;">
+				                                <input type="text" placeholder="项目需求量" id="v4_2017" name="v4_2017" class="form-control" style="padding-right:2px;padding-left:2px;">
+											</div>
+										</div>
+										<div class="col-sm-4" style="padding-right:2px;padding-left:2px;">
+											<label class="col-sm-4 control-label" style="text-align:right;margin-top: 0px;padding-right:2px;padding-left:2px;">受益资金/政策</label>
+											<div class="col-sm-8" style="padding-right:2px;padding-left:2px;">
+				                                <input type="text" placeholder="受益资金/政策" id="v5_2017" name="v5_2017" class="form-control" style="padding-right:2px;padding-left:2px;">
+											</div>
+										</div>
+										<div class="col-sm-3" style="padding-right:2px;padding-left:2px;">
+											<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;padding-right:2px;padding-left:2px;">落实时间</label>
+											<div class="col-sm-8" style="padding-right:2px;padding-left:2px;">
+				                                <input type="text" placeholder="落实时间" id="v6_2017" name="v6_2017" class="form-control" style="padding-right:2px;padding-left:2px;">
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="panel panel-info">
+							<div class="panel-body">
+								<h5>2018年</h5>
+								<div class="ibox-content">
+									<div class="row">
+										<div class="col-sm-5" style="padding-right:2px;padding-left:2px;">
+											<label class="col-sm-3 control-label" style="text-align:right;margin-top: 5px;padding-right:2px;padding-left:2px;">项目需求量</label>
+											<div class="col-sm-9" style="padding-right:2px;padding-left:2px;">
+				                                <input type="text" placeholder="项目需求量" id="v4_2018" name="v4_2018" class="form-control" style="padding-right:2px;padding-left:2px;">
+											</div>
+										</div>
+										<div class="col-sm-4" style="padding-right:2px;padding-left:2px;">
+											<label class="col-sm-4 control-label" style="text-align:right;margin-top: 0px;padding-right:2px;padding-left:2px;">受益资金/政策</label>
+											<div class="col-sm-8" style="padding-right:2px;padding-left:2px;">
+				                                <input type="text" placeholder="受益资金/政策" id="v5_2018" name="v5_2018" class="form-control" style="padding-right:2px;padding-left:2px;">
+											</div>
+										</div>
+										<div class="col-sm-3" style="padding-right:2px;padding-left:2px;">
+											<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;padding-right:2px;padding-left:2px;">落实时间</label>
+											<div class="col-sm-8" style="padding-right:2px;padding-left:2px;">
+				                                <input type="text" placeholder="落实时间" id="v6_2018" name="v6_2018" class="form-control" style="padding-right:2px;padding-left:2px;">
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="panel panel-info">
+							<div class="panel-body">
+								<h5>2019年</h5>
+								<div class="ibox-content">
+									<div class="row">
+										<div class="col-sm-5" style="padding-right:2px;padding-left:2px;">
+											<label class="col-sm-3 control-label" style="text-align:right;margin-top: 5px;padding-right:2px;padding-left:2px;">项目需求量</label>
+											<div class="col-sm-9" style="padding-right:2px;padding-left:2px;">
+				                                <input type="text" placeholder="项目需求量" id="v4_2019" name="v4_2019" class="form-control" style="padding-right:2px;padding-left:2px;">
+											</div>
+										</div>
+										<div class="col-sm-4" style="padding-right:2px;padding-left:2px;">
+											<label class="col-sm-4 control-label" style="text-align:right;margin-top: 0px;padding-right:2px;padding-left:2px;">受益资金/政策</label>
+											<div class="col-sm-8" style="padding-right:2px;padding-left:2px;">
+				                                <input type="text" placeholder="受益资金/政策" id="v5_2019" name="v5_2019" class="form-control" style="padding-right:2px;padding-left:2px;">
+											</div>
+										</div>
+										<div class="col-sm-3" style="padding-right:2px;padding-left:2px;">
+											<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;padding-right:2px;padding-left:2px;">落实时间</label>
+											<div class="col-sm-8" style="padding-right:2px;padding-left:2px;">
+				                                <input type="text" placeholder="落实时间" id="v6_2019" name="v6_2019" class="form-control" style="padding-right:2px;padding-left:2px;">
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-white" data-dismiss="modal" id="close">关闭</button>
+					<button type="button" class="btn btn-primary" id="save" >保存</button>
+				</div>
+			</div>
+		</div>
+	</div><!-- 添加新的台账帮扶措施 -->
+	
+	
+	
+	<!--  添加新的家庭成员 -->
+    <div class="modal inmodal" id="upModal_jiating" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content animated bounceInRight">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">关闭</span>
+                    </button>
+                    <h2 class="modal-title">补充新的家庭成员</h2>
+				</div>
+				<div class="modal-body">
+                    
+					<form class="form-horizontal" id="upForm_jiating">
+						<div class="form-group">
+							<label class="col-sm-3 control-label" style="margin-top: 3px;">家庭成员姓名：</label>
+							<div class="col-sm-8">
+								<input type="text" placeholder="请填写家庭成员姓名" maxlength="12" class="form-control" id="jiatingname_add" name="jiatingname_add" required="true" aria-required="true" chinese="true">
+							</div>
+						</div>
+					</form>
+            
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-white" data-dismiss="modal" id="close_jiating">关闭</button>
+					<button type="button" class="btn btn-primary" id="save_jiating" >保存</button>
+				</div>
+			</div>
+		</div>
+	</div><!--  添加新的元数据结构 -->
+
+
+
+
+
+
+    
+
+	<!-- 修改密码页面 -->
+    <div id="gray_2"></div>
+
+<div class="popup" id="popup_2">
+
+	<div class="top_nav" >
+		<div align="center">
+			<i></i>
+			<span>修改密码</span>
+			<a class="guanbi"></a>
+		</div>
+	</div>
+	
+	<div class="main">
+		<div class="tc_login">
+			<div class="center">
+					<div align="center">
+						<div align="center">
+						<br/>
+						<h4 style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;请输入原密码：</h4>
+						</div>
+						<br/>
+						<div>
+						<form class="" id="changepassword_form" onsubmit='return false' >
+							<input type="text" id="yhid" style="display:none;"  class="input_yh">
+							<div align="center">&nbsp;&nbsp;&nbsp;</div>
+							<div class="form-group" style="text-align:left;">
+								<input type="password" name="old_pass" id="old_pass" style="margin-left: 133px;" required="required" cp="true"  placeholder="原密码" autocomplete="off" class="input_mm">
+								<div align="center">&nbsp;&nbsp;&nbsp;</div>
+								<input type="password" name="new_pass" id="new_pass" style="margin-left: 133px;" required="required"  placeholder="新密码" autocomplete="off" class="input_mm">
+								<div align="center">&nbsp;&nbsp;&nbsp;</div>
+								<input type="password" name="new_pass_2" id="new_pass_2" style="margin-left: 133px;" required equalTo="#new_pass" placeholder="请再次输入新密码" autocomplete="off" class="input_mm">
+							</div>
+						</form>
+						</div>
+					</div>
+					
+					
+					<div align="center">
+						<input type="submit"   style="  -webkit-appearance: none;
+													    background: #36a803;
+													    border: none;
+													    border-radius: 2px;
+													    color: #fff;
+													    cursor: pointer;
+													    height: 50px;
+													    font-family: 'Open Sans', sans-serif;
+													    font-size: 1.2em;
+													    letter-spacing: 0.05em;
+													    text-align: center;
+													    text-transform: uppercase;
+													    transition: background 0.3s ease-in-out;
+													    width: 220px;
+													    padding: 0 50px 0 50px;
+   														font-weight: bold;"
+   							onclick="xiugaimima_anniu()" value="修&nbsp;改&nbsp;密&nbsp;码">
+					</div>
+				<hr align="center" />
+			</div>
+		</div>
+	</div>
+</div>
+	<script src="js/Include.js"></script>
+	<script>
+		loadSMLibs("1-1");
+	</script>
+</body>
+</html>
+

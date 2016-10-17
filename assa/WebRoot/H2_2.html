@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+	<meta http-equiv="Expires" content="0">
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" CONTENT="no-cache, must-revalidate"> 
+	<meta http-equiv="Cache-Control" content="no-siteapp" />
+	<meta http-equiv="Cache" content="no-cache">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="renderer" content="webkit">
+	<title>鄂尔多斯精准扶贫大数据管理平台</title>
+    <link rel="shortcut icon" href="favicon.ico">
+<!--     <link type="text/css" rel="stylesheet" href="css/dayin/dayin.css" /> -->
+    <style>
+    	.bos tbody>tr>td,.bos tbody>tr>th{
+			border: 1px solid #000;
+		}
+		.bos table{
+			border:1px solid black;
+			border-collapse:collapse;
+		}
+    </style>
+    <base target="_blank">
+  </head>
+  
+  <body class="">
+	
+	
+	<div class="bos" id="df" >
+		<div style="width:756px;height:1086px;">
+			<table id="targetTable" style="width:756px;height:1086px;border:1px solid black;border-collapse:collapse;" >
+				<thead>
+					<tr>
+						<th colspan="6" style="text-align: center;border: 1px solid #000;" >基本信息</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td rowspan="5" colspan="2" id="hz_pic1" style="border: 1px solid #000;"></td>
+						<td style="border: 1px solid #000;">姓名</td>
+						<td id="show_hz_xm1" style="border: 1px solid #000;"></td>
+						<td style="border: 1px solid #000;">民族</td>
+						<td id="show_hz_mz1" style="border: 1px solid #000;"></td>
+					</tr>
+					<tr>
+						<td style="border: 1px solid #000;">人数</td>
+						<td id="show_hz_rk1" style="border: 1px solid #000;"></td>
+						<td style="border: 1px solid #000;">联系电话</td>
+						<td id="show_hz_phone1" style="border: 1px solid #000;"></td>
+					</tr>
+					<tr>
+						<td style="border: 1px solid #000;">身份证号</td>
+						<td id="show_hz_sfz1" style="border: 1px solid #000;"></td>
+						<td style="border: 1px solid #000;">政治面貌</td>
+						<td id="show_hz_zzmm1" style="border: 1px solid #000;"></td>
+					</tr>
+					<tr>
+						<td style="border: 1px solid #000;">开户银行</td>
+						<td id="show_hz_bank1" style="border: 1px solid #000;"></td>
+						<td style="border: 1px solid #000;">银行账号</td>
+						<td id="show_hz_banknum1" style="border: 1px solid #000;"></td>
+					</tr>
+					<tr>
+						<td style="border: 1px solid #000;">家庭住址</td>
+						<td id="show_hz_address1" colspan="3" style="border: 1px solid #000;"></td>
+					</tr>
+					<tr>
+						<td style="border: 1px solid #000;">识别标准</td>
+						<td id="show_hz_sbbz1" style="border: 1px solid #000;"></td>
+						<td style="border: 1px solid #000;">贫困户属性</td>
+						<td id="show_hz_pkgsx1" style="border: 1px solid #000;"></td>
+						<td style="border: 1px solid #000;">文化程度</td>
+						<td id="show_hz_whcd1" style="border: 1px solid #000;"></td>
+					</tr>
+					<tr>
+						<td style="border: 1px solid #000;">是否在校</td>
+						<td id="show_hz_sfzx1" style="border: 1px solid #000;"></td>
+						<td style="border: 1px solid #000;">健康状况</td>
+						<td id="show_hz_jkzk1" style="border: 1px solid #000;"></td>
+						<td style="border: 1px solid #000;">劳动力</td>
+						<td id="show_hz_ldl1" style="border: 1px solid #000;"></td>
+					</tr>
+					<tr>
+						<td style="border: 1px solid #000;">务工情况</td>
+						<td id="show_hz_wgqk1" style="border: 1px solid #000;"></td>
+						<td style="border: 1px solid #000;">务工时间</td>
+						<td id="show_hz_wgsj1" style="border: 1px solid #000;"></td>
+						<td style="border: 1px solid #000;">是否参加新农合</td>
+						<td id="show_hz_cjxnh1" style="border: 1px solid #000;"></td>
+					</tr>
+					<tr>
+						<td style="border: 1px solid #000;">是否参加养老保险</td>
+						<td id="show_hz_ylbx1" style="border: 1px solid #000;"></td>
+						<td style="border: 1px solid #000;">是否军军烈属</td>
+						<td id="show_hz_sfjls1"></td>
+						<td style="border: 1px solid #000;">是否现役军人</td>
+						<td id="show_hz_xyjr1" style="border: 1px solid #000;"></td>
+					</tr>
+					<tr>
+						<td style="border: 1px solid #000;">是否独生子女户</td>
+						<td id="show_hz_dszn1" style="border: 1px solid #000;"></td>
+						<td style="border: 1px solid #000;">是否双女户</td>
+						<td id="show_hz_snh1" style="border: 1px solid #000;"></td>
+						<td style="border: 1px solid #000;">主要致贫原因</td>
+						<td id="show_hz_zpyy1" style="border: 1px solid #000;"></td>
+					</tr>
+					<tr>
+						<td style="border: 1px solid #000;">其他致贫原因</td>
+						<td id="show_hz_qtzpyy1" style="border: 1px solid #000;"></td>
+						<td style="border: 1px solid #000;">致贫原因说明</td>
+						<td id="show_hz_zfyysm1" colspan="3" style="border: 1px solid #000;"></td>
+					</tr>
+					<tr>
+						<th colspan="6" style="border: 1px solid #000;">生产条件</th>
+					</tr>
+					<tr>
+						<td style="border: 1px solid #000;">耕地面积（亩）</td>
+						<td id="show_gdmj1" style="border: 1px solid #000;"></td>
+						<td style="border: 1px solid #000;">有效灌溉地面积（亩）</td>
+						<td id="show_sjdmj1" style="border: 1px solid #000;"></td>
+						<td style="border: 1px solid #000;">林地面积（亩）</td>
+						<td id="show_ldmj1" style="border: 1px solid #000;"></td>
+					</tr>
+					<tr>
+						<td style="border: 1px solid #000;">退耕还林面积（亩）</td>
+						<td id="shoow_tghl1" style="border: 1px solid #000;"></td>
+						<td style="border: 1px solid #000;">草牧场面积（亩）</td>
+						<td id="show_cmc1"></td>
+						<td style="border: 1px solid #000;">生产用房面积（㎡）</td>
+						<td id="show_scyf1" style="border: 1px solid #000;"></td>
+					</tr>
+					<tr>
+						<td style="border: 1px solid #000;">林果面积（亩）</td>
+						<td id="show_lgmj1" style="border: 1px solid #000;"></td>
+						<td style="border: 1px solid #000;">水面面积（亩）</td>
+						<td id="show_smmj1" style="border: 1px solid #000;"></td>
+						<td style="border: 1px solid #000;">其他</td>
+						<td id="show_jq_qita1" style="border: 1px solid #000;"></td>
+					</tr>
+					<tr>
+						<td style="border: 1px solid #000;">牲畜数量</td>
+						<td id="show_hz_cssl" colspan="5" style="border: 1px solid #000;"></td>
+					</tr>
+					<tr>
+						<th colspan="6" style="border: 1px solid #000;">生活条件</th>
+					</tr>
+					<tr>
+						<td style="border: 1px solid #000;">住房面积（平方米）</td>
+						<td id="show_zfmj1" style="border: 1px solid #000;"></td>
+						<td style="border: 1px solid #000;">是否危房</td>
+						<td id="show_sfwf1" style="border: 1px solid #000;"></td>
+						<td style="border: 1px solid #000;">是否纳入易地扶贫搬迁</td>
+						<td id="show_ydbq1" style="border: 1px solid #000;"></td>
+					</tr>
+					<tr>
+						<td style="border: 1px solid #000;">饮水情况</td>
+						<td id="show_ysqk1" style="border: 1px solid #000;"></td>
+						<td style="border: 1px solid #000;">饮水是否困难</td>
+						<td id="show_yssfkn1" style="border: 1px solid #000;"></td>
+						<td style="border: 1px solid #000;" >饮水是否安全</td>
+						<td style="border: 1px solid #000;"  id="show_sfysaq1"></td>
+					</tr>
+					<tr>
+						<td style="border: 1px solid #000;" >通电情况</td>
+						<td style="border: 1px solid #000;"  id="show_tdqk1"></td>
+						<td style="border: 1px solid #000;" >入户路类型</td>
+						<td style="border: 1px solid #000;"  id="show_rhllx1"></td>
+						<td style="border: 1px solid #000;" >与主干路距离（公里）</td>
+						<td style="border: 1px solid #000;"  id="show_zgljl1"></td>
+					</tr>
+					<tr>
+						<td style="border: 1px solid #000;" >主要燃料类型</td>
+						<td style="border: 1px solid #000;"  id="show_rllx1"></td>
+						<td style="border: 1px solid #000;" >是否加入农民专业合作社</td>
+						<td style="border: 1px solid #000;"  id="show_sfcjzyh1"></td>
+						<td style="border: 1px solid #000;" >有无卫生厕所</td>
+						<td style="border: 1px solid #000;"  id="show_ywwscs1"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<br><br>
+		<div style="width:756px;height:1150px;">
+			<table style="width:756px;height:181px;border:1px solid black;border-collapse:collapse;">
+				<thead>
+					<tr>
+						<th colspan="8" style="text-align: center;border: 1px solid #000;">家庭成员</th>
+					</tr>
+				</thead>
+				<tbody id="dy_jtcy">
+					<tr>
+						<td style="border: 1px solid #000;"  rowspan="5" colspan="2" id="tx"></td>
+						<td style="border: 1px solid #000;" >姓名</td>
+						<td style="border: 1px solid #000;"  id=""></td>
+						<td style="border: 1px solid #000;" >性别</td>
+						<td style="border: 1px solid #000;"  id=""></td>
+						<td style="border: 1px solid #000;" >汉族</td>
+						<td style="border: 1px solid #000;"  id=""></td>
+					</tr>
+					<tr>
+						<td style="border: 1px solid #000;" >身份证号</td>
+						<td style="border: 1px solid #000;"  id=""></td>
+						<td style="border: 1px solid #000;" >文化程度</td>
+						<td style="border: 1px solid #000;"  id=""></td>
+						<td style="border: 1px solid #000;" >是否在校</td>
+						<td style="border: 1px solid #000;"  id=""></td>
+					</tr>
+					<tr>
+						<td style="border: 1px solid #000;" >健康状况</td>
+						<td style="border: 1px solid #000;"  id=""></td>
+						<td style="border: 1px solid #000;" >劳动力</td>
+						<td style="border: 1px solid #000;"  id=""></td>
+						<td style="border: 1px solid #000;" >新农合</td>
+						<td style="border: 1px solid #000;"  id=""></td>
+					</tr>
+					<tr>
+						<td style="border: 1px solid #000;" >养老保险</td>
+						<td style="border: 1px solid #000;"  id=""></td>
+						<td style="border: 1px solid #000;" >是否现役军人</td>
+						<td style="border: 1px solid #000;"  id=""></td>
+						<td style="border: 1px solid #000;" >政治面貌</td>
+						<td style="border: 1px solid #000;"  id=""></td>
+					</tr>
+					<tr>
+						<td style="border: 1px solid #000;" >务工情况</td>
+						<td style="border: 1px solid #000;"  id=""></td>
+						<td style="border: 1px solid #000;" >务工时间</td>
+						<td style="border: 1px solid #000;"  id=""></td>
+						<td style="border: 1px solid #000;" ></td>
+						<td style="border: 1px solid #000;"  id=""></td>
+						
+					</tr>
+				</tbody>
+			</table>
+			<br>
+			<table style="width:756px;height:181px;border:1px solid black;border-collapse:collapse;">
+			<tbody>
+				<tr>
+					<th style="border: 1px solid #000;"  colspan="4" style="text-align: center;">当前收支分析</th>
+				</tr>
+				<tr>
+					<th style="border: 1px solid #000;"  class="" rowspan="2">年人均纯收入（ 元）</th>
+					<th style="border: 1px solid #000;" colspan="3">年总收入（<code id="show_dqzongsr_1"></code>） - 年总支出 （<code
+							id="show_dqnzzc_1"></code>）= 年纯收入（<code id="show_dqniancsr_1"></code>）
+					</th>
+				</tr>
+				<tr>
+					<th style="border: 1px solid #000;" colspan="3">年纯收入（<code id="show_dqncsr_1"></code>） / 家庭人数 （<code
+							id="show_dqjtrs_1"></code>） = 年人均纯收入（<code id="show_dqnrj_1"></code>）
+					</th>
+				</tr>
+			</tbody>
+		</table>
+		</div>
+		<div style="width:756px;height:1040px;">
+			<table style="width:756px;height:550px;border:1px solid black;border-collapse:collapse;">
+				<tbody>
+					<tr>
+						<th style="border: 1px solid #000;"  colspan="4" style="text-align: center">当前收入情况</th>
+					</tr>
+					<tr>
+						<th style="border: 1px solid #000;"  style="text-align:center;" colspan="2">项目</th>
+						<th style="border: 1px solid #000;"  style="text-align:center;">收入明细</th>
+						<th style="border: 1px solid #000;"  style="text-align:center;">金额（元）</th>
+					</tr>
+					<tr>
+						<th style="border: 1px solid #000;"  style="text-align:center;" rowspan="5">生产经营性收入</th>
+						<th style="border: 1px solid #000;" >农业（水产）</th>
+						<th style="border: 1px solid #000;"  id="show_ny_1"></th>
+						<th style="border: 1px solid #000;"  id="show_ny_je_1"></th>
+					</tr>
+					<tr>
+						<th style="border: 1px solid #000;" >畜牧业</th>
+						<th style="border: 1px solid #000;"  id="show_cmy_1"></th>
+						<th style="border: 1px solid #000;"  id="show_cmy_je_1"></th>
+					</tr>
+					<tr>
+						<th style="border: 1px solid #000;" >林业</th>
+						<th style="border: 1px solid #000;"  id="show_ly_1"></th>
+						<th style="border: 1px solid #000;"  id="show_ly_je_1"></th>
+					</tr>
+					<tr>
+						<th style="border: 1px solid #000;" >其他</th>
+						<th style="border: 1px solid #000;"  id="show_qtsc_1"></th>
+						<th style="border: 1px solid #000;"  id="show_qtsc_je_1"></th>
+					</tr>
+					<tr>
+						<th style="border: 1px solid #000;" >小计</th>
+						<th style="border: 1px solid #000;"  id="show_scxj_1"></th>
+						<th style="border: 1px solid #000;"  id="show_scxj_je_1"></th>
+					</tr>
+					<tr>
+						<th style="border: 1px solid #000;"  style="text-align:center;" rowspan="8">政策性收入</th>
+						<th style="border: 1px solid #000;" >农林牧草、生态等补贴</th>
+						<th style="border: 1px solid #000;"  id="show_zcst_1"></th>
+						<th style="border: 1px solid #000;"  id="show_zcst_je_1"></th>
+					</tr>
+					<tr>
+						<th style="border: 1px solid #000;" >养老金</th>
+						<th style="border: 1px solid #000;"  id="show_yl_1"></th>
+						<th style="border: 1px solid #000;"  id="show_yl_je_1"></th>
+					</tr>
+					<tr>
+						<th style="border: 1px solid #000;" >低保（五保）补贴</th>
+						<th style="border: 1px solid #000;"  id="show_db_1"></th>
+						<th style="border: 1px solid #000;"  id="show_db_je_1"></th>
+					</tr>
+					<tr>
+						<th style="border: 1px solid #000;" >燃煤补贴</th>
+						<th style="border: 1px solid #000;"  id="show_rm_1"></th>
+						<th style="border: 1px solid #000;"  id="show_rm_je_1"></th>
+					</tr>
+					<tr>
+						<th style="border: 1px solid #000;" >五保金</th>
+						<th style="border: 1px solid #000;"  id="show_wbj_1"></th>
+						<th style="border: 1px solid #000;"  id="show_wbj_je_1"></th>
+					</tr>
+					<tr>
+						<th style="border: 1px solid #000;" >计划生育金</th>
+						<th style="border: 1px solid #000;"  id="show_jhsy_1"></th>
+						<th style="border: 1px solid #000;"  id="show_jhsy_je_1"></th>
+					</tr>
+					<tr>
+						<th style="border: 1px solid #000;" >其他</th>
+						<th style="border: 1px solid #000;"  id="show_zcqt_1"></th>
+						<th style="border: 1px solid #000;"  id="show_zcqt_je_1"></th>
+					</tr>
+					<tr>
+						<th style="border: 1px solid #000;" >小计</th>
+						<th style="border: 1px solid #000;"  id="show_zcxj_1"></th>
+						<th style="border: 1px solid #000;"  id="show_zcxj_je_1"></th>
+					</tr>
+					<tr>
+						<th style="text-align:center;" rowspan="2">财产性收入</th>
+						<th style="border: 1px solid #000;" >土地、草牧场流转</th>
+						<th style="border: 1px solid #000;"  id="show_td_1"></th>
+						<th style="border: 1px solid #000;"  id="show_td_je_1"></th>
+					</tr>
+					<tr>
+						<th style="border: 1px solid #000;" >其他</th>
+						<th style="border: 1px solid #000;"  id="show_tdqt_1"></th>
+						<th style="border: 1px solid #000;"  id="show_tdqt_je_1"></th>
+					</tr>
+					<tr>
+						<th style="border: 1px solid #000;"  style="text-align:center;" rowspan="2">工资性收入</th>
+						<th style="border: 1px solid #000;"  id="show_gzxm1_1"></th>
+						<th style="border: 1px solid #000;"  id="show_gzmx1_1"></th>
+						<th style="border: 1px solid #000;"  id="show_gzmx1_je_1"></th>
+					</tr>
+					<tr>
+						<th style="border: 1px solid #000;"  id="show_gzxm2_1"></th>
+						<th style="border: 1px solid #000;"  id="show_gzmx2_1"></th>
+						<th style="border: 1px solid #000;"  id="show_gzmx2_je_1"></th>
+					</tr>
+					<tr>
+						<th style="border: 1px solid #000;"  style="text-align:center;" rowspan="2">其他收入</th>
+						<th style="border: 1px solid #000;"  id="show_qtxm1_1"></th>
+						<th style="border: 1px solid #000;"  id="show_gzqt1_1"></th>
+						<th style="border: 1px solid #000;"  id="show_gzqt1_je_1"></th>
+					</tr>
+					<tr>
+						<th style="border: 1px solid #000;"  id="show_qtxm2_1"></th>
+						<th style="border: 1px solid #000;"  id="show_gzqt2_1"></th>
+						<th style="border: 1px solid #000;"  id="show_gzqt2_je_1"></th>
+					</tr>
+					<tr>
+						<th style="border: 1px solid #000;"  style="text-align:center;" colspan="2">总收入合计</th>
+						<th style="border: 1px solid #000;" ></th>
+						<th style="border: 1px solid #000;"  id="show_srzj_1"></th>
+					</tr>
+				</tbody>
+			</table>
+			<br>
+			<table style="width:756px;height:470px; border:1px solid black;border-collapse:collapse;">
+			<tbody>
+				<tr>
+					<th style="border: 1px solid #000;"  colspan="4" style="text-align: center">当前支出情况</th>
+				</tr>
+				<tr>
+					<th style="border: 1px solid #000;"  style="text-align:center;" colspan="2">项目</th>
+					<th style="border: 1px solid #000;"  style="text-align:center;">支出明细</th>
+					<th style="border: 1px solid #000;"  style="text-align:center;">金额（元）</th>
+				</tr> 
+				<tr>
+					<th style="border: 1px solid #000;"  style="text-align:center;" rowspan="9">生产经营性支出</th>
+					<th style="border: 1px solid #000;" >农资费用</th>
+					<th style="border: 1px solid #000;"  id="show_nzmx_1"></th>
+					<th style="border: 1px solid #000;"  id="show_nzmx_je_1"></th>
+				</tr>
+				<tr>
+					<th style="border: 1px solid #000;" >固定资产折旧和租赁费</th>
+					<th style="border: 1px solid #000;"  id="show_gdzc_1"></th>
+					<th style="border: 1px solid #000;"  id="show_gdzc_je_1"></th>
+				</tr>
+				<tr>
+					<th style="border: 1px solid #000;" >水电燃料支出</th>
+					<th style="border: 1px solid #000;"  id="show_sdrl_1"></th>
+					<th style="border: 1px solid #000;"  id="show_sdrl_je_1"></th>
+				</tr>
+				<tr>
+					<th style="border: 1px solid #000;" >承包土地、草场费用</th>
+					<th style="border: 1px solid #000;"  id="show_cbtd_1"></th>
+					<th style="border: 1px solid #000;"  id="show_cbtd_je_1"></th>
+				</tr>
+				<tr>
+					<th style="border: 1px solid #000;" >饲草料</th>
+					<th style="border: 1px solid #000;"  id="show_scl_1"></th>
+					<th style="border: 1px solid #000;"  id="show_scl_je_1"></th>
+				</tr>
+				<tr>
+					<th style="border: 1px solid #000;" >防疫防治支出</th>
+					<th style="border: 1px solid #000;"  id="show_fyfz_1"></th>
+					<th style="border: 1px solid #000;"  id="show_fyfz_je_1"></th>
+				</tr>
+				<tr>
+					<th style="border: 1px solid #000;" >种（仔）畜</th>
+					<th style="border: 1px solid #000;"  id="show_zzc_1"></th>
+					<th style="border: 1px solid #000;"  id="show_zzc_je_1"></th>
+				</tr>
+				<tr>
+					<th style="border: 1px solid #000;" >销售费用和通讯费用</th>
+					<th style="border: 1px solid #000;"  id="show_xstx_1"></th>
+					<th style="border: 1px solid #000;"  id="show_xstx_je_1"></th>
+				</tr>
+				<tr>
+					<th style="border: 1px solid #000;" >借贷</th>
+					<th style="border: 1px solid #000;"  id="show_dk_1"></th>
+					<th style="border: 1px solid #000;"  id="show_dk_je_1"></th>
+				</tr>
+				<tr>
+					<th style="border: 1px solid #000;"  style="text-align:center;" rowspan="2">政策性支出</th>
+					<th style="border: 1px solid #000;"  id="show_zczcxm1_1"></th>
+					<th style="border: 1px solid #000;"  id="show_zcmx_1"></th>
+					<th style="border: 1px solid #000;"  id="show_zcmx_je_1"></th>
+				</tr>
+				<tr>
+					<th style="border: 1px solid #000;"  id="show_zczcxm2_1"></th>
+					<th style="border: 1px solid #000;"  id="show_zcmx2_1"></th>
+					<th style="border: 1px solid #000;"  id="show_zcmx2_je_1"></th>
+				</tr>
+				<tr>
+					<th style="border: 1px solid #000;text-align:center;"   rowspan="2">其他支出</th>
+					<th style="border: 1px solid #000;"  id="show_zcqtxm1_1"></th>
+					<th style="border: 1px solid #000;"  id="show_zcqtxmmx1_1"></th>
+					<th style="border: 1px solid #000;"  id="show_zcqtxm1_je_1"></th>
+				</tr>
+				<tr>
+					<th style="border: 1px solid #000;"  id="show_zcqtxm2_1"></th>
+					<th style="border: 1px solid #000;"  id="show_zcqtxmmx2_1"></th>
+					<th style="border: 1px solid #000;"  id="show_zcqtxm2_je_1"></th>
+				</tr>
+				<tr>
+					<th style="border: 1px solid #000;text-align:center;" colspan="2">总支出合计</th>
+					<th style="border: 1px solid #000;" ></th>
+					<th style="border: 1px solid #000;"  id="show_zongzc_1"></th>
+				</tr>
+			</tbody>
+		</table>
+		</div>
+		<br>
+		<div  style="width:756px;height:1100px;">
+			<div>
+				<table  style="width:756px;height:500px;border:1px solid black;border-collapse:collapse;">
+					<tbody id="dy_dwzrr">
+					</tbody>
+				</table>
+			</div>
+			<br>
+			<table>
+				<thead>
+					<tr>
+						<th style="border: 1px solid #000;"  colspan="4">帮扶人走访情况记录</th>
+					</tr>
+				</thead>
+				<tbody id="dy_zfjl">
+				</tbody>
+			</table>
+		</div>
+		<br>
+		<div style="width:756px;height:1120px;">
+			<table style="width:754px;height:200px;border:1px solid black;border-collapse:collapse;">
+				<thead>
+					<tr>
+						<th style="border: 1px solid #000;"  colspan="4">帮扶成效</th>
+					</tr>
+				</thead>
+				<tbody id="dy_bfcx">
+				</tbody>
+			</table>
+			<br>
+			<table style="width:756px;height:500px;" >
+				<tbody id="dy_bfcs11">
+	
+				</tbody>
+			</table>
+		</div>
+		<br>
+		<div style="width:756px;height:1080px;">
+			<table style="width:756px;height:140px;border:1px solid black;border-collapse:collapse;">
+				<tbody>
+					<tr>
+						<th style="border: 1px solid #000;text-align: center"  colspan="4">帮扶后收支分析</th>
+					</tr>
+					<tr>
+						<th style="border: 1px solid #000;"  rowspan="2">年人均纯收入（ 元）</th>
+						<th style="border: 1px solid #000;"  colspan="3">年总收入（<code id="show_hdqzongsr_1"></code>） - 年总支出 （<code
+								id="show_hdqnzzc_1"></code>）= 年纯收入（<code
+								id="show_hdqniancsr_1"></code>）
+						</th>
+					</tr>
+					<tr>
+						<th style="border: 1px solid #000;"  colspan="3">年纯收入（<code id="show_hdqncsr_1"></code>） / 家庭人数 （<code
+								id="show_hdqjtrs_1"></code>） = 年人均纯收入（<code id="show_hdqnrj_1"></code>）
+						</th>
+					</tr>
+				</tbody>
+			</table>
+			<br>
+			<table style="width:756px;height:470px;border:1px solid black;border-collapse:collapse;">
+				<thead>
+					<tr>
+						<th style="border: 1px solid #000;"  colspan="4" style="text-align: center">帮扶后收入情况</th>
+					</tr>
+					<tr>
+						<th style="text-align:center;border: 1px solid #000;" colspan="2">项目</th>
+						<th style="text-align:center;border: 1px solid #000;">收入明细</th>
+						<th style="text-align:center;border: 1px solid #000;">金额（元）</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th style="border: 1px solid #000;"  style="text-align:center;" rowspan="5">生产经营性收入</th>
+						<th style="border: 1px solid #000;" >农业（水产）</th>
+						<th style="border: 1px solid #000;"  id="show_hny_1"></th>
+						<th style="border: 1px solid #000;"  id="show_hny_je_1"></th>
+					</tr>
+					<tr>
+						<th style="border: 1px solid #000;" >畜牧业</th>
+						<th style="border: 1px solid #000;"  id="show_hcmy_1"></th>
+						<th style="border: 1px solid #000;"  id="show_hcmy_je_1"></th>
+					</tr>
+					<tr>
+						<th style="border: 1px solid #000;" >林业</th>
+						<th style="border: 1px solid #000;"  id="show_hly_1"></th>
+						<th style="border: 1px solid #000;"  id="show_hly_je_1"></th>
+					</tr>
+					<tr>
+						<th style="border: 1px solid #000;" >其他</th>
+						<th style="border: 1px solid #000;"  id="show_hqtsc_1"></th>
+						<th style="border: 1px solid #000;"  id="show_hqtsc_je_1"></th>
+					</tr>
+					<tr>
+						<th style="border: 1px solid #000;" >小计</th>
+						<th style="border: 1px solid #000;"  id="show_hscxj_1"></th>
+						<th style="border: 1px solid #000;"  id="show_hscxj_je_1"></th>
+					</tr>
+					<tr>
+						<th style="text-align:center;border: 1px solid #000;" rowspan="6">政策性收入</th>
+						<th style="border: 1px solid #000;" >农林牧草、生态等补贴</th>
+						<th style="border: 1px solid #000;"  id="show_hzcst_1"></th>
+						<th style="border: 1px solid #000;"  id="show_hzcst_je_1"></th>
+					</tr>
+					<tr>
+						<th style="border: 1px solid #000;" >养老金</th>
+						<th style="border: 1px solid #000;"  id="show_hyl_1"></th>
+						<th style="border: 1px solid #000;"  id="show_hyl_je_1"></th>
+					</tr>
+					<tr>
+						<th style="border: 1px solid #000;" >低保（五保）补贴</th>
+						<th style="border: 1px solid #000;"  id="show_hdb_1"></th>
+						<th style="border: 1px solid #000;"  id="show_hdb_je_1"></th>
+					</tr>
+					<tr>
+						<th style="border: 1px solid #000;" >燃煤补贴</th>
+						<th style="border: 1px solid #000;"  id="show_hrm_1"></th>
+						<th style="border: 1px solid #000;"  id="show_hrm_je_1"></th>
+					</tr>
+					<tr>
+						<th style="border: 1px solid #000;" >其他</th>
+						<th style="border: 1px solid #000;"  id="show_hzcqt_1"></th>
+						<th style="border: 1px solid #000;"  id="show_hzcqt_je"></th>
+					</tr>
+					<tr>
+						<th style="border: 1px solid #000;" >小计</th>
+						<th style="border: 1px solid #000;"  id="show_hzcxj_1"></th>
+						<th style="border: 1px solid #000;"  id="show_hzcxj_je_1"></th>
+					</tr>
+					<tr>
+						<th style="text-align:center;border: 1px solid #000;" rowspan="2">财产性收入</th>
+						<th style="border: 1px solid #000;" >土地、草牧场流转</th>
+						<th style="border: 1px solid #000;"  id="show_htd_1"></th>
+						<th style="border: 1px solid #000;"  id="show_htd_je_1"></th>
+					</tr>
+					<tr>
+						<th style="border: 1px solid #000;" >其他</th>
+						<th style="border: 1px solid #000;"  id="show_htdqt_1"></th>
+						<th style="border: 1px solid #000;"  id="show_htdqt_je_1"></th>
+					</tr>
+					<tr>
+						<th style="border: 1px solid #000;"  style="text-align:center;" rowspan="2">工资性收入</th>
+						<th style="border: 1px solid #000;"  id="show_hgzxm1_1"></th>
+						<th style="border: 1px solid #000;"  id="show_hgzmx1_1"></th>
+						<th style="border: 1px solid #000;"  id="show_hgzmx1_je_1"></th>
+					</tr>
+					<tr>
+						<th style="border: 1px solid #000;"  id="show_hgzxm2_1"></th>
+						<th style="border: 1px solid #000;"  id="show_hgzmx2_1"></th>
+						<th style="border: 1px solid #000;"  id="show_hgzmx2_je_1"></th>
+					</tr>
+					<tr>
+						<th style="border: 1px solid #000;text-align:center;" rowspan="2">其他收入</th>
+						<th style="border: 1px solid #000;"  id="show_hqtxm1"></th>
+						<th style="border: 1px solid #000;"  id="show_hgzqt1"></th>
+						<th style="border: 1px solid #000;"  id="show_hgzqt1_je_1"></th>
+					</tr>
+					<tr>
+						<th style="border: 1px solid #000;"  id="show_hqtxm2_1"></th>
+						<th style="border: 1px solid #000;"  id="show_hgzqt2_1"></th>
+						<th style="border: 1px solid #000;" id="show_hgzqt2_je_1"></th>
+					</tr>
+					<tr>
+						<th style="border: 1px solid #000;text-align:center;"  colspan="2">总收入合计</th>
+						<th style="border: 1px solid #000;" ></th>
+						<th style="border: 1px solid #000;"  id="show_hsrzj_1"></th>
+					</tr>
+					<tr>
+	
+					</tr>
+				</tbody>
+			</table>
+			<br>
+			<table style="width:756px;height:410px;border:1px solid black;border-collapse:collapse;">
+				<thead>
+					<tr>
+						<th colspan="4" style="text-align: center;border: 1px solid #000;">帮扶后支出情况</th>
+					</tr>
+					<tr>
+						<th style="text-align:center;border: 1px solid #000;" colspan="2">项目</th>
+						<th style="text-align:center;border: 1px solid #000;">支出明细</th>
+						<th style="text-align:center;border: 1px solid #000;">金额（元）</th>
+					</tr>
+				</thead>
+			<tbody>
+				<tr>
+					<th style="text-align:center;border: 1px solid #000;" rowspan="9">生产经营性支出</th>
+					<th style="border: 1px solid #000;" >农资费用</th>
+					<th style="border: 1px solid #000;"  id="show_hnzmx_1"></th>
+					<th style="border: 1px solid #000;"  id="show_hnzmx_je_1"></th>
+				</tr>
+				<tr>
+					<th style="border: 1px solid #000;" >固定资产折旧和租赁费</th>
+					<th style="border: 1px solid #000;"  id="show_hgdzc_1"></th>
+					<th style="border: 1px solid #000;"  id="show_hgdzc_je_1"></th>
+				</tr>
+				<tr>
+					<th style="border: 1px solid #000;" >水电燃料支出</th>
+					<th style="border: 1px solid #000;"  id="show_hsdrl_1"></th>
+					<th style="border: 1px solid #000;"  id="show_hsdrl_je_1"></th>
+				</tr>
+				<tr>
+					<th style="border: 1px solid #000;" >承包土地、草场费用</th>
+					<th style="border: 1px solid #000;"  id="show_hcbtd_1"></th>
+					<th style="border: 1px solid #000;"  id="show_hcbtd_je_1"></th>
+				</tr>
+				<tr>
+					<th style="border: 1px solid #000;" >饲草料</th>
+					<th style="border: 1px solid #000;"  id="show_hscl_1"></th>
+					<th style="border: 1px solid #000;"  id="show_hscl_je_1"></th>
+				</tr>
+				<tr>
+					<th style="border: 1px solid #000;" >防疫防治支出</th>
+					<th style="border: 1px solid #000;"  id="show_hfyfz_1"></th>
+					<th style="border: 1px solid #000;"  id="show_hfyfz_je_1"></th>
+				</tr>
+				<tr>
+					<th style="border: 1px solid #000;" >种（仔）畜</th>
+					<th style="border: 1px solid #000;"  id="show_hzzc_1"></th>
+					<th style="border: 1px solid #000;"  id="show_hzzc_je_1"></th>
+				</tr>
+				<tr>
+					<th style="border: 1px solid #000;" >销售费用和通讯费用</th>
+					<th style="border: 1px solid #000;"  id="show_hxstx_1"></th>
+					<th style="border: 1px solid #000;"  id="show_hxstx_je_1"></th>
+				</tr>
+				<tr>
+					<th style="border: 1px solid #000;" >借贷</th>
+					<th style="border: 1px solid #000;"  id="show_hdk_1"></th>
+					<th style="border: 1px solid #000;"  id="show_hdk_je_1"></th>
+				</tr>
+				<tr>
+					<th style="text-align:center;border: 1px solid #000;" rowspan="2">政策性支出</th>
+					<th style="border: 1px solid #000;"  id="show_hzczcxm1_1"></th>
+					<th style="border: 1px solid #000;"  id="show_hzcmx_1"></th>
+					<th style="border: 1px solid #000;"  id="show_hzcmx_je_1"></th>
+				</tr>
+				<tr>
+					<th style="border: 1px solid #000;"  id="show_hzczcxm2_1"></th>
+					<th style="border: 1px solid #000;"  id="show_hzcmx2_1"></th>
+					<th style="border: 1px solid #000;"  id="show_hzcmx2_je_1"></th>
+				</tr>
+				<tr>
+					<th style="text-align:center;border: 1px solid #000;" rowspan="2">其他支出</th>
+					<th style="border: 1px solid #000;"  id="show_hzcqtxm1_1"></th>
+					<th style="border: 1px solid #000;"  id="show_hzcqtxmmx1_1"></th>
+					<th style="border: 1px solid #000;"  id="show_hzcqtxm1_je_1"></th>
+				</tr>
+				<tr>
+					<th style="border: 1px solid #000;"  id="show_hzcqtxm2_1"></th>
+					<th style="border: 1px solid #000;"  id="show_hzcqtxmmx2_1"></th>
+					<th style="border: 1px solid #000;"  id="show_hzcqtxm2_je_1"></th>
+				</tr>
+				<tr>
+					<th style="text-align:center;border: 1px solid #000;" colspan="2">总支出合计</th>
+					<th style="border: 1px solid #000;" ></th>
+					<th style="border: 1px solid #000;"  id="show_hzongzc_1"></th>
+				</tr>
+			</tbody>
+		</table>
+		</div>
+		<br>
+		<div  style="width:756px;">
+			<table id="dy_ydbq" style="display:none;border:1px solid black;border-collapse:collapse;">
+				<tbody>
+					<tr>
+						<th colspan="6" style="text-align: center;border: 1px solid #000;">易地搬迁</th>
+					</tr>
+					<tr>
+						<td style="border: 1px solid #000;" >搬迁方式</td>
+						<td style="border: 1px solid #000;"  id="yd_bqfs_1"></td>
+						<td style="border: 1px solid #000;" >安置方式</td>
+						<td style="border: 1px solid #000;"  id="yd_azfs_1"></td>
+						<td style="border: 1px solid #000;" >安置地</td>
+						<td style="border: 1px solid #000;"  id="yd_azd_1"></td>
+					</tr>
+					<tr>
+						<td style="border: 1px solid #000;" >可能存在的困难</td>
+						<td style="border: 1px solid #000;"  id="yd_kn_1"></td>
+						<td style="border: 1px solid #000;" >分散安置类型</td>
+						<td style="border: 1px solid #000;"  id="yd_lx_1"></td>
+						<td style="border: 1px solid #000;" ></td>
+						<td style="border: 1px solid #000;" ></td>
+					</tr>
+					<tr style="display:none;" id="dy_bqfyd">
+						<td style="border: 1px solid #000;" >房源地</td>
+						<td style="border: 1px solid #000;"  id="yd_fyd_1"></td>
+						<td style="border: 1px solid #000;" >房价</td>
+						<td style="border: 1px solid #000;"  id="yd_fj_1"></td>
+						<td style="border: 1px solid #000;" >与用工企业签订就业安置协议</td>
+						<td style="border: 1px solid #000;"  id="yd_xy_1"></td>
+					</tr>
+				</tbody>
+			</table>
+			<br>
+			<table id="dy_ydbp_photo" style="">
+				<tbody>
+					<tr>
+						<th colspan="3" style="text-align: center;border: 1px solid #000;">易地搬迁图片</th>
+					</tr>
+					<tr>
+						<td style="border: 1px solid #000;"  rowspan="6" colspan="3"></td>
+					</tr>
+				</tbody>
+			</table>
+        </div>
+    </div>
+	<script src="js/Include.js"></script>
+	<script>
+		loadSMLibs("2-2");
+	</script>	
+  </body>
+</html>

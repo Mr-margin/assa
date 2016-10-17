@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gistone.mybatis.inter.GetBySqlMapper">
+  <!-- 参数改为原始sql语句 -->
+  <select id="findRecords" parameterType="SQLAdapter" resultType="hashmap">
+    ${sql}  
+  </select>
+ <select id="findrows" parameterType="SQLAdapter" resultType="int">
+    ${sql}  
+  </select>
+  <insert id="insertSelective" parameterType="SQLAdapter">
+    ${sql}
+  </insert>
+  <insert id="updateSelective" parameterType="SQLAdapter">
+    ${sql}
+  </insert>
+  <insert id="deleteSelective" parameterType="SQLAdapter">
+    ${sql}
+  </insert>
+		
+</mapper>

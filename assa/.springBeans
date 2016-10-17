@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beansProjectDescription>
+	<version>1</version>
+	<pluginVersion><![CDATA[3.6.2.me201505141600]]></pluginVersion>
+	<configSuffixes>
+		<configSuffix><![CDATA[xml]]></configSuffix>
+	</configSuffixes>
+	<enableImports><![CDATA[false]]></enableImports>
+	<configs>
+		<config>WebRoot/WEB-INF/applicationContext.xml</config>
+	</configs>
+	<autoconfigs>
+		<config>WebRoot/WEB-INF/applicationContext_zxx.xml</config>
+		<config>WebRoot/WEB-INF/applicationContext_lyl.xml</config>
+		<config>WebRoot/WEB-INF/applicationContext_chendong.xml</config>
+	</autoconfigs>
+	<configSets>
+	</configSets>
+</beansProjectDescription>
