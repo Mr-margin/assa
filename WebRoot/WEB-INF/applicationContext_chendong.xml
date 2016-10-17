@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                        http://www.springframework.org/schema/aop
+                        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+
+	<bean id="simpleUrlHandlerMapping_chendong" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="mappings">
+			<props>
+				<!-- 帮扶人的初始化 -->
+				<prop key="getAssistUsder_List.do">AssistContriller</prop>
+				<!-- 添加帮扶人 -->
+				<prop key="getAddAssistController.do">AssistContriller</prop>
+				<!-- 获取帮扶人的信息 -->
+				<prop key="getUpdateSave.do">AssistContriller</prop>
+				<!-- 删除帮扶人 -->
+				<prop key="getDeleteBfr.do">AssistContriller</prop>
+				
+				
+				<!-- 获取帮扶单位 -->
+				<prop key="get_bangfudanwei_h5.do">AssistContriller</prop>
+				
+				<!-- 行政区划的初始化 -->
+				<prop key="getExecutive.do">ExecutiveController</prop>
+				<!-- 显示苏木乡 -->
+				<prop key="getSaveXiangController.do">ExecutiveController</prop>
+				<!-- 显示嘎查村 -->
+				<prop key="getSaveCunController.do">ExecutiveController</prop>
+				<!-- 添加嘎查村 -->
+				<prop key="getAddXzqhController.do">ExecutiveController</prop>
+				<!-- 修改行政编码 -->
+				<prop key="getUpdateBmController.do">ExecutiveController</prop>
+				
+				
+				<!-- 嘎查村初始化 -->
+				<prop key="getGachacunController.do">GachacunController</prop>
+				<!-- 添加嘎查村 -->
+				<prop key="getAddGRController.do">GachacunController</prop>
+				<!--获取嘎查村信息 -->
+				<prop key="getUpdateSaveFzr.do">GachacunController</prop>
+				<!-- 修改嘎查村信息 -->
+				<prop key="getUpDateFzrController.do">GachacunController</prop>
+				<!-- 删除嘎查村 -->
+				<prop key="getDeleteFzrController.do">GachacunController</prop>
+				
+				
+				
+				<!-- 获取贫困户表格数据 -->
+				<prop key="getPoorUserController.do">PoorUserController</prop>
+				<!-- 读取基本信息 -->
+				<prop key="getUpdateSavePoor.do">PoorUserController</prop>
+				<!-- 保存户主信息 -->
+				<prop key="getSavehuzhu.do">PoorUserController</prop>
+				<!-- 保存家庭成员信息 -->
+				<prop key="getSavejiating.do">PoorUserController</prop>
+				<!-- 保存生产 -->
+				<prop key="getSaveshengchan.do">PoorUserController</prop>
+				<!-- 保存生活 -->
+				<prop key="getSaveshenghuo.do">PoorUserController</prop>
+				<!-- 读取当前收入与支出 -->
+				<prop key="getCurrent_info.do">PoorUserController</prop>
+				<!-- 保存收入 -->
+				<prop key="getSaves_shouru.do">PoorUserController</prop>
+				<!-- 保存支出 -->
+				<prop key="getSaves_zhichu.do">PoorUserController</prop>
+				<!-- 读取帮扶责任人 -->
+				<prop key="getPersonal.do">PoorUserController</prop>
+				<!-- 保存帮扶责任人 -->
+				<prop key="getSave_Personal.do">PoorUserController</prop>
+				<!-- 删除帮扶责任人 -->
+				<prop key="getDel_Personal.do">PoorUserController</prop>
+				<!-- 保存帮扶计划 -->
+				<prop key="getSave_Mubiao.do">PoorUserController</prop>
+				<!-- 保存脱贫计划 -->
+				<prop key="getSave_Jihua.do">PoorUserController</prop>
+				<!-- 根据户主ID获取帮扶责任人列表 -->
+				<prop key="getPersonal_household.do">PoorUserController</prop>
+				<!-- 获取帮扶措施表格和图片数据 -->
+				<prop key="getcuoshi_info.do">PoorUserController</prop>
+				
+				<!-- 获取台账帮扶措施记录 -->
+				<prop key="getcuoshi_tz_info.do">PoorUserController</prop>
+				<!-- 获取台账未使用的帮扶措施条目 -->
+				<prop key="get_tz_cuoshi_tiaomu.do">PoorUserController</prop>
+				<!-- 保存台账帮扶措施 -->
+				<prop key="getSave_tz_cuoshi.do">PoorUserController</prop>
+				<!-- 修改台账帮扶措施 -->
+				<prop key="getUpdate_tz_cuoshi.do">PoorUserController</prop>
+				<!-- 删除台账帮扶措施 -->
+				<prop key="getdel_tz_cuoshi.do">PoorUserController</prop>
+				
+				<!-- 保存文字信息 -->
+				<prop key="getSave_cuoshi.do">PoorUserController</prop>
+				<!-- 修改文字信息 -->
+				<prop key="getUpdate_cuoshi.do">PoorUserController</prop>
+				<!-- 删除文字信息 -->
+				<prop key="getdel_cuoshi.do">PoorUserController</prop>
+				
+				<!-- 获取图片信息 -->
+				<prop key="getPic_info.do">PoorUserController</prop>
+				<!-- 删除图片信息 -->
+				<prop key="getdel_poth.do">PoorUserController</prop>
+				<!-- 图片上传 -->
+				<prop key="getImg_load.do">PoorUserController</prop>
+				
+				<!-- 上传户主与家庭成员照片 -->
+				<prop key="ImportData.do">PoorUserController</prop>
+				<!-- 添加新的贫困户 -->
+				<prop key="getAddHu.do">PoorUserController</prop>
+				<!-- 删除现有贫困户 -->
+				<prop key="getDelHu.do">PoorUserController</prop>
+				<!-- 保存新的家庭成员 -->
+				<prop key="getSaveNewjiating.do">PoorUserController</prop>
+				<!-- 删除家庭成员 -->
+				<prop key="getDelJiatingchengyuan.do">PoorUserController</prop>
+				<!-- 易地扶贫搬迁保存 -->
+				<prop key="getSaveYidifupinbanqian.do">PoorUserController</prop>
+				
+				
+				<!-- 贫困户的信息查询初始化 -->
+				<prop key="getPoorMessageController.do">PoorMessageController</prop>
+				<!-- 贫困户详细信息 -->
+				<prop key="getPoorDetailController.do">PoorMessageController</prop>
+				<!-- 获取所有的旗县 -->
+				<prop key="getSaveQixianController.do">PoorMessageController</prop>
+				<!-- 获取所有的苏木乡 -->
+				<prop key="getXiangController.do">PoorMessageController</prop>
+				<!-- 获取所有的苏木乡 -->
+				<prop key="getXiangController_id.do">PoorMessageController</prop>
+				
+				<!-- 获取所有的嘎查村 -->
+				<prop key="getCunController.do">PoorMessageController</prop>
+				<!-- 走访、措施、成效，时间轴更新读取 -->
+				<prop key="getZaiXiangGengXinController.do">PoorMessageController</prop>
+				<prop key="getExporExcel.do">PoorMessageController</prop>
+				
+				<!-- 权限 -->
+				<prop key="getSaveRoleController.do">RoleController</prop>
+				<!-- 表格查看的内容 -->
+				<prop key="getSaveChakanController.do">RoleController</prop>
+				
+				<!-- 维护开关 -->
+				<prop key="getOpenRoleController.do">MaintainController</prop>
+				<!-- 维护开关的初始化 -->
+				<prop key="getSaveMaintainController.do">MaintainController</prop>
+				
+				<!-- 获取行政区划树节点 -->
+				<prop key="getTreeData.do">yidiController</prop>
+				<!-- 获取易地搬迁数据 -->
+				<prop key="getydbqData.do">yidiController</prop>
+				<!-- 保存数据 -->
+				<prop key="upydbqdata.do">yidiController</prop>
+				
+				<!-- 数据统计模块获取行政区划树节点 -->
+				<prop key="get_tj_TreeData.do">yidiController</prop>
+				
+				<!-- 查看台账信息 -->
+				<prop key="getStandingBookController.do">standingBookController</prop>
+				<!-- 年度台账查询 -->
+				<prop key="getStandingController.do">standingBookController</prop>
+				
+				<!-- 导出excel -->
+				<prop key="exportExcel.do">standingBookController</prop>
+				
+				<!-- 导出全部数据  基本信息-->
+ 				<prop key="exportExcel_all.do">standingBookController</prop>
+ 				<!-- 导出家庭成员 -->
+ 				<prop key="exportExcel_all1.do">standingBookController</prop>
+ 				<!-- 导出当前收支 -->
+ 				<prop key="exportExcel_all2.do">standingBookController</prop>
+ 				<!-- 导出帮扶单位和责任人 -->
+ 				<prop key="exportExcel_all3.do">standingBookController</prop>
+ 				<!-- 导出走访记录 帮扶措施 -->
+ 				<prop key="exportExcel_all4.do">standingBookController</prop>
+ 				<!-- 导出帮扶成效 -->
+ 				<prop key="exportExcel_all5.do">standingBookController</prop>
+ 				
+ 				
+				
+				<!-- 日志首页 -->
+				<prop key="getRecordController.do">recordCOntroller</prop>
+				
+			</props>
+		</property>
+	 </bean>
+	 <bean id="AssistContriller" class="com.gistone.servlet.AssistController" />
+	 <bean id="ExecutiveController" class="com.gistone.servlet.ExecutiveController" />
+	 <bean id="GachacunController" class="com.gistone.servlet.GachacunController" />
+	 <bean id="PoorUserController" class="com.gistone.servlet.PoorUserController" />
+	 <bean id="PoorMessageController" class="com.gistone.servlet.PoorMessageController" />
+	 <bean id="RoleController" class="com.gistone.servlet.RoleController" />
+	 <bean id="MaintainController" class="com.gistone.servlet.MaintainController" />
+	 <bean id="yidiController" class="com.gistone.servlet.YidiController" />
+	 <bean id="standingBookController" class="com.gistone.servlet.StandingBookController" />
+	 <bean id="recordCOntroller" class="com.gistone.servlet.RecordController" />
+</beans>

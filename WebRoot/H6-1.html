@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+	<meta http-equiv="Expires" content="0">
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" CONTENT="no-cache, must-revalidate"> 
+	<meta http-equiv="Cache-Control" content="no-siteapp" />
+	<meta http-equiv="Cache" content="no-cache">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="renderer" content="webkit">
+	<title>鄂尔多斯精准扶贫大数据管理平台</title>
+
+    <!--[if lt IE 8]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+    
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="css/bootstrap.min.css?v=3.3.5" rel="stylesheet" media="screen">
+    <link href="css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="css/animate.min.css" rel="stylesheet">
+    <link href="css/style.min.css?v=4.0.0" rel="stylesheet">
+    
+    <link href="css/table/table.css" rel="stylesheet">
+    
+    <link href="css/plugins/blueimp/css/blueimp-gallery.min.css" rel="stylesheet">
+    <link href="css/plugins/iCheck/custom.css" rel="stylesheet">
+	<link href="css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+	<link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
+	<link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+	<link type="text/css" rel="stylesheet" href="css/style.css" />
+    <base target="_blank">
+	<style>
+		.c_red {
+			font-size: 13px;
+			background-color: #FFF;
+			color: red;
+			font-weight: bold;
+		}
+		.c_green {
+			font-size: 13px;
+			background-color: #FFF;
+			color: #1ab394;
+			font-weight: bold;
+		}
+	</style>
+  </head>
+  
+  <body class="gray-bg top-navigation">
+
+<div id="wrapper">
+        <div id="page-wrapper" class="gray-bg">
+        
+        	<!-- 头部菜单 -->
+            <div class="row border-bottom white-bg">
+                <nav class="navbar navbar-static-top" role="navigation">
+                    <div class="navbar-header">
+                        <span><img alt="image" class="img" src="img/logo_1.png" /></span>
+                    </div>
+                    <div class="navbar-collapse collapse" id="navbar">
+                        <ul class="nav navbar-nav navbar-right">
+                        	<li class="dropdown">
+                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown" id="in"> 扶贫概况</a>
+                            </li>
+                            <li class="dropdown" id="H_li" style="display:none;">
+                            	<a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> 扶贫手册 <span class="caret"></span></a>
+                            	<ul role="menu" class="dropdown-menu">
+                            		<li id="H1_li" style="display:none;"><a id="H1">扶贫手册录入</a></li>
+                            		<li id="H2_li" style="display:none;"><a id="H2">帮扶信息查询</a></li>
+                            		<li id="H2_1_li" style="display:none;" ><a id="H2_1">工作台账</a></li>
+                            	</ul>
+                            </li>
+                            
+                            <li class="dropdown" id="H7_li" style="display:none;">
+                            	<a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> 易地扶贫搬迁 <span class="caret"></span></a>
+                            	<ul role="menu" class="dropdown-menu">
+                            		<li id="H7-1_li" style="display:none;"><a id="H7-1">安置点维护</a></li>
+                            		<li id="H7-2_li" style="display:none;"><a id="H7-2">工程进度统计</a></li>
+                            	</ul>
+                            </li>
+                            
+                            <!-- <li class="dropdown" id="H1_li" style="display:none;">
+                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown" id="H1"> 扶贫手册录入 </a>
+                            </li>
+                            <li class="dropdown" id="H2_li" style="display:none">
+                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown" id="H2"> 帮扶信息查询 </a>
+                            </li> -->
+                            
+                            <li class="dropdown" id="H3_li" style="display:none">
+                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown" id="H3-2"> 挂图作战 </a>
+                            </li>
+                            
+                            <!--  <li class="dropdown" id="H3_li" style="display:none;">
+                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> 统计分析<span class="caret"></span></a>
+                                <ul role="menu" class="dropdown-menu">
+                                    <li id="H3-1_li" style="display:none;"><a id="H3-1">综合查询</a></li>
+                                    <li id="H3-2_li" style="display:none;"><a id="H3-2">统计汇总</a></li>
+                                </ul>
+                            </li> -->
+                            
+                            <li class="dropdown" id="H4_li" style="display:none;">
+                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown" id="H4"> 识别与退出 </a>
+                            </li>
+                            <li class="active" id="H5_li" style="display:none;">
+                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> 系统管理 <span class="caret"></span></a>
+                                <ul role="menu" class="dropdown-menu">
+                                    <li id="H5-1_li" style="display:none;"><a id="H5-1">帮扶干部维护</a></li>
+                                    <li id="H5-4_li" style="display:none;"><a id="H5-3">帮扶单位维护</a></li>
+                                    <li id="H5-2_li" style="display:none;"><a id="H6-1">账号查询</a></li>
+                                    <li id="H5-3_li" style="display:none;"><a id="H5-2">维护控制</a></li>
+                                    <li id="H8_li" style="display:none;"><a id="H8">系统查看</a></li>
+                                    <li id="H9_li" style="display:none;"><a id="H9">数据统计</a></li>
+                                    <li id="H10_li" style="display:none;"><a id="H10">查询录入情况</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown" id="yonghuxiangguan"></li>
+                        </ul>
+                    </div>
+                </nav>
+            </div><!-- 头部菜单 -->
+            
+            
+			<!-- 中间部分 -->           
+            <div id="show-content" class="wrapper wrapper-content">
+                <div class="container">
+                    
+                    <!-- 第二行表格加地图 -->
+                    <div class="row"  id="shang_yi">
+	                    
+				    	<div class="ibox float-e-margins"><!-- 外层面板 -->
+				    		<div class="ibox-content"><!-- 面板内容 -->
+				    			<div class="row">
+				    				<div class="col-sm-12">
+					   					<div class="ibox panel panel-success border-bottom">
+					   						<div class="ibox-title panel-heading">
+					    						<h5 id="chauxnshiousuo_title">查询条件</h5>
+					    						<div class="ibox-tools">
+					    							<a class="collapse-link" id="chauxnshiousuo">
+								                        <i class="fa fa-chevron-down"></i><strong id="title_tle">展开</strong>
+								                    </a>
+								                </div>
+					    					</div>
+					    					<div class="ibox-content panel-body" style="display: none;">
+					    						<form class="form-horizontal" id="cha_Form">
+					    							<div class="form-group">
+					    							
+					    								<div class="col-sm-4">
+					    									<label class="col-sm-5 control-label" style="text-align:right;">嘎查村负责人</label>
+									                      	<div class="col-sm-7">
+									                         	<input type="text" placeholder="嘎查村负责人" class="form-control " id="cha_gcc_fzr" name="cha_gcc_fzr">
+									                      	</div>
+					    								</div>
+					    								
+					    								<div class="col-sm-4">
+					    									<label class="col-sm-6 control-label" style="text-align:right;">嘎查村负责人电话</label>
+									                      	<div class="col-sm-6">
+									                         	<input type="text" placeholder="嘎查村负责人电话" class="form-control" id="cha_gcc_phone" name="cha_gcc_phone">
+									                      	</div>
+					    								</div>
+					    								
+					    								<div class="col-sm-4">
+					    									<label class="col-sm-4 control-label" style="text-align:right;">嘎查村</label>
+									                      	<div class="col-sm-8">
+									                         	<input type="text" placeholder="嘎查村" class="form-control" id="cha_gcc_cun" name="cha_gcc_cun">
+									                      	</div>
+					    								</div>
+					    								
+					    							</div>
+					    							
+					    							<div class="form-group">
+					    							<div class="col-sm-4" style="float:right;">
+															<div class="col-sm-3"></div>
+															<div class="col-sm-9">
+																<button type="button" class="btn btn-primary" id="cha_button" name="cha_button" >
+																	<i class="fa fa-search"></i>&nbsp;&nbsp;<span class="bold">查询</span>
+																</button>
+																<button type="button" class="btn btn-outline btn-warning pull-right" id="close_cha_button" name="close_cha_button" style="margin-right:50px;">
+																	<i class="fa fa-remove"></i>&nbsp;&nbsp;<span class="bold">清空</span>
+																</button>
+															</div>
+														</div>
+					    							</div>
+					                            </form>
+					    					</div>
+					    				</div>
+					    			</div>
+				    			</div>
+				    			
+				    			
+				    			
+				       <div class="row row-lg">
+	                	<div class="col-sm-12">
+	                		<div class="example-wrap">
+	                            <div class="example">
+	                            	<div class=" " id="exampleToolbar_st" role="group">
+	                                    <button type="button" class="btn btn-primary" id="add_gcc_button"><i class="fa fa-plus"></i>添加信息</button>
+						                <button type="button" class="btn btn-primary" id="update_gcc_button"><i class="fa fa-wrench"></i> 修改信息</button>
+						                <button type="button" class="btn btn-primary" id="delete_gcc_button"><i class="fa fa-remove"></i> 删除信息</button>
+	                                </div>
+	                                <table id="metTable"></table>
+	                                <table id="metTable_bxbxxb">
+	                                    <thead>
+	                                        <tr>
+	                                             <th data-field="pkid" data-halign="center" data-align="center">序号</th>
+			                                     <th data-field="v1" data-halign="center" data-align="center">嘎查村负责人</th>
+			                                     <th data-field="col_account" data-halign="center" data-align="center">账号</th>
+			                                     <th data-field="v2" data-halign="center" data-align="center">嘎查村负责人电话</th>
+			                                     <th data-field="com_name" data-halign="center" data-align="center">嘎查村</th>
+	                                        </tr>
+	                                    </thead>
+	                                </table>
+	                            </div>
+	                        </div>
+	                	</div>
+	                </div>
+				                
+				            </div><!-- 面板内容 -->
+				    	</div><!-- 外层面板 -->
+					    
+			    	</div><!-- 第二行表格加地图 -->
+                    
+                    
+					<!-- 第四行可以出表格 --><!-- 按钮数据 -->
+
+	           		 <div class="row" id="add_gcc" name="add_gcc">
+			    		<div class="ibox float-e-margins"><!-- 外层面板 -->
+			    		<div class="ibox-title">
+			                <h5 id="xia_title">添加嘎查村负责人</h5>
+			            </div>
+			    		<div class="ibox-content"><!-- 面板内容 -->
+			    			<div class=" " id="exampleToolbar_user" role="group"></div>
+			                <div class="row row-lg">
+			                	
+			                	<div class="col-sm-12">
+		    							<div class="form-group" style="display: none;">
+		    								<div class="col-sm-6">
+						                      	<div class="col-sm-8"><input type="text" placeholder="用户ID"  class="form-control" id="dnauser_id" name="dnauser_id"></div>
+		    								</div>
+		    							</div>
+		    								<div class="col-sm-4">
+		    									<label class="col-sm-4 control-label">负责人姓名：</label>
+						                      	<div class="col-sm-7">
+						                         	<input type="text" placeholder="负责人姓名" class="form-control" id="add_gcc_xm" name="add_gcc_xm">
+						                      	</div>
+		    								</div>
+		    								<div class="col-sm-4">
+		    									<label class="col-sm-4 control-label">负责人电话：</label>
+						                      	<div class="col-sm-7">
+						                         	<input type="text" placeholder="负责人电话" class="form-control" id="add_gcc_phone" name="add_gcc_phone">
+						                      	</div>
+		    								</div>
+		    								<div class="col-sm-4">
+		    									<label class="col-sm-4 control-label">嘎查村：</label>
+						                      	<div class="col-sm-7">
+						                         	<input type="text" placeholder="嘎查村" class="form-control" id="add_gcc_cun" name="add_gcc_cun">
+						                      	</div>
+		    								</div><br><br><br>
+		    								<div class="col-sm-4">
+		    									<label class="col-sm-4 control-label">登录账号：</label>
+						                      	<div class="col-sm-7">
+						                         	<input type="text" placeholder="登录账号" class="form-control" id="add_gcc_zhanghao" name="add_gcc_zhanghao">
+						                      	</div>
+		    								</div>
+		    								<div class="col-sm-4">
+		    									<label class="col-sm-4 control-label">登录密码：</label>
+						                      	<div class="col-sm-7">
+						                         	<input type="text" placeholder="登录密码" class="form-control" id="add_gcc_mima" name="add_gcc_mima">
+						                      	</div>
+		    								</div>
+		    							</div>
+		    							<div class="form-group">
+		    								<div class="col-sm-10"></div>
+		    								<div class="col-sm-2">
+		    									<button type="button" class="btn btn-primary" id="" name="" onclick="addGccxinxi()" style="margin-top:20px;float:right;"><i class="fa fa-save"></i>保存</button>
+		    								</div>
+		    							</div>
+			                	</div>
+			                </div>
+			            </div><!-- 面板内容 -->
+		    	</div>
+	    	
+	    			<div class="row" id="xg_gcc" name="xg_gcc">
+		    			<div class="ibox float-e-margins"><!-- 外层面板 -->
+		    				<div class="ibox-title">
+		               			 <h5 id="xia_title">修改嘎查村负责人</h5>
+		            		</div>
+		    				<div class="ibox-content"><!-- 面板内容 -->
+		    					<div class=" " id="exampleToolbar_user" role="group"></div>
+		               			<div class="row row-lg">
+		                	
+		                			<div class="col-sm-12">
+	    								<div class="form-group" style="display: none;">
+	    									<div class="col-sm-6">
+					                      		<div class="col-sm-8"><input type="text" placeholder="用户ID"  class="form-control" id="dnauser_id" name="dnauser_id"></div>
+	    									</div>
+	    								</div>
+	    								<div class="col-sm-4">
+	    									<label class="col-sm-4 control-label">负责人姓名：</label>
+					                      	<div class="col-sm-7">
+					                         	<input type="text" placeholder="姓名" class="form-control" id="xg_gcc_xm" name="xg_gcc_xm">
+					                      	</div>
+	    								</div>
+	    								<div class="col-sm-4">
+	    									<label class="col-sm-4 control-label">负责电话：</label>
+					                      	<div class="col-sm-7">
+					                         	<input type="text" placeholder="负责人电话" class="form-control" id="xg_gcc_phone" name="xg_gcc_phone">
+					                      	</div>
+	    								</div>
+	    								<div class="col-sm-4">
+	    									<label class="col-sm-4 control-label">嘎查村：</label>
+					                      	<div class="col-sm-7">
+					                         	<input type="text" placeholder="嘎查村" class="form-control" id="xg_bf_cun" name="xg_bf_cun">
+					                      	</div>
+	    								</div><br><br><br>
+	    								<div class="col-sm-4">
+	    									<label class="col-sm-4 control-label">登录账号：</label>
+					                      	<div class="col-sm-7">
+					                         	<input type="text" placeholder="登录账号" class="form-control" id="xg_gcc_zhanghao" name="xg_gcc_zhanghao">
+					                      	</div>
+	    								</div>
+	    								<div class="col-sm-4">
+	    									<label class="col-sm-4 control-label">登录密码：</label>
+					                      	<div class="col-sm-7">
+					                         	<input type="text" placeholder="登录密码" class="form-control" id="xg_gcc_mima" name="xg_gcc_mima">
+					                      	</div>
+	    								</div>
+	    							</div>
+	    							<div class="form-group">
+	    								<div class="col-sm-10"></div>
+	    								<div class="col-sm-2">
+	    									<button type="button" class="btn btn-primary" id="xg_bfr_xx" name="xg_bfr_xx"  style="margin-top:20px;float:right;"><i class="fa fa-save"></i> 修改</button>
+	    								</div>
+	    							</div>
+		                		</div>
+		               	 	</div>
+		           	 	</div><!-- 面板内容 -->
+	    			</div>
+    			</div>
+              </div>
+            </div><!-- 中间部分 -->
+            <!-- 添加帮扶人 -->
+
+            
+            
+            
+            <!-- 尾部 -->
+            <div class="footer" id="weibu_title"></div><!-- 尾部 -->
+        </div>
+
+    <!-- 弹出窗口使用 -->
+    <div id="gray"></div>
+
+<div class="popup" id="popup">
+
+	<div class="top_nav" id='top_nav'>
+		<div align="center">
+			<i></i>
+			<span>登录账号</span>
+			<a class="guanbi"></a>
+		</div>
+	</div>
+	
+	<div class="min">
+	
+		<div class="tc_login">
+			<h3 align="center">欢迎使用鄂尔多斯市脱贫攻坚信息管理系统</h3>
+			<div class="left">
+			<div align="center">&nbsp;</div>
+				
+				<div align="center">&nbsp;</div>
+				<div align="center">
+					<div align="center">&nbsp;</div>
+					<h5 align="left" style="display:inline;">管理员联系方式：</h5>
+					<h6 align="right" style="display:inline;">15727390514</h6>
+					<br/>
+					<div align="center">&nbsp;</div>
+					<h5 align="left" style="display:inline;">管理员联系方式：</h5>
+					<h6 align="right" style="display:inline;">15727390514</h6>
+					<br/>
+					<div align="center">&nbsp;</div>
+					<h5 align="left" style="display:inline;">管理员联系方式：</h5>
+					<h6 align="right" style="display:inline;">15727390514</h6>
+					<br/>
+					<div align="center">&nbsp;</div>
+					<h5 align="left" style="display:inline;">管理员联系方式：</h5>
+					<h6 align="right" style="display:inline;">15727390514</h6>
+				
+				</div>
+				<dd>
+					<div align="center">`</div>
+				</dd>
+			</div>  
+		
+			<div class="right">
+				<form method="POST" name="" target="" onsubmit='return false'>
+					<div align="center">&nbsp;</div>
+					<div align="center">&nbsp;</div>
+					<div align="center">
+						<div align="center">
+						<h4 style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;请登录：</h4>
+						</div>
+						<div align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;``````````````````````````````````````````````````````</div>
+						<input type="text" name="name" id="name" required="required" placeholder="用户名" autocomplete="off" class="input_yh">
+						<div align="center">&nbsp;&nbsp;&nbsp;</div>
+						<input type="password" name="pass" id="pass" required="required" placeholder="密码" autocomplete="off" class="input_mm">
+					</div>
+					
+					<div align="center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
+					<div align="center"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```````````````````````````````````````````````````````</div>
+					<div align="center">&nbsp;</div>
+					<div align="center">
+						<input type="submit"   style="  -webkit-appearance: none;
+													    background: #36a803;
+													    border: none;
+													    border-radius: 2px;
+													    color: #fff;
+													    cursor: pointer;
+													    height: 50px;
+													    font-family: 'Open Sans', sans-serif;
+													    font-size: 1.2em;
+													    letter-spacing: 0.05em;
+													    text-align: center;
+													    text-transform: uppercase;
+													    transition: background 0.3s ease-in-out;
+													    width: 220px;
+													    padding: 0 50px 0 50px;
+   														font-weight: bold;"
+   						 onclick="denglu()" value="登&nbsp;&nbsp;录">
+					</div>
+				</form>   
+					
+				
+				<hr align="center" />
+			</div>
+		
+		</div>
+	
+	</div>
+
+</div>
+
+    <!-- 弹出窗口使用 -->
+    <div id="gray"></div>
+
+<div class="popup" id="popup">
+
+	<div class="top_nav" id='top_nav'>
+		<div align="center">
+			<i></i>
+			<span>登录账号</span>
+			<a class="guanbi"></a>
+		</div>
+	</div>
+	
+	<div class="min">
+	
+		<div class="tc_login">
+			<h3 align="center">欢迎使用鄂尔多斯市脱贫攻坚信息管理系统</h3>
+			<div class="left">
+			<div align="center">&nbsp;</div>
+				
+				<div align="center">&nbsp;</div>
+				<div align="center">
+					<div align="center">&nbsp;</div>
+					<h5 align="left" style="display:inline;">管理员联系方式：</h5>
+					<h6 align="right" style="display:inline;">15727390514</h6>
+					<br/>
+					<div align="center">&nbsp;</div>
+					<h5 align="left" style="display:inline;">管理员联系方式：</h5>
+					<h6 align="right" style="display:inline;">15727390514</h6>
+					<br/>
+					<div align="center">&nbsp;</div>
+					<h5 align="left" style="display:inline;">管理员联系方式：</h5>
+					<h6 align="right" style="display:inline;">15727390514</h6>
+					<br/>
+					<div align="center">&nbsp;</div>
+					<h5 align="left" style="display:inline;">管理员联系方式：</h5>
+					<h6 align="right" style="display:inline;">15727390514</h6>
+				
+				</div>
+				<dd>
+					<div align="center">`</div>
+				</dd>
+			</div>  
+		
+			<div class="right">
+				<form method="POST" name="" target="" onsubmit='return false'>
+					<div align="center">&nbsp;</div>
+					<div align="center">&nbsp;</div>
+					<div align="center">
+						<div align="center">
+						<h4 style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;请登录：</h4>
+						</div>
+						<div align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;``````````````````````````````````````````````````````</div>
+						<input type="text" name="name" id="name" required="required" placeholder="用户名" autocomplete="off" class="input_yh">
+						<div align="center">&nbsp;&nbsp;&nbsp;</div>
+						<input type="password" name="pass" id="pass" required="required" placeholder="密码" autocomplete="off" class="input_mm">
+					</div>
+					
+					<div align="center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
+					<div align="center"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```````````````````````````````````````````````````````</div>
+					<div align="center">&nbsp;</div>
+					<div align="center">
+						<input type="submit"   style="  -webkit-appearance: none;
+													    background: #36a803;
+													    border: none;
+													    border-radius: 2px;
+													    color: #fff;
+													    cursor: pointer;
+													    height: 50px;
+													    font-family: 'Open Sans', sans-serif;
+													    font-size: 1.2em;
+													    letter-spacing: 0.05em;
+													    text-align: center;
+													    text-transform: uppercase;
+													    transition: background 0.3s ease-in-out;
+													    width: 220px;
+													    padding: 0 50px 0 50px;
+   														font-weight: bold;"
+   						 onclick="denglu()" value="登&nbsp;&nbsp;录">
+					</div>
+				</form>   
+					
+				
+				<hr align="center" />
+			</div>
+		
+		</div>
+	
+	</div>
+
+</div>
+
+	<!-- 修改密码页面 -->
+    <div id="gray_2"></div>
+
+<div class="popup" id="popup_2">
+
+
+
+	<!-- 修改密码页面 -->
+    <div id="gray_2"></div>
+
+	<div class="top_nav" >
+		<div align="center">
+			<i></i>
+			<span>修改密码</span>
+			<a class="guanbi"></a>
+		</div>
+	</div>
+	
+	<div class="main">
+		<div class="tc_login">
+			<div class="center">
+					<div align="center">
+						<div align="center">
+						<br/>
+						<h4 style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;请输入原密码：</h4>
+						</div>
+						<br/>
+						<div>
+						<form class="" id="changepassword_form" onsubmit='return false' >
+							<input type="text" id="yhid" style="display:none;"  class="input_yh">
+							<div align="center">&nbsp;&nbsp;&nbsp;</div>
+							<div class="form-group" style="text-align:left;">
+								<input type="password" name="old_pass" id="old_pass" style="margin-left: 133px;" required="required" cp="true"  placeholder="原密码" autocomplete="off" class="input_mm">
+								<div align="center">&nbsp;&nbsp;&nbsp;</div>
+								<input type="password" name="new_pass" id="new_pass" style="margin-left: 133px;" required="required"  placeholder="新密码" autocomplete="off" class="input_mm">
+								<div align="center">&nbsp;&nbsp;&nbsp;</div>
+								<input type="password" name="new_pass_2" id="new_pass_2" style="margin-left: 133px;" required equalTo="#new_pass" placeholder="请再次输入新密码" autocomplete="off" class="input_mm">
+							</div>
+						</form>
+						</div>
+					</div>
+					
+					
+					<div align="center">
+						<input type="submit"   style="  -webkit-appearance: none;
+													    background: #36a803;
+													    border: none;
+													    border-radius: 2px;
+													    color: #fff;
+													    cursor: pointer;
+													    height: 50px;
+													    font-family: 'Open Sans', sans-serif;
+													    font-size: 1.2em;
+													    letter-spacing: 0.05em;
+													    text-align: center;
+													    text-transform: uppercase;
+													    transition: background 0.3s ease-in-out;
+													    width: 220px;
+													    padding: 0 50px 0 50px;
+   														font-weight: bold;"
+   							onclick="xiugaimima_anniu()" value="修&nbsp;改&nbsp;密&nbsp;码">
+					</div>
+				<hr align="center" />
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="popup" id="popup_2">
+
+	<div class="top_nav" >
+		<div align="center">
+			<i></i>
+			<span>修改密码</span>
+			<a class="guanbi"></a>
+		</div>
+	</div>
+	
+	<div class="main">
+		<div class="tc_login">
+			<div class="center">
+					<div align="center">
+						<div align="center">
+						<br/>
+						<h4 style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;请输入原密码：</h4>
+						</div>
+						<br/>
+						<div>
+						<form class="" id="changepassword_form" onsubmit='return false' >
+							<input type="text" id="yhid" style="display:none;"  class="input_yh">
+							<div align="center">&nbsp;&nbsp;&nbsp;</div>
+							<div class="form-group" style="text-align:left;">
+								<input type="password" name="old_pass" id="old_pass" style="margin-left: 133px;" required="required" cp="true"  placeholder="原密码" autocomplete="off" class="input_mm">
+								<div align="center">&nbsp;&nbsp;&nbsp;</div>
+								<input type="password" name="new_pass" id="new_pass" style="margin-left: 133px;" required="required"  placeholder="新密码" autocomplete="off" class="input_mm">
+								<div align="center">&nbsp;&nbsp;&nbsp;</div>
+								<input type="password" name="new_pass_2" id="new_pass_2" style="margin-left: 133px;" required equalTo="#new_pass" placeholder="请再次输入新密码" autocomplete="off" class="input_mm">
+							</div>
+						</form>
+						</div>
+					</div>
+					
+					
+					<div align="center">
+						<input type="submit"   style="  -webkit-appearance: none;
+													    background: #36a803;
+													    border: none;
+													    border-radius: 2px;
+													    color: #fff;
+													    cursor: pointer;
+													    height: 50px;
+													    font-family: 'Open Sans', sans-serif;
+													    font-size: 1.2em;
+													    letter-spacing: 0.05em;
+													    text-align: center;
+													    text-transform: uppercase;
+													    transition: background 0.3s ease-in-out;
+													    width: 220px;
+													    padding: 0 50px 0 50px;
+   														font-weight: bold;"
+   							onclick="xiugaimima_anniu()" value="修&nbsp;改&nbsp;密&nbsp;码">
+					</div>
+				<hr align="center" />
+			</div>
+		</div>
+	</div>
+</div>
+	<script src="js/Include.js"></script>
+	<script>
+		loadSMLibs("6-1");
+	</script>
+	
+  </body>
+</html>

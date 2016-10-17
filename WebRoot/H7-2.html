@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+	<meta http-equiv="Expires" content="0">
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" CONTENT="no-cache, must-revalidate"> 
+	<meta http-equiv="Cache-Control" content="no-siteapp" />
+	<meta http-equiv="Cache" content="no-cache">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="renderer" content="webkit">
+	<title>鄂尔多斯精准扶贫大数据管理平台</title>
+
+    <!--[if lt IE 8]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+    
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="css/bootstrap.min.css?v=3.3.5" rel="stylesheet" media="screen">
+    <link href="css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="css/animate.min.css" rel="stylesheet">
+    <link href="css/style.min.css?v=4.0.0" rel="stylesheet">
+    
+    <link href="css/table/table.css" rel="stylesheet">
+    
+    <link href="css/plugins/blueimp/css/blueimp-gallery.min.css" rel="stylesheet">
+    <link href="css/plugins/iCheck/custom.css" rel="stylesheet">
+	<link href="css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+	<link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
+	<link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+	<link href="css/plugins/treeview/bootstrap-treeview.css" rel="stylesheet">
+	
+	<link type="text/css" rel="stylesheet" href="css/style.css" />
+    <base target="_blank">
+	<style>
+		.c_red {
+			font-size: 13px;
+			background-color: #FFF;
+			color: red;
+			font-weight: bold;
+		}
+		.c_green {
+			font-size: 13px;
+			background-color: #FFF;
+			color: #1ab394;
+			font-weight: bold;
+		}
+		.updatePass {
+			-webkit-appearance: none;
+		    background: #36a803;
+		    border: none;
+		    border-radius: 2px;
+		    cursor: pointer;
+		    letter-spacing: 0.05em;
+		    text-align: center;
+		    text-transform: uppercase;
+		    transition: background 0.3s ease-in-out;
+		    width: 220px;
+			font-weight: bold;
+		}
+	</style>
+  </head>
+  
+
+  
+
+<body class="gray-bg top-navigation">
+	<div id="wrapper">
+		<div id="page-wrapper" class="gray-bg">
+
+			<!-- 头部菜单 -->
+            <div class="row border-bottom white-bg">
+                <nav class="navbar navbar-static-top" role="navigation">
+                    <div class="navbar-header">
+                        <span><img alt="image" class="img" src="img/logo_1.png" /></span>
+                    </div>
+                    <div class="navbar-collapse collapse" id="navbar">
+                        <ul class="nav navbar-nav navbar-right">
+                        	<li class="dropdown">
+                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown" id="in"> 扶贫概况</a>
+                            </li>
+                            <li class="dropdown" id="H_li" style="display:none;">
+                            	<a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> 扶贫手册 <span class="caret"></span></a>
+                            	<ul role="menu" class="dropdown-menu">
+                            		<li id="H1_li" style="display:none;"><a id="H1">扶贫手册录入</a></li>
+                            		<li id="H2_li" style="display:none;"><a id="H2">帮扶信息查询</a></li>
+                            		<li id="H2_1_li" style="display:none;" ><a id="H2_1">工作台账</a></li>
+                            	</ul>
+                            </li>
+                            
+                            <li class="active" id="H7_li" style="display:none;">
+                            	<a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> 易地扶贫搬迁 <span class="caret"></span></a>
+                            	<ul role="menu" class="dropdown-menu">
+                            		<li id="H7-1_li" style="display:none;"><a id="H7-1">安置点维护</a></li>
+                            		<li id="H7-2_li" style="display:none;"><a id="H7-2">工程进度统计</a></li>
+                            	</ul>
+                            </li>
+                            
+                            <!-- <li class="dropdown" id="H1_li" style="display:none;">
+                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown" id="H1"> 扶贫手册录入 </a>
+                            </li>
+                            <li class="dropdown" id="H2_li" style="display:none">
+                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown" id="H2"> 帮扶信息查询 </a>
+                            </li> -->
+                            
+                            <li class="dropdown" id="H3_li" style="display:none">
+                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown" id="H3-2"> 挂图作战 </a>
+                            </li>
+                            
+                            <!--  <li class="dropdown" id="H3_li" style="display:none;">
+                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> 统计分析<span class="caret"></span></a>
+                                <ul role="menu" class="dropdown-menu">
+                                    <li id="H3-1_li" style="display:none;"><a id="H3-1">综合查询</a></li>
+                                    <li id="H3-2_li" style="display:none;"><a id="H3-2">统计汇总</a></li>
+                                </ul>
+                            </li> -->
+                            
+                            <li class="dropdown" id="H4_li" style="display:none;">
+                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown" id="H4"> 识别与退出 </a>
+                            </li>
+                            <li class="dropdown" id="H5_li" style="display:none;">
+                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> 系统管理 <span class="caret"></span></a>
+                                <ul role="menu" class="dropdown-menu">
+                                    <li id="H5-1_li" style="display:none;"><a id="H5-1">帮扶干部维护</a></li>
+                                    <li id="H5-4_li" style="display:none;"><a id="H5-3">帮扶单位维护</a></li>
+                                    <li id="H5-2_li" style="display:none;"><a id="H6-1">账号查询</a></li>
+                                    <li id="H5-3_li" style="display:none;"><a id="H5-2">维护控制</a></li>
+                                    <li id="H8_li" style="display:none;"><a id="H8">系统查看</a></li>
+                                    <li id="H9_li" style="display:none;"><a id="H9">数据统计</a></li>
+                                    <li id="H10_li" style="display:none;"><a id="H10">查询录入情况</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown" id="yonghuxiangguan"></li>
+                        </ul>
+                    </div>
+                </nav>
+            </div><!-- 头部菜单 -->
+
+
+			<!-- tree -->
+			<div id="show-content"
+				class="row wrapper wrapper-content animated fadeInRight">
+				<div class="container">
+					<div class="row">
+						<div class="ibox float-e-margins">
+							<div class="ibox-title">
+								<h5>工程进度统计</h5>
+								<div class="ibox-tools"></div>
+							</div>
+							<div class="ibox-content">
+								<div class="row row-lg">
+									<div class="col-sm-3" style="height:320px;overflow-y:auto; ">
+										<div id="treeview" class="test"></div>
+									</div>
+									<div class="col-sm-9" id="xiang">
+										<h3 id="title_name"></h3>
+										<form id="ydbq_form">
+											<div class="table-responsive">
+												<table class="table table-bordered">
+													<thead>
+														<tr>
+															<th style="text-align:center;"></th>
+															<th style="text-align:center;">已开工安置点(个数)</th>
+															<th style="text-align:center;">工程进度完成比例(%)</th>
+															<th style="text-align:center;">产业扶持项目完成比例(%)</th>
+															<th style="text-align:center;">资金投入(万元)</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<th height="80px">行政嘎查村内就近安置点</th>
+															<th style="text-align:center;" id="a1_b1">暂无数据</th>
+															<th style="text-align:center;" id="a1_b2">暂无数据</th>
+															<th style="text-align:center;" id="a1_b3">暂无数据</th>
+															<th style="text-align:center;" id="a1_b4">暂无数据</th>
+														</tr>
+														<tr>
+															<th height="80px">建设移民新村安置点</th>
+															<th style="text-align:center;" id="a2_b1">暂无数据</th>
+															<th style="text-align:center;" id="a2_b2">暂无数据</th>
+															<th style="text-align:center;" id="a2_b3">暂无数据</th>
+															<th style="text-align:center;" id="a2_b4">暂无数据</th>
+														</tr>
+														<tr>
+															<th height="80px">小城镇安置点</th>
+															<th style="text-align:center;" id="a3_b1">暂无数据</th>
+															<th style="text-align:center;" id="a3_b2">暂无数据</th>
+															<th style="text-align:center;" id="a3_b3">暂无数据</th>
+															<th style="text-align:center;" id="a3_b4">暂无数据</th>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="container">
+					<div class="row" style="margin-top: 20px;">
+						<div class="ibox float-e-margins">
+							<div class="ibox-title">
+								<h5>工程进度统计</h5>
+								<div class="ibox-tools"></div>
+							</div>
+							<div class="ibox-content">
+								<div class="row row-lg">
+									<div class="col-sm-12">
+										<div class="table-responsive">
+											<table class="table table-bordered">
+												<thead>
+													<tr>
+														<th style="text-align:center;" rowspan="3" id="xb_xzqh">行政区划</th>
+														<th style="text-align:center;" colspan="12">集中安置</th>
+														<th style="text-align:center;" colspan="15">分散安置</th>
+													</tr>
+													<tr>
+														<th style="text-align:center;"colspan="2">集中安置点小计</th>
+														<th style="text-align:center;"colspan="2">行政嘎查村内就近安置点</th>
+														<th style="text-align:center;"colspan="2">建设移民新村安置点</th>
+														<th style="text-align:center;"colspan="2">小城镇安置点</th>
+														<th style="text-align:center;"colspan="2">特困人员集中供养安置</th>
+														<th style="text-align:center;"colspan="2">其他</th>
+														<th style="text-align:center;"colspan="2">分散安置点小计</th>
+														<th style="text-align:center;"colspan="2">自建房</th>
+														<th style="text-align:center;"colspan="3">进城购房房源地及房价（万元）</th>
+														<th style="text-align:center;"colspan="2">其他</th>
+													</tr>
+													<tr>
+														<th style="text-align:center;">人数</th>
+														<th style="text-align:center;">户数</th>
+														<th style="text-align:center;">人数</th>
+														<th style="text-align:center;">户数</th>
+														<th style="text-align:center;">人数</th>
+														<th style="text-align:center;">户数</th>
+														<th style="text-align:center;">人数</th>
+														<th style="text-align:center;">户数</th>
+														<th style="text-align:center;">人数</th>
+														<th style="text-align:center;">户数</th>
+														<th style="text-align:center;">人数</th>
+														<th style="text-align:center;">户数</th>
+														<th style="text-align:center;">人数</th>
+														<th style="text-align:center;">户数</th>
+														<th style="text-align:center;">人数</th>
+														<th style="text-align:center;">户数</th>
+														<th style="text-align:center;">人数</th>
+														<th style="text-align:center;">户数</th>
+														<th style="text-align:center;">签订就业协议数</th>
+														<th style="text-align:center;">人数</th>
+														<th style="text-align:center;">户数</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr id="xb_body">
+														<th style="text-align:center;"></th>
+														<th style="text-align:center;"></th>
+														<th style="text-align:center;"></th>
+														<th style="text-align:center;"></th>
+														<th style="text-align:center;"></th>
+														<th style="text-align:center;"></th>
+														<th style="text-align:center;"></th>
+														<th style="text-align:center;"></th>
+														<th style="text-align:center;"></th>
+														<th style="text-align:center;"></th>
+														<th style="text-align:center;"></th>
+														<th style="text-align:center;"></th>
+														<th style="text-align:center;"></th>
+														<th style="text-align:center;"></th>
+														<th style="text-align:center;"></th>
+														<th style="text-align:center;"></th>
+														<th style="text-align:center;"></th>
+														<th style="text-align:center;"></th>
+														<th style="text-align:center;"></th>
+														<th style="text-align:center;"></th>
+														<th style="text-align:center;"></th>
+														<th style="text-align:center;"></th>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<!-- 尾部 -->
+            <div class="footer" id="weibu_title"></div><!-- 尾部 -->
+        </div>
+	</div>
+	
+	<!-- 修改密码页面 -->
+    <div id="gray_2"></div>
+	<div class="popup" id="popup_2">
+		<div class="top_nav" >
+			<div align="center">
+				<i></i>
+				<span>修改密码</span>
+				<a class="guanbi"></a>
+			</div>
+		</div>
+		<div class="main">
+			<div class="tc_login">
+				<div class="center">
+					<div align="center">
+						<div align="center">
+							<br/>
+							<h4 style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;请输入原密码：</h4>
+						</div>
+						<br/>
+						<div>
+							<form class="" id="changepassword_form" onsubmit='return false' >
+								<input type="text" id="yhid" style="display:none;"  class="input_yh">
+								<div align="center">&nbsp;&nbsp;&nbsp;</div>
+								<div class="form-group" style="text-align:left;">
+									<input type="password" name="old_pass" id="old_pass" style="margin-left: 133px;" required="required" cp="true"  placeholder="原密码" autocomplete="off" class="input_mm">
+									<div align="center">&nbsp;&nbsp;&nbsp;</div>
+									<input type="password" name="new_pass" id="new_pass" style="margin-left: 133px;" required="required"  placeholder="新密码" autocomplete="off" class="input_mm">
+									<div align="center">&nbsp;&nbsp;&nbsp;</div>
+									<input type="password" name="new_pass_2" id="new_pass_2" style="margin-left: 133px;" required equalTo="#new_pass" placeholder="请再次输入新密码" autocomplete="off" class="input_mm">
+								</div>
+							</form>
+						</div>
+					</div>
+					<div align="center">
+						<input type="submit" class="updatePass" style="color: #fff;padding: 0 50px 0 50px;height: 50px;font-size: 1.2em;" onclick="xiugaimima_anniu()" value="修&nbsp;改&nbsp;密&nbsp;码">
+					</div>
+					<hr align="center" />
+				</div>
+			</div>
+		</div>
+	</div>
+    <script src="js/Include.js"></script>
+	<script>
+		loadSMLibs("7-2");
+	</script>
+  </body>
+</html>

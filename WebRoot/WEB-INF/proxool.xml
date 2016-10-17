@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<proxool-config>  
+    <proxool>  
+        <alias>DBPool</alias>
+        <driver-url>jdbc:mysql://localhost:3306/assa?useUnicode=true&amp;characterEncoding=utf-8</driver-url>
+        <driver-class>com.mysql.jdbc.Driver</driver-class>
+        <driver-properties>  
+            <property name="user" value="root" />
+            <property name="password" value="root" /> 
+        </driver-properties>
+        <maximum-connection-count>50</maximum-connection-count>
+        <minimum-connection-count>10</minimum-connection-count>
+    	<house-keeping-test-sql>select CURRENT_DATE</house-keeping-test-sql>
+    	<house-keeping-sleep-time>90000</house-keeping-sleep-time> 
+    	<prototype-count>5</prototype-count> 
+    	<maximum-new-connections>100</maximum-new-connections>
+    </proxool>
+</proxool-config>

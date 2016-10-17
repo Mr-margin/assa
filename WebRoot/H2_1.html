@@ -1,0 +1,1663 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+	<meta http-equiv="Expires" content="0">
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" CONTENT="no-cache, must-revalidate"> 
+	<meta http-equiv="Cache-Control" content="no-siteapp" />
+	<meta http-equiv="Cache" content="no-cache">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="renderer" content="webkit">
+	<title>鄂尔多斯精准扶贫大数据管理平台</title>
+
+    <!--[if lt IE 8]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+    
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="css/bootstrap.min.css?v=3.3.5" rel="stylesheet" media="screen">
+    <link href="css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="css/animate.min.css" rel="stylesheet">
+    <link href="css/style.min.css?v=4.0.0" rel="stylesheet">
+    
+    <link href="css/plugins/blueimp/css/blueimp-gallery.min.css" rel="stylesheet">
+    <link href="css/plugins/iCheck/custom.css" rel="stylesheet">
+	<link href="css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+	<link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
+	<link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="css/style.css" />
+    
+    <link type="text/css" rel="stylesheet" href="css/table/standingtable.css" />
+    <base target="_blank">
+	<style>
+		.c_red {
+			font-size: 13px;
+			background-color: #FFF;
+			color: red;
+			font-weight: bold;
+		}
+		.c_green {
+			font-size: 13px;
+			background-color: #FFF;
+			color: #1ab394;
+			font-weight: bold;
+		}
+        .lightBoxGallery img {
+            margin: 5px;
+            width: 160px;
+        }
+    </style>
+  </head>
+  
+  <body class="gray-bg top-navigation">
+	<div id="wrapper">
+        <div id="page-wrapper" class="gray-bg">
+        
+        
+        	<!-- 头部菜单 -->
+            <div class="row border-bottom white-bg">
+                <nav class="navbar navbar-static-top" role="navigation">
+                    <div class="navbar-header">
+                        <span><img alt="image" class="img" src="img/logo_1.png" /></span>
+                    </div>
+                    <div class="navbar-collapse collapse" id="navbar">
+                        <ul class="nav navbar-nav navbar-right">
+                        	<li class="dropdown">
+                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown" id="in"> 扶贫概况</a>
+                            </li>
+                            <li class="active" id="H_li" style="display:none;">
+                            	<a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> 扶贫手册 <span class="caret"></span></a>
+                            	<ul role="menu" class="dropdown-menu">
+                            		<li id="H1_li" style="display:none;"><a id="H1">扶贫手册录入</a></li>
+                            		<li id="H2_li" style="display:none;"><a id="H2">帮扶信息查询</a></li>
+                            		<li id="H2_1_li" style="display:none;" ><a id="H2_1">工作台账</a></li>
+                            	</ul>
+                            </li>
+                            
+                            <li class="dropdown" id="H7_li" style="display:none;">
+                            	<a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> 易地扶贫搬迁 <span class="caret"></span></a>
+                            	<ul role="menu" class="dropdown-menu">
+                            		<li id="H7-1_li" style="display:none;"><a id="H7-1">安置点维护</a></li>
+                            		<li id="H7-2_li" style="display:none;"><a id="H7-2">工程进度统计</a></li>
+                            	</ul>
+                            </li>
+                            
+                            <!-- <li class="dropdown" id="H1_li" style="display:none;">
+                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown" id="H1"> 扶贫手册录入 </a>
+                            </li>
+                            <li class="dropdown" id="H2_li" style="display:none">
+                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown" id="H2"> 帮扶信息查询 </a>
+                            </li> -->
+                            
+                            <li class="dropdown" id="H3_li" style="display:none">
+                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown" id="H3-2"> 挂图作战 </a>
+                            </li>
+                            
+                            <!--  <li class="dropdown" id="H3_li" style="display:none;">
+                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> 统计分析<span class="caret"></span></a>
+                                <ul role="menu" class="dropdown-menu">
+                                    <li id="H3-1_li" style="display:none;"><a id="H3-1">综合查询</a></li>
+                                    <li id="H3-2_li" style="display:none;"><a id="H3-2">统计汇总</a></li>
+                                </ul>
+                            </li> -->
+                            
+                            <li class="dropdown" id="H4_li" style="display:none;">
+                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown" id="H4"> 识别与退出 </a>
+                            </li>
+                            <li class="dropdown" id="H5_li" style="display:none;">
+                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> 系统管理 <span class="caret"></span></a>
+                                <ul role="menu" class="dropdown-menu">
+                                    <li id="H5-1_li" style="display:none;"><a id="H5-1">帮扶干部维护</a></li>
+                                    <li id="H5-4_li" style="display:none;"><a id="H5-3">帮扶单位维护</a></li>
+                                    <li id="H5-2_li" style="display:none;"><a id="H6-1">账号查询</a></li>
+                                    <li id="H5-3_li" style="display:none;"><a id="H5-2">维护控制</a></li>
+                                    <li id="H8_li" style="display:none;"><a id="H8">系统查看</a></li>
+                                    <li id="H9_li" style="display:none;"><a id="H9">数据统计</a></li>
+                                    <li id="H10_li" style="display:none;"><a id="H10">查询录入情况</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown" id="yonghuxiangguan"></li>
+                        </ul>
+                    </div>
+                </nav>
+            </div><!-- 头部菜单 -->
+            
+            
+			<!-- 中间部分 -->           
+            <div id="show-content" class="wrapper wrapper-content">
+                <div class="container">
+                    <!-- 第二行表格加地图 -->
+                    <div class="row"  id="shang_yi">
+				    	<div class="ibox float-e-margins"><!-- 外层面板 -->
+				    		<div class="ibox-content"><!-- 面板内容 -->
+				    			<div class="row">
+				    				<div class="col-sm-12">
+										<div class="ibox panel panel-success border-bottom">
+											<div class="ibox-title panel-heading">
+												<h5 id="chauxnshiousuo_title">查询条件</h5>
+												<div class="ibox-tools">
+													<a class="collapse-link" id="chauxnshiousuo"> <i
+														class="fa fa-chevron-down"></i><strong id="title_tle" onclick="title_tle_zhankai()">展开</strong>
+													</a>
+												</div>
+											</div>
+											<div class="ibox-content panel-body" style="display: none;">
+												<form class="form-horizontal" id="cha_Form">
+	
+													<div class="form-group" style="margin-bottom: 0px" id="chauxn_quanxian">
+														<div class="col-sm-4">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 3px;">旗县</label>
+															<div class="col-sm-7">
+																<select class="form-control m-b" id="cha_qx" name="cha_qx" onchange="getinfo_xiang(this.value,$('#cha_smx'))">
+																	<option>请选择</option>
+																	<option>杭锦旗</option>
+																	<option>市级标准</option>
+																</select>
+															</div>
+														</div>
+	
+														<div class="col-sm-4">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 3px;">苏木乡</label>
+															<div class="col-sm-7">
+																<select class="form-control m-b" id="cha_smx" name="cha_smx" onchange="getinfo_cun(this.value,$('#cha_gcc'))">
+																	<option>请选择</option>
+																</select>
+															</div>
+														</div>
+	
+														<div class="col-sm-4">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 3px;">嘎查村</label>
+															<div class="col-sm-7">
+																<select class="form-control m-b" id="cha_gcc" name="cha_gcc">
+																	<option>请选择</option>
+																</select>
+															</div>
+														</div>
+													</div>
+													<div class="form-group" style="margin-bottom: 0px">
+	
+														<div class="col-sm-4">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 3px;">识别标准</label>
+															<div class="col-sm-7">
+																<select class="form-control m-b" id="cha_sbbz" name="cha_sbbz">
+																	<option>请选择</option>
+																	<option>国家级贫困人口</option>
+																	<option>市级低收入人口</option>
+																</select>
+															</div>
+														</div>
+	
+														<div class="col-sm-4">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 3px;">贫困户属性</label>
+															<div class="col-sm-7">
+																<select class="form-control m-b" id="cha_pksx" name="znegjia_xb_0">
+																	<option>请选择</option>
+																	<option>一般贫困户</option>
+																	<option>低保户</option>
+																	<option>五保户</option>
+																	<option>一般农户</option>
+																	<option>低保贫困户</option>
+																	<option>五保贫困户</option>
+																</select>
+															</div>
+														</div>
+	
+														<div class="col-sm-4">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 3px;">主要致贫原因</label>
+															<div class="col-sm-7">
+																<select class="form-control m-b" id="cha_zpyy" name="cha_zpyy">
+																	<option>请选择</option>
+																	<option>因病</option>
+																	<option>因残</option>
+																	<option>因学</option>
+																</select>
+															</div>
+														</div>
+	
+													</div>
+													<div class="form-group" style="margin-bottom: 0px">
+	
+														<div class="col-sm-4">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 3px;">户主民族</label>
+															<div class="col-sm-7">
+																<select class="form-control m-b" id="cha_mz" name="cha_mz">
+																</select>
+															</div>
+														</div>
+	
+														<div class="col-sm-4">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 3px;">贫困户人口</label>
+															<div class="col-sm-7">
+																<select class="form-control m-b" id="cha_renkou" name="cha_renkou">
+																	<option>请选择</option>
+																	<option>1人</option>
+																	<option>2人</option>
+																	<option>3人</option>
+																	<option>4人</option>
+																	<option>5人以上</option>
+																</select>
+															</div>
+														</div>
+	
+														<div class="col-sm-4">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 3px;">脱贫属性</label>
+															<div class="col-sm-7">
+																<select class="form-control m-b" id="cha_banqian" name="cha_banqian">
+																	<option>请选择</option>
+																	<option>返贫</option>
+																	<option>未脱贫</option>
+																</select>
+															</div>
+														</div>
+	
+													</div>
+													<div class="form-group" style="margin-bottom: 0px">
+	
+														<div class="col-sm-4">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 3px;">户主姓名</label>
+															<div class="col-sm-7">
+																<input type="text" placeholder="请填写户主姓名" class="form-control" id="cha_v6" name="cha_v6">
+															</div>
+														</div>
+														<div class="col-sm-4">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 3px;">身份证号</label>
+															<div class="col-sm-7">
+																<input type="text" placeholder="请填写身份证号" class="form-control" id="cha_v8" name="cha_v8">
+															</div>
+														</div>
+	
+														<div class="col-sm-4">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 3px;">年龄范围</label>
+															<div class="col-sm-7">
+																<select class="form-control m-b" id="cha_v8_1" name="cha_v8_1">
+																	<option>请选择</option>
+																	<option>大于60岁</option>
+																	<option>小于16岁</option>
+																	<option>17岁至59岁</option>
+																</select>
+															</div>
+														</div>
+	
+													</div>
+													<div class="form-group" style="margin-bottom: 0px">
+														<div class="col-sm-4">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 3px;">帮扶单位</label>
+															<div class="col-sm-7">
+																<input type="text" placeholder="请填写帮扶单位" class="form-control" id="cha_bfdw" name="cha_bfdw">
+															</div>
+														</div>
+														<div class="col-sm-4">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 3px;">帮扶责任人</label>
+															<div class="col-sm-7">
+																<input type="text" placeholder="请填写帮扶责任人" class="form-control" id="cha_bfzrr" name="cha_bfzrr">
+															</div>
+														</div>
+														<div class="col-sm-4">
+															<div class="col-sm-3"></div>
+															<div class="col-sm-9">
+																<button type="button" class="btn btn-primary" id="cha_button" name="cha_button">
+																	<i class="fa fa-search"></i>&nbsp;&nbsp;<span class="bold">查询</span>
+																</button>
+																<button type="button" class="btn btn-outline btn-warning pull-right" id="close_cha_button" name="close_cha_button" style="margin-right:50px;">
+																	<i class="fa fa-remove"></i>&nbsp;&nbsp;<span class="bold">清空</span>
+																</button>
+															</div>
+														</div>
+													</div>
+												</form>
+											</div>
+										</div>
+									</div>
+								</div>
+				    			
+				               <div class="row">
+									<div class="col-sm-12">
+										<div class="example-wrap">
+											<div class="example">
+												<div class=" " id="exampleToolbar_st" role="group">
+<!-- 				                                    <button type="button" class="btn btn-primary" id="show_daochu"><i class="fa fa-plus"></i>导出</button> -->
+				                                    <button type="button" class="btn btn-primary" id="daochu" name="daochu">导出选中</button>
+<!-- 				                                    <select  class="btn btn-primary" id="daochu" name="daochu"> -->
+<!-- 				                                    	<option>选择导出</option>  -->
+<!-- 				                                    	<option>导出选中</option> -->
+<!-- 				                                    	<option>导出全部</option> -->
+<!-- 				                                    </select> -->
+				                                </div>
+												<table id="metTable_bxbxxb">
+													<thead>
+														<tr>
+															<th data-field="state" data-checkbox="true"></th>
+			                                            	<th data-field="v6" data-halign="center" data-align="center">户主姓名</th>
+			                                            	<th data-field="v3" data-halign="center" data-align="center">旗县</th>
+			                                            	<th data-field="v4" data-halign="center" data-align="center">苏木乡镇</th>
+				                                            <th data-field="v5" data-halign="center" data-align="center">嘎查村</th>
+				                                            <th data-field="v9" data-halign="center" data-align="center">家庭人口</th>
+				                                            <th data-field="v21" data-halign="center" data-align="center">脱贫属性</th>
+				                                            <th data-field="v22" data-halign="center" data-align="center">贫困户属性</th>
+				                                            <th data-field="sys_standard" data-halign="center" data-align="center">识别标准</th>
+				                                            <th data-field="chakan" data-halign="center" data-align="center">查看</th>
+				                                        </tr>
+				                                    </thead>
+				                                </table>
+				                            </div>
+				                        </div>
+				                	</div>
+				               </div>
+				                
+				            </div><!-- 面板内容 -->
+				    	</div><!-- 外层面板 -->
+			    	</div>
+                    
+                    <div class="row">
+                   		 <div class="tabs-container" id="yeqian">
+			                        
+                            <ul class="nav nav-tabs" ><!-- 分栏目的标题 -->
+                            	<li class="active">
+                                	<a data-toggle="tab" href="#tab-1" aria-expanded="true"><i class="fa fa-user"></i> 基本情况</a>
+                                </li>
+                                <li class="active1">
+                                	<a data-toggle="tab" href="#tab-2" aria-expanded="false" onclick="showStanding('2016','0')"><i class="fa fa-calendar-minus-o"></i>2016年度</a>
+                                </li>
+                                <li class="active2">
+                                	<a data-toggle="tab" href="#tab-3" aria-expanded="false" onclick="showStanding('2017','1')"><i class="fa fa-calendar-minus-o"></i>2017年度</a>
+                                </li>
+                                <li class="active3">
+                                	<a data-toggle="tab" href="#tab-4" aria-expanded="false" onclick="showStanding('2018','2')"><i class="fa fa-calendar-minus-o"></i>2018年度</a>
+                                </li>
+                                <li class="active4">
+                                	<a data-toggle="tab" href="#tab-5" aria-expanded="false" onclick="showStanding('2019','3')"><i class="fa fa-calendar-minus-o"></i>2019年度</a>
+                                </li>
+                                <li class="active5">
+                                	<a data-toggle="tab" href="#tab-6" aria-expanded="false" onclick="showStanding('2020','4')"><i class="fa fa-calendar-minus-o"></i>2020年度</a>
+                                </li>
+<!--                                 <li class="active6"> -->
+<!--                                 	<a data-toggle="tab" href="#tab-7" aria-expanded="false"><i class="fa fa-send-o"></i>贫困户收入检测表</a> -->
+<!--                                 </li> -->
+                            </ul><!-- 分栏目的标题 -->
+			                            
+			                 <div class="tab-content"><!-- tab页面的内容 -->
+			                    <!-- 第一个页签是基本情况 -->
+			                    <div id="tab-1" class="tab-pane active">
+                            		<div class="panel-body">
+                            		
+<!--                             			<div class="row" id="spinners" style="display:none;"> -->
+<!--                             				<div class="col-sm-12"> -->
+<!--                             					<div class="spiner-example"> -->
+<!-- 						                            <div class="sk-spinner sk-spinner-fading-circle"> -->
+<!-- 						                                <div class="sk-circle1 sk-circle"></div> -->
+<!-- 						                                <div class="sk-circle2 sk-circle"></div> -->
+<!-- 						                                <div class="sk-circle3 sk-circle"></div> -->
+<!-- 						                                <div class="sk-circle4 sk-circle"></div> -->
+<!-- 						                                <div class="sk-circle5 sk-circle"></div> -->
+<!-- 						                                <div class="sk-circle6 sk-circle"></div> -->
+<!-- 						                                <div class="sk-circle7 sk-circle"></div> -->
+<!-- 						                                <div class="sk-circle8 sk-circle"></div> -->
+<!-- 						                                <div class="sk-circle9 sk-circle"></div> -->
+<!-- 						                                <div class="sk-circle10 sk-circle"></div> -->
+<!-- 						                                <div class="sk-circle11 sk-circle"></div> -->
+<!-- 						                                <div class="sk-circle12 sk-circle"></div> -->
+<!-- 						                            </div>  <div style="text-align:center;">正在加载中，请稍后。。。。。。</div> -->
+<!-- 						                        </div> -->
+						                      
+<!--                             				</div> -->
+<!--                             			</div> -->
+                            			<div id="neirong_jiben">
+	                            			<div class="row">
+	                            				<div class="col-sm-12">
+		                            				<div class="row">
+							                        	<div class="col-sm-12">
+							                        		<h3><strong style="padding-left:50%;">一、基本信息</strong></h3>
+									                        <div class="table-responsive">
+																<table class="table table-bordered" id="jbxxTable">
+																	<tbody id="show_jbxx">
+																		<tr>
+																			<td colspan="1">家庭住址</td>
+																			<td colspan="5">
+																				<h><code id="show_hz_address1">内蒙古自治区</code>（区、市）</h>
+										                            		 	<h><code id="show_hz_address2">鄂尔多斯市</code>（地、州、盟）</h>
+										                            		 	<h><code id="show_hz_address3"></code>（市、区、旗）</h>
+										                            		 	<h><code id="show_hz_address4"></code>（乡、苏木）</h>
+										                            		 	<h><code id="show_hz_address5"></code>村</h>
+										                            		 	<h><code id="show_hz_address6"></code>自然村（屯）</h>
+																			</td>
+																		</tr>
+																		<tr>
+																			<td colspan="">联系电话：</td>
+																			<td><code id="show_hz_phone"></code></td>
+																			<td>开户银行</td>
+																			<td><code id="show_hz_bank"></code></td>
+																			<td>银行账号</td>		
+																			<td><code id="show_hz_banknum"></code></td>
+																		</tr>
+																		<tr>
+																			<td colspan="">识别标准</td>
+																			<td colspan="3"><code id="show_hz_sbbz"></code></td>
+																			<td colspan="">贫困户属性</td>
+																			<td colspan=""><code id="show_hz_pkgsx"></code></td>
+																			
+																		</tr>
+																		<tr>
+																			<td colspan="">是否军烈属</td>
+																			<td><code id="show_hz_sfjls"></code></td>
+																			<td colspan="">是否独生子女户</td>
+																			<td><code id="show_hz_dsznh"></code></td>
+																			<td colspan="">是否双女户</td>
+																			<td><code id="show_hz_snh"></code></td>
+																			
+																		</tr>
+																	</tbody>
+																</table>
+															</div>
+									                      </div>
+		                            					</div>
+								                        <div class="clearfix"></div>
+	                            				</div>
+	                            			</div>
+	                            			<!-- 家庭成员 -->
+	                            			<div id="jiatingchengyuans" class="row">
+	                            				<h3><strong style="padding-left:50%;">二、家庭成员信息</strong></h3>
+	                            				<div class="col-sm-12">
+													<div class="table-responsive">
+														<table class="table table-striped table-bordered tabbb" id="jtcyTable">
+															<thead>
+																<tr>
+																	<th style="text-align:center;">序号</th>
+																	<th style="text-align:center;">姓名</th>
+																	<th style="text-align:center;">性别</th>
+																	<th style="text-align:center;">证件号码</th>
+																	<th style="text-align:center;">与户主关系</th>
+																	<th style="text-align:center;">民族</th>
+																	<th style="text-align:center;">政治面貌</th>
+																	<th style="text-align:center;">文化程度</th>
+																	<th style="text-align:center;">在校生情况</th>
+																	<th style="text-align:center;">健康状况</th>
+																	<th style="text-align:center;">劳动技能</th>
+																	<th style="text-align:center;">务工情况</th>
+																	<th style="text-align:center;">务工时间</th>
+																	<th style="text-align:center;">是否现役军人</th>
+																	<th style="text-align:center;">是否参加大病医疗保险</th>
+																</tr>
+															</thead>
+															<tbody id="jtcy_table"></tbody>
+														</table>
+													</div>
+							                	</div>
+											</div>
+											<!-- 致贫原因 -->
+											<div class="row">
+												<h3><strong style="padding-left:50%;">三、致贫原因</strong></h3>
+												<div class="col-sm-12">
+													<div class="table-responsive">
+														<table class="table table-bordered" id="zpyyTable">
+															<tbody id="zpyy_table">
+																<tr>
+																	<td style="width:20%;">
+																		<h>主要致贫原因</h>
+																	</td>
+																	<td><code id="show_zyzp"></code></td>
+																</tr>
+																<tr>
+																	<td colspan="">
+																		<h>其他致贫原因</h>
+																	</td>
+																	<td><code id="show_qtzp"></code></td>
+																</tr>
+															</tbody>
+														</table>
+													</div>
+							                	</div>
+											</div>
+											<!-- 收入情况 -->
+											<div class="row">
+												<h3><strong style="padding-left:50%;">四、收入情况</strong></h3>
+												<div class="col-sm-12">
+													<div class="table-responsive">
+														<table class="table table-bordered" id="srqkTable">
+															<tbody id="srqk_table">
+																<tr>
+																	<td >工资性收入（元）</td>
+																	<td ><code id="show_gzxsr"></code></td>
+																	<td >计划生育金（元）</td>
+																	<td ><code id="show_jhsy"></code></td>
+																	<td >生态补偿金（元）</td>
+																	<td ><code id="show_stbc"></code></td>
+																</tr>
+																<tr>
+																	<td >生产经营性收入（元）</td>
+																	<td ><code id="show_scjyx"></code></td>
+																	<td >低保金（元）</td>
+																	<td ><code id="show_dbj"></code></td>
+																	<td >其他转移性收入（元）</td>
+																	<td ><code id="show_qtzy"></code></td>
+																</tr>
+																<tr>
+																	<td >财产性收入（元）</td>
+																	<td ><code id="show_ccxsr"></code></td>
+																	<td >五保金（元）</td>
+																	<td ><code id="show_wbj"></code></td>
+																	<td >生产经营性支出（元）</td>
+																	<td ><code id="show_scjy"></code></td>
+																</tr>
+																<tr>
+																	<td >转移性收入（元）</td>
+																	<td ><code id="shoow_zyxsr"></code></td>
+																	<td >养老保险金（元）</td>
+																	<td ><code id="show_ylbx"></code></td>
+																	<td ></td>
+																	<td ></td>
+																</tr>
+															</tbody>
+														</table>
+													</div>
+							                	</div>
+											</div>
+											<!-- 生产生活条件 -->
+											<div class="row">
+												<h3><strong style="padding-left:50%;">五、生产生活条件</strong></h3>
+												<div class="col-sm-12">
+													<div class="table-responsive">
+														<table class="table table-bordered" id="scshTable">
+															<tbody id="scsh_table">
+																<tr>
+																	<td >耕地面积（亩）</td>
+																	<td ><code id="show_gdmj"></code></td>
+																	<td >是否通生产用电</td>
+																	<td ><code id="show_sfscyd"></code></td>
+																	<td >主要燃料类型</td>
+																	<td ><code id="show_zyrl"></code></td>
+																</tr>
+																<tr>
+																	<td >有效灌溉面积（亩）</td>
+																	<td ><code id="show_ggmj"></code></td>
+																	<td >与村主干路距离（公里）</td>
+																	<td ><code id="show_zgljl"></code></td>
+																	<td >是否加入农民专业合作社</td>
+																	<td ><code id="show_zyhzs"></code></td>
+																</tr>
+																<tr>
+																	<td >林地面积（亩）</td>
+																	<td ><code id="show_ldmj"></code></td>
+																	<td >入户路类型</td>
+																	<td ><code id="show_rullx"></code></td>
+																	<td >有无卫生厕所</td>
+																	<td ><code id="show_wscs"></code></td>
+																</tr>
+																<tr>
+																	<td >退耕还林面积（亩）</td>
+																	<td ><code id="show_tghlmj"></code></td>
+																	<td >住房面积（平房米）</td>
+																	<td ><code id="show_zfmj"></code></td>
+																	<td ></td>
+																	<td ></td>
+																</tr>
+																<tr>
+																	<td >林果面积（亩）</td>
+																	<td ><code id="show_lgmj"></code></td>
+																	<td >是否通生活用电</td>
+																	<td ><code id="show_shyd"></code></td>
+																	<td ></td>
+																	<td ></td>
+																</tr>
+																<tr>
+																	<td >牧草地面积（亩）</td>
+																	<td ><code id="show_mcdmj"></code></td>
+																	<td >饮水是否困难</td>
+																	<td ><code id="show_yskn"></code></td>
+																	<td ></td>
+																	<td ></td>
+																</tr>
+																<tr>
+																	<td >水面面积（亩）</td>
+																	<td ><code id="show_smmj"></code></td>
+																	<td >饮水是否安全</td>
+																	<td ><code id="show_ysaq"></code></td>
+																	<td ></td>
+																	<td ></td>
+																</tr>
+															</tbody>
+														</table>
+													</div>
+							                	</div>
+											</div>
+											<!-- 易地搬迁户需求 -->
+											<div class="row">
+												<h3><strong style="padding-left:50%;">六、易地搬迁户需求</strong></h3>
+												<div class="col-sm-12">
+													<div class="table-responsive">
+														<table class="table table-bordered" id="ydbqTable">
+															<tbody id="ydbq_table">
+																<tr>
+																	<td style="width:20%;">
+																		<h>是否搬迁户</h>
+																	</td>
+																	<td ><code id="show_sfbqh"></code></td>
+																</tr>
+																<tr>
+																	<td >
+																		<h>搬迁方式</h>
+																	</td>
+																	<td><code id="show_bqfs"></code></td>
+																</tr>
+																<tr>
+																	<td >
+																		<h>安置方式</h>
+																	</td>
+																	<td><code id="show_azfs"></code></td>
+																</tr>
+																<tr>
+																	<td >
+																		<h>安置地</h>
+																	</td>
+																	<td><code id="shoow_azd"></code></td>
+																</tr>
+																<tr>
+																	<td >
+																		<h>搬迁可能存在的困难</h>
+																	</td>
+																	<td><code id="show_czkn"></code></td>
+																</tr>
+																
+															</tbody>
+														</table>
+													</div>
+							                	</div>
+											</div>
+											<!-- 帮扶责任人 -->
+											<div class="row">
+												<h3><strong style="padding-left:50%;">七、帮扶责任人</strong></h3>
+												<div class="col-sm-12">
+													<div class="table-responsive">
+														<table class="table table-striped table-bordered tabbb" id="bfzrrTable">
+															<thead>
+																<tr>
+																	<th style="text-align:center;">序号</th>
+																	<th style="text-align:center;">姓名</th>
+																	<th style="text-align:center;">性别</th>
+																	<th style="text-align:center;">证件号码</th>
+																	<th style="text-align:center;">政治面貌</th>
+																	<th style="text-align:center;">帮扶单位名称</th>
+																	<th style="text-align:center;">帮扶开始时间</th>
+																	<th style="text-align:center;">帮扶结束时间</th>
+																	<th style="text-align:center;">隶属关系</th>
+																	<th style="text-align:center;">单位地址</th>
+																	<th style="text-align:center;">联系电话</th>
+																</tr>
+															</thead>
+															<tbody id="bfzrr_table"></tbody>
+														</table>
+													</div>
+									            </div>
+<!-- 									            <div class="col-sm-3"> -->
+<!-- 									            	<p>填表人：<code id="show_tbr"></code></p> -->
+<!-- 									            </div> -->
+<!-- 									            <div class="col-sm-3"> -->
+<!-- 									            	<p>联系电话：<code id="show_lxdh"></code></p> -->
+<!-- 									            </div> -->
+<!-- 									            <div class="col-sm-3"> -->
+<!-- 									            	<p>户主签字：<code id="show_hzqz"></code></p> -->
+<!-- 									            </div> -->
+<!-- 									            <div class="col-sm-3"> -->
+<!-- 									            	<p>填表日期:<code id="show_tbrq"></code></p> -->
+<!-- 									            </div> -->
+											</div>
+										</div>
+                            		</div>
+			                    </div>
+								<!--2016年度脱贫计划、帮扶措施、工作台账、贫困户检测收入表-->
+								<div id="tab-2" class="tab-pane">
+									<!-- 脱贫计划 -->
+									<div class="panel-body">
+                                      	  <div class="row" id="show_tp_biaog">
+											<h3><strong style="padding-left:50%;">脱贫计划</strong></h3>	
+											<div class="col-sm-12">
+												<div class="table-responsive">
+													<table class="table table-bordered" id="tpjhTable_0">
+														<thead>
+															<tr>
+																<th style="text-align:center;" colspan="1" rowspan="3">序号</th>
+																<th style="text-align:center;" rowspan="3">脱贫指标</th>
+																<th style="text-align:center;" rowspan="3">目标值</th>
+																<th style="text-align:center;" rowspan="3">建档立卡贫困现状</th>
+																<th style="text-align:center;" colspan="2">计划脱贫年度</th>
+															</tr>
+															<tr>
+																<th style="text-align:center;" colspan="2">2016年</th>
+															</tr>
+															<tr>
+																<th style="text-align:center;" >计划</th>
+																<th style="text-align:center;">完成</th>
+															</tr>
+															
+														</thead>
+														<tbody id="tpjh_table_0">
+															<tr>
+																<th style="text-align:center;" >1</th>
+																<th>贫困户人均可支配收入</th>
+																<th>高于当年国家扶贫标准</th>
+																<th><code id="show_tpv2_0"></code></th>
+																<th><code id="show_tpv3_0"></code></th>
+																<th><code id="show_tpv4_0"></code></th>
+															</tr>
+															<tr>
+																<th style="text-align:center;" >2</th>
+																<th>有安全住房</th>
+																<th>有</th>
+																<th><code id="show_tpv5_0"></code></th>
+																<th><code id="show_tpv6_0"></code></th>
+																<th><code id="show_tpv7_0"></code></th>
+															</tr>
+															<tr>
+																<th style="text-align:center;" >3</th>
+																<th>无贫困辍学学生</th>
+																<th>无</th>
+																<th><code id="show_tpv8_0"></code></th>
+																<th><code id="show_tpv9_0"></code></th>
+																<th><code id="show_tpv10_0"></code></th>
+															</tr>
+															<tr>
+																<th style="text-align:center;" >4</th>
+																<th>无因病致贫返贫</th>
+																<th>无</th>
+																<th><code id="show_tpv11_0"></code></th>
+																<th><code id="show_tpv12_0"></code></th>
+																<th><code id="show_tpv13_0"></code></th>
+															</tr>
+															<tr>
+																<th style="text-align:center;" >5</th>
+																<th>参加新型农村合作医疗</th>
+																<th>参加</th>
+																<th><code id="show_tpv14_0"></code></th>
+																<th><code id="show_tpv15_0"></code></th>
+																<th><code id="show_tpv16_0"></code></th>
+															</tr>
+															<tr>
+																<th style="text-align:center;" >6</th>
+																<th>参加城乡居民基本养老保险</th>
+																<th>参加</th>
+																<th><code id="show_tpv17_0"></code></th>
+																<th><code id="show_tpv18_0"></code></th>
+																<th><code id="show_tpv19_0"></code></th>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+										<!-- 帮扶措施 -->
+										<div class="row" id="show_bfcs">
+											<h3><strong style="padding-left:50%;">帮扶措施</strong></h3>
+											<div class="col-sm-12">
+												<div class="table-responsive">
+													<table class="table table-bordered" id="bfcsTable_0">
+														<thead>
+															<tr>
+																<th style="text-align:center;" colspan="1" rowspan="2">序号</th>
+																<th style="text-align:center;" colspan="1" rowspan="2">项目类别</th>
+																<th style="text-align:center;" colspan="1" rowspan="2">扶持措施</th>
+																<th style="text-align:center;" colspan="1" rowspan="2">是否符合扶持条件</th>
+																<th style="text-align:center;" colspan="3">2016年</th>
+															</tr>
+															<tr>
+																<th style="text-align:center;" >项目需求量</th>
+																<th style="text-align:center;">受益资金/政策</th>
+																<th style="text-align:center;">落实时间</th>
+															</tr>
+														</thead>
+														<tbody id="bfcs_table_0">
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+										
+										<!-- 工作台账 -->
+										<div class="row" id="show_tz_biaog">
+											<h3><strong style="padding-left:50%;">工作台账</strong></h3>	
+											<div class="col-sm-12">
+												<div class="table-responsive">
+													<table class="table table-bordered" id="gztzTable_0">
+														<thead>
+															<tr>
+																<th style="text-align:center;width:6%;" colspan="1" rowspan="2">季度</th>
+																<th style="text-align:center;" rowspan="2">工作开展情况</th>
+																<th style="text-align:center;width:30%;" colspan="2">帮扶责任人</th>
+																<th style="text-align:center;width:10%;" rowspan="2">时间</th>
+															</tr>
+															<tr>
+																<th style="text-align:center;width:10%;" >姓名</th>
+																<th style="text-align:center;">单位</th>
+															</tr>
+														</thead>
+														<tbody id="gztz_table_0"></tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+										
+										<!-- 贫困户收入监测表 -->
+										<div class="row" id="show_tz_biaog">
+											<h3><strong style="padding-left:50%;">贫困户收入监测表</strong></h3>	
+											<div class="col-sm-12">
+												<div class="table-responsive">
+													<table class="table table-bordered" id="pkhsrTable">
+														<thead>
+															<tr>
+																<th style="text-align:center;width:6%;" colspan="1" rowspan="2">序号</th>
+																<th style="text-align:center;width:20%;" rowspan="2">指标名称<br>单位：元</th>
+																<th style="text-align:center;" colspan="4">2016年度</th>
+															</tr>
+															<tr>
+																<th style="text-align:center;">第一季度（1-3月）</th>
+																<th style="text-align:center;">第二季度（1-6月）</th>
+																<th style="text-align:center;">第三季度（1-9月）</th>
+																<th style="text-align:center;">第四季度（1-12月）</th>
+															</tr>
+														</thead>
+														<tbody id="pkhsr_table_0">
+															<tr>
+																<th style="text-align:center;">1</th>
+																<th>人均可支配收入</th>
+																<th></th>
+																<th></th>
+																<th></th>
+																<th></th>
+															</tr>
+															<tr>
+																<th style="text-align:center;">2</th>
+																<th>一、工资性收入</th>
+																<th></th>
+																<th></th>
+																<th></th>
+																<th></th>
+															</tr>
+															<tr>
+																<th style="text-align:center;">3</th>
+																<th>工资</th>
+																<th></th>
+																<th></th>
+																<th></th>
+																<th></th>
+															</tr>
+															<tr>
+																<th style="text-align:center;"></th>
+																<th colspan="5">调查人签字：</th>
+															</tr>
+															<tr>
+																<th style="text-align:center;"></th>
+																<th colspan="5">贫困户签字：</th>
+															</tr>
+															<tr>
+																<th style="text-align:center;"></th>
+																<th colspan="5">备注：</th>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+                                    </div>
+								</div>
+								<!--2017年度脱贫计划、帮扶措施、工作台账、贫困户检测收入表-->
+								<div id="tab-3" class="tab-pane">
+									<!-- 脱贫计划 -->
+									<div class="panel-body">
+                                      	  <div class="row" id="show_tp_biaog">
+											<h3><strong style="padding-left:50%;">脱贫计划</strong></h3>	
+											<div class="col-sm-12">
+												<div class="table-responsive">
+													<table class="table table-bordered" id="tpjhTable_1">
+														<thead>
+															<tr>
+																<th style="text-align:center;" colspan="1" rowspan="3">序号</th>
+																<th style="text-align:center;" rowspan="3">脱贫指标</th>
+																<th style="text-align:center;" rowspan="3">目标值</th>
+																<th style="text-align:center;" rowspan="3">建档立卡贫困现状</th>
+																<th style="text-align:center;" colspan="2">计划脱贫年度</th>
+															</tr>
+															<tr>
+																<th style="text-align:center;" colspan="2">2017年</th>
+															</tr>
+															<tr>
+																<th style="text-align:center;" >计划</th>
+																<th style="text-align:center;">完成</th>
+															</tr>
+															
+														</thead>
+														<tbody id="tpjh_table_1">
+															<tr>
+																<th style="text-align:center;" >1</th>
+																<th>贫困户人均可支配收入</th>
+																<th>高于当年国家扶贫标准</th>
+																<th><code id="show_tpv2_1"></code></th>
+																<th><code id="show_tpv3_1"></code></th>
+																<th><code id="show_tpv4_1"></code></th>
+															</tr>
+															<tr>
+																<th style="text-align:center;" >2</th>
+																<th>有安全住房</th>
+																<th>有</th>
+																<th><code id="show_tpv5_1"></code></th>
+																<th><code id="show_tpv6_1"></code></th>
+																<th><code id="show_tpv7_1"></code></th>
+															</tr>
+															<tr>
+																<th style="text-align:center;" >3</th>
+																<th>无贫困辍学学生</th>
+																<th>无</th>
+																<th><code id="show_tpv8_1"></code></th>
+																<th><code id="show_tpv9_1"></code></th>
+																<th><code id="show_tpv10_1"></code></th>
+															</tr>
+															<tr>
+																<th style="text-align:center;" >4</th>
+																<th>无因病致贫返贫</th>
+																<th>无</th>
+																<th><code id="show_tpv11_1"></code></th>
+																<th><code id="show_tpv12_1"></code></th>
+																<th><code id="show_tpv13_1"></code></th>
+															</tr>
+															<tr>
+																<th style="text-align:center;" >5</th>
+																<th>参加新型农村合作医疗</th>
+																<th>参加</th>
+																<th><code id="show_tpv14_1"></code></th>
+																<th><code id="show_tpv15_1"></code></th>
+																<th><code id="show_tpv16_1"></code></th>
+															</tr>
+															<tr>
+																<th style="text-align:center;" >6</th>
+																<th>参加城乡居民基本养老保险</th>
+																<th>参加</th>
+																<th><code id="show_tpv17_1"></code></th>
+																<th><code id="show_tpv18_1"></code></th>
+																<th><code id="show_tpv19_1"></code></th>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+										<!-- 帮扶措施 -->
+										<div class="row" id="show_bfcs">
+											<h3><strong style="padding-left:50%;">帮扶措施</strong></h3>
+											<div class="col-sm-12">
+												<div class="table-responsive">
+													<table class="table table-bordered" id="bfcsTable_1">
+														<thead>
+															<tr>
+																<th style="text-align:center;" colspan="1" rowspan="2">序号</th>
+																<th style="text-align:center;" colspan="1" rowspan="2">项目类别</th>
+																<th style="text-align:center;" colspan="1" rowspan="2">扶持措施</th>
+																<th style="text-align:center;" colspan="1" rowspan="2">是否符合扶持条件</th>
+																<th style="text-align:center;" colspan="3">2017年</th>
+															</tr>
+															<tr>
+																<th style="text-align:center;" >项目需求量</th>
+																<th style="text-align:center;">受益资金/政策</th>
+																<th style="text-align:center;">落实时间</th>
+															</tr>
+														</thead>
+														<tbody id="bfcs_table_1">
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+										
+										<!-- 工作台账 -->
+										<div class="row" id="show_tz_biaog">
+											<h3><strong style="padding-left:50%;">工作台账</strong></h3>	
+											<div class="col-sm-12">
+												<div class="table-responsive">
+													<table class="table table-bordered" id="gztzTable_1">
+														<thead>
+															<tr>
+																<th style="text-align:center;width:6%;" colspan="1" rowspan="2">季度</th>
+																<th style="text-align:center;" rowspan="2">工作开展情况</th>
+																<th style="text-align:center;width:30%;" colspan="2">帮扶责任人</th>
+																<th style="text-align:center;width:10%;" rowspan="2">时间</th>
+															</tr>
+															<tr>
+																<th style="text-align:center;width:10%;" >姓名</th>
+																<th style="text-align:center;">单位</th>
+															</tr>
+														</thead>
+														<tbody id="gztz_table_1">
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+										
+										<!-- 贫困户收入监测表 -->
+										<div class="row" id="show_tz_biaog">
+											<h3><strong style="padding-left:50%;">贫困户收入监测表</strong></h3>	
+											<div class="col-sm-12">
+												<div class="table-responsive">
+													<table class="table table-bordered" id="pkhsrTable_1">
+														<thead>
+															<tr>
+																<th style="text-align:center;width:6%;" colspan="1" rowspan="2">序号</th>
+																<th style="text-align:center;width:20%;" rowspan="2">指标名称<br>单位：元</th>
+																<th style="text-align:center;" colspan="4">2017年度</th>
+															</tr>
+															<tr>
+																<th style="text-align:center;">第一季度（1-3月）</th>
+																<th style="text-align:center;">第二季度（1-6月）</th>
+																<th style="text-align:center;">第三季度（1-9月）</th>
+																<th style="text-align:center;">第四季度（1-12月）</th>
+															</tr>
+														</thead>
+														<tbody id="pkhsr_table_1">
+															<tr>
+																<th style="text-align:center;">1</th>
+																<th>人均可支配收入</th>
+																<th></th>
+																<th></th>
+																<th></th>
+																<th></th>
+															</tr>
+															<tr>
+																<th style="text-align:center;">2</th>
+																<th>一、工资性收入</th>
+																<th></th>
+																<th></th>
+																<th></th>
+																<th></th>
+															</tr>
+															<tr>
+																<th style="text-align:center;">3</th>
+																<th>工资</th>
+																<th></th>
+																<th></th>
+																<th></th>
+																<th></th>
+															</tr>
+															<tr>
+																<th style="text-align:center;"></th>
+																<th colspan="5">调查人签字：</th>
+															</tr>
+															<tr>
+																<th style="text-align:center;"></th>
+																<th colspan="5">贫困户签字：</th>
+															</tr>
+															<tr>
+																<th style="text-align:center;"></th>
+																<th colspan="5">备注：</th>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+										
+                                    </div>
+                                    
+								</div>
+								
+			                    <!--2018年度脱贫计划、帮扶措施、工作台账、贫困户检测收入表-->
+                                <div id="tab-4" class="tab-pane">
+                                    <!-- 脱贫计划 -->
+									<div class="panel-body">
+                                      	  <div class="row" id="show_tp_biaog">
+											<h3><strong style="padding-left:50%;">脱贫计划</strong></h3>	
+											<div class="col-sm-12">
+												<div class="table-responsive">
+													<table class="table table-bordered" id="tpjhTable_2">
+														<thead>
+															<tr>
+																<th style="text-align:center;" colspan="1" rowspan="3">序号</th>
+																<th style="text-align:center;" rowspan="3">脱贫指标</th>
+																<th style="text-align:center;" rowspan="3">目标值</th>
+																<th style="text-align:center;" rowspan="3">建档立卡贫困现状</th>
+																<th style="text-align:center;" colspan="2">计划脱贫年度</th>
+															</tr>
+															<tr>
+																<th style="text-align:center;" colspan="2">2018年</th>
+															</tr>
+															<tr>
+																<th style="text-align:center;" >计划</th>
+																<th style="text-align:center;">完成</th>
+															</tr>
+															
+														</thead>
+														<tbody id="tpjh_table_2">
+															<tr>
+																<th style="text-align:center;" >1</th>
+																<th>贫困户人均可支配收入</th>
+																<th>高于当年国家扶贫标准</th>
+																<th><code id="show_tpv2_2"></code></th>
+																<th><code id="show_tpv3_2"></code></th>
+																<th><code id="show_tpv4_2"></code></th>
+															</tr>
+															<tr>
+																<th style="text-align:center;" >2</th>
+																<th>有安全住房</th>
+																<th>有</th>
+																<th><code id="show_tpv5_2"></code></th>
+																<th><code id="show_tpv6_2"></code></th>
+																<th><code id="show_tpv7_2"></code></th>
+															</tr>
+															<tr>
+																<th style="text-align:center;" >3</th>
+																<th>无贫困辍学学生</th>
+																<th>无</th>
+																<th><code id="show_tpv8_2"></code></th>
+																<th><code id="show_tpv9_2"></code></th>
+																<th><code id="show_tpv10_2"></code></th>
+															</tr>
+															<tr>
+																<th style="text-align:center;" >4</th>
+																<th>无因病致贫返贫</th>
+																<th>无</th>
+																<th><code id="show_tpv11_2"></code></th>
+																<th><code id="show_tpv12_2"></code></th>
+																<th><code id="show_tpv13_2"></code></th>
+															</tr>
+															<tr>
+																<th style="text-align:center;" >5</th>
+																<th>参加新型农村合作医疗</th>
+																<th>参加</th>
+																<th><code id="show_tpv14_2"></code></th>
+																<th><code id="show_tpv15_2"></code></th>
+																<th><code id="show_tpv16_2"></code></th>
+															</tr>
+															<tr>
+																<th style="text-align:center;" >6</th>
+																<th>参加城乡居民基本养老保险</th>
+																<th>参加</th>
+																<th><code id="show_tpv17_2"></code></th>
+																<th><code id="show_tpv18_2"></code></th>
+																<th><code id="show_tpv19_2"></code></th>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+										<!-- 帮扶措施 -->
+										<div class="row" id="show_bfcs">
+											<h3><strong style="padding-left:50%;">帮扶措施</strong></h3>
+											<div class="col-sm-12">
+												<div class="table-responsive">
+													<table class="table table-bordered" id="bfcsTable_2">
+														<thead>
+															<tr>
+																<th style="text-align:center;" colspan="1" rowspan="2">序号</th>
+																<th style="text-align:center;" colspan="1" rowspan="2">项目类别</th>
+																<th style="text-align:center;" colspan="1" rowspan="2">扶持措施</th>
+																<th style="text-align:center;" colspan="1" rowspan="2">是否符合扶持条件</th>
+																<th style="text-align:center;" colspan="3">2018年</th>
+															</tr>
+															<tr>
+																<th style="text-align:center;" >项目需求量</th>
+																<th style="text-align:center;">受益资金/政策</th>
+																<th style="text-align:center;">落实时间</th>
+															</tr>
+														</thead>
+														<tbody id="bfcs_table_2">
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+										
+										<!-- 工作台账 -->
+										<div class="row" id="show_tz_biaog">
+											<h3><strong style="padding-left:50%;">工作台账</strong></h3>	
+											<div class="col-sm-12">
+												<div class="table-responsive">
+													<table class="table table-bordered" id="gztzTable_2">
+														<thead>
+															<tr>
+																<th style="text-align:center;width:6%;" colspan="1" rowspan="2">季度</th>
+																<th style="text-align:center;" rowspan="2">工作开展情况</th>
+																<th style="text-align:center;width:30%;" colspan="2">帮扶责任人</th>
+																<th style="text-align:center;width:10%;" rowspan="2">时间</th>
+															</tr>
+															<tr>
+																<th style="text-align:center;width:10%;" >姓名</th>
+																<th style="text-align:center;">单位</th>
+															</tr>
+														</thead>
+														<tbody id="gztz_table_2">
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+										
+										<!-- 贫困户收入监测表 -->
+										<div class="row" id="show_tz_biaog">
+											<h3><strong style="padding-left:50%;">贫困户收入监测表</strong></h3>	
+											<div class="col-sm-12">
+												<div class="table-responsive">
+													<table class="table table-bordered" id="pkhsrTable_2">
+														<thead>
+															<tr>
+																<th style="text-align:center;width:6%;" colspan="1" rowspan="2">序号</th>
+																<th style="text-align:center;width:20%;" rowspan="2">指标名称<br>单位：元</th>
+																<th style="text-align:center;" colspan="4">2018年度</th>
+															</tr>
+															<tr>
+																<th style="text-align:center;">第一季度（1-3月）</th>
+																<th style="text-align:center;">第二季度（1-6月）</th>
+																<th style="text-align:center;">第三季度（1-9月）</th>
+																<th style="text-align:center;">第四季度（1-12月）</th>
+															</tr>
+														</thead>
+														<tbody id="pkhsr_table_2">
+															<tr>
+																<th style="text-align:center;">1</th>
+																<th>人均可支配收入</th>
+																<th></th>
+																<th></th>
+																<th></th>
+																<th></th>
+															</tr>
+															<tr>
+																<th style="text-align:center;">2</th>
+																<th>一、工资性收入</th>
+																<th></th>
+																<th></th>
+																<th></th>
+																<th></th>
+															</tr>
+															<tr>
+																<th style="text-align:center;">3</th>
+																<th>工资</th>
+																<th></th>
+																<th></th>
+																<th></th>
+																<th></th>
+															</tr>
+															<tr>
+																<th style="text-align:center;"></th>
+																<th colspan="5">调查人签字：</th>
+															</tr>
+															<tr>
+																<th style="text-align:center;"></th>
+																<th colspan="5">贫困户签字：</th>
+															</tr>
+															<tr>
+																<th style="text-align:center;"></th>
+																<th colspan="5">备注：</th>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+										
+                                    </div>
+                                    
+                                </div>
+			                    <!--2019年度脱贫计划、帮扶措施、工作台账、贫困户检测收入表-->   
+			                    <div id="tab-5" class="tab-pane">
+			                        <!-- 脱贫计划 -->
+									<div class="panel-body">
+                                      	  <div class="row" id="show_tp_biaog">
+											<h3><strong style="padding-left:50%;">脱贫计划</strong></h3>	
+											<div class="col-sm-12">
+												<div class="table-responsive">
+													<table class="table table-bordered" id="tpjhTable_3">
+														<thead>
+															<tr>
+																<th style="text-align:center;" colspan="1" rowspan="3">序号</th>
+																<th style="text-align:center;" rowspan="3">脱贫指标</th>
+																<th style="text-align:center;" rowspan="3">目标值</th>
+																<th style="text-align:center;" rowspan="3">建档立卡贫困现状</th>
+																<th style="text-align:center;" colspan="2">计划脱贫年度</th>
+															</tr>
+															<tr>
+																<th style="text-align:center;" colspan="2">2019年</th>
+															</tr>
+															<tr>
+																<th style="text-align:center;" >计划</th>
+																<th style="text-align:center;">完成</th>
+															</tr>
+															
+														</thead>
+														<tbody id="tpjh_table_3">
+															<tr>
+																<th style="text-align:center;" >1</th>
+																<th>贫困户人均可支配收入</th>
+																<th>高于当年国家扶贫标准</th>
+																<th><code id="show_tpv2_3"></code></th>
+																<th><code id="show_tpv3_3"></code></th>
+																<th><code id="show_tpv4_3"></code></th>
+															</tr>
+															<tr>
+																<th style="text-align:center;" >2</th>
+																<th>有安全住房</th>
+																<th>有</th>
+																<th><code id="show_tpv5_3"></code></th>
+																<th><code id="show_tpv6_3"></code></th>
+																<th><code id="show_tpv7_3"></code></th>
+															</tr>
+															<tr>
+																<th style="text-align:center;" >3</th>
+																<th>无贫困辍学学生</th>
+																<th>无</th>
+																<th><code id="show_tpv8_3"></code></th>
+																<th><code id="show_tpv9_3"></code></th>
+																<th><code id="show_tpv10_3"></code></th>
+															</tr>
+															<tr>
+																<th style="text-align:center;" >4</th>
+																<th>无因病致贫返贫</th>
+																<th>无</th>
+																<th><code id="show_tpv11_3"></code></th>
+																<th><code id="show_tpv12_3"></code></th>
+																<th><code id="show_tpv13_3"></code></th>
+															</tr>
+															<tr>
+																<th style="text-align:center;" >5</th>
+																<th>参加新型农村合作医疗</th>
+																<th>参加</th>
+																<th><code id="show_tpv14_3"></code></th>
+																<th><code id="show_tpv15_3"></code></th>
+																<th><code id="show_tpv16_3"></code></th>
+															</tr>
+															<tr>
+																<th style="text-align:center;" >6</th>
+																<th>参加城乡居民基本养老保险</th>
+																<th>参加</th>
+																<th><code id="show_tpv17_3"></code></th>
+																<th><code id="show_tpv18_3"></code></th>
+																<th><code id="show_tpv19_3"></code></th>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+										<!-- 帮扶措施 -->
+										<div class="row" id="show_bfcs">
+											<h3><strong style="padding-left:50%;">帮扶措施</strong></h3>
+											<div class="col-sm-12">
+												<div class="table-responsive">
+													<table class="table table-bordered" id="bfcsTable_3">
+														<thead>
+															<tr>
+																<th style="text-align:center;" colspan="1" rowspan="2">序号</th>
+																<th style="text-align:center;" colspan="1" rowspan="2">项目类别</th>
+																<th style="text-align:center;" colspan="1" rowspan="2">扶持措施</th>
+																<th style="text-align:center;" colspan="1" rowspan="2">是否符合扶持条件</th>
+																<th style="text-align:center;" colspan="3">2019年</th>
+															</tr>
+															<tr>
+																<th style="text-align:center;" >项目需求量</th>
+																<th style="text-align:center;">受益资金/政策</th>
+																<th style="text-align:center;">落实时间</th>
+															</tr>
+														</thead>
+														<tbody id="bfcs_table_3">
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+										
+										<!-- 工作台账 -->
+										<div class="row" id="show_tz_biaog">
+											<h3><strong style="padding-left:50%;">工作台账</strong></h3>	
+											<div class="col-sm-12">
+												<div class="table-responsive">
+													<table class="table table-bordered" id="gztzTable_3">
+														<thead>
+															<tr>
+																<th style="text-align:center;width:6%;" colspan="1" rowspan="2">季度</th>
+																<th style="text-align:center;" rowspan="2">工作开展情况</th>
+																<th style="text-align:center;width:30%;" colspan="2">帮扶责任人</th>
+																<th style="text-align:center;width:10%;" rowspan="2">时间</th>
+															</tr>
+															<tr>
+																<th style="text-align:center;width:10%;" >姓名</th>
+																<th style="text-align:center;">单位</th>
+															</tr>
+														</thead>
+														<tbody id="gztz_table_3">
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+										
+										<!-- 贫困户收入监测表 -->
+										<div class="row" id="show_tz_biaog">
+											<h3><strong style="padding-left:50%;">贫困户收入监测表</strong></h3>	
+											<div class="col-sm-12">
+												<div class="table-responsive"> 
+													<table class="table table-bordered" id="pkhsrTable_3">
+														<thead>
+															<tr>
+																<th style="text-align:center;width:6%;" colspan="1" rowspan="2">序号</th>
+																<th style="text-align:center;width:20%;" rowspan="2">指标名称<br>单位：元</th>
+																<th style="text-align:center;" colspan="4">2019年度</th>
+															</tr>
+															<tr>
+																<th style="text-align:center;">第一季度（1-3月）</th>
+																<th style="text-align:center;">第二季度（1-6月）</th>
+																<th style="text-align:center;">第三季度（1-9月）</th>
+																<th style="text-align:center;">第四季度（1-12月）</th>
+															</tr>
+														</thead>
+														<tbody id="pkhsr_table_3">
+															<tr>
+																<th style="text-align:center;">1</th>
+																<th>人均可支配收入</th>
+																<th></th>
+																<th></th>
+																<th></th>
+																<th></th>
+															</tr>
+															<tr>
+																<th style="text-align:center;">2</th>
+																<th>一、工资性收入</th>
+																<th></th>
+																<th></th>
+																<th></th>
+																<th></th>
+															</tr>
+															<tr>
+																<th style="text-align:center;">3</th>
+																<th>工资</th>
+																<th></th>
+																<th></th>
+																<th></th>
+																<th></th>
+															</tr>
+															<tr>
+																<th style="text-align:center;"></th>
+																<th colspan="5">调查人签字：</th>
+															</tr>
+															<tr>
+																<th style="text-align:center;"></th>
+																<th colspan="5">贫困户签字：</th>
+															</tr>
+															<tr>
+																<th style="text-align:center;"></th>
+																<th colspan="5">备注：</th>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+										
+                                    </div>
+                                    
+			                    </div>
+			                    <!--2020年度脱贫计划、帮扶措施、工作台账、贫困户检测收入表-->
+			                    <div id="tab-6" class="tab-pane">
+									<!-- 工作台账 -->
+									<div class="row" id="show_tz_biaog">
+										<h3><strong style="padding-left:50%;">工作台账</strong></h3>	
+										<div class="col-sm-12">
+											<div class="table-responsive">
+												<table class="table table-bordered" id="gztzTable_4">
+													<thead>
+														<tr>
+															<th style="text-align:center;width:6%;" colspan="1" rowspan="2">季度</th>
+															<th style="text-align:center;" rowspan="2">工作开展情况</th>
+															<th style="text-align:center;width:30%;" colspan="2">帮扶责任人</th>
+															<th style="text-align:center;width:10%;" rowspan="2">时间</th>
+														</tr>
+														<tr>
+															<th style="text-align:center;width:10%;" >姓名</th>
+															<th style="text-align:center;">单位</th>
+														</tr>
+													</thead>
+													<tbody id="gztz_table_4">
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+									
+									<!-- 贫困户收入监测表 -->
+									<div class="row" id="show_tz_biaog">
+										<h3><strong style="padding-left:50%;">贫困户收入监测表</strong></h3>	
+										<div class="col-sm-12">
+											<div class="table-responsive">
+												<table class="table table-bordered" id="pkhsrTable_4">
+													<thead>
+														<tr>
+															<th style="text-align:center;width:6%;" colspan="1" rowspan="2">序号</th>
+															<th style="text-align:center;width:20%;" rowspan="2">指标名称<br>单位：元</th>
+															<th style="text-align:center;" colspan="4">2020年度</th>
+														</tr>
+														<tr>
+															<th style="text-align:center;">第一季度（1-3月）</th>
+															<th style="text-align:center;">第二季度（1-6月）</th>
+															<th style="text-align:center;">第三季度（1-9月）</th>
+															<th style="text-align:center;">第四季度（1-12月）</th>
+														</tr>
+													</thead>
+													<tbody id="pkhsr_table_4">
+														<tr>
+															<th style="text-align:center;">1</th>
+															<th>人均可支配收入</th>
+															<th></th>
+															<th></th>
+															<th></th>
+															<th></th>
+														</tr>
+														<tr>
+															<th style="text-align:center;">2</th>
+															<th>一、工资性收入</th>
+															<th></th>
+															<th></th>
+															<th></th>
+															<th></th>
+														</tr>
+														<tr>
+															<th style="text-align:center;">3</th>
+															<th>工资</th>
+															<th></th>
+															<th></th>
+															<th></th>
+															<th></th>
+														</tr>
+														<tr>
+															<th style="text-align:center;"></th>
+															<th colspan="5">调查人签字：</th>
+														</tr>
+														<tr>
+															<th style="text-align:center;"></th>
+															<th colspan="5">贫困户签字：</th>
+														</tr>
+														<tr>
+															<th style="text-align:center;"></th>
+															<th colspan="5">备注：</th>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+										
+                                  </div>
+								</div>
+                            </div><!-- tab页面的内容 -->
+                        </div>
+                    </div><!-- 第四行可以出表格 -->
+                </div>
+            </div><!-- 中间部分 -->
+            
+            <!-- 尾部 -->
+            <div class="footer" id="weibu_title"></div><!-- 尾部 -->
+        </div>
+    </div>
+    
+  
+	<!-- 修改密码页面 -->
+    <div id="gray_2"></div>
+
+	<div class="popup" id="popup_2">
+
+		<div class="top_nav" >
+			<div align="center">
+				<i></i>
+				<span>修改密码</span>
+				<a class="guanbi"></a>
+			</div>
+		</div>
+		
+		<div class="main">
+			<div class="tc_login">
+				<div class="center">
+						<div align="center">
+							<div align="center">
+							<br/>
+							<h4 style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;请输入原密码：</h4>
+							</div>
+							<br/>
+							<div>
+							<form class="" id="changepassword_form" onsubmit='return false' >
+								<input type="text" id="yhid" style="display:none;"  class="input_yh">
+								<div align="center">&nbsp;&nbsp;&nbsp;</div>
+								<div class="form-group" style="text-align:left;">
+									<input type="password" name="old_pass" id="old_pass" style="margin-left: 133px;" required="required" cp="true"  placeholder="原密码" autocomplete="off" class="input_mm">
+									<div align="center">&nbsp;&nbsp;&nbsp;</div>
+									<input type="password" name="new_pass" id="new_pass" style="margin-left: 133px;" required="required"  placeholder="新密码" autocomplete="off" class="input_mm">
+									<div align="center">&nbsp;&nbsp;&nbsp;</div>
+									<input type="password" name="new_pass_2" id="new_pass_2" style="margin-left: 133px;" required equalTo="#new_pass" placeholder="请再次输入新密码" autocomplete="off" class="input_mm">
+								</div>
+							</form>
+							</div>
+						</div>
+						
+						
+						<div align="center">
+							<input type="submit"   style="  -webkit-appearance: none;
+														    background: #36a803;
+														    border: none;
+														    border-radius: 2px;
+														    color: #fff;
+														    cursor: pointer;
+														    height: 50px;
+														    font-family: 'Open Sans', sans-serif;
+														    font-size: 1.2em;
+														    letter-spacing: 0.05em;
+														    text-align: center;
+														    text-transform: uppercase;
+														    transition: background 0.3s ease-in-out;
+														    width: 220px;
+														    padding: 0 50px 0 50px;
+	   														font-weight: bold;"
+	   							onclick="xiugaimima_anniu()" value="修&nbsp;改&nbsp;密&nbsp;码">
+						</div>
+					<hr align="center" />
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="js/Include.js"></script>
+	<script>
+		loadSMLibs("2-1");
+	</script>
+  </body>
+</html>

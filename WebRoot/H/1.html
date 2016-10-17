@@ -1,0 +1,510 @@
+﻿
+<html lang="en">
+<head>
+<link rel="shortcut icon" href="favicon.ico">
+<meta name="renderer" content="webkit">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>鄂尔多斯精准扶贫大数据管理平台</title>
+
+<link rel="shortcut icon" href="../favicon.ico">
+<link href="css/wstyle.css" rel="stylesheet" type="text/css" />
+<link href="css/manhua_hoverTips.css" type="text/css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="css/jquery.fancybox-1.3.4.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="css/tanc.css"/>
+
+<script src="js/jquery-1.9.1.min.js"></script>
+<script src="js/parallax.js"></script>
+<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="js/manhua_hoverTips.js"></script>
+<script type="text/javascript" src="js/jquery.fancybox-1.3.4.js"></script>
+<script type="text/javascript">
+$(function (){
+	$("#tt").manhua_hoverTips();//使用默认参数，所以不用调用最简洁
+	$("#tl").manhua_hoverTips({position : "l"});//改变了显示的位置参数
+	$("#tr").manhua_hoverTips({position : "r"});//改变了显示的位置参数
+	$("#tb").manhua_hoverTips({position : "b"});//改变了显示的位置参数
+});
+</script>
+<!--鼠标控制滚动-->
+<script type="text/javascript" src="js/jquery.mousewheel-3.0.4.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+
+		$("a#example1").fancybox();
+
+		$("a#example2").fancybox({
+			'overlayShow':false,
+			'transitionIn':'elastic',
+			'transitionOut':'elastic'
+		});
+
+		$("a#example3").fancybox({
+			'transitionIn':'none',
+			'transitionOut':'none'	
+		});
+
+		$("a#example4").fancybox({
+			'opacity':true,
+			'overlayShow':false,
+			'transitionIn':'elastic',
+			'transitionOut':'none'
+		});
+
+		$("a#example5").fancybox();
+
+		$("a#example6").fancybox({
+			'titlePosition':'outside',
+			'overlayColor':'#000',
+			'overlayOpacity':0.9
+		});
+
+		$("a#example7").fancybox({
+			'titlePosition':'inside'
+		});
+
+		$("a#example8").fancybox({
+			'titlePosition':'over'
+		});
+
+		$("a[rel=example_group]").fancybox({
+			'transitionIn':'none',
+			'transitionOut':'none',
+			'titlePosition':'over',
+			'titleFormat':function(title, currentArray, currentIndex, currentOpts) {
+				return '<span id="fancybox-title-over">Image ' + (currentIndex + 1) + ' / ' + currentArray.length + (title.length ? ' &nbsp; ' + title : '') + '</span>';
+			}
+		});
+
+		$("#various1").fancybox({
+			'titlePosition':'inside',
+			'transitionIn':'none',
+			'transitionOut':'none'
+		});
+
+		$("#various2").fancybox();
+
+		$("#various3").fancybox({
+			'width':'75%',
+			'height':'75%',
+			'autoScale':false,
+			'transitionIn':'none',
+			'transitionOut':'none',
+			'type':'iframe'
+		});
+
+		$("#various4").fancybox({
+			'padding':0,
+			'autoScale':false,
+			'transitionIn':'none',
+			'transitionOut':'none'
+		});
+	});
+</script>
+</head>
+<body>
+
+	<div class="wrapHeader">
+		<div class="header">
+			<h1 class="logo"><a href="/assa/H/1.html"><img src="img/logo.png" style="margin-top:6px;"/></a></h1>
+			<ul class="nav">
+				<li><a href="javascript:void(0)" class="cur">首页</a></li>
+				<li><a href="javascript:void(0)">目标任务</a></li>
+				<li><a href="javascript:void(0)">扶贫政策</a></li>
+				<li><a href="javascript:void(0)">重点工程</a></li>
+				<li><a href="javascript:void(0)">管理措施</a></li>
+	            <li><a href="javascript:void(0)">典型案例</a></li> 
+				<li><a href="javascript:void(0)">大事件</a></li> 
+				<li><a href="javascript:void(0)">进入系统</a></li>
+							
+			</ul>
+		</div>
+	</div>
+	<ul class="fixedNav">
+	<li class="cur">
+		<em class="icon"></em>
+		<span class="txt">首&nbsp;&nbsp;&nbsp;&nbsp;页</span>
+	</li>
+	<li>
+		<em class="icon"></em>
+		<span class="txt">目标任务</span>
+	</li>
+	<li>
+		<em class="icon"></em>
+		<span class="txt">扶贫政策</span>
+	</li>
+	<li>
+		<em class="icon"></em>
+		<span class="txt">重点工程</span>
+	</li>
+	<li>
+		<em class="icon"></em>
+		<span class="txt">组织管理</span>
+	</li>
+    <li>
+		<em class="icon"></em>
+		<span class="txt">经典案例</span>
+	</li>
+    <li>
+		<em class="icon"></em>
+		<span class="txt">大事件</span>
+	</li>
+	<li>
+		<em class="icon"></em>
+		<span class="txt">进入系统</span>
+	</li>
+</ul>
+	<div class="wrapBox" id="wrapBox">
+		<div class="box b1_bg">
+			<div class="load">
+				<p><img src="img/loading.gif" alt=""></p>
+				<div class="load_bg"></div>
+			</div>
+			<div class="box_bg box1_bg zIndex40"><img src="img/b1_bg.jpg" data-src="img/b1_bg.jpg" alt=""></div>
+			<div class="box_fixed b1_fixed">
+				<div class="b1_01 zIndex50"><img src="img/b1_01.png" data-src="img/b1_01.png" alt="" /></div>
+				<div class="b1_02"><img src="img/b1_02.png" data-src="img/b1_02.png" alt="" /></div>
+				<div class="b1_03">
+					<img src="img/b1_03.png" data-src="img/b1_03.png" alt="" />
+					<a href="javascript:void(0)" title="了解情况" class="b1_03_btn"><img src="" data-src="img/b1_03_btn.png" alt="" /></a>
+				</div>
+			</div>
+			<div class="b1_04 zIndex40"><img src="img/b1_04.png" data-src="img/b1_04.png" alt="" /></div>
+		</div>
+		<div class="box b2_bg">
+			<div class="load">
+				<p><img src="img/loading.gif" alt=""></p>
+				<div class="load_bg"></div>
+			</div>
+			<div class="box_bg box2_bg"><img src="" data-src="img/b2_bg.jpg" alt=""></div>
+			<div class="box_fixed b2_fixed">
+				<div class="b2_01"><img src="" data-src="img/b2_01.png" alt="" /></div>
+				<h2 class="b2_02"></h2>
+				<p class="b2_07">
+				</p>
+				<div class="b2_03 zIndex40"><img src="" data-src="img/b2_03.png" alt="" /></div>
+				<div class="b2_04 zIndex40"><img src="" data-src="img/b2_04.png" alt="" /></div>
+	
+				<div class="b2_06 zIndex50"><img src="" data-src="img/b2_06.png" alt="" /></div>
+			</div>
+		</div>
+		<div class="box b3_bg">
+			<div class="load">
+				<p><img src="img/loading.gif" alt=""></p>
+				<div class="load_bg"></div>
+			</div>
+			<div class="box_bg box3_bg"><img src="" data-src="img/b3_bg.jpg" alt=""></div>
+			<div class="box_fixed b3_fixed">
+				<div class="b3_tl box_tl">
+					<h2>精准扶贫<span class="clfea005">“六个一批”</span>，同步共筑小康社会</h2>
+					<p>积极调整结构，科学综合治理，共走小康路。</p>
+				</div>
+				<div class="b3_img"><img src="" data-src="img/b3_01.png" alt="" /></div>
+				<div class="b3_01 b3_txt">
+					<strong>扶持产业和就业脱贫一批</strong>
+					<p>2016—2020年，通过扶持产业和就业脱贫32000人，<br />其中国家标准下贫困人口1780人、<br />市农村牧区低保线下低收入贫困人口30220人。</p>
+				</div>
+				<div class="b3_02 b3_txt">
+					<strong>易地搬迁脱贫一批</strong>
+					<p>2016年全部完成9943人搬迁任务，<br />实现“搬得出、稳得住、能致富”。</p>
+				</div>
+				<div class="b3_03 b3_txt">
+					<strong>生态补偿脱贫一批</strong>
+					<p>2016—2019年，通过生态保护建设脱贫1400人，<br />其中，国家标准下贫困人口160人、<br />市农村牧区低保线下贫困人口1240人。</p>
+				</div>
+				<div class="b3_04 b3_txt">
+					<strong>教育资助脱贫一批</strong>
+					<p>2016—2019年，脱贫3200人，<br />其中国家标准下贫困人口480人、<BR />市农村牧区低保线下贫困人口2720人。</p>
+				</div>
+				<div class="b3_05 b3_txt">
+					<strong>医疗保障脱贫一批</strong>
+					<p>2016—2019年，通过医疗保障和救助脱贫700人，<br />其中国家标准下贫困人口120人、<br />市农村牧区低保线下贫困人口580人。</p>
+				</div>
+				<div class="b3_06 b3_txt">
+					<strong>社保兜底脱贫一批</strong>
+					<p>通过社会保障兜底脱贫6040人，<br />其中国家标准下贫困人口1040人、<br />市农村牧区低保线下贫困人口5000人</p>
+				</div>
+			</div>
+		</div>
+		<div class="box b4_bg">
+			<div class="load">
+				<p><img src="img/loading.gif" alt=""></p>
+				<div class="load_bg"></div>
+			</div>
+			<div class="box_bg box4_bg"><img src="" data-src="img/b4_bg.jpg" alt=""></div>
+			<div class="box_fixed b4_fixed">
+				<div class="b4_txt_box">
+					<h2 class="b4_tl">重点工程</h2>
+					<div class="b4_txt b4_txt01">
+						<strong><a id="tr" class="tag"  href="#"  tips="“十个全覆盖”工程。实现三个100%，即贫困人口危房改造应改尽改100%；贫困人口安全饮用水达标率100%；贫困人口生活用电入户率100%。">农村牧区“十个全覆盖”工程</a></strong>
+						<p>------------------------------------------------------</p>
+					</div>
+					<div class="b4_txt b4_txt02">
+						<strong><a id="tr" class="tag"  href="#"  tips="易地扶贫搬迁工程。2016年全部完成9943人搬迁任务，实现“搬得出、稳得住、过得好”。">易地扶贫搬迁工程</a></strong>
+						<p>------------------------------------------------------</p>
+					</div>
+					<div class="b4_txt b4_txt03">
+						<strong><a id="tr" class="tag"  href="#"  tips="到村到户产业扶持工程。对生产条件较好、具备一定开发潜力的贫困地区，具有劳动能力的贫困人口进行产业扶持，确保每个嘎查村都有产业发展项目，每户贫困户都有一个脱贫产业。财政投入按照每人5000元标准扶持。">到村到户产业扶持工程</a></strong>
+						<p>------------------------------------------------------</p>
+					</div>
+					<div class="b4_txt b4_txt04">
+						<strong><a id="tr" class="tag"  href="#"  tips="金融扶贫富民工程。以财政专项扶贫资金为担保，为符合贷款条件的贫困户提供3-5万元到户贴息贷款，为吸纳带动贫困户就业增收的“种养加”大户、专业合作社、小微企业等提供10-500万元的贴息贷款。">金融扶贫富民工程</a></strong>
+						<p>------------------------------------------------------</p>
+					</div>
+					<div class="b4_txt b4_txt05">
+						<strong><a id="tr" class="tag"  href="#"  tips="村级互助资金合作社扶持工程。每年扶持50个嘎查村组建互助资金合作社，每个嘎查村投入25万元，通过“民有、民用、民管、民享，周转使用，滚动发展”提高贫困人口自我发展能力，壮大嘎查村集体经济。">村级互助资金合作社扶持工程</a></strong>
+						<p>------------------------------------------------------</p>
+					</div>
+	                <div class="b4_txt b4_txt06">
+						<strong><a id="tr" class="tag"  href="#"  tips="电商扶贫工程。每年组建50个电子商务扶贫服务站，引领贫困人口融入现代市场。">电商扶贫工程</a></strong>
+						<p>------------------------------------------------------</p>
+					</div>
+				</div>
+				<div class="b4_01">
+					<img src="" data-src="img/b4_01.png" alt="" />
+				</div>
+			</div>
+		</div>
+		<div class="box b6_bg">
+			<div class="load">
+				<p><img src="img/loading.gif" alt=""></p>
+				<div class="load_bg"></div>
+			</div>
+			<div class="box_bg box6_bg"><img src="" data-src="img/b6_bg.jpg" alt=""></div>
+			<div class="box_fixed b6_fixed">
+				<h2 class="b6_tl">管理措施<br /><span>Management measures</span></h2>
+				<div class="b6_cont">
+					<div class="b6_img"><img src="" data-src="img/b6_img.png" alt="" /></div>
+					<div class="b6_arrow">
+						<em class="b6_arrow01"></em>
+						<em class="b6_arrow02"></em>
+					</div>
+					<div class="b6_txt b6_txt01"><i></i><a id="tr" class="tag"   tips="村级互助资金合作社扶持工程。每年扶持50个嘎查村组建互助资金合作社，每个嘎查村投入25万元，通过“民有、民用、民管、民享，周转使用，滚动发展”提高贫困人口自我发展能力，壮大嘎查村集体经济。">专项扶贫</a></div>
+					<div class="b6_txt b6_txt02"><i></i><a id="tr" class="tag"   tips="村级互助资金合作社扶持工程。每年扶持50个嘎查村组建互助资金合作社，每个嘎查村投入25万元，通过“民有、民用、民管、民享，周转使用，滚动发展”提高贫困人口自我发展能力，壮大嘎查村集体经济。">行业扶贫</a></div>
+					<div class="b6_txt b6_txt03"><i></i><a id="tr" class="tag"   tips="村级互助资金合作社扶持工程。每年扶持50个嘎查村组建互助资金合作社，每个嘎查村投入25万元，通过“民有、民用、民管、民享，周转使用，滚动发展”提高贫困人口自我发展能力，壮大嘎查村集体经济。">社会扶贫</a></div>
+					<div class="b6_txt b6_txt07"><i></i><img src="img/b6_02.png"></div>
+	                <div class="b6_txt b6_txt08"><i></i><img src="img/b6_03.png"></div>
+	                <div class="b6_txt b6_txt09"><i></i><img src="img/b6_04.png"></div>
+	                <div class="b6_txt b6_txt011"><i></i><img src="img/b6_06.png"></div>
+				</div>
+				<div class="b6_01"><img src="" data-src="img/b6_01.png" alt="" /></div>
+			</div>
+		</div>
+	    <div class="box b7_bg">
+			<div class="load">
+				<p><img src="img/loading.gif" alt=""></p>
+				<div class="load_bg"></div>
+			</div>
+			<div class="box_bg box7_bg"><img src="" data-src="img/b8_bg.jpg" alt=""></div>
+			<div class="box_fixed b7_fixed">
+				<div class="b7_txt_box">
+					<div class="b7_txt b7_txt01">
+						<strong>
+		                    <div id="content">
+								<hr />
+								<p>
+									<a><img alt="example1" src="img/1_s.jpg" /></a>
+								</p>
+								<ul>
+									<li><a id="various3" href="wz/1.html">乌审旗精准扶贫谱出致富新曲</a></li>
+						            <li><a id="various3" href="wz/2.html">用心用情用力打赢脱贫攻坚战  —— 鄂尔多斯市全力推进扶贫开发工作</a></li>
+						            <li><a id="various3" href="wz/3.html">小康路上谁都不能缺 —— 全市“十二五”扶贫开发工作纪实</a></li>
+						            <li><a id="various3" href="wz/4.html">鄂前旗：为贫困户“私人订制”帮扶措施</a></li>
+								</ul>
+							</div>
+	                    </strong>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="box b8_bg">
+ 
+			<div class="box_bg box8_bg"><img src="" data-src="img/b7_bg.jpg" alt=""></div>
+			<div class="box_fixed b8_fixed">
+				<div class="b8_tl box_tl">
+					<h2><span class="clfea005">脱贫攻坚</span>大事件</h2>
+				</div>
+				<div class="b8_contact">
+					<div id="page">
+						<div id="container" class="content clearfix">
+							<iframe runat="server" src="sjz/sjz.html" width="930" height="450" border="0" marginwidth="0" marginheight="0" frameborder="0" allowtransparency="true"></iframe>
+						</div>    
+					</div> 
+				</div>
+			</div>
+		</div>
+        <div class="box b5_bg">
+			<div class="load">
+				<p><img src="img/loading.gif" alt=""></p>
+				<div class="load_bg"></div>
+			</div>
+			<div class="box_bg box5_bg"><img src="" data-src="img/b5_bg.jpg" alt=""></div>
+			<div class="box_fixed b5_fixed">
+				<div class="b5_tl box_tl">
+					<h2><span class="clfea005">鄂尔多斯精准扶贫大数据管理平台</span></h2>
+				</div>
+				<p class="b5_txt">坚持精准扶贫、精准脱贫基本方略，用心用情用力打赢脱贫攻坚战。</p>
+				<div class="b5_01"><img src="" data-src="img/b5_01.png" alt="" /></div>
+				<div class="b5_ico">
+					<p class="b5_ico01"><img src="img/b5_03.png"></p>
+					<p class="b5_ico02"><img src="img/b5_02.png"></p>
+					<p class="b5_ico03"><img src="img/b5_04.png"></p>
+					<p class="b5_ico04"><img src="img/b5_05.png"></p>
+	                <p class="b5_ico08"> <button class="button" style="width:129px;height:45px; font-size:16px;" onClick="window.location.href='/assa/index.html';">进入系统</button></p>
+	                
+	                <!-- <p class="b5_ico08"> <button class="button" style="width:129px;height:45px; font-size:16px;" onClick="meDialog.tips({
+      'content':'<strong>重要通知：</strong><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;根据内扶组发〔2016〕6号文件，关于印发《内蒙古自治区脱贫攻坚村级“453”挂图作战实施意见》的通知 。市扶贫办决定对鄂尔多斯精准扶贫大数据管理平台进行升级，增加对“453”台账的支持，移动端也同步进行相应的更新，在此期间内暂停访问。<p/><p>&nbsp;</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;具体开通时间工作QQ群通知：563391739</p><p>&nbsp;</p><p style=\'text-align:right;\'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style=\'text-align:right;\'>2016年5月16号</span></p>',
+      'button':true
+     })">进入系统</button></p> -->
+	                
+				</div>
+			</div>
+		</div>
+	</div>
+  
+	<script type="text/javascript">
+		//document.body.style.overflow = 'hidden';
+		var ie6 = !-[1,]&&!window.XMLHttpRequest;
+		ie6 || loadImg.init();
+	</script>
+	<script type="text/javascript" src="js/audio.js"></script>
+	<script type="text/javascript">
+		window.addEventListener("DOMContentLoaded", function(){
+			playbox.init("playbox");
+		}, false);
+	</script>
+	<span id="playbox" class="btn_music" onClick="playbox.init(this).play();">
+	<audio src="1.mp3" loop id="audio"></audio></span>
+	<script type="text/javascript">
+		playbox.init(document.getElementById('playbox')).play();
+	</script>
+    <script>
+var meDialog = {
+	'getID': {
+		'b': 'meButton' + (new Date()).valueOf(),
+		'c': 'meContent' + (new Date()).valueOf(),
+		'i': 'meDialog' + (new Date()).valueOf(),
+		'o': 'meOverlay' + (new Date()).valueOf(),
+		't': 'meTtile' + (new Date()).valueOf(),
+		'ob': 'meOBtn' + (new Date()).valueOf(),
+		'cb': 'meCBtn' + (new Date()).valueOf()
+	},
+	'button': {
+		'ok': {
+			'text': '确定',
+			'handler': false
+		},
+		'cancel': {
+			'text': '取消',
+			'handler': false
+		}
+	},
+	'config': {
+		'width': '50%',
+		'height': 'auto',
+		'timer': false,
+		'autoClose': false,
+		'title': false,
+		'close': false,
+		'button': false,
+		'animate': 'fade',
+		'content': 'Error...'
+	},
+	'custom': function(a) {
+		var c = this.config;
+		var r = Array;
+		$.each(c, function(n) {
+			r[n] = a && a[n] ? a[n] : c[n]
+		});
+		return r
+	},
+	'tips': function(a) {
+		this.close();
+		var config = this.custom(a);
+		var id = this.getID;
+		var content = "<div class=\"meContentBox\" id=\"" + id.c + "\">" + config.content + "</div>";
+		if (config.title) {
+			content = "<h3 id=\"" + id.t + "\">" + config.title + "</h3>" + content
+		}
+		if (config.button) {
+			var button = '<button class="allButton" id="' + id.ob + '">' + this.button.ok.text + '</button>';
+			if (config.button.ok || config.button.cancel) {
+				var ok = '';
+				var cancel = '';
+				var oc = 'rightButton';
+				var cc = 'leftButton';
+
+				if (config.button.ok) {
+					oc = config.button.cancel ? oc : 'allButton';
+					ok = '<button class="' + oc + '" id="' + id.ob + '">' + config.button.ok.text + '</button>'
+				}
+				if (config.button.cancel) {
+					cc = config.button.ok ? cc : 'allButton';
+					cancel = '<button class="' + cc + '" id="' + id.cb + '">' + config.button.cancel.text + '</button>'
+				}
+				button = ok + cancel
+			}
+			content = content + "<div class=\"meButton\" id=\"" + id.b + "\">" + button + "</div>"
+		}
+
+		$("#" + id.i + " .meContent").html(content).css({
+			'width': config.width,
+			'height': config.height
+		});
+		$("#" + id.i).addClass("meShow");
+
+		if ($("#" + id.ob)[0]) {
+			$("#" + id.ob).bind('click', function() {
+				if (config.button.ok && config.button.ok.handler) {
+					meDialog.trigger(config.button.ok.handler);
+				} else {
+					meDialog.close();
+				}
+			})
+		}
+
+		if ($("#" + id.cb)[0]) {
+			$("#" + id.cb).bind('click', function() {
+				if (config.button.cancel && config.button.cancel.handler) {
+					meDialog.trigger(config.button.cancel.handler);
+				} else {
+					meDialog.close();
+				}
+			})
+		}
+
+		$("#" + id.o).bind("click", function() {
+			meDialog.close()
+		});
+
+		if (config.button) {
+			$("#" + id.o).unbind("click");
+		}
+
+		if (config.autoClose && config.button === false) {
+			this.config.timer = setInterval(this.close, config.autoClose)
+		}
+	},
+	'close': function(a) {
+		var id = meDialog.getID;
+		$("#" + id.i).removeClass("meShow");
+		clearInterval(meDialog.config.timer)
+	},
+	'trigger': function(a) {
+		meDialog.close();
+		return a.call();
+	},
+	'init': function(a) {
+		var config = this.custom(a);
+		var id = this.getID;
+		if (!$("#" + id.i)[0]) {
+			var html = "<div class=\"meDialog me-effect-" + config.animate + "\" id=\"" + id.i + "\"><div class=\"meContent\"></div></div><div class=\"meOverlay\" id=\"" + id.o + "\"></div>";
+			$("body").prepend(html);
+		}
+	}
+};
+meDialog.init({
+	'animate': 'fade'
+});
+</script>
+</body>
+</html>

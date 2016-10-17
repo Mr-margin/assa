@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+	<meta http-equiv="Expires" content="0">
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" CONTENT="no-cache, must-revalidate"> 
+	<meta http-equiv="Cache-Control" content="no-siteapp" />
+	<meta http-equiv="Cache" content="no-cache">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="renderer" content="webkit">
+	<title>鄂尔多斯精准扶贫大数据管理平台</title>
+
+    <!--[if lt IE 8]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+    
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="css/bootstrap.min.css?v=3.3.5" rel="stylesheet" media="screen">
+    <link href="css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="css/animate.min.css" rel="stylesheet">
+    <link href="css/style.min.css?v=4.0.0" rel="stylesheet">
+    
+    <link href="css/plugins/blueimp/css/blueimp-gallery.min.css" rel="stylesheet">
+    <link href="css/plugins/iCheck/custom.css" rel="stylesheet">
+	<link href="css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+	<link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
+	<link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+    
+	
+	<link type="text/css" rel="stylesheet" href="css/style.css" />
+    <base target="_blank">
+	<style>
+		.c_red {
+			font-size: 13px;
+			background-color: #FFF;
+			color: red;
+			font-weight: bold;
+		}
+		.c_green {
+			font-size: 13px;
+			background-color: #FFF;
+			color: #1ab394;
+			font-weight: bold;
+		}
+        .lightBoxGallery img {
+            margin: 5px;
+            width: 160px;
+        }
+        .output img{
+        	width: 24px;
+    		height: 24px;
+        }
+    </style>
+  </head>
+  
+  <body class="gray-bg top-navigation">
+  
+    <div id="wrapper">
+        <div id="page-wrapper" class="gray-bg">
+        
+        
+        	<!-- 头部菜单 -->
+           <div class="row border-bottom white-bg">
+                <nav class="navbar navbar-static-top" role="navigation">
+                    <div class="navbar-header">
+                        <span><img alt="image" class="img" src="img/logo_1.png" /></span>
+                    </div>
+                    <div class="navbar-collapse collapse" id="navbar">
+                        <ul class="nav navbar-nav navbar-right">
+                        	<li class="dropdown">
+                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown" id="in"> 扶贫概况</a>
+                            </li>
+                            <li class="dropdown" id="H_li" style="display:none;">
+                            	<a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> 扶贫手册 <span class="caret"></span></a>
+                            	<ul role="menu" class="dropdown-menu">
+                            		<li id="H1_li" style="display:none;"><a id="H1">扶贫手册录入</a></li>
+                            		<li id="H2_li" style="display:none;"><a id="H2">帮扶信息查询</a></li>
+                            		<li id="H2_1_li" style="display:none;" ><a id="H2_1">工作台账</a></li>
+                            	</ul>
+                            </li>
+                            
+                            <li class="dropdown" id="H7_li" style="display:none;">
+                            	<a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> 易地扶贫搬迁 <span class="caret"></span></a>
+                            	<ul role="menu" class="dropdown-menu">
+                            		<li id="H7-1_li" style="display:none;"><a id="H7-1">安置点维护</a></li>
+                            		<li id="H7-2_li" style="display:none;"><a id="H7-2">工程进度统计</a></li>
+                            	</ul>
+                            </li>
+                            
+                            <!-- <li class="dropdown" id="H1_li" style="display:none;">
+                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown" id="H1"> 扶贫手册录入 </a>
+                            </li>
+                            <li class="dropdown" id="H2_li" style="display:none">
+                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown" id="H2"> 帮扶信息查询 </a>
+                            </li> -->
+                            
+                            <li class="dropdown" id="H3_li" style="display:none">
+                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown" id="H3-2"> 挂图作战 </a>
+                            </li>
+                            
+                            <!--  <li class="dropdown" id="H3_li" style="display:none;">
+                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> 统计分析<span class="caret"></span></a>
+                                <ul role="menu" class="dropdown-menu">
+                                    <li id="H3-1_li" style="display:none;"><a id="H3-1">综合查询</a></li>
+                                    <li id="H3-2_li" style="display:none;"><a id="H3-2">统计汇总</a></li>
+                                </ul>
+                            </li> -->
+                            
+                            <li class="dropdown" id="H4_li" style="display:none;">
+                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown" id="H4"> 识别与退出 </a>
+                            </li>
+                            <li class="active" id="H5_li" style="display:none;">
+                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> 系统管理 <span class="caret"></span></a>
+                                <ul role="menu" class="dropdown-menu">
+                                    <li id="H5-1_li" style="display:none;"><a id="H5-1">帮扶干部维护</a></li>
+                                    <li id="H5-4_li" style="display:none;"><a id="H5-3">帮扶单位维护</a></li>
+                                    <li id="H5-2_li" style="display:none;"><a id="H6-1">账号查询</a></li>
+                                    <li id="H5-3_li" style="display:none;"><a id="H5-2">维护控制</a></li>
+                                    <li id="H8_li" style="display:none;"><a id="H8">系统查看</a></li>
+                                    <li id="H9_li" style="display:none;"><a id="H9">数据统计</a></li>
+                                    <li id="H10_li" style="display:none;"><a id="H10">查询录入情况</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown" id="yonghuxiangguan"></li>
+                        </ul>
+                    </div>
+                </nav>
+            </div><!-- 头部菜单 -->
+            
+            
+			<!-- 中间部分 -->
+			<div class="row wrapper wrapper-content animated fadeInRight">
+				<div class="container">
+					<div class="row">
+						<div  class="ibox-title">
+							<div class="ibox-title">
+								<h5>选择行政区</h5>
+			                    <div class="ibox-tools"></div>
+							</div>
+						</div>
+						<div class="ibox-content">
+			                <div class="row row-lg">
+			                    <div class="col-sm-3"  style="height:506px;overflow-y:auto; ">
+			                      	<div id="tree2" class="test"></div>
+			                    </div>
+			                    <div id="yeqian" class="col-sm-9" style="height:1056px;overflow-y:auto; ">
+									
+										<ul class="nav nav-tabs"><!-- 分栏目的标题 -->
+			                            	<li id="title_1" class="active">
+			                                	<a data-toggle="tab" href="#tab-1" aria-expanded="true"><i class="fa fa-user"></i> 基本情况</a>
+			                                </li>
+			                                <li id="title_2" class="">
+			                                	<a data-toggle="tab" href="#tab-2" aria-expanded="false"><i class="fa fa-sign-in"></i> 当前收支</a>
+			                                </li>
+			                                <li id="title_3" class="">
+			                                	<a data-toggle="tab" href="#tab-3" aria-expanded="false"><i class="fa fa-flag-checkered"></i> 帮扶人情况</a>
+			                                </li>
+			                                <li id="title_4" class="">
+			                                	<a data-toggle="tab" href="#tab-4" aria-expanded="false"><i class="fa fa-briefcase"></i>帮扶成效</a>
+			                                </li>
+			                                <li id="title_5" class="">
+			                                	<a data-toggle="tab" href="#tab-5" aria-expanded="false"><i class="fa fa-briefcase"></i> 帮扶措施</a>
+			                                </li>
+			                                <li id="title_6" class="">
+			                                	<a data-toggle="tab" href="#tab-6" aria-expanded="false"><i class="fa fa-sign-out"></i>帮扶后收支分析</a>
+			                                </li>
+			                                
+			                            </ul><!-- 分栏目的标题 -->
+			                            <div class="tab-content" ><!-- 页面内容 -->	
+											<div id="tab-1" class="tab-pane active"><!-- 页面框 -->
+				                            	<div class="panel-body" id="jiben">
+			                            			<div id="neirong_jiben">
+				                            			
+			                            					<div class="row">
+	                            							<div class="col-sm-12">
+	                            								<div class="contact-box">
+	                            									<div class="row">
+	                            										<form id="jinben_form">
+										                            		<div class="checkbox i-checks"  name="v33_div">
+										                            			<label><input type="checkbox" id="v6" name="v6" value="姓名"> <i></i>姓名</label> 
+																				<label><input type="checkbox" id="v7" name="v7" value="性别"> <i></i>性别</label> 
+																				<label><input type="checkbox" id="v11" name="v11" value="民族"><i></i>民族</label> 
+																				<label><input type="checkbox" id="v25" name="v25" value="联系电话"><i></i>联系电话</label> 
+																				<label><input type="checkbox" id="v8" name="v8" value="身份证号"><i></i>身份证号</label>
+																				<label><input type="checkbox" id="v28" name="v28" value="政治面貌"> <i></i>政治面貌</label> 
+																				<label><input type="checkbox" id="v26" name="v26" value="开户银行"> <i></i>开户银行</label>
+																				<label><input type="checkbox" id="v27" name="v27" value="银行账户"> <i></i>银行账户</label>  
+																				<label><input type="checkbox" id="hz_jtzz" name="hz_jtzz" value="家庭住址"> <i></i>家庭住址</label> 
+																				<label><input type="checkbox" id="sys_standard" name="sys_standard" value="识别标准"> <i></i>识别标准</label> 
+																				<label><input type="checkbox" id="v22" name="v22" value="贫困户属性"> <i></i>贫困户属性</label> 
+																				<label><input type="checkbox" id="v12" name="v12" value="文化程度"> <i></i>文化程度</label> 
+																				<label><input type="checkbox" id="v13" name="v13" value="是否在校"> <i></i>是否在校</label> 
+																				<label><input type="checkbox" id="v14" name="v14" value="健康状况"> <i></i>健康状况</label> 
+																				<label><input type="checkbox" id="v15" name="v15" value="劳动力"> <i></i>劳动力</label> 
+																				<label><input type="checkbox" id="v16" name="v16" value="务工情况"> <i></i>务工情况</label>
+																				<label><input type="checkbox" id="v17" name="v17" value="务工时间"> <i></i>务工时间</label>
+																				<label><input type="checkbox" id="v18" name="v18" value="参加新农合"> <i></i>参加新农合</label>
+																				<label><input type="checkbox" id="v19" name="v19" value="是否参加养老保险"> <i></i>是否参加养老保险</label>
+																				<label><input type="checkbox" id="v29_div" name="v29_div" value="是否军军烈属"> <i></i>是否军军烈属</label>
+																				<label><input type="checkbox" id="v32" name="v32" value="是否现役军人"> <i></i>是否现役军人</label>
+																				<label><input type="checkbox" id="v30" name="v30" value="是否独生子女户"> <i></i>是否独生子女户</label>
+																				<label><input type="checkbox" id="hz_zpyy" name="hz_zpyy" value="致贫原因说明"> <i></i>致贫原因说明</label>
+																			</div>
+																		</form>
+																		<div class="row">
+										                            		<div id="danxuan" style="margin-top:-10px;margin-left: 300px" class="col-sm-4">
+										                            			<form id="danxuan_form1">
+											                            			<div class="radio i-checks">
+												                                       <label>
+					                                        								<input type="radio" checked="" value="0" name="a"> <i></i>未完成</label>
+												                                    
+												                                        <label>
+												                                            <input type="radio"  value="1" name="a"> <i></i>已完成</label>
+												                                    </div>
+												                                    
+												                              	</form>
+										                            		</div>
+										                            		<div style="margin-left: 50px" class="col-sm-2">
+											                           			<button  type="button" class="btn btn-primary" id="find1" name="cha_button">
+																					<i class="fa fa-search"></i>&nbsp;&nbsp;<span class="bold">查询</span>
+																				</button>
+																			</div>
+									                           			</div>
+									                            	</div>
+									                            	<hr style="background-color:#e7eaec; height: 4px;" />
+									                            	<div class="row">
+									                            		<div class="col-sm-12">
+									                            			<h3><strong >生产条件</strong></h3>
+									                            			<div class="row">
+									                            				<form id="shengchan_form">
+										                            				<div class="checkbox i-checks"  name="v33_div">
+																						<label><input type="checkbox" id="v1-1" name="v1-1" value="耕地面积（亩）"> <i></i>耕地面积（亩）</label> 
+																						<label><input type="checkbox" id="v2-1" name="v2-1" value="有效灌溉地面积（亩）"><i></i>有效灌溉地面积（亩）</label> 
+																						<label><input type="checkbox" id="v3-1" name="v3-1" value="林地面积（亩）"><i></i>林地面积（亩）</label> 
+																						<label><input type="checkbox" id="v5-1" name="v5-1" value="草牧场面积（亩）"><i></i>草牧场面积（亩）</label>
+																						<label><input type="checkbox" id="v6-1" name="v6-1" value="生产用房面积（㎡）"> <i></i>生产用房面积（㎡）</label> 
+																						<label><input type="checkbox" id="v13-1" name="v13-1" value="林果面积（亩）"> <i></i>林果面积（亩）</label> 
+																						<label><input type="checkbox" id="v14-1" name="v14-1" value="水面面积（亩）"> <i></i>水面面积（亩）</label> 
+																						<label><input type="checkbox" id="v7-1" name="v7-1" value="其他"> <i></i>其他</label> 
+																						<label><input type="checkbox" id="v8-1" name="v8-1" value="牲畜数量"> <i></i>牲畜数量</label> 
+																					</div>
+																				</form>
+																				<div class="row">
+												                            		<div id="danxuan" style="margin-top:-10px;margin-left: 300px" class="col-sm-4">
+												                            			<form id="danxuan_form2">
+													                            			<div class="radio i-checks">
+														                                       <label>
+							                                        								<input type="radio" checked="" value="0" name="a"> <i></i>未完成</label>
+														                                    
+														                                        <label>
+														                                            <input type="radio"  value="1" name="a"> <i></i>已完成</label>
+														                                    </div>
+														                              	</form>
+												                            		</div>
+												                            		<div style="margin-left: 50px" class="col-sm-2">
+													                           			<button  type="button" class="btn btn-primary" id="find2" name="cha_button">
+																							<i class="fa fa-search"></i>&nbsp;&nbsp;<span class="bold">查询</span>
+																						</button>
+																					</div>
+											                           			</div>
+									                            			</div>
+									                            		</div>
+									                            		</div>
+									                            		<hr style="background-color:#e7eaec; height: 4px;" />
+			                            								<div class="row">
+											                            	<div class="col-sm-12">
+											                            		<h3><strong >生活条件</strong></h3>
+										                            			<div class="row">
+										                            				<form id="shenghuo_form">
+											                            				<div class="checkbox i-checks"  name="v33_div">
+																							<label><input type="checkbox" id="v1-2" name="v1-2" value="住房面积（平方米）"> <i></i>住房面积（平方米）</label> 
+																							<label><input type="checkbox" id="v2-2" name="v2-2" value="是否危房"><i></i>是否危房</label> 
+																							<label><input type="checkbox" id="v3-2" name="v3-2" value="是否纳入易地扶贫搬迁"><i></i>是否纳入易地扶贫搬迁</label> 
+																							<label><input type="checkbox" id="v4-2" name="v4-2" value="饮水情况"><i></i>饮水情况</label>
+																							<label><input type="checkbox" id="v8-2" name="v8-2" value="饮水是否困难"> <i></i>饮水是否困难</label> 
+																							<label><input type="checkbox" id="v9-2" name="v9-2" value="饮水是否安全"> <i></i>饮水是否安全</label> 
+																							<label><input type="checkbox" id="v5-2" name="v5-2" value="通电情况"> <i></i>通电情况</label> 
+																							<label><input type="checkbox" id="v6-2" name="v6-2" value="入户路类型"> <i></i>入户路类型</label> 
+																							<label><input type="checkbox" id="v7-2" name="v7-2" value="与主干路距离（公里）"> <i></i>与主干路距离（公里）</label> 
+																							<label><input type="checkbox" id="v10-2" name="v10-2" value="主要燃料类型"> <i></i>主要燃料类型</label> 
+																							<label><input type="checkbox" id="v11-2" name="v11-2" value="是否加入农民专业合作社"> <i></i>是否加入农民专业合作社</label> 
+																							<label><input type="checkbox" id="v12-2" name="v12-2" value="有无卫生厕所"> <i></i>有无卫生厕所</label> 
+																						</div>
+																					</form>
+																					<div class="row">
+													                            		<div id="danxuan" style="margin-top:-10px;margin-left: 300px" class="col-sm-4">
+													                            			<form id="danxuan_form3">
+														                            			<div class="radio i-checks">
+															                                       <label>
+								                                        								<input type="radio" checked="" value="0" name="a"> <i></i>未完成</label>
+															                                    
+															                                        <label>
+															                                            <input type="radio"  value="1" name="a"> <i></i>已完成</label>
+															                                    </div>
+															                                    
+															                              	</form>
+													                            		</div>
+											                            		<div style="margin-left: 50px" class="col-sm-2">
+												                           			<button  type="button" class="btn btn-primary" id="find3" name="cha_button">
+																						<i class="fa fa-search"></i>&nbsp;&nbsp;<span class="bold">查询</span>
+																					</button>
+																				</div>
+									                           			</div>
+										                            			</div>
+											                            	</div>
+											                            </div>
+											                            <hr style="background-color:#e7eaec; height: 4px;" />
+									                            	<div class="row">
+									                            		<div class="col-sm-12">
+									                            			<h3><strong >家庭成员</strong></h3>
+									                            			<div class="row">
+									                            				<form id="jiating_form">
+										                            				<div class="checkbox i-checks"  name="v33_div">
+																						<label><input type="checkbox" id="v6-3" name="v6-3" value="姓名"> <i></i>姓名</label> 
+																						<label><input type="checkbox" id="v7-3" name="v7-3" value="性别"><i></i>性别</label> 
+																						<label><input type="checkbox" id="v10-3" name="v10-3" value="与户主的关系"><i></i>与户主的关系</label> 
+																						<label><input type="checkbox" id="v8-3" name="v8-3" value="身份证号"><i></i>身份证号</label>
+																						<label><input type="checkbox" id="v11-3" name="v11-3" value="民族"> <i></i>民族</label> 
+																						<label><input type="checkbox" id="v28-3" name="v28-3" value="政治面貌"> <i></i>政治面貌</label> 
+																						<label><input type="checkbox" id="v32-3" name="v32-3" value="现役军人"> <i></i>现役军人</label> 
+																						<label><input type="checkbox" id="v12-3" name="v12-3" value="文化程度"> <i></i>文化程度</label>
+																						<label><input type="checkbox" id="v13-3" name="v13-3" value="是否在校"> <i></i>是否在校</label> 
+																						<label><input type="checkbox" id="v14-3" name="v14-3" value="健康状况"> <i></i>健康状况</label> 
+																						<label><input type="checkbox" id="v15-3" name="v15-3" value="劳动力"> <i></i>劳动力</label> 
+																						<label><input type="checkbox" id="v16-3" name="v16-3" value="务工情况"> <i></i>务工情况</label> 
+																						<label><input type="checkbox" id="v17-3" name="v17-3" value="务工时间"> <i></i>务工时间</label> 
+																						<label><input type="checkbox" id="v18-3" name="v18-3" value="新农合"> <i></i>新农合</label> 
+																						<label><input type="checkbox" id="v19-3" name="v19-3" value="养老保险"> <i></i>养老保险</label>
+																					</div>
+																				</form>
+									                            			</div>
+									                            		</div>
+									                            		</div>
+			                            							</div>
+	                            									</div>
+		                            							</div>
+		                            							
+		                            							<div class="row">
+								                            		<div id="danxuan" style="margin-top:-10px;margin-left: 300px" class="col-sm-4">
+								                            			<form id="danxuan_form4">
+									                            			<div class="radio i-checks">
+										                                       <label>
+			                                        								<input type="radio" checked="" value="0" name="a"> <i></i>未完成</label>
+										                                    
+										                                        <label>
+										                                            <input type="radio"  value="1" name="a"> <i></i>已完成</label>
+										                                    </div>
+										                                    
+										                              	</form>
+								                            		</div>
+								                            		<div style="margin-left: 50px" class="col-sm-2">
+									                           			<button  type="button" class="btn btn-primary" id="find4" name="cha_button">
+																			<i class="fa fa-search"></i>&nbsp;&nbsp;<span class="bold">查询</span>
+																		</button>
+																	</div>
+							                           			</div>
+		                            						</div>
+			                            					
+			                            				</div>
+			                            			</div>
+				                            		<div id="tab-2" class="tab-pane">
+				                            			<div class="panel-body">
+				                            				
+				                            				<div id="neirong_jiben">
+				                            					<div class="row">
+				                            						<div class="col-sm-12">
+				                            							<div class="contact-box">
+				                            								<div class="row">
+				                            									<div class="col-sm-6" style="height:596px;overflow-y:auto";>
+				                            									<h3><strong >当前收入情况</strong></h3>
+					                            									<div class="checkbox i-checks"  name="v33_div">
+																						<div class="row">
+																							<form id="shouru_form">	
+																							<div class="col-sm-12" style="height:100px;overflow-y:auto; ">
+																								<div class="col-sm-12"><!-- 大块 -->
+																									<div class="row">
+																										<h6><strong >生产经营性收入</strong></h6>
+																									</div>
+																								</div>
+																								
+																								<div clss="col-sm-12"><!-- 小条件  -->
+																									<div class="row">
+																										<label><input type="checkbox" id="v2" name="v2" value="农业（水产）"> <i></i>农业（水产）</label>
+																										<label><input type="checkbox" id="v4" name="v4" value="畜牧业"> <i></i>畜牧业</label>
+																										<label><input type="checkbox" id="v6" name="v6" value="林业"> <i></i>林业</label>
+																										<label><input type="checkbox" id="v8" name="v8" value="其他"> <i></i>其他</label>
+																									</div>
+																								</div>
+																							</div>
+																							<div class="col-sm-12" style="height:140px;overflow-y:auto; ">
+																								<div class="col-sm-12"><!-- 大块 -->
+																									<div class="row">
+																										<h6><strong >政策性收入</strong></h6>
+																									</div>
+																								</div>
+																								<div clss="col-sm-12"><!-- 小条件  -->
+																									<div class="row">
+																										<label><input type="checkbox" id="v12" name="v12" value="农林牧草、生态等补贴"> <i></i>农林牧草、生态等补贴</label>
+																										<label><input type="checkbox" id="v14" name="v14" value="养老金"> <i></i>养老金</label>
+																									
+																										<label><input type="checkbox" id="v16" name="v16" value="低保（五保）补贴"> <i></i>低保（五保）补贴</label>
+																										<label><input type="checkbox" id="v18" name="v18" value="燃煤补贴"> <i></i>燃煤补贴</label>
+																										<label><input type="checkbox" id="v43" name="v43" value="五保金"> <i></i>五保金</label>
+																										<label><input type="checkbox" id="v41" name="v41" value="计划生育金"> <i></i>计划生育金</label>
+																										<label><input type="checkbox" id="v26" name="v26" value="其他"> <i></i>其他</label>
+																									</div>
+																								</div>
+																							</div>
+																							<div class="col-sm-12" style="height:100px;overflow-y:auto; ">
+																								<div class="col-sm-12"><!-- 大块 -->
+																									<div class="row">
+																										<h6><strong >财产性收入</strong></h6>
+																									</div>
+																								</div>
+																								<div clss="col-sm-12"><!-- 小条件  -->
+																									<div class="row">
+																										<label><input type="checkbox" id="v24" name="v24" value="土地、草牧场流转"> <i></i>土地、草牧场流转</label>
+																										<label><input type="checkbox" id="v26" name="v26" value="其他"> <i></i>其他</label>
+																									
+																									</div>
+																								</div>
+																							</div>
+																							<div class="col-sm-12" style="height:100px;overflow-y:auto; ">
+																								<div class="col-sm-12"><!-- 大块 -->
+																									<div class="row">
+																										<h6><strong >工资性收入</strong></h6>
+																									</div>
+																								</div>
+																								<div clss="col-sm-12"><!-- 小条件  -->
+																									<div class="row">
+																										<label><input type="checkbox" id="v28" name="v28" value="劳务"> <i></i>劳务</label>
+																										<label><input type="checkbox" id="v32" name="v32" value="其他收入"> <i></i>其他收入</label>
+																									</div>
+																								</div>
+				
+																							</div>
+																							
+																							</form>
+																							<div class="col-sm-12" style="height:100px;overflow-y:auto; ">
+																							<div class="row">
+															                            		<div id="danxua5" style="margin-top:40px;margin-left: 50px" class="col-sm-7">
+															                            			<form id="danxuan_form5">
+																                            			<div class="radio i-checks">
+																	                                       <label>
+										                                        								<input type="radio" checked="" value="0" name="a"> <i></i>未完成</label>
+																	                                    
+																	                                        <label>
+																	                                            <input type="radio"  value="1" name="a"> <i></i>已完成</label>
+																	                                    </div>
+																	                                    
+																	                              	</form>
+															                            		</div>
+																                            		<div style="margin-top:50px; class="col-sm-1">
+																	                           			<button  type="button" class="btn btn-primary" id="find5" name="cha_button">
+																											<i class="fa fa-search"></i>&nbsp;&nbsp;<span class="bold">查询</span>
+																										</button>
+																									</div>
+																								
+														                           			</div>
+																							</div>
+																						</div>
+																						
+																					</div>
+																				</div>
+																				<div class="col-sm-6" style="height:596px;overflow-y:auto";>
+				                            									<h3><strong >当前支出情况</strong></h3>
+					                            									<div class="checkbox i-checks"  name="v33_div">
+																						<div class="row">
+																							
+																							<div class="col-sm-12" style="height:550px;overflow-y:auto; ">
+																								<div class="col-sm-12"><!-- 大块 -->
+																									<div class="row">
+																										<h6><strong >生产经营性支出</strong></h6>
+																									</div>
+																								</div>
+																								<form id="zhichu_form">
+																								<div clss="col-sm-12"><!-- 小条件  -->
+																									<div class="row">
+																										<label><input type="checkbox" id="zc-v2" name="zc-v2" value="农资费用"> <i></i>农资费用</label>
+																										<label><input type="checkbox" id="zc-v4" name="zc-v4" value="固定资产折旧和租赁费"> <i></i>固定资产折旧和租赁费</label>
+																										<label><input type="checkbox" id="zc-v6" name="zc-v6" value="水电燃料支出"> <i></i>水电燃料支出</label>
+																										<label><input type="checkbox" id="zc-v8" name="zc-v8" value="承包土地、草场费用"> <i></i>承包土地、草场费用</label>
+																										<label><input type="checkbox" id="zc-v10" name="zc-v10" value="饲草料"> <i></i>饲草料</label>
+																										<label><input type="checkbox" id="zc-v12" name="zc-v12" value="防疫防治支出"> <i></i>防疫防治支出</label>
+																										<label><input type="checkbox" id="zc-v14" name="zc-v14" value="种（仔）畜"> <i></i>种（仔）畜</label>
+																										<label><input type="checkbox" id="zc-v16" name="zc-v16" value="销售费用和通讯费用"> <i></i>销售费用和通讯费用</label>
+																										<label><input type="checkbox" id="zc-v18" name="zc-v18" value="借贷"> <i></i>借贷</label>
+																										<label><input type="checkbox" id="zc-v20" name="zc-v20" value="政府性支出"> <i></i>政府性支出</label>
+																										<label><input type="checkbox" id="zc-v27" name="zc-v27" value="其他支出"> <i></i>其他支出</label>
+																										
+																									</div>
+																								</div>
+																								</form>
+																								<div class="col-sm-12" style="margin-top:240px; height:100px;overflow-y:auto; ">
+																									<div class="row">
+																	                            		<div id="danxuan" style="margin-top:40px;margin-left: 50px" class="col-sm-7">
+																	                            			<form id="danxuan_form6">
+																		                            			<div class="radio i-checks">
+																			                                       <label>
+												                                        								<input type="radio" checked="" value="0" name="a"> <i></i>未完成</label>
+																			                                    
+																			                                        <label>
+																			                                            <input type="radio"  value="1" name="a"> <i></i>已完成</label>
+																			                                    </div>
+																			                                    
+																			                              	</form>
+																	                            		</div>
+																		                            		<div style="margin-top:50px; class="col-sm-1">
+																			                           			<button  type="button" class="btn btn-primary" id="find6" name="cha_button">
+																													<i class="fa fa-search"></i>&nbsp;&nbsp;<span class="bold">查询</span>
+																												</button>
+																											</div>
+																										
+																                           			</div>
+																								</div>
+																							
+																						</div>
+																					</div>
+				                            									</div>
+				                            								</div>
+				                            							</div>
+				                            						</div>
+				                            					</div>
+				                            				</div>
+				                            			</div>
+				                            		</div>	
+		                            			</div>
+					       							<div id="tab-3" class="tab-pane">
+					                            				<div class="panel-body">
+					                            					
+						                            					<div id="neirong_jiben">
+					                            						<div class="row">
+					                            							<div class="col-sm-12">
+					                            								<div class="contact-box">
+					                            									<h3><strong >帮扶责任人</strong></h3>
+					                            									<div class="row">
+					                            										<form id="bfr_form">
+														                            		<div class="checkbox i-checks"  name="v33_div">
+																								<label><input type="checkbox" id="col_name" name="col_name" value="帮扶人姓名"> <i></i>帮扶人姓名</label> 
+																								<label><input type="checkbox" id="com_name" name="com_name" value="帮扶人单位"><i></i>帮扶人单位</label> 
+																								<label><input type="checkbox" id="col_post" name="col_post" value="帮扶人职务"><i></i>帮扶人职务</label> 
+																								<label><input type="checkbox" id="telephone" name="telephone" value="帮扶人电话"><i></i>帮扶人电话</label>
+																							</div>
+																							</form>
+																							<div class="row">
+															                            		<div id="danxuan" style="margin-top:-10px;margin-left: 300px" class="col-sm-4">
+															                            			<form id="danxuan_form7">
+																                            			<div class="radio i-checks">
+																	                                       <label>
+										                                        								<input type="radio" checked="" value="0" name="a"> <i></i>未完成</label>
+																	                                    
+																	                                        <label>
+																	                                            <input type="radio"  value="1" name="a"> <i></i>已完成</label>
+																	                                    </div>
+																	                                    
+																	                              	</form>
+															                            		</div>
+															                            		<div style="margin-left: 50px" class="col-sm-2">
+																                           			<button  type="button" class="btn btn-primary" id="find7" name="cha_button">
+																										<i class="fa fa-search"></i>&nbsp;&nbsp;<span class="bold">查询</span>
+																									</button>
+																								</div>
+													                           				</div>
+																						
+												                            		</div>
+												                            		<hr style="background-color:#e7eaec; height: 4px;" />
+												                            		<h3><strong >帮扶目标和计划</strong></h3>
+					                            									<div class="row">
+					                            										<form id="bfmb_form">
+														                            		<div class="checkbox i-checks"  name="v33_div">
+																								<label><input type="checkbox" id="bf_v1" name="bf_v1" value="帮扶目标"> <i></i>帮扶目标</label> 
+																								<label><input type="checkbox" id="bf_v2" name="bf_v2" value="帮扶时限"> <i></i>帮扶时限</label> 
+																								<label><input type="checkbox" id="bf_v3" name="bf_v3" value="帮扶计划"> <i></i>帮扶计划</label> 
+																								
+																							</div>
+																						</form>
+																							<div class="row">
+															                            		<div id="danxuan" style="margin-top:-10px;margin-left: 300px" class="col-sm-4">
+															                            			<form id="danxuan_form8">
+																                            			<div class="radio i-checks">
+																	                                       <label>
+										                                        								<input type="radio" checked="" value="0" name="a"> <i></i>未完成</label>
+																	                                    
+																	                                        <label>
+																	                                            <input type="radio"  value="1" name="a"> <i></i>已完成</label>
+																	                                    </div>
+																	                                    
+																	                              	</form>
+															                            		</div>
+															                            		<div style="margin-left: 50px" class="col-sm-2">
+																                           			<button  type="button" class="btn btn-primary" id="find8" name="cha_button">
+																										<i class="fa fa-search"></i>&nbsp;&nbsp;<span class="bold">查询</span>
+																									</button>
+																								</div>
+													                           				</div>
+																						
+												                            		</div>
+												                            		<hr style="background-color:#e7eaec; height: 4px;" />
+												                            	<div class="row">
+												                            		<div class="col-sm-12">
+												                            			<h3><strong >帮扶人走访时间</strong></h3>
+												                            			<form id="zoufang_form">
+													                            			<div class="row">
+													                            				<div class="checkbox i-checks"  name="v33_div">
+																									<label><input type="checkbox" id="zf-v1" name="zf-v1" value="走访时间"> <i></i>走访时间</label> 
+																									<label><input type="checkbox" id="zf-v2" name="zf-v2" value="帮扶干部"><i></i>帮扶干部</label> 
+																									<label><input type="checkbox" id="zf-v3" name="zf-v3" value="走访情况记录"><i></i>走访情况记录</label>
+																								</div>
+													                            			</div>
+													                            			</form>
+													                            			<div class="row">
+															                            		<div id="danxuan" style="margin-top:-10px;margin-left: 300px" class="col-sm-4">
+															                            			<form id="danxuan_form9">
+																                            			<div class="radio i-checks">
+																	                                       <label>
+										                                        								<input type="radio" checked="" value="0" name="a"> <i></i>未完成</label>
+																	                                    
+																	                                        <label>
+																	                                            <input type="radio"  value="1" name="a"> <i></i>已完成</label>
+																	                                    </div>
+																	                                    
+																	                              	</form>
+															                            		</div>
+															                            		<div style="margin-left: 50px" class="col-sm-2">
+																                           			<button  type="button" class="btn btn-primary" id="find9" name="cha_button">
+																										<i class="fa fa-search"></i>&nbsp;&nbsp;<span class="bold">查询</span>
+																									</button>
+																								</div>
+													                           				</div>
+												                            			
+												                            		</div>
+												                            		</div>
+					                            								</div>
+					                            							</div>
+					                            						</div>
+					                            					</div>
+					                            				</div>
+					                            			</div>
+				                            		<div id="tab-4" class="tab-pane">
+				                            			<div class="panel-body">
+				                            				
+					                            				<div id="neirong_jiben">
+				                            						<div class="row">
+				                            							<div class="col-sm-12">
+				                            								<div class="contact-box">
+				                            									<form id="chengxiao_form">
+					                            									<div class="row">
+													                            		<div class="checkbox i-checks"  name="v33_div">
+																							<label><input type="checkbox" id="cx-v1" name="cx-v1" value="帮扶时间"> <i></i>帮扶时间</label> 
+																							<label><input type="checkbox" id="cx-v2" name="cx-v2" value="成效内容"><i></i>成效内容</label> 
+																							<label><input type="checkbox" id="cx-v3" name="cx-v3" value="贫困户签字"><i></i>贫困户签字</label>
+																						</div>
+													                            	</div>
+													                            </form>
+												                            	<div class="row">
+												                            		<div id="danxuan" style="margin-top:-10px;margin-left: 300px" class="col-sm-4">
+												                            			<form id="danxuan_form10">
+													                            			<div class="radio i-checks">
+														                                       <label>
+							                                        								<input type="radio" checked="" value="0" name="a"> <i></i>未完成</label>
+														                                    
+														                                        <label>
+														                                            <input type="radio"  value="1" name="a"> <i></i>已完成</label>
+														                                    </div>
+														                                    
+														                              	</form>
+												                            		</div>
+												                            		<div style="margin-left: 50px" class="col-sm-2">
+													                           			<button  type="button" class="btn btn-primary" id="find10" name="cha_button">
+																							<i class="fa fa-search"></i>&nbsp;&nbsp;<span class="bold">查询</span>
+																						</button>
+																					</div>
+										                           				</div>
+				                            								</div>
+				                            							</div>
+				                            						</div>
+				                            					</div>
+			                            					
+			                            				</div>
+				                            		</div>	
+				                            		<div id="tab-5" class="tab-pane">
+				                            			<div class="panel-body">
+				                            				
+					                            				<div id="neirong_jiben">
+				                            						<div class="row">
+				                            							<div class="col-sm-12">
+				                            								<div class="contact-box">
+				                            									<form id="cuoshi_form">
+					                            									<div class="row">
+													                            		<div class="checkbox i-checks"  name="v33_div">
+																								<label><input type="checkbox" id="cs_v1" name="cs_v1" value="项目类型"> <i></i>帮扶时间</label>
+																								<label><input type="checkbox" id="cs_v2" name="cs_v2" value="扶持措施"> <i></i>项目内容</label> 
+																								<label><input type="checkbox" id="cs_v3" name="cs_v3" value="是否符合扶持条件"><i></i>是否符合扶持条件</label> 
+																								
+																						</div>
+													                            	
+					                            									</div>
+					                            								</form>
+					                            								<div class="row">
+												                            		<div id="danxuan" style="margin-top:-10px;margin-left: 300px" class="col-sm-4">
+												                            			<form id="danxuan_form11">
+													                            			<div class="radio i-checks">
+														                                       <label>
+							                                        								<input type="radio" checked="" value="0" name="a"> <i></i>未完成</label>
+														                                    
+														                                        <label>
+														                                            <input type="radio"  value="1" name="a"> <i></i>已完成</label>
+														                                    </div>
+														                                    
+														                              	</form>
+												                            		</div>
+												                            		<div style="margin-left: 50px" class="col-sm-2">
+													                           			<button  type="button" class="btn btn-primary" id="find11" name="cha_button">
+																							<i class="fa fa-search"></i>&nbsp;&nbsp;<span class="bold">查询</span>
+																						</button>
+																					</div>
+										                           				</div>
+				                            							</div>
+				                            						</div>
+				                            					</div>
+			                            					
+			                            				</div>
+				                            		</div>
+				                          
+		                            				</div>
+			                            			<div id="tab-6" class="tab-pane">
+				                            			<div class="panel-body">
+				                            				
+				                            				<div id="neirong_jiben">
+				                            					<div class="row">
+				                            						<div class="col-sm-12">
+				                            							<div class="contact-box">
+				                            								<div class="row">
+				                            									<div class="col-sm-6" style="height:596px;overflow-y:auto";>
+				                            									<h3><strong >当前收入情况</strong></h3>
+					                            									<div class="checkbox i-checks"  name="v33_div">
+																						<div class="row">
+																							<form id="hshouru_form">	
+																							<div class="col-sm-12" style="height:100px;overflow-y:auto; ">
+																								<div class="col-sm-12"><!-- 大块 -->
+																									<div class="row">
+																										<h6><strong >生产经营性收入</strong></h6>
+																									</div>
+																								</div>
+																								
+																								<div clss="col-sm-12"><!-- 小条件  -->
+																									<div class="row">
+																										<label><input type="checkbox" id="v2" name="v2" value="农业（水产）"> <i></i>农业（水产）</label>
+																										<label><input type="checkbox" id="v4" name="v4" value="畜牧业"> <i></i>畜牧业</label>
+																										<label><input type="checkbox" id="v6" name="v6" value="林业"> <i></i>林业</label>
+																										<label><input type="checkbox" id="v8" name="v8" value="其他"> <i></i>其他</label>
+																									</div>
+																								</div>
+																							</div>
+																							<div class="col-sm-12" style="height:140px;overflow-y:auto; ">
+																								<div class="col-sm-12"><!-- 大块 -->
+																									<div class="row">
+																										<h6><strong >政策性收入</strong></h6>
+																									</div>
+																								</div>
+																								<div clss="col-sm-12"><!-- 小条件  -->
+																									<div class="row">
+																										<label><input type="checkbox" id="v12" name="v12" value="农林牧草、生态等补贴"> <i></i>农林牧草、生态等补贴</label>
+																										<label><input type="checkbox" id="v14" name="v14" value="养老金"> <i></i>养老金</label>
+																									
+																										<label><input type="checkbox" id="v16" name="v16" value="低保（五保）补贴"> <i></i>低保（五保）补贴</label>
+																										<label><input type="checkbox" id="v18" name="v18" value="燃煤补贴"> <i></i>燃煤补贴</label>
+																										<label><input type="checkbox" id="v26" name="v26" value="其他"> <i></i>其他</label>
+																									</div>
+																								</div>
+																							</div>
+																							<div class="col-sm-12" style="height:100px;overflow-y:auto; ">
+																								<div class="col-sm-12"><!-- 大块 -->
+																									<div class="row">
+																										<h6><strong >财产性收入</strong></h6>
+																									</div>
+																								</div>
+																								<div clss="col-sm-12"><!-- 小条件  -->
+																									<div class="row">
+																										<label><input type="checkbox" id="v24" name="v24" value="土地、草牧场流转"> <i></i>土地、草牧场流转</label>
+																										<label><input type="checkbox" id="v26" name="v26" value="其他"> <i></i>其他</label>
+																									
+																									</div>
+																								</div>
+																							</div>
+																							<div class="col-sm-12" style="height:100px;overflow-y:auto; ">
+																								<div class="col-sm-12"><!-- 大块 -->
+																									<div class="row">
+																										<h6><strong >工资性收入</strong></h6>
+																									</div>
+																								</div>
+																								<div clss="col-sm-12"><!-- 小条件  -->
+																									<div class="row">
+																										<label><input type="checkbox" id="v28" name="v28" value="劳务"> <i></i>劳务</label>
+																										<label><input type="checkbox" id="v32" name="v32" value="其他收入"> <i></i>其他收入</label>
+																									</div>
+																								</div>
+				
+																							</div>
+																							
+																							</form>
+																							<div class="col-sm-12" style="height:100px;overflow-y:auto; ">
+																							<div class="row">
+															                            		<div id="danxuan" style="margin-top:40px;margin-left: 50px" class="col-sm-7">
+															                            			<form id="danxuan_form12">
+																                            			<div class="radio i-checks">
+																	                                       <label>
+										                                        								<input type="radio" checked="" value="0" name="a"> <i></i>未完成</label>
+																	                                    
+																	                                        <label>
+																	                                            <input type="radio"  value="1" name="a"> <i></i>已完成</label>
+																	                                    </div>
+																	                                    
+																	                              	</form>
+															                            		</div>
+																                            		<div style="margin-top:50px; class="col-sm-1">
+																	                           			<button  type="button" class="btn btn-primary" id="find12" name="cha_button">
+																											<i class="fa fa-search"></i>&nbsp;&nbsp;<span class="bold">查询</span>
+																										</button>
+																									</div>
+																								
+														                           			</div>
+																							</div>
+																						</div>
+																						
+																					</div>
+																				</div>
+																				<div class="col-sm-6" style="height:596px;overflow-y:auto";>
+				                            									<h3><strong >当前支出情况</strong></h3>
+					                            									<div class="checkbox i-checks"  name="v33_div">
+																						<div class="row">
+																							
+																							<div class="col-sm-12" style="height:550px;overflow-y:auto; ">
+																								<div class="col-sm-12"><!-- 大块 -->
+																									<div class="row">
+																										<h6><strong >生产经营性支出</strong></h6>
+																									</div>
+																								</div>
+																								<form id="hzhichu_form">
+																								<div clss="col-sm-12"><!-- 小条件  -->
+																									<div class="row">
+																										<label><input type="checkbox" id="zc-v2" name="zc-v2" value="农资费用"> <i></i>农资费用</label>
+																										<label><input type="checkbox" id="zc-v4" name="zc-v4" value="固定资产折旧和租赁费"> <i></i>固定资产折旧和租赁费</label>
+																										<label><input type="checkbox" id="zc-v6" name="zc-v6" value="水电燃料支出"> <i></i>水电燃料支出</label>
+																										<label><input type="checkbox" id="zc-v8" name="zc-v8" value="承包土地、草场费用"> <i></i>承包土地、草场费用</label>
+																										<label><input type="checkbox" id="zc-v10" name="zc-v10" value="饲草料"> <i></i>饲草料</label>
+																										<label><input type="checkbox" id="zc-v12" name="zc-v12" value="防疫防治支出"> <i></i>防疫防治支出</label>
+																										<label><input type="checkbox" id="zc-v14" name="zc-v14" value="种（仔）畜"> <i></i>种（仔）畜</label>
+																										<label><input type="checkbox" id="zc-v16" name="zc-v16" value="销售费用和通讯费用"> <i></i>销售费用和通讯费用</label>
+																										<label><input type="checkbox" id="zc-v18" name="zc-v18" value="借贷"> <i></i>借贷</label>
+																										<label><input type="checkbox" id="zc-v20" name="zc-v20" value="政府性支出"> <i></i>政府性支出</label>
+																										<label><input type="checkbox" id="zc-v27" name="zc-v27" value="其他支出"> <i></i>其他支出</label>
+																										
+																									</div>
+																								</div>
+																								</form>
+																								<div class="col-sm-12" style="margin-top:240px; height:100px;overflow-y:auto; ">
+																									<div class="row">
+																	                            		<div id="danxuan" style="margin-top:40px;margin-left: 50px" class="col-sm-7">
+																	                            			<form id="danxuan_form13">
+																		                            			<div class="radio i-checks">
+																			                                       <label>
+												                                        								<input type="radio" checked="" value="0" name="a"> <i></i>未完成</label>
+																			                                    
+																			                                        <label>
+																			                                            <input type="radio"  value="1" name="a"> <i></i>已完成</label>
+																			                                    </div>
+																			                                    
+																			                              	</form>
+																	                            		</div>
+																		                            		<div style="margin-top:50px; class="col-sm-1">
+																			                           			<button  type="button" class="btn btn-primary" id="find13" name="cha_button">
+																													<i class="fa fa-search"></i>&nbsp;&nbsp;<span class="bold">查询</span>
+																												</button>
+																											</div>
+																										
+																                           			</div>
+																								</div>
+																							
+																						</div>
+																					</div>
+				                            									</div>
+				                            								</div>
+				                            							</div>
+				                            						</div>
+				                            					</div>
+				                            				</div>
+				                            			</div>
+				                            		</div>	
+		                            			</div>
+			                            		
+                 								</div>
+                 								<!-- 
+                 								<div class="row">
+					                            		<div id="danxuan" style="margin-top:-10px;margin-left: 300px" class="col-sm-4">
+					                            			<form id="danxuan_form">
+						                            			<div class="radio i-checks">
+							                                       <label>
+                                        								<input type="radio" value="0" name="a"> <i></i>未完成</label>
+							                                    
+							                                        <label>
+							                                            <input type="radio" checked="" value="1" name="a"> <i></i>已完成</label>
+							                                    </div>
+							                                    
+							                              	</form>
+					                            		</div>
+					                            		<div style="margin-left: 50px" class="col-sm-2">
+						                           			<button  type="button" class="btn btn-primary" id="find" name="cha_button">
+																<i class="fa fa-search"></i>&nbsp;&nbsp;<span class="bold">查询</span>
+															</button>
+														</div>
+														 -->
+				                           			</div>
+					                    	</div>  	
+			                            </div>
+									</div>
+								</div>
+			                </div>
+						</div>
+					</div>
+					<!-- 尾部 -->
+            	<div class="footer" id="weibu_title"></div><!-- 尾部 -->
+		</div>
+				           
+           	<!-- 中间部分 -->
+           
+        
+  
+    
+    
+ <!-- 修改密码页面 -->
+    <div id="gray_2"></div>
+
+	<div class="popup" id="popup_2">
+
+		<div class="top_nav" >
+			<div align="center">
+				<i></i>
+				<span>修改密码</span>
+				<a class="guanbi"></a>
+			</div>
+		</div>
+		
+		<div class="main">
+			<div class="tc_login">
+				<div class="center">
+						<div align="center">
+							<div align="center">
+							<br/>
+							<h4 style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;请输入原密码：</h4>
+							</div>
+							<br/>
+							<div>
+							<form class="" id="changepassword_form" onsubmit='return false' >
+								<input type="text" id="yhid" style="display:none;"  class="input_yh">
+								<div align="center">&nbsp;&nbsp;&nbsp;</div>
+								<div class="form-group" style="text-align:left;">
+									<input type="password" name="old_pass" id="old_pass" style="margin-left: 133px;" required="required" cp="true"  placeholder="原密码" autocomplete="off" class="input_mm">
+									<div align="center">&nbsp;&nbsp;&nbsp;</div>
+									<input type="password" name="new_pass" id="new_pass" style="margin-left: 133px;" required="required"  placeholder="新密码" autocomplete="off" class="input_mm">
+									<div align="center">&nbsp;&nbsp;&nbsp;</div>
+									<input type="password" name="new_pass_2" id="new_pass_2" style="margin-left: 133px;" required equalTo="#new_pass" placeholder="请再次输入新密码" autocomplete="off" class="input_mm">
+								</div>
+							</form>
+							</div>
+						</div>
+						
+						
+						<div align="center">
+							<input type="submit"   style="  -webkit-appearance: none;
+														    background: #36a803;
+														    border: none;
+														    border-radius: 2px;
+														    color: #fff;
+														    cursor: pointer;
+														    height: 50px;
+														    font-family: 'Open Sans', sans-serif;
+														    font-size: 1.2em;
+														    letter-spacing: 0.05em;
+														    text-align: center;
+														    text-transform: uppercase;
+														    transition: background 0.3s ease-in-out;
+														    width: 220px;
+														    padding: 0 50px 0 50px;
+	   														font-weight: bold;"
+	   							onclick="xiugaimima_anniu()" value="修&nbsp;改&nbsp;密&nbsp;码">
+						</div>
+					<hr align="center" />
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<script src="js/Include.js"></script>
+	<script>
+	
+		loadSMLibs("10");
+	</script>
+	
+  </body>
+</html>

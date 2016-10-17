@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                        http://www.springframework.org/schema/aop
+                        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+
+	<bean id="simpleUrlHandlerMapping_lyl" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="mappings">
+			<props>
+				
+			  	<!-- 国定标准退出初始化 -->
+				<prop key="getCountry_init.do">SignOutController</prop>
+				<!-- 市定标准退出初始化 -->
+				<prop key="getCity_init.do">SignOutController</prop>
+				
+				<!-- 国家级数据统计 -->
+				<prop key="getCountry_Stat.do">DataStatisticsController</prop>
+				<!-- 市级数据统计 -->
+				<prop key="getCity_Stat.do">DataStatisticsController</prop>
+				<!-- 帮扶人与单位数据统计 -->
+				<prop key="getBangFu_Stat.do">DataStatisticsController</prop>
+			    
+				<!-- 贫困户数据处理导入 -->
+				<prop key="xls_db_house.do">DataProcessingController</prop>
+				<!-- 录入帮扶人与贫困户关系数据 -->
+				<prop key="sys_personal_household_many.do">DataProcessingController</prop>
+				
+				<!-- 安卓登录 -->
+				<prop key="getAnLogin.do">AnController</prop>
+				<!-- 贫困用户的详细信息 -->
+				<prop key="getPoorDetailed.do">AnController</prop>
+				<!-- 走访记录情况 -->
+				<prop key="getSaveVisit.do">AnController</prop>
+				<!-- 添加走访情况 -->
+				<prop key="getAddVisitController.do">AnController</prop>
+				<!-- 走访情况照片 -->
+				<prop key="getAddZfPhoto.do">AnController</prop>
+				<!-- 查看贫困户列表 -->
+				<prop key="getSavePoorController.do">AnController</prop>
+				<!-- 查看帮扶计划 -->
+				<prop key="getSaveBfjhController.do">AnController</prop>
+				<!-- 添加帮扶计划 -->
+				<prop key="getAddBfjhController.do">AnController</prop>
+				<!-- 修改帮扶计划 -->
+				<prop key="getUpdateBfjhController.do">AnController</prop>
+				<!-- 查看帮扶措施 -->
+				<prop key="getSaveBfcsController.do">AnController</prop>
+				<!-- 添加帮扶措施、帮扶措施的图片 -->
+				<prop key="getAddBfcsController.do">AnController</prop>
+				<!-- 添加帮扶措施图片到本地 -->
+<!-- 				<prop key="getAddTomPicController.do">AnController</prop> -->
+				<!-- 查看家庭成员信息 -->
+				<prop key="getSaveFamily.do">AnController</prop>
+				<!-- 检测是否更新 -->
+				<prop key="getSaveVersion.do">AnController</prop>
+				<prop key="getMessagerYearBfcs.do">AnController</prop>
+				<!-- 添加头像 -->
+				<prop key="getAddhuzhuPhoto.do">AnController</prop>
+				<!-- 查看台账信息脱贫计划 -->
+				<prop key="getTzBfjh.do">AnController</prop>
+				<!-- 二三级菜单-->
+				<prop key="getNameSaveHousehould.do">AnController</prop>
+				<!-- 根据村显示贫困户 -->
+				<prop key="getShowPoor.do">AnController</prop>
+				<!-- 帮扶措施一级菜单 -->
+				<prop key="getBfcsShu.do">AnController</prop>
+				<!-- 旧版登陆 -->
+				<prop key="getAnLoginx.do">AnController</prop>
+				<prop key="getSaveVersionx.do">AnController</prop>
+				
+				<!-- 数据统计 -->
+				<prop key="getPoorController.do">AnController</prop>
+				<prop key="getBfqkCountController.do">AnController</prop>
+				<!-- 数据统计_户详情指标 -->
+				<prop key="getHuMessageController.do">AnController</prop>
+				<!-- 数据统计_帮扶成效指标 -->
+				<prop key="getBfcxCountController.do">AnController</prop>
+				<!-- 工作考核指标 -->
+				<prop key="getGzkhCountController.do">AnController</prop>
+				<!-- 统计国贫人口、市贫人口、人均收入、人均支出 -->
+				<prop key="getPopulationController.do">AnController</prop>
+				<!-- 鄂尔多斯帮扶责任人-市贫 -->
+				<prop key="getShiBfr.do">AnController</prop>
+				<!-- 地图接收参数 -->
+				<prop key="getCharParameter.do">AnController</prop>
+				<!-- 给前台传参数 -->
+				<prop key="getReceiveParameter.do">AnController</prop>
+				<!-- 加载地图信息 -->
+				<prop key="getCharController.do">AnController</prop>
+				<prop key="getPadController.do">AnController1</prop>
+				
+			</props>
+		</property>
+	 </bean>
+	 <bean id="DataProcessingController" class="com.gistone.servlet.DataProcessing_Controller" />
+	 <bean id="AnController" class="com.gistone.servlet.AnController" />
+	 <bean id="AnController1" class="com.gistone.servlet.AnController_pad" />
+	 
+	 <bean id="SignOutController" class="com.gistone.servlet.SignOutController" />
+	 <bean id="DataStatisticsController" class="com.gistone.servlet.DataStatisticsController" />
+	 
+	 <bean id="cacheBeanPostProcessor" class="com.gistone.Initialization.CacheBeanPostProcessor"/>
+</beans>

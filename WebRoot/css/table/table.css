@@ -1,0 +1,131 @@
+ #xg_shouru td{
+      width:300px;
+      text-align:center;
+      height:45px;
+      width:200px;
+      }
+
+ #xg_shouru th{
+ 	  width:200px;
+      text-align:center;
+      height:45px;
+      }
+  
+#xg_zhichu td{
+      width:300px;
+      text-align:center;
+      height:45px;
+      width:200px;
+      }
+
+ #xg_zhichu th{
+      width:200px;
+      text-align:center;
+      height:45px;
+      }    
+#xg_bangfu td{
+	border:1px solid #ddd;
+	text-align:center;
+	width:250px;
+	height:45px;
+}
+#xg_bangfu th{
+	 width:200px;
+     text-align:center;
+     height:45px;
+}
+
+#xg_bangfuqk td{
+	border:1px solid #ddd;
+	text-align:center;
+	width:250px;
+	height:45px;
+}
+#xg_bangfuqk th{
+	 width:200px;
+     text-align:center;
+     height:45px;
+}
+
+#xg_bf_cs td{
+	border:1px solid #ddd;
+	text-align:center;
+	width:250px;
+	height:45px;
+}
+#xg_bf_cs td{
+	 width:200px;
+     text-align:center;
+     height:45px;
+}
+
+#xg_bf_cx td{
+	border:1px solid #ddd;
+	text-align:center;
+	width:250px;
+	height:45px;
+	
+}
+#xg_bf_cx th{
+	 width:200px;
+     text-align:center;
+     height:45px;
+	
+}
+
+#xg_bfh_sr td{
+	border:1px solid #ddd;
+	text-align:center;
+	width:250px;
+	height:45px;
+}
+#xg_bfh_sr th{
+	 width:200px;
+     text-align:center;
+     height:45px;
+}
+
+#xg_bfh_zc td{
+	border:1px solid #ddd;
+	text-align:center;
+	width:250px;
+	height:45px;
+}
+#xg_bfh_zc th{
+	 width:200px;
+     text-align:center;
+     height:45px;
+}
+
+
+.cd_shangchuan {
+    position: relative;
+    display: inline-block;
+    border-radius: 4px;
+    overflow: hidden;
+    text-decoration: none;
+    text-indent: 0;
+    line-height: 20px;
+    width: 110px;
+    text-align:center;
+    top:50%;
+}
+.cd_shangchuan input {
+    position: absolute;
+    font-size: 100px;
+    right: 0;
+    top: 0;
+    opacity: 0;
+}
+.cd_shangchuan:hover {
+    text-decoration: none;
+}
+
+.code{
+	background-color: #F9F2F4;
+    border-radius: 4px;
+    color: #ca4440;
+    font-size: 90%;
+    padding: 2px 4px;
+    white-space: nowrap;
+}
