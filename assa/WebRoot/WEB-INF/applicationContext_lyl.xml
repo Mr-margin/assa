@@ -90,6 +90,13 @@
 				<prop key="getReceiveParameter.do">AnController</prop>
 				<!-- 加载地图信息 -->
 				<prop key="getCharController.do">AnController</prop>
+				<!-- 捐款软件随机十个人 -->
+				<prop key="getSuiji.do">AnController</prop>
+				<!-- 捐款搜索贫困户 -->
+				<prop key="getDoSpoor.do">AnController</prop>
+				<!-- 我关注的贫困户——捐款 -->
+				<prop key="myPoorMessage.do">AnController</prop>
+				
 				<prop key="getPadController.do">AnController1</prop>
 				
 			</props>
