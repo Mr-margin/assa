@@ -5005,4 +5005,120 @@ public class AnController extends MultiActionController{
 		return null;
 	
 	}
+	/**
+	 * 随机取帮扶人十个列表
+	 * @author 太年轻
+	 * @date 2016年10月13日
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws IOException 
+	 */
+	public ModelAndView getSuiji(HttpServletRequest request,HttpServletResponse response) throws IOException{
+		
+		String sql = "select pkid,v3,v4,v5,v6,v7,v9,v23,v33,pic_path from  "+
+					" (SELECT pkid, v3,v4,v5,v6,v7,v9,v23,v33 FROM da_household ORDER BY RAND()  LIMIT 10) a "+
+					" left join (select pic_pkid,pic_path from da_pic where pic_type='4' ) b on a.pkid = b.pic_pkid  ";
+		
+		SQLAdapter sqlAdapter = new SQLAdapter (sql);
+		
+		List<Map> list = this.getBySqlMapper.findRecords(sqlAdapter);
+		JSONArray jsonArray = new JSONArray ();
+		if ( list.size() > 0 ) {
+			for ( int i = 0 ; i < list.size() ; i ++ ) {
+				JSONObject obj = new JSONObject();
+				obj.put("pkid", "" .equals(list.get(i).get("pkid")) ||  list.get(i).get("pkid") == null ? "" : list.get(i).get("pkid").toString());
+				obj.put("v3", "" .equals(list.get(i).get("v3")) ||  list.get(i).get("v3") == null ? "" : list.get(i).get("v3").toString());
+				obj.put("v4", "" .equals(list.get(i).get("v4")) ||  list.get(i).get("v4") == null ? "" : list.get(i).get("v4").toString());
+				obj.put("v5", "" .equals(list.get(i).get("v5")) ||  list.get(i).get("v5") == null ? "" : list.get(i).get("v5").toString());
+				obj.put("v6", "" .equals(list.get(i).get("v6")) ||  list.get(i).get("v6") == null ? "" : list.get(i).get("v6").toString());
+				obj.put("v7", "" .equals(list.get(i).get("v7")) ||  list.get(i).get("v7") == null ? "" : list.get(i).get("v7").toString());
+				obj.put("v9", "" .equals(list.get(i).get("v9")) ||  list.get(i).get("v9") == null ? "" : list.get(i).get("v9").toString());
+				obj.put("v23", "" .equals(list.get(i).get("v23")) ||  list.get(i).get("v23") == null ? "" : list.get(i).get("v23").toString());
+				obj.put("v33", "" .equals(list.get(i).get("v33")) ||  list.get(i).get("v33") == null ? "" : list.get(i).get("v33").toString());
+				obj.put("pic_path", "" .equals(list.get(i).get("pic_path")) ||  list.get(i).get("pic_path") == null ? "" : list.get(i).get("pic_path").toString());
+				jsonArray.add(obj);
+			}
+			response.getWriter().write("{\"result\":"+jsonArray.toString()+"}");
+		}
+		
+		return null;
+	}
+	/**
+	 * 捐款搜索贫困户
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws IOException 
+	 */
+	public ModelAndView getDoSpoor(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		
+		String name = request.getParameter("name");//姓名
+		String sql = "select pkid, v3,v4,v5,v6,v7,v9,v23,v33,pic_path from  "+
+				" (SELECT pkid, v3,v4,v5,v6,v7,v9,v23,v33 FROM da_household where v6 ='"+name+"' or v8='"+name+"' "+
+				" ) a left join (select pic_pkid,pic_path from da_pic where pic_type='4' ) b on a.pkid = b.pic_pkid  ";
+		SQLAdapter sqlAdapter = new SQLAdapter (sql);
+		
+		List<Map> list = this.getBySqlMapper.findRecords(sqlAdapter);
+		JSONArray jsonArray = new JSONArray ();
+		if ( list.size() > 0 ) {
+			for ( int i = 0 ; i < list.size() ; i ++ ) {
+				JSONObject obj = new JSONObject();
+				obj.put("pkid", "" .equals(list.get(i).get("pkid")) ||  list.get(i).get("pkid") == null ? "" : list.get(i).get("pkid").toString());
+				obj.put("v3", "" .equals(list.get(i).get("v3")) ||  list.get(i).get("v3") == null ? "" : list.get(i).get("v3").toString());
+				obj.put("v4", "" .equals(list.get(i).get("v4")) ||  list.get(i).get("v4") == null ? "" : list.get(i).get("v4").toString());
+				obj.put("v5", "" .equals(list.get(i).get("v5")) ||  list.get(i).get("v5") == null ? "" : list.get(i).get("v5").toString());
+				obj.put("v6", "" .equals(list.get(i).get("v6")) ||  list.get(i).get("v6") == null ? "" : list.get(i).get("v6").toString());
+				obj.put("v7", "" .equals(list.get(i).get("v7")) ||  list.get(i).get("v7") == null ? "" : list.get(i).get("v7").toString());
+				obj.put("v9", "" .equals(list.get(i).get("v9")) ||  list.get(i).get("v9") == null ? "" : list.get(i).get("v9").toString());
+				obj.put("v23", "" .equals(list.get(i).get("v23")) ||  list.get(i).get("v23") == null ? "" : list.get(i).get("v23").toString());
+				obj.put("v33", "" .equals(list.get(i).get("v33")) ||  list.get(i).get("v33") == null ? "" : list.get(i).get("v33").toString());
+				obj.put("pic_path", "" .equals(list.get(i).get("pic_path")) ||  list.get(i).get("pic_path") == null ? "" : list.get(i).get("pic_path").toString());
+				jsonArray.add(obj);
+			}
+			response.getWriter().write("{\"result\":"+jsonArray.toString()+"}");
+		}else {
+			response.getWriter().write("0");
+		}
+		
+		return null;
+	}
+	/**
+	 * 我关注的贫困户——捐款
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws IOException 
+	 */
+	public ModelAndView myPoorMessage ( HttpServletRequest request,HttpServletResponse response) throws IOException{
+		
+		String poor_id[] = request.getParameterValues("poor_id");
+		JSONArray jsonArray = new JSONArray () ;
+		if ( poor_id .length == 0 ) {
+			response.getWriter().write("0");
+		} else {
+			for ( int i = 0 ; i < poor_id.length ; i ++){
+				
+				String sql = "select pkid, v3,v4,v5,v6,v7,v9,v23,v33,pic_path from  "+
+						" (SELECT pkid, v3,v4,v5,v6,v7,v9,v23,v33 FROM da_household where pkid = "+poor_id[i]+" "+
+						" ) a left join (select pic_pkid,pic_path from da_pic where pic_type='4' ) b on a.pkid = b.pic_pkid  ";
+				SQLAdapter sqlAdapter = new SQLAdapter (sql);
+				List<Map> list = this.getBySqlMapper.findRecords(sqlAdapter);
+				JSONObject obj = new JSONObject();
+				obj.put("pkid", "" .equals(list.get(0).get("pkid")) ||  list.get(0).get("pkid") == null ? "" : list.get(0).get("pkid").toString());
+				obj.put("v3", "" .equals(list.get(0).get("v3")) ||  list.get(0).get("v3") == null ? "" : list.get(0).get("v3").toString());
+				obj.put("v4", "" .equals(list.get(0).get("v4")) ||  list.get(0).get("v4") == null ? "" : list.get(0).get("v4").toString());
+				obj.put("v5", "" .equals(list.get(0).get("v5")) ||  list.get(0).get("v5") == null ? "" : list.get(0).get("v5").toString());
+				obj.put("v6", "" .equals(list.get(0).get("v6")) ||  list.get(0).get("v6") == null ? "" : list.get(0).get("v6").toString());
+				obj.put("v7", "" .equals(list.get(0).get("v7")) ||  list.get(0).get("v7") == null ? "" : list.get(0).get("v7").toString());
+				obj.put("v9", "" .equals(list.get(0).get("v9")) ||  list.get(0).get("v9") == null ? "" : list.get(0).get("v9").toString());
+				obj.put("v23", "" .equals(list.get(0).get("v23")) ||  list.get(0).get("v23") == null ? "" : list.get(0).get("v23").toString());
+				obj.put("v33", "" .equals(list.get(0).get("v33")) ||  list.get(0).get("v33") == null ? "" : list.get(0).get("v33").toString());
+				obj.put("pic_path", "" .equals(list.get(0).get("pic_path")) ||  list.get(0).get("pic_path") == null ? "" : list.get(0).get("pic_path").toString());
+				jsonArray.add(obj);
+			}
+		}
+		
+		return null;
+	}
 }
