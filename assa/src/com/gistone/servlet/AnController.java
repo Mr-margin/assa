@@ -5092,7 +5092,8 @@ public class AnController extends MultiActionController{
 	 */
 	public ModelAndView myPoorMessage ( HttpServletRequest request,HttpServletResponse response) throws IOException{
 		
-		String poor_id[] = request.getParameterValues("poor_id");
+		String poor = request.getParameter("poor_id");
+		String[] poor_id = poor.split(",");
 		JSONArray jsonArray = new JSONArray () ;
 		if ( poor_id .length == 0 ) {
 			response.getWriter().write("0");
@@ -5117,6 +5118,7 @@ public class AnController extends MultiActionController{
 				obj.put("pic_path", "" .equals(list.get(0).get("pic_path")) ||  list.get(0).get("pic_path") == null ? "" : list.get(0).get("pic_path").toString());
 				jsonArray.add(obj);
 			}
+			response.getWriter().write("{\"result\":"+jsonArray.toString()+"}");
 		}
 		
 		return null;
