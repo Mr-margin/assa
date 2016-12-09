@@ -171,6 +171,34 @@ public class SignOutController extends MultiActionController{
 			String count_s_sql = "select count(*) from da_household where sys_standard='市级低收入人口' and (v3 like '%"+search+"%' or v4 like '%"+search+"%' or v5 like '%"+search+"%' or v6 like '%"+search+"%' or v9 like '%"+search+"%') "+str;
 			SQLAdapter count_s_Adapter = new SQLAdapter(count_s_sql);
 			int total = this.getBySqlMapper.findrows(count_s_Adapter);
+			//符合市级低收入户要求帮扶后人均纯收入比帮扶前增长20%、帮扶后人均纯收入大于1万元、不是危房、所有家庭成员均参加新农合、养老保险 条件的sql 语句
+//			select pkid,v6,v24,v39,v9,v2,v3,v4,v5  from (
+//					SELECT pkid,v6,v24,v39,v9,v39/v9 bh,v2,v3,v4,v5  from (
+//					select v6,pkid,v24,v9,v2,v3,v4,v5 from (
+//					SELECT count(pkid) num,v9-1 c,pkid ,v6,v24,v9,v2,v3,v4,v5 from ( 
+//					select * from (
+//					select pkid,v6,sys_standard,v18,v19,v24,v2,v3,v4,v5 from (
+//
+//					SELECT pkid,v6,sys_standard,v18,v19,v24,v2,v3,v4,v5  FROM da_household where sys_standard ='市级低收入人口' and v18='是' and v19 = '是' and (v3 like '%"+search+"%' or v4 like '%"+search+"%' or v5 like '%"+search+"%' or v6 like '%"+search+"%' or v9 like '%"+search+"%') "+str
+//
+//					)zz
+//					LEFT JOIN (
+//					select da_household_id from da_life where v2='否'
+//					)z ON z.da_household_id=zz.pkid   
+//
+//					)z3
+//					LEFT JOIN (
+//					SELECT v9,da_household_id from da_member   where v18='是' and v19 = '是'
+//					)b ON b.da_household_id = z3.pkid) z1  GROUP BY pkid )z4 where c=num
+//
+//					) z2
+//
+//					left join (
+//
+//					select da_household_id,v39 from da_helpback_income 
+//
+//					)a on a.da_household_id=z2.pkid
+//					)z5 where (bh/v24)*100 > 20
 			
 			
 			String Metadata_s_sql = "select pkid,v3,v4,v5,v6,v9 from da_household where sys_standard='市级低收入人口' and (v3 like '%"+search+"%' or v4 like '%"+search+"%' or v5 like '%"+search+"%' or v6 like '%"+search+"%' or v9 like '%"+search+"%') "+str+" limit "+number+","+size;
