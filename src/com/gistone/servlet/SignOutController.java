@@ -80,11 +80,23 @@ public class SignOutController extends MultiActionController{
 			}
 			
 			String count_g_sql = "select count(*) from da_household where sys_standard='国家级贫困人口' and (v3 like '%"+search+"%' or v4 like '%"+search+"%' or v5 like '%"+search+"%' or v6 like '%"+search+"%' or v9 like '%"+search+"%') "+str;
+			//识别退出国贫总人数
+			String  count_sql = " select count(*) from (select count(*)num ,pkid,v9,v3,v4,v5,v6,renjun from (select a.*,b.v2,c.v18,c.v19 from "+
+								" (select pkid,v3,v4,v5,v6,v9,(v24/v9)renjun from da_household where  sys_standard='国家级贫困人口' and v18='是'"+
+								" and v19='是' and (v3 like '%"+search+"%' or v4 like '%"+search+"%' or v5 like '%"+search+"%' or v6 like '%"+search+"%' or v9 like '%"+search+"%') "+str+") a"+
+								" LEFT JOIN (select da_household_id,v2 from da_life )b ON a.pkid=b.da_household_id LEFT JOIN (select v18,v19,da_household_id from da_member "+
+								" )c ON a.pkid = c.da_household_id  where b.v2='否' and c.v18='是' and c.v19='是')aa group by pkid )bb where num=v9";
 			SQLAdapter count_g_Adapter = new SQLAdapter(count_g_sql);
 			int total = this.getBySqlMapper.findrows(count_g_Adapter);
 			
-			
+			//识别退出国贫所有人
 			String Metadata_g_sql = "select pkid,v3,v4,v5,v6,v9 from da_household where sys_standard='国家级贫困人口' and (v3 like '%"+search+"%' or v4 like '%"+search+"%' or v5 like '%"+search+"%' or v6 like '%"+search+"%' or v9 like '%"+search+"%') "+str+" limit "+number+","+size;
+			String sql = " select pkid,v3,v4,v5,v6,v9,renjun from (select count(*)num ,pkid,v9,v3,v4,v5,v6,renjun from (select a.*,b.v2,c.v18,c.v19 from "+
+						" (select pkid,v3,v4,v5,v6,v9,(v24/v9)renjun from da_household where  sys_standard='国家级贫困人口' and v18='是'"+
+						" and v19='是' and (v3 like '%"+search+"%' or v4 like '%"+search+"%' or v5 like '%"+search+"%' or v6 like '%"+search+"%' or v9 like '%"+search+"%') "+str+") a"+
+						" LEFT JOIN (select da_household_id,v2 from da_life )b ON a.pkid=b.da_household_id LEFT JOIN (select v18,v19,da_household_id from da_member "+
+						" )c ON a.pkid = c.da_household_id  where b.v2='否' and c.v18='是' and c.v19='是')aa group by pkid )bb where num=v9 limit "+number+","+size;
+			
 			SQLAdapter Metadata_g_Adapter = new SQLAdapter(Metadata_g_sql);
 			List<Map> Metadata_g_List = this.getBySqlMapper.findRecords(Metadata_g_Adapter);
 			
@@ -188,5 +200,29 @@ public class SignOutController extends MultiActionController{
 		}
 		
 		return null;
+	}
+	/**
+	 * 国贫退出
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws IOException
+	 */
+	public  ModelAndView getGp_tuichu(HttpServletRequest request,HttpServletResponse response ) throws IOException {
+		
+		String  str = request.getParameter("str");
+		String [] pkid = str.split(",");
+		try {
+			for ( int i = 0 ; i < pkid.length ; i ++ ) {
+				String sql = "update da_household set v21='已脱贫' where pkid = "+pkid[i];
+				SQLAdapter sqlAdapter = new SQLAdapter (sql);
+//				this.getBySqlMapper.updateSelective(sqlAdapter);
+			}
+			response.getWriter().write("0");
+		} catch (Exception e) {
+			response.getWriter().write("1");
+		}
+	
+		return null ;
 	}
 }
