@@ -6,17 +6,16 @@ $(function () {
 	shiding_initialization();
 	
 	$("#tuichu_g").click(function(){
-		toastr["info"]("info", "退出功能暂不开放");
+//		toastr["info"]("info", "退出功能暂不开放");
 		var row = metTable_g.bootstrapTable('getSelections');
+		var str = "";
 		if (row.length>0 ) {
-			var str = "";
 			$.each(row,function(i,item){
 				str += item.pkid+",";
  			});
 			str = str.substring(0,str.length-1);
-//			alert(str);
 		}
-		
+		gp_tuchu(str);
 	});
 	
 	$("#tuichu_s").click(function(){
@@ -28,7 +27,6 @@ $(function () {
 				str += item.pkid+",";
  			});
 			str = str.substring(0,str.length-1);
-//			alert(str);
 		}
 		
 	});
@@ -134,4 +132,36 @@ function queryParams_s(params) {  //配置参数
     temp.search = params.search;
     
     return temp;
+}
+
+
+/**
+ * 国贫退出
+ * @param str
+ */
+function gp_tuchu (str) {
+	if ( str == null || str == "" || str == undefined ) {
+		toastr["warning"]("提示", "请选择贫困户");
+		return;
+	}
+	
+	$.ajax({
+		url:"/assa/getGp_tuichu.do",
+		type:"post",
+		async:false,
+		dataType:"json",
+		data:{str:str},
+		success:function(data){
+			if ( data == "0" ){
+				toastr["success"]("提示", "成功退出");
+			} else if ( data == "1" ){
+				toastr["warning"]("提示", "退出失败");
+			}
+			
+		},
+		error :function (data) {
+			
+		}
+		
+	});
 }
