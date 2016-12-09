@@ -179,6 +179,10 @@
  				<prop key="exportExcel_all5.do">standingBookController</prop>
  				
  				
+ 				<!-- 国贫识别退出 -->
+ 				<prop key="getGp_tuichu.do">signOutController</prop>
+ 				
+ 				
 				
 				<!-- 日志首页 -->
 				<prop key="getRecordController.do">recordCOntroller</prop>
@@ -196,4 +200,5 @@
 	 <bean id="yidiController" class="com.gistone.servlet.YidiController" />
 	 <bean id="standingBookController" class="com.gistone.servlet.StandingBookController" />
 	 <bean id="recordCOntroller" class="com.gistone.servlet.RecordController" />
+	 <bean id="signOutController" class="com.gistone.servlet.SignOutController" />
 </beans>
