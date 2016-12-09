@@ -92,7 +92,7 @@ public class SignOutController extends MultiActionController{
 			//识别退出国贫所有人
 			String Metadata_g_sql = "select pkid,v3,v4,v5,v6,v9 from da_household where sys_standard='国家级贫困人口' and (v3 like '%"+search+"%' or v4 like '%"+search+"%' or v5 like '%"+search+"%' or v6 like '%"+search+"%' or v9 like '%"+search+"%') "+str+" limit "+number+","+size;
 			String sql = " select pkid,v3,v4,v5,v6,v9,renjun from (select count(*)num ,pkid,v9,v3,v4,v5,v6,renjun from (select a.*,b.v2,c.v18,c.v19 from "+
-						" (select pkid,v3,v4,v5,v6,v9,(v24/v9)renjun from da_household where  sys_standard='国家级贫困人口' and v18='是'"+
+						" (select pkid,v3,v4,v5,v6,v9,round((v24/v9),2)renjun from da_household where  sys_standard='国家级贫困人口' and v18='是'"+
 						" and v19='是' and (v3 like '%"+search+"%' or v4 like '%"+search+"%' or v5 like '%"+search+"%' or v6 like '%"+search+"%' or v9 like '%"+search+"%') "+str+") a"+
 						" LEFT JOIN (select da_household_id,v2 from da_life )b ON a.pkid=b.da_household_id LEFT JOIN (select v18,v19,da_household_id from da_member "+
 						" )c ON a.pkid = c.da_household_id  where b.v2='否' and c.v18='是' and c.v19='是')aa group by pkid )bb where num=v9 limit "+number+","+size;
@@ -209,8 +209,7 @@ public class SignOutController extends MultiActionController{
 	 * @throws IOException
 	 */
 	public  ModelAndView getGp_tuichu(HttpServletRequest request,HttpServletResponse response ) throws IOException {
-		
-		String  str = request.getParameter("str");
+		String  str = request.getParameter("str");//贫困户pkid
 		String [] pkid = str.split(",");
 		try {
 			for ( int i = 0 ; i < pkid.length ; i ++ ) {
