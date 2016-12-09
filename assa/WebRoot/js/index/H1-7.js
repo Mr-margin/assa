@@ -150,7 +150,7 @@ function bangfuhoushouru_save(){
         },
 	    success: function (data) {
 	    	if (data == "1") {
-	    		toastr["success"]("success", "生产条件修改");
+	    		toastr["success"]("success", "帮扶后收入");
 	    	}else{
 	    		toastr["warning"]("warning", "修改失败，检查数据后重试");
 	    	}
@@ -176,7 +176,7 @@ function bangfuhouzhichu_save(){
         },
 	    success: function (data) {
 	    	if (data == "1") {
-	    		toastr["success"]("success", "生活条件修改");
+	    		toastr["success"]("success", "帮扶后支出");
 	    	}else{
 	    		toastr["warning"]("warning", "修改失败，检查数据后重试");
 	    	}
