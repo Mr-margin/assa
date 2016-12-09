@@ -61,7 +61,7 @@ public class AssistController extends MultiActionController{
 		String cha_juese = "";//相关角色
 		String cha_dh = "";
 		String cha_qixian = "";
-		String cha_v3 = "";
+		String cha_v3 = ""; 
 		String str = "";
 		
 		if(request.getParameter("cha_bfdw")!=null&&!request.getParameter("cha_bfdw").equals("")){
