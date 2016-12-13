@@ -80,25 +80,30 @@ public class SignOutController extends MultiActionController{
 			}
 			
 			String count_g_sql = "select count(*) from da_household where sys_standard='国家级贫困人口' and (v3 like '%"+search+"%' or v4 like '%"+search+"%' or v5 like '%"+search+"%' or v6 like '%"+search+"%' or v9 like '%"+search+"%') "+str;
+			SQLAdapter count_g_Adapter = new SQLAdapter(count_g_sql);
+			int total = this.getBySqlMapper.findrows(count_g_Adapter);
+			
 			//识别退出国贫总人数
 			String  count_sql = " select count(*) from (select count(*)num ,pkid,v9,v3,v4,v5,v6,renjun from (select a.*,b.v2,c.v18,c.v19 from "+
 								" (select pkid,v3,v4,v5,v6,v9,(v24/v9)renjun from da_household where  sys_standard='国家级贫困人口' and v18='是'"+
 								" and v19='是' and (v3 like '%"+search+"%' or v4 like '%"+search+"%' or v5 like '%"+search+"%' or v6 like '%"+search+"%' or v9 like '%"+search+"%') "+str+") a"+
 								" LEFT JOIN (select da_household_id,v2 from da_life )b ON a.pkid=b.da_household_id LEFT JOIN (select v18,v19,da_household_id from da_member "+
 								" )c ON a.pkid = c.da_household_id  where b.v2='否' and c.v18='是' and c.v19='是')aa group by pkid )bb where num=v9";
-			SQLAdapter count_g_Adapter = new SQLAdapter(count_g_sql);
-			int total = this.getBySqlMapper.findrows(count_g_Adapter);
 			
-			//识别退出国贫所有人
+			
+			
+			
 			String Metadata_g_sql = "select pkid,v3,v4,v5,v6,v9 from da_household where sys_standard='国家级贫困人口' and (v3 like '%"+search+"%' or v4 like '%"+search+"%' or v5 like '%"+search+"%' or v6 like '%"+search+"%' or v9 like '%"+search+"%') "+str+" limit "+number+","+size;
+			SQLAdapter Metadata_g_Adapter = new SQLAdapter(Metadata_g_sql);
+			List<Map> Metadata_g_List = this.getBySqlMapper.findRecords(Metadata_g_Adapter);
+			//识别退出国贫所有人
 			String sql = " select pkid,v3,v4,v5,v6,v9,renjun from (select count(*)num ,pkid,v9,v3,v4,v5,v6,renjun from (select a.*,b.v2,c.v18,c.v19 from "+
 						" (select pkid,v3,v4,v5,v6,v9,round((v24/v9),2)renjun from da_household where  sys_standard='国家级贫困人口' and v18='是'"+
 						" and v19='是' and (v3 like '%"+search+"%' or v4 like '%"+search+"%' or v5 like '%"+search+"%' or v6 like '%"+search+"%' or v9 like '%"+search+"%') "+str+") a"+
 						" LEFT JOIN (select da_household_id,v2 from da_life )b ON a.pkid=b.da_household_id LEFT JOIN (select v18,v19,da_household_id from da_member "+
 						" )c ON a.pkid = c.da_household_id  where b.v2='否' and c.v18='是' and c.v19='是')aa group by pkid )bb where num=v9 limit "+number+","+size;
 			
-			SQLAdapter Metadata_g_Adapter = new SQLAdapter(Metadata_g_sql);
-			List<Map> Metadata_g_List = this.getBySqlMapper.findRecords(Metadata_g_Adapter);
+		
 			
 			if(Metadata_g_List.size()>0){
 				JSONArray jsa=new JSONArray();
