@@ -79,31 +79,28 @@ public class SignOutController extends MultiActionController{
 				str = " and v3='"+company_json.get("xian")+"' and v4="+company_json.get("xiang")+"' and v5="+company_json.get("cun")+"'";
 			}
 			
-			String count_g_sql = "select count(*) from da_household where sys_standard='国家级贫困人口' and (v3 like '%"+search+"%' or v4 like '%"+search+"%' or v5 like '%"+search+"%' or v6 like '%"+search+"%' or v9 like '%"+search+"%') "+str;
-			SQLAdapter count_g_Adapter = new SQLAdapter(count_g_sql);
-			int total = this.getBySqlMapper.findrows(count_g_Adapter);
-			
+//			String count_g_sql = "select count(*) from da_household where sys_standard='国家级贫困人口' and (v3 like '%"+search+"%' or v4 like '%"+search+"%' or v5 like '%"+search+"%' or v6 like '%"+search+"%' or v9 like '%"+search+"%') "+str;
 			//识别退出国贫总人数
-			String  count_sql = " select count(*) from (select count(*)num ,pkid,v9,v3,v4,v5,v6,renjun from (select a.*,b.v2,c.v18,c.v19 from "+
-								" (select pkid,v3,v4,v5,v6,v9,(v24/v9)renjun from da_household where  sys_standard='国家级贫困人口' and v18='是'"+
-								" and v19='是' and (v3 like '%"+search+"%' or v4 like '%"+search+"%' or v5 like '%"+search+"%' or v6 like '%"+search+"%' or v9 like '%"+search+"%') "+str+") a"+
-								" LEFT JOIN (select da_household_id,v2 from da_life )b ON a.pkid=b.da_household_id LEFT JOIN (select v18,v19,da_household_id from da_member "+
-								" )c ON a.pkid = c.da_household_id  where b.v2='否' and c.v18='是' and c.v19='是')aa group by pkid )bb where num=v9";
 			
 			
 			
 			
-			String Metadata_g_sql = "select pkid,v3,v4,v5,v6,v9 from da_household where sys_standard='国家级贫困人口' and (v3 like '%"+search+"%' or v4 like '%"+search+"%' or v5 like '%"+search+"%' or v6 like '%"+search+"%' or v9 like '%"+search+"%') "+str+" limit "+number+","+size;
-			SQLAdapter Metadata_g_Adapter = new SQLAdapter(Metadata_g_sql);
-			List<Map> Metadata_g_List = this.getBySqlMapper.findRecords(Metadata_g_Adapter);
+//			String Metadata_g_sql = "select pkid,v3,v4,v5,v6,v9 from da_household where sys_standard='国家级贫困人口' and (v3 like '%"+search+"%' or v4 like '%"+search+"%' or v5 like '%"+search+"%' or v6 like '%"+search+"%' or v9 like '%"+search+"%') "+str+" limit "+number+","+size;
 			//识别退出国贫所有人
-			String sql = " select pkid,v3,v4,v5,v6,v9,renjun from (select count(*)num ,pkid,v9,v3,v4,v5,v6,renjun from (select a.*,b.v2,c.v18,c.v19 from "+
-						" (select pkid,v3,v4,v5,v6,v9,round((v24/v9),2)renjun from da_household where  sys_standard='国家级贫困人口' and v18='是'"+
-						" and v19='是' and (v3 like '%"+search+"%' or v4 like '%"+search+"%' or v5 like '%"+search+"%' or v6 like '%"+search+"%' or v9 like '%"+search+"%') "+str+") a"+
-						" LEFT JOIN (select da_household_id,v2 from da_life )b ON a.pkid=b.da_household_id LEFT JOIN (select v18,v19,da_household_id from da_member "+
-						" )c ON a.pkid = c.da_household_id  where b.v2='否' and c.v18='是' and c.v19='是')aa group by pkid )bb where num=v9 limit "+number+","+size;
-			
-		
+			String sql ="select pkid,v9,v3,v4,v5,v6,renjun jisuan from ("+
+						"  select a.*,b.v2,round((v39-v31)/v9,2) renjun from  ( "+
+						" select pkid,v3,v4,v5,v6,v9 from da_household where  sys_standard='国家级贫困人口' "+
+						" and v21!='已脱贫' and (v3 like '%"+search+"%' or v4 like '%"+search+"%' or v5 like '%"+search+"%' or v6 like '%"+search+"%' or v9 like '%"+search+"%') "+str+""+
+						") a LEFT JOIN (select da_household_id,v2 from da_life where  v2='否')b ON a.pkid=b.da_household_id LEFT JOIN ("+
+						"select da_household_id,v39 from da_helpback_income where v39 is  not null ) q1 on a.pkid=q1.da_household_id LEFT JOIN ( "+
+						"select da_household_id,v31 from da_helpback_expenditure where v31 is not null)q2 on a.pkid = q2.da_household_id "+
+						" where b.v2='否' and (v39-v31)/v9>4000)aa group by pkid ";
+			String select_sql = sql +"limit "+number+","+size;
+			String count_sql = "select count(*) from ("+sql +")aa"; 
+			SQLAdapter Metadata_g_Adapter = new SQLAdapter(select_sql);
+			SQLAdapter count_g_Adapter = new SQLAdapter(count_sql);
+			int total = this.getBySqlMapper.findrows(count_g_Adapter);
+			List<Map> Metadata_g_List = this.getBySqlMapper.findRecords(Metadata_g_Adapter);
 			
 			if(Metadata_g_List.size()>0){
 				JSONArray jsa=new JSONArray();
@@ -112,6 +109,7 @@ public class SignOutController extends MultiActionController{
 					JSONObject val = new JSONObject();
 					for (Object key : Metadata_g_map.keySet()) {
 						val.put(key, Metadata_g_map.get(key));
+						val.put("v6","<a onclick='chakan_info(\""+Metadata_g_map.get("pkid")+"\")'>"+Metadata_g_map.get("v6")+"</a>");
 					}
 					jsa.add(val);
 				}
@@ -174,40 +172,26 @@ public class SignOutController extends MultiActionController{
 			}
 			
 			String count_s_sql = "select count(*) from da_household where sys_standard='市级低收入人口' and (v3 like '%"+search+"%' or v4 like '%"+search+"%' or v5 like '%"+search+"%' or v6 like '%"+search+"%' or v9 like '%"+search+"%') "+str;
-			SQLAdapter count_s_Adapter = new SQLAdapter(count_s_sql);
-			int total = this.getBySqlMapper.findrows(count_s_Adapter);
+			
 			//符合市级低收入户要求帮扶后人均纯收入比帮扶前增长20%、帮扶后人均纯收入大于1万元、不是危房、所有家庭成员均参加新农合、养老保险 条件的sql 语句
-//			select pkid,v6,v24,v39,v9,v2,v3,v4,v5  from (
-//					SELECT pkid,v6,v24,v39,v9,v39/v9 bh,v2,v3,v4,v5  from (
-//					select v6,pkid,v24,v9,v2,v3,v4,v5 from (
-//					SELECT count(pkid) num,v9-1 c,pkid ,v6,v24,v9,v2,v3,v4,v5 from ( 
-//					select * from (
-//					select pkid,v6,sys_standard,v18,v19,v24,v2,v3,v4,v5 from (
-//
-//					SELECT pkid,v6,sys_standard,v18,v19,v24,v2,v3,v4,v5  FROM da_household where sys_standard ='市级低收入人口' and v18='是' and v19 = '是' and (v3 like '%"+search+"%' or v4 like '%"+search+"%' or v5 like '%"+search+"%' or v6 like '%"+search+"%' or v9 like '%"+search+"%') "+str
-//
-//					)zz
-//					LEFT JOIN (
-//					select da_household_id from da_life where v2='否'
-//					)z ON z.da_household_id=zz.pkid   
-//
-//					)z3
-//					LEFT JOIN (
-//					SELECT v9,da_household_id from da_member   where v18='是' and v19 = '是'
-//					)b ON b.da_household_id = z3.pkid) z1  GROUP BY pkid )z4 where c=num
-//
-//					) z2
-//
-//					left join (
-//
-//					select da_household_id,v39 from da_helpback_income 
-//
-//					)a on a.da_household_id=z2.pkid
-//					)z5 where (bh/v24)*100 > 20
-			
-			
+			String sql = "";
+					sql += "select pkid,v3,v4,v5,v6,v9, round(((v39-v31)/v9),2) hrj,round(((d39-d31)/v9),2) drj,";
+					sql += "round(((((v39-v31)/v9)-((d39-d31)/v9))/ ((d39-d31)/v9))*100,2) jisuan from  ( ";
+					sql +="select pkid,v3,v4,v5,v6,v9 from da_household where  sys_standard='市级低收入人口' and v18='是' and v21!='已脱贫'";
+					sql += " and (v3 like '%"+search+"%' or v4 like '%"+search+"%' or v5 like '%"+search+"%' or v6 like '%"+search+"%' or v9 like '%"+search+"%') "+str+" ";
+					sql += ") a LEFT JOIN (select da_household_id,v2 from da_life  where v2 ='否')b ON a.pkid=b.da_household_id LEFT JOIN (";
+					sql += "select da_household_id,v39 from da_helpback_income where v39 is not null ) q1 on a.pkid=q1.da_household_id LEFT JOIN(";
+				
+					sql += "select da_household_id,v31 from da_helpback_expenditure where v31 is not null)q2 on a.pkid = q2.da_household_id LEFT JOIN ("+
+							"select da_household_id,v39 d39 from da_current_income where v39 is not null ) q3 on a.pkid=q3.da_household_id LEFT JOIN (";
+					sql += "select da_household_id ,v31 d31 from da_current_expenditure where v31 is not null) q4 on a.pkid=q4.da_household_id "+
+							"   where b.v2='否' and ((((v39-v31)/v9)-((d39-d31)/v9))/ ((d39-d31)/v9))*100>20  and ((v39-v31)/v9)>10000 group by pkid";
+			String  select_sql = sql+"  limit "+number+","+size;	
+			String  count_sql = "select count(*) from ("+sql+")aa";
+			SQLAdapter count_s_Adapter = new SQLAdapter(count_sql);
+			int total = this.getBySqlMapper.findrows(count_s_Adapter);
 			String Metadata_s_sql = "select pkid,v3,v4,v5,v6,v9 from da_household where sys_standard='市级低收入人口' and (v3 like '%"+search+"%' or v4 like '%"+search+"%' or v5 like '%"+search+"%' or v6 like '%"+search+"%' or v9 like '%"+search+"%') "+str+" limit "+number+","+size;
-			SQLAdapter Metadats_g_Adapter = new SQLAdapter(Metadata_s_sql);
+			SQLAdapter Metadats_g_Adapter = new SQLAdapter(select_sql);
 			List<Map> Metadata_s_List = this.getBySqlMapper.findRecords(Metadats_g_Adapter);
 			
 			if(Metadata_s_List.size()>0){
@@ -217,6 +201,7 @@ public class SignOutController extends MultiActionController{
 					JSONObject val = new JSONObject();
 					for (Object key : Metadata_s_map.keySet()) {
 						val.put(key, Metadata_s_map.get(key));
+						val.put("v6","<a onclick='chakan_info(\""+Metadata_s_map.get("pkid")+"\")'>"+Metadata_s_map.get("v6")+"</a>");
 					}
 					jsa.add(val);
 				}
@@ -235,7 +220,7 @@ public class SignOutController extends MultiActionController{
 		return null;
 	}
 	/**
-	 * 国贫退出
+	 * 识别退出
 	 * @param request
 	 * @param response
 	 * @return
@@ -244,17 +229,40 @@ public class SignOutController extends MultiActionController{
 	public  ModelAndView getGp_tuichu(HttpServletRequest request,HttpServletResponse response ) throws IOException {
 		String  str = request.getParameter("str");//贫困户pkid
 		String [] pkid = str.split(",");
-		try {
-			for ( int i = 0 ; i < pkid.length ; i ++ ) {
-				String sql = "update da_household set v21='已脱贫' where pkid = "+pkid[i];
-				SQLAdapter sqlAdapter = new SQLAdapter (sql);
-//				this.getBySqlMapper.updateSelective(sqlAdapter);
+		String type = request.getParameter("type");//国贫还是市贫 0、国贫 1、市贫
+		HttpSession session = request.getSession();
+		JSONObject json = new JSONObject();
+		if(session.getAttribute("Login_map")!=null){//验证session不为空
+			Map<String,String> Login_map = (Map)session.getAttribute("Login_map");//用户的user表内容
+			SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd");
+			try {
+				for ( int i = 0 ; i < pkid.length ; i ++ ) {
+					if( "0".equals(type) ) {
+						String sql = "update da_household set sys_standard='市级低收入人口' where pkid = "+pkid[i];
+						SQLAdapter sqlAdapter = new SQLAdapter (sql);
+						this.getBySqlMapper.updateSelective(sqlAdapter);
+						
+						String hql1="insert into da_record(record_table,record_pkid,record_type,record_p_t,record_phone,record_name,record_time,record_mou_1,record_mou_2)"+
+								" VALUES ('da_household',"+pkid[i]+",'退出',2,'','"+Login_map.get("col_account")+"','"+simpleDate.format(new Date())+"','识别与退出','转市贫')";
+						SQLAdapter hqlAdapter1 =new SQLAdapter(hql1);
+						this.getBySqlMapper.findRecords(hqlAdapter1);
+						
+					}else if ( "1".equals(type) ) {
+						String sql = "update da_household set v21='已脱贫' where pkid = "+pkid[i];
+						SQLAdapter sqlAdapter = new SQLAdapter (sql);
+						this.getBySqlMapper.updateSelective(sqlAdapter);
+						
+						String hql1="insert into da_record(record_table,record_pkid,record_type,record_p_t,record_phone,record_name,record_time,record_mou_1,record_mou_2)"+
+								" VALUES ('da_household',"+pkid[i]+",'退出',2,'','"+Login_map.get("col_account")+"','"+simpleDate.format(new Date())+"','识别与退出','退贫')";
+						SQLAdapter hqlAdapter1 =new SQLAdapter(hql1);
+						this.getBySqlMapper.findRecords(hqlAdapter1);
+					}
+				}
+				response.getWriter().write("0");
+			} catch (Exception e) {
+				response.getWriter().write("1");
 			}
-			response.getWriter().write("0");
-		} catch (Exception e) {
-			response.getWriter().write("1");
 		}
-	
 		return null ;
 	}
 }
