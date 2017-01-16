@@ -126,6 +126,7 @@ $(function () {
 
 //查看贫苦户的详细信息
 function chakan_info(pkid){
+
 	//先清空
 	$("#bfzrr_table").html('');
 	$('#show_hz_phone').text("");//电话
@@ -173,10 +174,12 @@ function chakan_info(pkid){
 	$('#show_czkn').text("");//搬迁可能存在的困难
 	
 	$("#yeqian").show();
-	$("#yeqian ul>li:eq(0) a").trigger("click");//跳转第一个页签
-	$("#neirong_jiben").hide();
 	document.getElementById('yeqian').scrollIntoView();
+	$("#yeqian ul>li:eq(0) a").trigger("click");//跳转第一个页签
+//	$("#neirong_jiben").hide();
+	
 	savePoorMessage(pkid);
+	
 	
 }
 //贫困户初始化
@@ -192,7 +195,7 @@ function gachacun_initialization(){
 		pageNumber: 1,	//页数
 		pageList: [10, 20, 50, 100],
 		showToggle: true,   //名片格式
-		showColumns: true, //显示隐藏列  
+		showColumns: true, //显示隐藏列 
 		toolbar: "#exampleToolbar_st",
 		iconSize: "outline",
         icons: {
