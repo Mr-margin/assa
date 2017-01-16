@@ -311,6 +311,7 @@ $(function () {
     	    	$('#exportExcel_all3').hide();
     	    	$('#exportExcel_all4').hide();
     	    	$('#exportExcel_all5').hide();
+    	    	$('#exportExcel_all6').hide();
     	    	$('#exportExcel_all_dengdai').show();
     	    },
     	    complete: function(){
@@ -320,6 +321,7 @@ $(function () {
     	    	$('#exportExcel_all3').show();
     	    	$('#exportExcel_all4').show();
     	    	$('#exportExcel_all5').show();
+    	    	$('#exportExcel_all6').show();
     	    	$('#exportExcel_all_dengdai').hide();
     	    },
     	    success: function (data) {
@@ -357,6 +359,7 @@ $(function () {
     	    	$('#exportExcel_all3').hide();
     	    	$('#exportExcel_all4').hide();
     	    	$('#exportExcel_all5').hide();
+    	    	$('#exportExcel_all6').hide();
     	    	$('#exportExcel_all_dengdai').show();
     	    },
     	    complete: function(){
@@ -366,6 +369,7 @@ $(function () {
     	    	$('#exportExcel_all3').show();
     	    	$('#exportExcel_all4').show();
     	    	$('#exportExcel_all5').show();
+    	    	$('#exportExcel_all6').show();
     	    	$('#exportExcel_all_dengdai').hide();
     	    },
     	    success: function (data) {
@@ -404,6 +408,7 @@ $(function () {
     	    	$('#exportExcel_all3').hide();
     	    	$('#exportExcel_all4').hide();
     	    	$('#exportExcel_all5').hide();
+    	    	$('#exportExcel_all6').hide();
     	    	$('#exportExcel_all_dengdai').show();
     	    },
     	    complete: function(){
@@ -413,6 +418,7 @@ $(function () {
     	    	$('#exportExcel_all3').show();
     	    	$('#exportExcel_all4').show();
     	    	$('#exportExcel_all5').show();
+    	    	$('#exportExcel_all6').show();
     	    	$('#exportExcel_all_dengdai').hide();
     	    },
     	    success: function (data) {
@@ -452,6 +458,7 @@ $(function () {
     	    	$('#exportExcel_all3').hide();
     	    	$('#exportExcel_all4').hide();
     	    	$('#exportExcel_all5').hide();
+    	    	$('#exportExcel_all6').hide();
     	    	$('#exportExcel_all_dengdai').show();
     	    },
     	    complete: function(){
@@ -461,6 +468,7 @@ $(function () {
     	    	$('#exportExcel_all3').show();
     	    	$('#exportExcel_all4').show();
     	    	$('#exportExcel_all5').show();
+    	    	$('#exportExcel_all6').show();
     	    	$('#exportExcel_all_dengdai').hide();
     	    },
     	    success: function (data) {
@@ -500,6 +508,7 @@ $(function () {
     	    	$('#exportExcel_all3').hide();
     	    	$('#exportExcel_all4').hide();
     	    	$('#exportExcel_all5').hide();
+    	    	$('#exportExcel_all6').hide();
     	    	$('#exportExcel_all_dengdai').show();
     	    },
     	    complete: function(){
@@ -509,6 +518,7 @@ $(function () {
     	    	$('#exportExcel_all3').show();
     	    	$('#exportExcel_all4').show();
     	    	$('#exportExcel_all5').show();
+    	    	$('#exportExcel_all6').show();
     	    	$('#exportExcel_all_dengdai').hide();
     	    },
     	    success: function (data) {
@@ -546,6 +556,7 @@ $(function () {
     	    	$('#exportExcel_all3').hide();
     	    	$('#exportExcel_all4').hide();
     	    	$('#exportExcel_all5').hide();
+    	    	$('#exportExcel_all6').hide();
     	    	$('#exportExcel_all_dengdai').show();
     	    },
     	    complete: function(){
@@ -555,6 +566,55 @@ $(function () {
     	    	$('#exportExcel_all3').show();
     	    	$('#exportExcel_all4').show();
     	    	$('#exportExcel_all5').show();
+    	    	$('#exportExcel_all6').show();
+    	    	$('#exportExcel_all_dengdai').hide();
+    	    },
+    	    success: function (data) {
+    	    	if (typeof data != "undefined") {
+    	    		if (data == "1") {
+    	    			toastr["error"]("error", "服务器异常");
+    	    		}else if (data == "0") {
+    	    			toastr["error"]("error", "登录超时，请刷新页面重新登录操作");
+    	    		}else{
+    	    			window.open("http://"+window.location.host+data.path);
+    	    		}
+    	    	}
+    	    },
+    	    error: function () { 
+    	    	toastr["error"]("error", "服务器异常");
+    	    }  
+    	});
+    });
+    //帮扶后收支
+    $('#exportExcel_all6').click(function () {
+    	$.ajax({  		       
+    	    url: "/assa/exportExcel_all6.do",
+    	    type: "POST",
+    	    async:true,
+    	    dataType: "json",
+    	    data:{cha_qx:$("#cha_qx").val(),cha_smx:$("#cha_smx").val(),cha_gcc:$("#cha_gcc").val(),cha_sbbz:$("#cha_sbbz").val(),cha_pksx:$("#cha_pksx").val(),
+    	    	cha_zpyy:$("#cha_zpyy").val(),cha_mz:$("#cha_mz").val(),cha_renkou:$("#cha_renkou").val(),cha_banqian:$("#cha_banqian").val(),cha_v6:$("#cha_v6").val(),
+    	    	cha_v8:$("#cha_v8").val(),cha_v8_1:$("#cha_v8_1").val(),cha_bfdw:$("#cha_bfdw").val(),cha_bfzrr:$("#cha_bfzrr").val()
+    	    	},
+    	   
+    	    beforeSend: function(){
+    	    	$('#exportExcel_all').hide();
+    	    	$('#exportExcel_all1').hide();
+    	    	$('#exportExcel_all2').hide();
+    	    	$('#exportExcel_all3').hide();
+    	    	$('#exportExcel_all4').hide();
+    	    	$('#exportExcel_all5').hide();
+    	    	$('#exportExcel_all6').hide();
+    	    	$('#exportExcel_all_dengdai').show();
+    	    },
+    	    complete: function(){
+    	    	$('#exportExcel_all').show();
+    	    	$('#exportExcel_all1').show();
+    	    	$('#exportExcel_all2').show();
+    	    	$('#exportExcel_all3').show();
+    	    	$('#exportExcel_all4').show();
+    	    	$('#exportExcel_all5').show();
+    	    	$('#exportExcel_all6').show();
     	    	$('#exportExcel_all_dengdai').hide();
     	    },
     	    success: function (data) {
@@ -2547,11 +2607,6 @@ function savePoorMessage(pkid){
 				
 				$("#spinners").hide();
 				$("#neirong_jiben").show();
-//				window.print();
-//				$("#neirong_jiben").window.print();
-//				var printData = document.getElementById("neirong_jiben").innerHTML;
-//				window.document.body.innerHTML = printData;
-//				window.print();
 	    },
 	    error: function () { 
 	    	toastr["error"]("error", "服务器异常");
@@ -2634,21 +2689,12 @@ function queryParams_cuoshi(params) {  //配置参数
  */
 function dayins(){
 	return;
-//	parent.dayin(shijianzhou_pkid);
-	
-//	$("#df").jqprint();
 	window.open("H2_2.html?"+shijianzhou_pkid+"&0")
-//	var printData = document.getElementById("df").innerHTML;
-//	window.document.body.innerHTML = printData;
-//	window.print();
 }
 
 
 function method1(tableid) {
-	//window.open("H2_2.html?"+shijianzhou_pkid+"&1");
-//	alert(shijianzhou_pkid);
 	$.ajax({
-		
 	    url: "/assa/exportExcel.do",
 	    type: "POST",
 	    async:true,
@@ -2657,12 +2703,8 @@ function method1(tableid) {
 	    	pkid:shijianzhou_pkid,
         },
 	    beforeSend: function(){
-	    	//$('#exportExcel_all').hide();
-	    	//$('#exportExcel_all_dengdai').show();
 	    },
 	    complete: function(){
-	    	//$('#exportExcel_all').show();
-	    	//$('#exportExcel_all_dengdai').hide();
 	    },
 	    
 	    success: function (data) {
