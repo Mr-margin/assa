@@ -178,6 +178,8 @@
  				<!-- 导出帮扶成效 -->
  				<prop key="exportExcel_all5.do">standingBookController</prop>
  				
+ 				<!-- 导出帮扶后收支-->
+ 				<prop key="exportExcel_all6.do">standingBookController</prop>
  				
  				<!-- 国贫识别退出 -->
  				<prop key="getGp_tuichu.do">signOutController</prop>
