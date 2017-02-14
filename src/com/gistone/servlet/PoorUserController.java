@@ -104,7 +104,7 @@ public class PoorUserController extends MultiActionController{
         String newFileName = df.format(new Date()) + "_" + new Random().nextInt(1000);
         int da_household_id = 0;
         try{
-        	String add_sql = "insert into da_household(v2,v3,v4,v5,v6,v9) values('"+newFileName+"','"+qx+"','"+xaing+"','"+cun+"','"+huname+"','1')";
+        	String add_sql = "insert into da_household(v2,v3,v4,v5,v6,v9,v21) values('"+newFileName+"','"+qx+"','"+xaing+"','"+cun+"','"+huname+"','1','未脱贫')";
     		SQLAdapter Metadata_table_Adapter = new SQLAdapter(add_sql);
     		this.getBySqlMapper.insertSelective(Metadata_table_Adapter);//户主信息
     		
@@ -2620,7 +2620,12 @@ public class PoorUserController extends MultiActionController{
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		String pkid = request.getParameter("pkid").trim();//贫困户ID
-
+		String  year = request.getParameter("year");//年份
+		if ( "2016".equals(year) ) {
+			year = "_2016";
+		} else {
+			year = "";
+		}
 		String people_sql = " select v1,v2,v3, ";
 		people_sql += " MAX(CASE v7 WHEN '2016' THEN v4 ELSE '' END ) v4_2016, ";
 		people_sql += " MAX(CASE v7 WHEN '2016' THEN v5 ELSE '' END ) v5_2016, ";
@@ -2634,7 +2639,7 @@ public class PoorUserController extends MultiActionController{
 		people_sql += " MAX(CASE v7 WHEN '2019' THEN v4 ELSE '' END ) v4_2019, ";
 		people_sql += " MAX(CASE v7 WHEN '2019' THEN v5 ELSE '' END ) v5_2019, ";
 		people_sql += " MAX(CASE v7 WHEN '2019' THEN v6 ELSE '' END ) v6_2019 ";
-		people_sql += " from da_help_tz_measures where da_household_id="+pkid+" group  by v1,v2,v3 ";
+		people_sql += " from da_help_tz_measures"+year+" where da_household_id="+pkid+" group  by v1,v2,v3 ";
 		
 //		System.out.println(people_sql);
 		

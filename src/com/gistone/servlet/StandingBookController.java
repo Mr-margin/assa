@@ -74,7 +74,13 @@ public class StandingBookController extends MultiActionController{
 		String cha_v6 = "";//户主姓名
 		String cha_v8 = "";//身份证号
 		String cha_v8_1 = "";//年龄范围
+		String  year = request.getParameter("cha_year");//年份
 		
+		if ( "2016".equals(year) ) {
+			year = "_2016";
+		} else{
+			year = "";
+		}
 		String str = "";
 		
 		if(request.getParameter("cha_v6")!=null&&!request.getParameter("cha_v6").equals("")){
@@ -138,13 +144,10 @@ public class StandingBookController extends MultiActionController{
 		if(request.getParameter("cha_banqian")!=null&&!request.getParameter("cha_banqian").equals("请选择")){
 			cha_banqian = request.getParameter("cha_banqian").trim();
 			str += " a.v21='"+cha_banqian+"' and";
-			//str += " d.v3='"+cha_banqian+"' and";
-			//count_st_sql += " LEFT JOIN da_life d on a.pkid=d.da_household_id ";
-			//people_sql += " LEFT JOIN da_life d on a.pkid=d.da_household_id ";
 		}
 		
-		String count_st_sql = "select count(*) from (select a.pkid from da_household a ";
-		String people_sql = "select a.pkid,a.v3,a.v4,a.v5,a.v6,a.v9,a.v21,a.v22,a.v23,a.v11,a.sys_standard from da_household a ";
+		String count_st_sql = "select count(*) from (select a.pkid from da_household"+year+" a ";
+		String people_sql = "select a.pkid,a.v3,a.v4,a.v5,a.v6,a.v9,a.v21,a.v22,a.v23,a.v11,a.sys_standard from da_household"+year+" a ";
 		//System.out.println(request.getParameter("cha_bfzrr"));
 		//如果帮扶人和帮扶单位条件被选择
 		if((request.getParameter("cha_bfdw")!=null&&!request.getParameter("cha_bfdw").equals(""))||(request.getParameter("cha_bfzrr")!=null&&!request.getParameter("cha_bfzrr").equals(""))){
@@ -156,8 +159,8 @@ public class StandingBookController extends MultiActionController{
 				cha_bfzrr = request.getParameter("cha_bfzrr").trim();
 				str += " c.col_name like '%"+cha_bfzrr+"%' and";
 			}
-			count_st_sql += " LEFT JOIN sys_personal_household_many x on x.da_household_id=a.pkid LEFT JOIN sys_personal c on x.sys_personal_id = c.pkid ";
-			people_sql += " LEFT JOIN sys_personal_household_many x on x.da_household_id=a.pkid LEFT JOIN sys_personal c on x.sys_personal_id = c.pkid ";
+			count_st_sql += " LEFT JOIN sys_personal_household_many"+year+" x on x.da_household_id=a.pkid LEFT JOIN sys_personal"+year+" c on x.sys_personal_id = c.pkid ";
+			people_sql += " LEFT JOIN sys_personal_household_many"+year+" x on x.da_household_id=a.pkid LEFT JOIN sys_personal"+year+" c on x.sys_personal_id = c.pkid ";
 		}
 		
 		
@@ -230,8 +233,13 @@ public class StandingBookController extends MultiActionController{
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		String pkid=request.getParameter("pkid");
-		
-		String sql="select v1,v2,v3,v4,v5,v6,v7,v8,v10,v11,v28,v12,v13,v14,v15,v16,v17,v19,v32,v25,v26,v27,sys_standard,v22,v29,v30,v31,v23,v33 from da_household where pkid="+pkid;
+		String year = request.getParameter("year");
+		if ( "2016".equals(year) ) {
+			year ="_2016";
+		} else {
+			year = "";
+		}
+		String sql="select v1,v2,v3,v4,v5,v6,v7,v8,v10,v11,v28,v12,v13,v14,v15,v16,v17,v19,v32,v25,v26,v27,sys_standard,v22,v29,v30,v31,v23,v33 from da_household"+year+" where pkid="+pkid;
 		SQLAdapter sqlAdapter =new SQLAdapter(sql);
 		List<Map> list=this.getBySqlMapper.findRecords(sqlAdapter);
 		//户主信息
@@ -249,7 +257,7 @@ public class StandingBookController extends MultiActionController{
 		}
 		//家庭成员
 		JSONArray jsonArray2 =new JSONArray();
-		String xian_sql="select v6,v7,v8,v10,v11,v28,v12,v13,v14,v15,v16,v17,v32,v19 from da_member where da_household_id="+pkid;
+		String xian_sql="select v6,v7,v8,v10,v11,v28,v12,v13,v14,v15,v16,v17,v32,v19 from da_member"+year+" where da_household_id="+pkid;
 		SQLAdapter xian_sqlAdapter =new SQLAdapter(xian_sql);
 		List<Map> xian_list=getBySqlMapper.findRecords(xian_sqlAdapter);
 		if(xian_list.size()>0){
@@ -269,7 +277,7 @@ public class StandingBookController extends MultiActionController{
 		}
 		//收入情况
 		JSONArray jsonArray5 =new JSONArray();
-		String dqsr_sql="SELECT v28,v30,v41,v12,v10,v16,v20,v24,v26,v43,v22,v14 FROM da_current_income where da_household_id="+pkid;
+		String dqsr_sql="SELECT v28,v30,v41,v12,v10,v16,v20,v24,v26,v43,v22,v14 FROM da_current_income"+year+" where da_household_id="+pkid;
 		SQLAdapter dqsr_sqlAdapter =new SQLAdapter(dqsr_sql);
 		List<Map> dqsr_list=getBySqlMapper.findRecords(dqsr_sqlAdapter);
 		if(dqsr_list.size()>0){
@@ -291,7 +299,7 @@ public class StandingBookController extends MultiActionController{
 		
 		//生产条件
 		JSONArray jsonArray3 =new JSONArray();
-		String sc_sql="select v1,v2,v3,v4,v13,v5,v14 FROM da_production where da_household_id="+pkid;
+		String sc_sql="select v1,v2,v3,v4,v13,v5,v14 FROM da_production"+year+" where da_household_id="+pkid;
 		SQLAdapter sc_sqlAdapter =new SQLAdapter(sc_sql);
 		List<Map> sc_list=getBySqlMapper.findRecords(sc_sqlAdapter);
 		if(sc_list.size()>0){
@@ -310,7 +318,7 @@ public class StandingBookController extends MultiActionController{
 		}
 		//生活条件
 		JSONArray jsonArray4 =new JSONArray();
-		String sh_sql="SELECT v5,v7,v6,v1,v8,v9,v10,v11,v12 FROM da_life where da_household_id="+pkid;
+		String sh_sql="SELECT v5,v7,v6,v1,v8,v9,v10,v11,v12 FROM da_life"+year+" where da_household_id="+pkid;
 		SQLAdapter sh_sqlAdapter =new SQLAdapter(sh_sql);
 		List<Map> sh_list=getBySqlMapper.findRecords(sh_sqlAdapter);
 		if(sh_list.size()>0){
@@ -332,7 +340,7 @@ public class StandingBookController extends MultiActionController{
 		
 		//易地搬迁户需求
 		JSONArray jsonArray6 =new JSONArray();
-		String ydbq_sql="SELECT * FROM (select v3 vv3,da_household_id from da_life)a  LEFT JOIN da_household_move b  ON a.da_household_id=b.da_household_id WHERE a.da_household_id="+pkid;
+		String ydbq_sql="SELECT * FROM (select v3 vv3,da_household_id from da_life"+year+")a  LEFT JOIN da_household_move"+year+" b  ON a.da_household_id=b.da_household_id WHERE a.da_household_id="+pkid;
 		SQLAdapter ydbq_sqlAdapter =new SQLAdapter(ydbq_sql);
 		List<Map> ydbq_list=getBySqlMapper.findRecords(ydbq_sqlAdapter);
 		if(ydbq_list.size()>0){
@@ -353,8 +361,8 @@ public class StandingBookController extends MultiActionController{
 		
 		//帮扶人情况
 		JSONArray jsonArray7 =new JSONArray();
-		String bfr_sql="SELECT b.col_name,b.v1,b.v2,b.v3,t2.v1 as com_name,b.v4,b.v5,b.v6,t2.v2 as v7,b.telephone FROM sys_personal_household_many a "
-				+ "LEFT JOIN sys_personal b ON a.sys_personal_id = b.pkid join da_company t2 on b.da_company_id=t2.pkid where a.da_household_id="+pkid;
+		String bfr_sql="SELECT b.col_name,b.v1,b.v2,b.v3,t2.v1 as com_name,b.v4,b.v5,b.v6,t2.v2 as v7,b.telephone FROM sys_personal_household_many"+year+" a "
+				+ "LEFT JOIN sys_personal"+year+" b ON a.sys_personal_id = b.pkid join da_company"+year+" t2 on b.da_company_id=t2.pkid where a.da_household_id="+pkid;
 		SQLAdapter bfr_sqlAdapter =new SQLAdapter(bfr_sql);
 		List<Map> bfr_list=getBySqlMapper.findRecords(bfr_sqlAdapter);
 		if(bfr_list.size()>0){
@@ -374,7 +382,7 @@ public class StandingBookController extends MultiActionController{
 		}
 		//生产经营性支出
 		JSONArray jsonArray8 =new JSONArray();
-		String dqzc_sql="SELECT v2,v4,v6,v8,v10,v12,v14,v16,v18 FROM da_current_expenditure where da_household_id="+pkid;   //这里是修改后的，原来的字段名有错 没有加v
+		String dqzc_sql="SELECT v2,v4,v6,v8,v10,v12,v14,v16,v18 FROM da_current_expenditure"+year+" where da_household_id="+pkid;   //这里是修改后的，原来的字段名有错 没有加v
 		SQLAdapter dqzc_sqlAdapter =new SQLAdapter(dqzc_sql);
 		List<Map> dqzc_list=getBySqlMapper.findRecords(dqzc_sqlAdapter);
 		if(dqzc_list.size()>0){
@@ -492,6 +500,13 @@ public class StandingBookController extends MultiActionController{
 		String cha_v6 = "";//户主姓名
 		String cha_v8 = "";//身份证号
 		String cha_v8_1 = "";//年龄范围
+		String year = request.getParameter("year");
+		if ( "2016".equals(year) ) {
+			year = "_2016";
+		} else {
+			year = "";
+		}
+		
 		String ss=request.getParameter("cha_bfdw");
 		if(request.getParameter("cha_v6")!=null&&!request.getParameter("cha_v6").equals("")){
 			cha_v6 = request.getParameter("cha_v6").trim();
@@ -587,9 +602,10 @@ public class StandingBookController extends MultiActionController{
 //				coty.setLocked(true);
 //				coty.setIndentation(4);
 	          
+				
 				//贫困户基本信息
 				String sql_1 = "select t1.pkid,t1.v3,t1.v4,t1.v5,t1.v6,t1.v8,t1.v9,t1.v22,t1.v29,t1.v30,t1.v31,t1.v23,t1.v33,t1.v25,t1.v26,t1.v27,t1.sys_standard,t2.basic_address,t2.basic_explain "
-						+ "from da_household t1 join da_household_basic t2 on t1.pkid=t2.da_household_id ";
+						+ "from da_household"+year+" t1 join da_household_basic"+year+" t2 on t1.pkid=t2.da_household_id ";
 				
 				if((request.getParameter("cha_bfdw")!=null&&!request.getParameter("cha_bfdw").equals(""))||(request.getParameter("cha_bfzrr")!=null&&!request.getParameter("cha_bfzrr").equals(""))){
 					if(request.getParameter("cha_bfdw")!=null&&!request.getParameter("cha_bfdw").equals("")){
@@ -600,7 +616,7 @@ public class StandingBookController extends MultiActionController{
 						cha_bfzrr = request.getParameter("cha_bfzrr").trim();
 						str += " c.col_name like '%"+cha_bfzrr+"%' and";
 					}
-					sql_1 += " LEFT JOIN sys_personal_household_many x on x.da_household_id=t1.pkid LEFT JOIN sys_personal c on x.sys_personal_id = c.pkid join da_company t3 on c.da_company_id=t3.pkid ";
+					sql_1 += " LEFT JOIN sys_personal_household_many"+year+" x on x.da_household_id=t1.pkid LEFT JOIN sys_personal"+year+" c on x.sys_personal_id = c.pkid join da_company t3 on c.da_company_id=t3.pkid ";
 				}
 				
 				
@@ -667,7 +683,7 @@ public class StandingBookController extends MultiActionController{
 		        	conut++;
 					//生产生活
 		        	String sql_3="select da_household_id ,v1 pv1,v2 pv2,v3 pv3,v4 pv4,v5 pv5,v6 pv6,v7 pv7,v8 pv8,v9 pv9,v10 pv10,v11 pv11,v12 pv12,v13 pv13,"+
-		        					"v14 pv14 from da_production where da_household_id='"+s1_map.get("pkid")+"'";
+		        					"v14 pv14 from da_production"+year+" where da_household_id='"+s1_map.get("pkid")+"'";
 							
 		        	SQLAdapter s3_Adapter = new SQLAdapter(sql_3);
 					List<Map> s3_List = this.getBySqlMapper.findRecords(s3_Adapter);
@@ -698,7 +714,7 @@ public class StandingBookController extends MultiActionController{
 				        }
 				        
 				        //生活
-				        String sh_sql="select da_household_id,v1 lv1,v2 lv2,v3 lv3,v4 lv4, v5 lv5,v6 lv6,v7 lv7,v8 lv8,v9 lv9,v10 lv10,v11 lv11,v12 lv12 from da_life where  da_household_id='"+s1_map.get("pkid")+"'";
+				        String sh_sql="select da_household_id,v1 lv1,v2 lv2,v3 lv3,v4 lv4, v5 lv5,v6 lv6,v7 lv7,v8 lv8,v9 lv9,v10 lv10,v11 lv11,v12 lv12 from da_life"+year+" where  da_household_id='"+s1_map.get("pkid")+"'";
 				        SQLAdapter sh_sqlAdapter=new SQLAdapter (sh_sql);
 				        List<Map> sh_list=this.getBySqlMapper.findRecords(sh_sqlAdapter);
 				        for (int a = 0; a < sh_list.size(); a++) {
@@ -760,6 +776,12 @@ public class StandingBookController extends MultiActionController{
 		String cha_v6 = "";//户主姓名
 		String cha_v8 = "";//身份证号
 		String cha_v8_1 = "";//年龄范围
+		String year = request.getParameter("year");
+		if ( "2016".equals(year) ) {
+			year = "_2016";
+		} else {
+			year = "";
+		}
 		String ss=request.getParameter("cha_bfdw");
 		if(request.getParameter("cha_v6")!=null&&!request.getParameter("cha_v6").equals("")){
 			cha_v6 = request.getParameter("cha_v6").trim();
@@ -857,7 +879,7 @@ public class StandingBookController extends MultiActionController{
 	          
 				//贫困户基本信息
 				String sql_1 = "select t1.pkid,t1.v3,t1.v4,t1.v5,t1.v6,t1.v8,t1.v9,t1.v22,t1.v29,t1.v30,t1.v31,t1.v23,t1.v33,t1.v25,t1.v26,t1.v27,t1.sys_standard,t2.basic_address,t2.basic_explain "
-						+ "from da_household t1 join da_household_basic t2 on t1.pkid=t2.da_household_id ";
+						+ "from da_household"+year+" t1 join da_household_basic"+year+" t2 on t1.pkid=t2.da_household_id ";
 				
 				if((request.getParameter("cha_bfdw")!=null&&!request.getParameter("cha_bfdw").equals(""))||(request.getParameter("cha_bfzrr")!=null&&!request.getParameter("cha_bfzrr").equals(""))){
 					if(request.getParameter("cha_bfdw")!=null&&!request.getParameter("cha_bfdw").equals("")){
@@ -868,7 +890,7 @@ public class StandingBookController extends MultiActionController{
 						cha_bfzrr = request.getParameter("cha_bfzrr").trim();
 						str += " c.col_name like '%"+cha_bfzrr+"%' and";
 					}
-					sql_1 += " LEFT JOIN sys_personal_household_many x on x.da_household_id=t1.pkid LEFT JOIN sys_personal c on x.sys_personal_id = c.pkid join da_company t3 on c.da_company_id=t3.pkid ";
+					sql_1 += " LEFT JOIN sys_personal_household_many"+year+" x on x.da_household_id=t1.pkid LEFT JOIN sys_personal"+year+" c on x.sys_personal_id = c.pkid join da_company"+year+" t3 on c.da_company_id=t3.pkid ";
 				}
 				
 				
@@ -899,7 +921,7 @@ public class StandingBookController extends MultiActionController{
 		        for (int i = 0; i < s1_List.size(); i++) {   //循环一个list里面的数据到excel中
 		        	Map s1_map = s1_List.get(i);
 		        	//家庭成员
-					String sql_2 ="select pkid,v3,v4,v5,v6,v7,v8,v10,v11,v12,v13,v14,v15,v16,v17,v18,v19,v20,v28,v32, sys_standard from da_household where pkid="+s1_map.get("pkid");
+					String sql_2 ="select pkid,v3,v4,v5,v6,v7,v8,v10,v11,v12,v13,v14,v15,v16,v17,v18,v19,v20,v28,v32, sys_standard from da_household"+year+" where pkid="+s1_map.get("pkid");
 		        	SQLAdapter s2_sqlAdapter=new SQLAdapter(sql_2);
 		        	List<Map> s2_list=this.getBySqlMapper.findRecords(s2_sqlAdapter);
 		        	sheet_2.addCell(new Label( 0 , conut_2 ,s2_list.get(0).get("pkid")==null?"":s2_list.get(0).get("pkid").toString() ,coty));
@@ -924,7 +946,7 @@ public class StandingBookController extends MultiActionController{
 		        	sheet_2.addCell(new Label( 19 , conut_2 ,s2_list.get(0).get("v32")==null?"":s2_list.get(0).get("v32").toString() ,coty));
 		        	sheet_2.setRowView(conut_2, 500); // 设置第一行的高度
 		        	conut_2++;
-		        	String cha_sql="select da_household_id, v3,v4,v5,v6,v7,v8,v10,v11,v12,v13,v14,v15,v16,v17,v18,v19,v20,v28,v32 from da_member where da_household_id="+s1_map.get("pkid");
+		        	String cha_sql="select da_household_id, v3,v4,v5,v6,v7,v8,v10,v11,v12,v13,v14,v15,v16,v17,v18,v19,v20,v28,v32 from da_member"+year+" where da_household_id="+s1_map.get("pkid");
 		        	SQLAdapter sqlAdapter=new SQLAdapter(cha_sql);
 		        	List<Map> cha_list=this.getBySqlMapper.findRecords(sqlAdapter);
 		        	if(cha_list.size()>0){
@@ -994,6 +1016,12 @@ public class StandingBookController extends MultiActionController{
 		String cha_v6 = "";//户主姓名
 		String cha_v8 = "";//身份证号
 		String cha_v8_1 = "";//年龄范围
+		String year = request.getParameter("year");
+		if ( "2016".equals(year) ) {
+			year = "_2016";
+		} else {
+			year = "";
+		}
 		String ss=request.getParameter("cha_bfdw");
 		if(request.getParameter("cha_v6")!=null&&!request.getParameter("cha_v6").equals("")){
 			cha_v6 = request.getParameter("cha_v6").trim();
@@ -1093,7 +1121,7 @@ public class StandingBookController extends MultiActionController{
 	          
 				//贫困户基本信息
 				String sql_1 = "select t1.pkid,t1.v3,t1.v4,t1.v5,t1.v6,t1.v8,t1.v9,t1.v22,t1.v29,t1.v30,t1.v31,t1.v23,t1.v33,t1.v25,t1.v26,t1.v27,t1.sys_standard,t2.basic_address,t2.basic_explain "
-						+ "from da_household t1 join da_household_basic t2 on t1.pkid=t2.da_household_id ";
+						+ "from da_household"+year+" t1 join da_household_basic"+year+" t2 on t1.pkid=t2.da_household_id ";
 				
 				if((request.getParameter("cha_bfdw")!=null&&!request.getParameter("cha_bfdw").equals(""))||(request.getParameter("cha_bfzrr")!=null&&!request.getParameter("cha_bfzrr").equals(""))){
 					if(request.getParameter("cha_bfdw")!=null&&!request.getParameter("cha_bfdw").equals("")){
@@ -1104,7 +1132,7 @@ public class StandingBookController extends MultiActionController{
 						cha_bfzrr = request.getParameter("cha_bfzrr").trim();
 						str += " c.col_name like '%"+cha_bfzrr+"%' and";
 					}
-					sql_1 += " LEFT JOIN sys_personal_household_many x on x.da_household_id=t1.pkid LEFT JOIN sys_personal c on x.sys_personal_id = c.pkid join da_company t3 on c.da_company_id=t3.pkid ";
+					sql_1 += " LEFT JOIN sys_personal_household_many"+year+" x on x.da_household_id=t1.pkid LEFT JOIN sys_personal"+year+" c on x.sys_personal_id = c.pkid join da_company"+year+" t3 on c.da_company_id=t3.pkid ";
 				}
 				
 				
@@ -1478,7 +1506,7 @@ public class StandingBookController extends MultiActionController{
 			        	
 				        
 				        //当前收支分析
-				        String sql_4="select * from da_current_income where da_household_id="+s1_map.get("pkid");
+				        String sql_4="select * from da_current_income"+year+" where da_household_id="+s1_map.get("pkid");
 				        SQLAdapter sqlAdapter_4=new SQLAdapter(sql_4);
 				        List<Map> list_4=this.getBySqlMapper.findRecords(sqlAdapter_4);
 				        sheet_4.addCell(new Label( 0 , conut_4 ,list_4.get(0).get("da_household_id")==null?"":list_4.get(0).get("da_household_id").toString() ,coty));
@@ -1534,7 +1562,7 @@ public class StandingBookController extends MultiActionController{
 				        //支出
 				        String zc_sql="select v1 cv1,v2 cv2,v3 cv3,v4 cv4,v5 cv5,v6 cv6,v7 cv7,v8 cv8,v9 cv9,v10 cv10,v11 cv11,"+
 				        				"v12 cv12,v13 cv13,v14 cv14,v15 cv15,v16 cv16,v17 cv17,v18 cv18,v19 cv19,v20 cv20,v21 cv21,v22 cv22,"+
-				        				"v23 cv23,v24 cv24,v25 cv25,v26 cv26,v27 cv27,v28 cv28,v29 cv29,v30 cv30,v31 cv31,da_household_id from da_current_expenditure "+
+				        				"v23 cv23,v24 cv24,v25 cv25,v26 cv26,v27 cv27,v28 cv28,v29 cv29,v30 cv30,v31 cv31,da_household_id from da_current_expenditure"+year+" "+
 				        				" where da_household_id="+s1_map.get("pkid");
 				        SQLAdapter zc_sqlAdapter=new SQLAdapter(zc_sql);
 				        List<Map> zc_list=this.getBySqlMapper.findRecords(zc_sqlAdapter);
@@ -1753,6 +1781,12 @@ public class StandingBookController extends MultiActionController{
 		String cha_v6 = "";//户主姓名
 		String cha_v8 = "";//身份证号
 		String cha_v8_1 = "";//年龄范围
+		String year = request.getParameter("year");
+		if ( "2016".equals(year) ) {
+			year = "_2016";
+		} else {
+			year = "";
+		}
 		String ss=request.getParameter("cha_bfdw");
 		if(request.getParameter("cha_v6")!=null&&!request.getParameter("cha_v6").equals("")){
 			cha_v6 = request.getParameter("cha_v6").trim();
@@ -1850,7 +1884,7 @@ public class StandingBookController extends MultiActionController{
 	          
 				//贫困户基本信息
 				String sql_1 = "select t1.pkid,t1.v3,t1.v4,t1.v5,t1.v6,t1.v8,t1.v9,t1.v22,t1.v29,t1.v30,t1.v31,t1.v23,t1.v33,t1.v25,t1.v26,t1.v27,t1.sys_standard,t2.basic_address,t2.basic_explain "
-						+ "from da_household t1 join da_household_basic t2 on t1.pkid=t2.da_household_id ";
+						+ "from da_household"+year+" t1 join da_household_basic"+year+" t2 on t1.pkid=t2.da_household_id ";
 				
 				if((request.getParameter("cha_bfdw")!=null&&!request.getParameter("cha_bfdw").equals(""))||(request.getParameter("cha_bfzrr")!=null&&!request.getParameter("cha_bfzrr").equals(""))){
 					if(request.getParameter("cha_bfdw")!=null&&!request.getParameter("cha_bfdw").equals("")){
@@ -1861,7 +1895,7 @@ public class StandingBookController extends MultiActionController{
 						cha_bfzrr = request.getParameter("cha_bfzrr").trim();
 						str += " c.col_name like '%"+cha_bfzrr+"%' and";
 					}
-					sql_1 += " LEFT JOIN sys_personal_household_many x on x.da_household_id=t1.pkid LEFT JOIN sys_personal c on x.sys_personal_id = c.pkid join da_company t3 on c.da_company_id=t3.pkid ";
+					sql_1 += " LEFT JOIN sys_personal_household_many"+year+" x on x.da_household_id=t1.pkid LEFT JOIN sys_personal"+year+" c on x.sys_personal_id = c.pkid join da_company"+year+" t3 on c.da_company_id=t3.pkid ";
 				}
 				
 				
@@ -1905,8 +1939,8 @@ public class StandingBookController extends MultiActionController{
 		        for (int i = 0; i < s1_List.size(); i++) {   //循环一个list里面的数据到excel中
 		        	Map s1_map = s1_List.get(i);
 			        //帮扶人
-			        String bfr_sql="SELECT da_household_id,telephone ,col_post, col_name,t2.v1 FROM sys_personal_household_many a"+
-			        			" LEFT JOIN sys_personal b ON a.sys_personal_id = b.pkid join da_company t2 on b.da_company_id=t2.pkid where da_household_id="+s1_map.get("pkid");
+			        String bfr_sql="SELECT da_household_id,telephone ,col_post, col_name,t2.v1 FROM sys_personal_household_many"+year+" a"+
+			        			" LEFT JOIN sys_personal"+year+" b ON a.sys_personal_id = b.pkid join da_company"+year+" t2 on b.da_company_id=t2.pkid where da_household_id="+s1_map.get("pkid");
 			        SQLAdapter bfr_sqlAdapter=new SQLAdapter(bfr_sql);
 			        List<Map> bfr_list=this.getBySqlMapper.findRecords(bfr_sqlAdapter);
 			        int jh_count=conut_5;
@@ -2007,6 +2041,12 @@ public class StandingBookController extends MultiActionController{
 		String cha_v6 = "";//户主姓名
 		String cha_v8 = "";//身份证号
 		String cha_v8_1 = "";//年龄范围
+		String year = request.getParameter("year");
+		if ( "2016".equals(year) ) {
+			year = "_2016";
+		} else {
+			year = "";
+		}
 		String ss=request.getParameter("cha_bfdw");
 		if(request.getParameter("cha_v6")!=null&&!request.getParameter("cha_v6").equals("")){
 			cha_v6 = request.getParameter("cha_v6").trim();
@@ -2104,7 +2144,7 @@ public class StandingBookController extends MultiActionController{
 	          
 				//贫困户基本信息
 				String sql_1 = "select t1.pkid,t1.v3,t1.v4,t1.v5,t1.v6,t1.v8,t1.v9,t1.v22,t1.v29,t1.v30,t1.v31,t1.v23,t1.v33,t1.v25,t1.v26,t1.v27,t1.sys_standard,t2.basic_address,t2.basic_explain "
-						+ "from da_household t1 join da_household_basic t2 on t1.pkid=t2.da_household_id ";
+						+ "from da_household"+year+" t1 join da_household_basic"+year+" t2 on t1.pkid=t2.da_household_id ";
 				
 				if((request.getParameter("cha_bfdw")!=null&&!request.getParameter("cha_bfdw").equals(""))||(request.getParameter("cha_bfzrr")!=null&&!request.getParameter("cha_bfzrr").equals(""))){
 					if(request.getParameter("cha_bfdw")!=null&&!request.getParameter("cha_bfdw").equals("")){
@@ -2115,7 +2155,7 @@ public class StandingBookController extends MultiActionController{
 						cha_bfzrr = request.getParameter("cha_bfzrr").trim();
 						str += " c.col_name like '%"+cha_bfzrr+"%' and";
 					}
-					sql_1 += " LEFT JOIN sys_personal_household_many x on x.da_household_id=t1.pkid LEFT JOIN sys_personal c on x.sys_personal_id = c.pkid join da_company t3 on c.da_company_id=t3.pkid ";
+					sql_1 += " LEFT JOIN sys_personal_household_many"+year+" x on x.da_household_id=t1.pkid LEFT JOIN sys_personal"+year+" c on x.sys_personal_id = c.pkid join da_company"+year+" t3 on c.da_company_id=t3.pkid ";
 				}
 				
 				
@@ -2200,7 +2240,7 @@ public class StandingBookController extends MultiActionController{
 		        for (int i = 0; i < s1_List.size(); i++) {   //循环一个list里面的数据到excel中
 		        	Map s1_map = s1_List.get(i);
 			        //走访记录
-			        String zf_sql="select v1,v2,v3,da_household_id from da_help_visit where da_household_id="+s1_map.get("pkid");
+			        String zf_sql="select v1,v2,v3,da_household_id from da_help_visit"+year+" where da_household_id="+s1_map.get("pkid");
 			        SQLAdapter zf_sqlAdapter=new SQLAdapter (zf_sql);
 			        List<Map> zf_list=this.getBySqlMapper.findRecords(zf_sqlAdapter);
 			        if(zf_list.size()>0){
@@ -2236,7 +2276,7 @@ public class StandingBookController extends MultiActionController{
 			        		"MAX(CASE v7 WHEN '2017' THEN v6 ELSE '' END ) v6_2017,MAX(CASE v7 WHEN '2018' THEN v4 ELSE '' END ) v4_2018, "+
 			        		"MAX(CASE v7 WHEN '2018' THEN v5 ELSE '' END ) v5_2018,MAX(CASE v7 WHEN '2018' THEN v6 ELSE '' END ) v6_2018,"+
 			        		"MAX(CASE v7 WHEN '2019' THEN v4 ELSE '' END ) v4_2019,MAX(CASE v7 WHEN '2019' THEN v5 ELSE '' END ) v5_2019, "+
-			        		"MAX(CASE v7 WHEN '2019' THEN v6 ELSE '' END ) v6_2019 from da_help_tz_measures where da_household_id="+s1_map.get("pkid")+" group  by v1,v2,v3 ";
+			        		"MAX(CASE v7 WHEN '2019' THEN v6 ELSE '' END ) v6_2019 from da_help_tz_measures"+year+" where da_household_id="+s1_map.get("pkid")+" group  by v1,v2,v3 ";
 	        
 			        SQLAdapter cs_sqlAdapter=new SQLAdapter(cs_sql);
 			        List<Map> cs_list=this.getBySqlMapper.findRecords(cs_sqlAdapter);
@@ -2329,6 +2369,12 @@ public class StandingBookController extends MultiActionController{
 		String cha_v6 = "";//户主姓名
 		String cha_v8 = "";//身份证号
 		String cha_v8_1 = "";//年龄范围
+		String year = request.getParameter("year");
+		if ( "2016".equals(year) ) {
+			year = "_2016";
+		} else {
+			year = "";
+		}
 		String ss=request.getParameter("cha_bfdw");
 		if(request.getParameter("cha_v6")!=null&&!request.getParameter("cha_v6").equals("")){
 			cha_v6 = request.getParameter("cha_v6").trim();
@@ -2426,7 +2472,7 @@ public class StandingBookController extends MultiActionController{
 	          
 				//贫困户基本信息
 				String sql_1 = "select t1.pkid,t1.v3,t1.v4,t1.v5,t1.v6,t1.v8,t1.v9,t1.v22,t1.v29,t1.v30,t1.v31,t1.v23,t1.v33,t1.v25,t1.v26,t1.v27,t1.sys_standard,t2.basic_address,t2.basic_explain "
-						+ "from da_household t1 join da_household_basic t2 on t1.pkid=t2.da_household_id ";
+						+ "from da_household"+year+" t1 join da_household_basic"+year+" t2 on t1.pkid=t2.da_household_id ";
 				
 				if((request.getParameter("cha_bfdw")!=null&&!request.getParameter("cha_bfdw").equals(""))||(request.getParameter("cha_bfzrr")!=null&&!request.getParameter("cha_bfzrr").equals(""))){
 					if(request.getParameter("cha_bfdw")!=null&&!request.getParameter("cha_bfdw").equals("")){
@@ -2437,7 +2483,7 @@ public class StandingBookController extends MultiActionController{
 						cha_bfzrr = request.getParameter("cha_bfzrr").trim();
 						str += " c.col_name like '%"+cha_bfzrr+"%' and";
 					}
-					sql_1 += " LEFT JOIN sys_personal_household_many x on x.da_household_id=t1.pkid LEFT JOIN sys_personal c on x.sys_personal_id = c.pkid join da_company t3 on c.da_company_id=t3.pkid ";
+					sql_1 += " LEFT JOIN sys_personal_household_many"+year+" x on x.da_household_id=t1.pkid LEFT JOIN sys_personal"+year+" c on x.sys_personal_id = c.pkid join da_company"+year+" t3 on c.da_company_id=t3.pkid ";
 				}
 				
 				
@@ -2469,7 +2515,7 @@ public class StandingBookController extends MultiActionController{
 		        for (int i = 0; i < s1_List.size(); i++) {   //循环一个list里面的数据到excel中
 		        	Map s1_map = s1_List.get(i);
 			        //帮扶成效
-			        String cx_sql="select da_household_id,v1,v2,v3 from da_help_results where da_household_id="+s1_map.get("pkid");
+			        String cx_sql="select da_household_id,v1,v2,v3 from da_help_results"+year+" where da_household_id="+s1_map.get("pkid");
 			        SQLAdapter cx_sqlAdapter=new SQLAdapter(cx_sql);
 			        List<Map> cx_list=this.getBySqlMapper.findRecords(cx_sqlAdapter);
 			        if(cx_list.size()>0){
@@ -2538,6 +2584,12 @@ public class StandingBookController extends MultiActionController{
 		String cha_v6 = "";//户主姓名
 		String cha_v8 = "";//身份证号
 		String cha_v8_1 = "";//年龄范围
+		String year = request.getParameter("year");
+		if ( "2016".equals(year) ) {
+			year = "_2016";
+		} else {
+			year = "";
+		}
 		String ss=request.getParameter("cha_bfdw");
 		if(request.getParameter("cha_v6")!=null&&!request.getParameter("cha_v6").equals("")){
 			cha_v6 = request.getParameter("cha_v6").trim();
@@ -2637,7 +2689,7 @@ public class StandingBookController extends MultiActionController{
 	          
 				//贫困户基本信息
 				String sql_1 = "select t1.pkid,t1.v3,t1.v4,t1.v5,t1.v6,t1.v8,t1.v9,t1.v22,t1.v29,t1.v30,t1.v31,t1.v23,t1.v33,t1.v25,t1.v26,t1.v27,t1.sys_standard,t2.basic_address,t2.basic_explain "
-						+ "from da_household t1 join da_household_basic t2 on t1.pkid=t2.da_household_id ";
+						+ "from da_household"+year+" t1 join da_household_basic"+year+" t2 on t1.pkid=t2.da_household_id ";
 				
 				if((request.getParameter("cha_bfdw")!=null&&!request.getParameter("cha_bfdw").equals(""))||(request.getParameter("cha_bfzrr")!=null&&!request.getParameter("cha_bfzrr").equals(""))){
 					if(request.getParameter("cha_bfdw")!=null&&!request.getParameter("cha_bfdw").equals("")){
@@ -2648,7 +2700,7 @@ public class StandingBookController extends MultiActionController{
 						cha_bfzrr = request.getParameter("cha_bfzrr").trim();
 						str += " c.col_name like '%"+cha_bfzrr+"%' and";
 					}
-					sql_1 += " LEFT JOIN sys_personal_household_many x on x.da_household_id=t1.pkid LEFT JOIN sys_personal c on x.sys_personal_id = c.pkid join da_company t3 on c.da_company_id=t3.pkid ";
+					sql_1 += " LEFT JOIN sys_personal_household_many"+year+" x on x.da_household_id=t1.pkid LEFT JOIN sys_personal"+year+" c on x.sys_personal_id = c.pkid join da_company"+year+" t3 on c.da_company_id=t3.pkid ";
 				}
 				
 				
@@ -2842,7 +2894,7 @@ public class StandingBookController extends MultiActionController{
 				        
 				        
 				        //帮扶后收支
-				        String sql_8="select * from da_helpback_income where da_household_id="+s1_map.get("pkid");
+				        String sql_8="select * from da_helpback_income"+year+" where da_household_id="+s1_map.get("pkid");
 				        SQLAdapter sqlAdapter_8=new SQLAdapter(sql_8);
 				        List<Map> list_8=this.getBySqlMapper.findRecords(sqlAdapter_8);
 				        sheet_8.addCell(new Label( 0 , conut_8 ,list_8.get(0).get("da_household_id")==null?"":list_8.get(0).get("da_household_id").toString() ,coty));
@@ -2900,7 +2952,7 @@ public class StandingBookController extends MultiActionController{
 				        String bfh_sql="select v1 cv1,v2 cv2,v3 cv3,v4 cv4,v5 cv5,v6 cv6,v7 cv7,v8 cv8,v9 cv9,v10 cv10,v11 cv11,"+
 				        				"v12 cv12,v13 cv13,v14 cv14,v15 cv15,v16 cv16,v17 cv17,v18 cv18,v19 cv19,v20 cv20,v21 cv21,v22 cv22,"+
 				        				"v23 cv23,v24 cv24,v25 cv25,v26 cv26,v27 cv27,v28 cv28,v29 cv29,v30 cv30,v31 cv31,da_household_id "+
-				        				"from da_helpback_expenditure where da_household_id="+s1_map.get("pkid");
+				        				"from da_helpback_expenditure"+year+" where da_household_id="+s1_map.get("pkid");
 				        SQLAdapter bfh_sqlAdapter=new SQLAdapter(bfh_sql);
 				        List<Map> bfh_list=this.getBySqlMapper.findRecords(bfh_sqlAdapter);
 				        sheet_8.addCell(new Label( 44 , conut_8 ,bfh_list.get(0).get("cv1")==null?"":bfh_list.get(0).get("cv1").toString() ,coty));
@@ -2989,6 +3041,12 @@ public class StandingBookController extends MultiActionController{
 		response.setCharacterEncoding("UTF-8");
 		
 		String pkid = request.getParameter("pkid");
+		String year = request.getParameter("year");
+		if ( "2016".equals(year) ) {
+			year = "_2016";
+		} else {
+			year = "";
+		}
 		if(pkid!=null&&!pkid.equals("")){
 			try{
 				
@@ -3020,9 +3078,9 @@ public class StandingBookController extends MultiActionController{
 				
 				
 				//贫困户基本信息
-				String sql_1 = "select * from da_household a left join da_household_basic b on a.pkid=b.da_household_id LEFT JOIN (SELECT pic_path,pic_pkid from da_pic WHERE pic_type=4 ) c ON a.pkid=c.pic_pkid  where a.pkid="+pkid;
+				String sql_1 = "select * from da_household"+year+" a left join da_household_basic"+year+" b on a.pkid=b.da_household_id LEFT JOIN (SELECT pic_path,pic_pkid from da_pic"+year+" WHERE pic_type=4 ) c ON a.pkid=c.pic_pkid  where a.pkid="+pkid;
 				
-				String sql_2=" select * from da_member where da_household_id="+pkid;
+				String sql_2=" select * from da_member"+year+" where da_household_id="+pkid;
 				
 				SQLAdapter s1_Adapter = new SQLAdapter(sql_1);
 				List<Map> s1_List = this.getBySqlMapper.findRecords(s1_Adapter);
@@ -3052,7 +3110,7 @@ public class StandingBookController extends MultiActionController{
 				sheet_1.mergeCells( 0 , 2 , 1 , 6 );
 				
 				//加载户主照片
-				String sql_pic = "select * from da_pic where pic_type=4 and pic_pkid="+pkid;
+				String sql_pic = "select * from da_pic"+year+" where pic_type=4 and pic_pkid="+pkid;
 				SQLAdapter pic_Adapter = new SQLAdapter(sql_pic);
 				List<Map> pic_List = this.getBySqlMapper.findRecords(pic_Adapter);
 				if(pic_List.size()>0){
@@ -3151,7 +3209,7 @@ public class StandingBookController extends MultiActionController{
 					
 					sheet_1.mergeCells( 0 , q_count+1 , 1 , q_count+6 );
 					
-					String cy_sql="select * from da_pic where pic_type=5 and pic_pkid="+s1_map.get("pkid");
+					String cy_sql="select * from da_pic"+year+" where pic_type=5 and pic_pkid="+s1_map.get("pkid");
 					SQLAdapter cy_sqlAdapter = new SQLAdapter(cy_sql);
 					List<Map> cy_list=this.getBySqlMapper.findRecords(cy_sqlAdapter);
 					if(cy_list.size()>0){
@@ -3224,7 +3282,7 @@ public class StandingBookController extends MultiActionController{
 				}
 				
 				
-				String sql_sc = "select * from da_production where da_household_id="+pkid;
+				String sql_sc = "select * from da_production"+year+" where da_household_id="+pkid;
 				
 				SQLAdapter sc_Adapter = new SQLAdapter(sql_sc);
 				List<Map> sc_List = this.getBySqlMapper.findRecords(sc_Adapter);
@@ -3299,7 +3357,7 @@ public class StandingBookController extends MultiActionController{
 				sheet_sc.setRowView(3, 600);
 				sheet_sc.setRowView(4, 650);
 				//生活条件
-				String sql_sh = "select * from da_life where da_household_id="+pkid;
+				String sql_sh = "select * from da_life"+year+" where da_household_id="+pkid;
 				
 				SQLAdapter sh_Adapter = new SQLAdapter(sql_sh);
 				List<Map> sh_List = this.getBySqlMapper.findRecords(sh_Adapter);
@@ -3350,7 +3408,7 @@ public class StandingBookController extends MultiActionController{
 				
 				if("是".equals(sh_map.get("v3"))){
 					//易地搬迁
-					String sql_yd = "select * from da_household_move where da_household_id="+pkid;
+					String sql_yd = "select * from da_household_move"+year+" where da_household_id="+pkid;
 					
 					SQLAdapter yd_Adapter = new SQLAdapter(sql_yd);
 					List<Map> yd_List = this.getBySqlMapper.findRecords(yd_Adapter);
@@ -3399,11 +3457,11 @@ public class StandingBookController extends MultiActionController{
 
 				
 				//当前收支
-				String sz_sql="SELECT * FROM da_current_income where da_household_id="+pkid;
+				String sz_sql="SELECT * FROM da_current_income"+year+" where da_household_id="+pkid;
 				SQLAdapter sz_sqlSQLAdapter=new SQLAdapter(sz_sql);
 				List<Map> sz_list=this.getBySqlMapper.findRecords(sz_sqlSQLAdapter);
 				Map sz_map=sz_list.get(0);
-				String zc_sql="SELECT * FROM da_current_expenditure where da_household_id="+pkid;
+				String zc_sql="SELECT * FROM da_current_expenditure"+year+" where da_household_id="+pkid;
 				SQLAdapter zc_sqlAdapter=new SQLAdapter(zc_sql);
 				List<Map> zc_list=this.getBySqlMapper.findRecords(zc_sqlAdapter);
 				Map zc_map=zc_list.get(0);
@@ -4013,8 +4071,8 @@ public class StandingBookController extends MultiActionController{
 				
 				sheet_bf.setRowView(1, 500);
 				
-				String sql_bf="SELECT da_household_id,telephone ,col_post, col_name,t2.v1 FROM sys_personal_household_many a "
-						+ "LEFT JOIN sys_personal b ON a.sys_personal_id = b.pkid join da_company t2 on b.da_company_id=t2.pkid where da_household_id="+pkid;
+				String sql_bf="SELECT da_household_id,telephone ,col_post, col_name,t2.v1 FROM sys_personal_household_many"+year+" a "
+						+ "LEFT JOIN sys_personal"+year+" b ON a.sys_personal_id = b.pkid join da_company"+year+" t2 on b.da_company_id=t2.pkid where da_household_id="+pkid;
 				SQLAdapter bf_sqlAdapter=new SQLAdapter(sql_bf);
 				List<Map> bf_list=this.getBySqlMapper.findRecords(bf_sqlAdapter);
 				
@@ -4034,7 +4092,7 @@ public class StandingBookController extends MultiActionController{
 				}
 				
 				
-				String sql_bf_1="SELECT * from da_help_info where da_household_id="+pkid;
+				String sql_bf_1="SELECT * from da_help_info"+year+" where da_household_id="+pkid;
 				SQLAdapter bf1_sqlAdapter=new SQLAdapter(sql_bf_1);
 				List<Map> bf1_list=this.getBySqlMapper.findRecords(bf1_sqlAdapter);
 				
@@ -4065,7 +4123,7 @@ public class StandingBookController extends MultiActionController{
 				sheet_bf.addCell(new Label(2 ,	bf_count+6 , "走访情况记录",tsty));
 				sheet_bf.setRowView(bf_count+6, 500);
 				
-				String zf_sql="SELECT v1,v2,v3 FROM da_help_visit where da_household_id="+pkid+" ORDER BY v1 DESC";
+				String zf_sql="SELECT v1,v2,v3 FROM da_help_visit"+year+" where da_household_id="+pkid+" ORDER BY v1 DESC";
 				SQLAdapter zf_sqlAdapter=new SQLAdapter(zf_sql);
 				List<Map> zf_list=this.getBySqlMapper.findRecords(zf_sqlAdapter);
 				int zf_count=bf_count+6;
@@ -4163,7 +4221,7 @@ public class StandingBookController extends MultiActionController{
 				cs_sql += " MAX(CASE v7 WHEN '2019' THEN v4 ELSE '' END ) v4_2019, ";
 				cs_sql += " MAX(CASE v7 WHEN '2019' THEN v5 ELSE '' END ) v5_2019, ";
 				cs_sql += " MAX(CASE v7 WHEN '2019' THEN v6 ELSE '' END ) v6_2019 ";
-				cs_sql += " from da_help_tz_measures where da_household_id="+pkid+" group  by v1,v2,v3 ";
+				cs_sql += " from da_help_tz_measures"+year+" where da_household_id="+pkid+" group  by v1,v2,v3 ";
 				SQLAdapter cs_sqlAdapter=new SQLAdapter(cs_sql);
 				List<Map> cs_list=this.getBySqlMapper.findRecords(cs_sqlAdapter);
 				int cs_count=2;
@@ -4215,12 +4273,12 @@ public class StandingBookController extends MultiActionController{
 				//帮扶后收支分析
 				WritableSheet sheet_bfh = book.createSheet("帮扶后收支", 6);
 				//当前收支da_helpback_income
-				String szh_sql="SELECT * FROM da_helpback_income where da_household_id="+pkid;
+				String szh_sql="SELECT * FROM da_helpback_income"+year+" where da_household_id="+pkid;
 				SQLAdapter szh_sqlSQLAdapter=new SQLAdapter(szh_sql);
 				List<Map> szh_list=this.getBySqlMapper.findRecords(szh_sqlSQLAdapter);
 				Map szh_map=szh_list.get(0);
 				
-				String zch_sql="SELECT * FROM da_helpback_expenditure where da_household_id="+pkid;
+				String zch_sql="SELECT * FROM da_helpback_expenditure"+year+" where da_household_id="+pkid;
 				SQLAdapter zch_sqlAdapter=new SQLAdapter(zch_sql);
 				List<Map> zch_list=this.getBySqlMapper.findRecords(zch_sqlAdapter);
 				Map zch_map=zch_list.get(0);
@@ -4815,7 +4873,7 @@ public class StandingBookController extends MultiActionController{
 				sheet_cx.addCell(new Label(2, 1, "贫困户签字",tsty));
 				sheet_cx.setRowView(1, 500);
 				
-				String cx_sql="select * from da_help_results where da_household_id="+pkid ;
+				String cx_sql="select * from da_help_results"+year+" where da_household_id="+pkid ;
 				SQLAdapter cx_sqlAdapter=new SQLAdapter(cx_sql);
 				List<Map> cx_list=this.getBySqlMapper.findRecords(cx_sqlAdapter);
 				int cx_count=1;

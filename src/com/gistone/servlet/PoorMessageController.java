@@ -69,6 +69,9 @@ public class PoorMessageController extends MultiActionController{
 		String cha_v8 = "";//身份证号
 		String cha_v8_1 = "";//年龄范围
 		
+		String cha_year = request.getParameter("cha_year");//查找的年份
+		
+		
 		String str = "";
 		
 		if(request.getParameter("cha_v6")!=null&&!request.getParameter("cha_v6").equals("")){
@@ -132,14 +135,17 @@ public class PoorMessageController extends MultiActionController{
 		if(request.getParameter("cha_banqian")!=null&&!request.getParameter("cha_banqian").equals("请选择")){
 			cha_banqian = request.getParameter("cha_banqian").trim();
 			str += " a.v21='"+cha_banqian+"' and";
-			//str += " d.v3='"+cha_banqian+"' and";
-			//count_st_sql += " LEFT JOIN da_life d on a.pkid=d.da_household_id ";
-			//people_sql += " LEFT JOIN da_life d on a.pkid=d.da_household_id ";
+		}
+		String  str_table = "";
+		if( "2016".equals(cha_year) ) {
+			str_table = "_2016";
+		} else {
+			str_table = "";
 		}
 		
-		String count_st_sql = "select count(*) from (select a.pkid from da_household a ";
-		String people_sql = "select a.pkid,a.v3,a.v4,a.v5,a.v6,a.v9,a.v21,a.v22,a.v23,a.v11,a.sys_standard from da_household a ";
-		//System.out.println(request.getParameter("cha_bfzrr"));
+		
+		String count_st_sql = "select count(*) from (select a.pkid from da_household"+str_table+" a ";
+		String people_sql = "select a.pkid,a.v3,a.v4,a.v5,a.v6,a.v9,a.v21,a.v22,a.v23,a.v11,a.sys_standard from da_household"+str_table+" a ";
 		//如果帮扶人和帮扶单位条件被选择
 		if((request.getParameter("cha_bfdw")!=null&&!request.getParameter("cha_bfdw").equals(""))||(request.getParameter("cha_bfzrr")!=null&&!request.getParameter("cha_bfzrr").equals(""))){
 			if(request.getParameter("cha_bfdw")!=null&&!request.getParameter("cha_bfdw").equals("")){
@@ -150,8 +156,8 @@ public class PoorMessageController extends MultiActionController{
 				cha_bfzrr = request.getParameter("cha_bfzrr").trim();
 				str += " c.col_name like '%"+cha_bfzrr+"%' and";
 			}
-			count_st_sql += " LEFT JOIN sys_personal_household_many x on x.da_household_id=a.pkid LEFT JOIN sys_personal c on x.sys_personal_id = c.pkid join da_company t2 on c.da_company_id=t2.pkid ";
-			people_sql += " LEFT JOIN sys_personal_household_many x on x.da_household_id=a.pkid LEFT JOIN sys_personal c on x.sys_personal_id = c.pkid join da_company t2 on c.da_company_id=t2.pkid ";
+			count_st_sql += " LEFT JOIN sys_personal_household_many"+str_table+" x on x.da_household_id=a.pkid LEFT JOIN sys_personal"+str_table+" c on x.sys_personal_id = c.pkid join da_company"+str_table+" t2 on c.da_company_id=t2.pkid ";
+			people_sql += " LEFT JOIN sys_personal_household_many"+str_table+" x on x.da_household_id=a.pkid LEFT JOIN sys_personal"+str_table+" c on x.sys_personal_id = c.pkid join da_company"+str_table+" t2 on c.da_company_id=t2.pkid ";
 		}
 		
 		
@@ -163,15 +169,12 @@ public class PoorMessageController extends MultiActionController{
 
 		if(str.equals("")){
 			count_st_sql += " GROUP BY a.pkid) ww";
-			people_sql += " GROUP BY a.pkid order by a.v2,a.pkid limit "+number+","+size;
+			people_sql += " GROUP BY a.pkid order by a.pkid limit "+number+","+size;
 		}else{
 			//带条件，按照条件查询
 			count_st_sql += " where "+str.substring(0, str.length()-3)+" GROUP BY a.pkid) ww";
-			people_sql += " where "+str.substring(0, str.length()-3)+" GROUP BY a.pkid order by a.v2,a.pkid limit "+number+","+size;
+			people_sql += " where "+str.substring(0, str.length()-3)+" GROUP BY a.pkid order by a.pkid limit "+number+","+size;
 		}
-		
-		//System.out.println(count_st_sql);
-		//System.out.println(people_sql);
 		
 		SQLAdapter count_st_Adapter = new SQLAdapter(count_st_sql);
 		int total = this.getBySqlMapper.findrows(count_st_Adapter);
@@ -222,9 +225,14 @@ public class PoorMessageController extends MultiActionController{
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		String pkid=request.getParameter("pkid");
-		
-		String sql="select * from da_household a left join da_household_basic b on a.pkid=b.da_household_id "+
-					"LEFT JOIN (SELECT pic_path,pic_pkid from da_pic WHERE pic_type=4 ) c ON a.pkid=c.pic_pkid  where a.pkid="+pkid;
+		String  year = request.getParameter("year");//年份
+		if ("2016".equals(year)) {
+			year = "_2016";
+		} else {
+			 year = "";
+		}
+		String sql="select * from da_household"+year+" a left join da_household_basic"+year+" b on a.pkid=b.da_household_id "+
+					"LEFT JOIN (SELECT pic_path,pic_pkid from da_pic"+year+" WHERE pic_type=4 ) c ON a.pkid=c.pic_pkid  where a.pkid="+pkid;
 		SQLAdapter sqlAdapter =new SQLAdapter(sql);
 		List<Map> list=getBySqlMapper.findRecords(sqlAdapter);
 		//户主信息
@@ -266,7 +274,7 @@ public class PoorMessageController extends MultiActionController{
 		}
 		//家庭成员
 		JSONArray jsonArray2 =new JSONArray();
-		String xian_sql="select * from da_member a LEFT JOIN (SELECT pic_path,pic_pkid from da_pic WHERE pic_type=5 ) b ON a.pkid=b.pic_pkid  where a.da_household_id="+pkid;
+		String xian_sql="select * from da_member"+year+" a LEFT JOIN (SELECT pic_path,pic_pkid from da_pic"+year+" WHERE pic_type=5 ) b ON a.pkid=b.pic_pkid  where a.da_household_id="+pkid;
 		SQLAdapter xian_sqlAdapter =new SQLAdapter(xian_sql);
 		List<Map> xian_list=getBySqlMapper.findRecords(xian_sqlAdapter);
 		for(Map val:xian_list){
@@ -299,7 +307,7 @@ public class PoorMessageController extends MultiActionController{
 		
 		//生产条件
 		JSONArray jsonArray3 =new JSONArray();
-		String sc_sql="select * FROM da_production where da_household_id="+pkid;
+		String sc_sql="select * FROM da_production"+year+" where da_household_id="+pkid;
 		SQLAdapter sc_sqlAdapter =new SQLAdapter(sc_sql);
 		List<Map> sc_list=getBySqlMapper.findRecords(sc_sqlAdapter);
 		for(Map val:sc_list){
@@ -325,7 +333,7 @@ public class PoorMessageController extends MultiActionController{
 		
 		//生活条件
 		JSONArray jsonArray4 =new JSONArray();
-		String sh_sql="SELECT * FROM da_life where da_household_id="+pkid;
+		String sh_sql="SELECT * FROM da_life"+year+" where da_household_id="+pkid;
 		SQLAdapter sh_sqlAdapter =new SQLAdapter(sh_sql);
 		List<Map> sh_list=getBySqlMapper.findRecords(sh_sqlAdapter);
 		for(Map val:sh_list){
@@ -348,7 +356,7 @@ public class PoorMessageController extends MultiActionController{
 		
 		//当前收支分析
 		JSONArray jsonArray5 =new JSONArray();
-		String dqsr_sql="SELECT * FROM da_current_income where da_household_id="+pkid;
+		String dqsr_sql="SELECT * FROM da_current_income"+year+" where da_household_id="+pkid;
 		SQLAdapter dqsr_sqlAdapter =new SQLAdapter(dqsr_sql);
 		List<Map> dqsr_list=getBySqlMapper.findRecords(dqsr_sqlAdapter);
 		for(Map val:dqsr_list){
@@ -405,7 +413,7 @@ public class PoorMessageController extends MultiActionController{
 		
 		//当前支出
 		JSONArray jsonArray6 =new JSONArray();
-		String dqzc_sql="SELECT * FROM da_current_expenditure where da_household_id="+pkid;
+		String dqzc_sql="SELECT * FROM da_current_expenditure"+year+" where da_household_id="+pkid;
 		SQLAdapter dqzc_sqlAdapter =new SQLAdapter(dqzc_sql);
 		List<Map> dqzc_list=getBySqlMapper.findRecords(dqzc_sqlAdapter);
 		for(Map val:dqzc_list){
@@ -447,8 +455,8 @@ public class PoorMessageController extends MultiActionController{
 		
 		//帮扶人情况
 		JSONArray jsonArray7 =new JSONArray();
-		String bfr_sql="SELECT da_household_id,telephone ,col_post, col_name,t2.v1 FROM sys_personal_household_many a "
-				+ "LEFT JOIN sys_personal b ON a.sys_personal_id = b.pkid LEFT join da_company t2 on b.da_company_id=t2.pkid where da_household_id="+pkid;
+		String bfr_sql="SELECT da_household_id,telephone ,col_post, col_name,t2.v1 FROM sys_personal_household_many"+year+" a "
+				+ "LEFT JOIN sys_personal"+year+" b ON a.sys_personal_id = b.pkid LEFT join da_company"+year+" t2 on b.da_company_id=t2.pkid where da_household_id="+pkid;
 //		System.out.println(bfr_sql);
 		SQLAdapter bfr_sqlAdapter =new SQLAdapter(bfr_sql);
 		List<Map> bfr_list=getBySqlMapper.findRecords(bfr_sqlAdapter);
@@ -463,7 +471,7 @@ public class PoorMessageController extends MultiActionController{
 		}
 		
 		JSONArray jsonArray15 =new JSONArray();
-		String bfjihua_sql="SELECT v1 mubiao,v2 shixiao,v3 jihua, da_household_id jhid from da_help_info where da_household_id="+pkid;
+		String bfjihua_sql="SELECT v1 mubiao,v2 shixiao,v3 jihua, da_household_id jhid from da_help_info"+year+" where da_household_id="+pkid;
 		SQLAdapter bfjihua_sqlAdapter =new SQLAdapter(bfjihua_sql);
 		List<Map> bfjihua_list=getBySqlMapper.findRecords(bfjihua_sqlAdapter);
 		for(Map val:bfjihua_list){
@@ -478,7 +486,7 @@ public class PoorMessageController extends MultiActionController{
 		//帮扶人走访情况
 		JSONArray jsonArray8 =new JSONArray();
 		String zf_sql="SELECT v1,v2,v3, group_concat(pic_path order by pic_path separator ',') path FROM (" +
-				"SELECT *  FROM da_help_visit a LEFT JOIN (SELECT pic_path,pic_pkid from da_pic WHERE pic_type=2 ) b ON a.pkid=b.pic_pkid "+
+				"SELECT *  FROM da_help_visit"+year+" a LEFT JOIN (SELECT pic_path,pic_pkid from da_pic"+year+" WHERE pic_type=2 ) b ON a.pkid=b.pic_pkid "+
 				" WHERE a.da_household_id="+pkid+" )aa GROUP BY pkid ORDER BY v1 DESC";
 		SQLAdapter zf_sqlAdapter =new SQLAdapter(zf_sql);
 		List<Map> zf_list=getBySqlMapper.findRecords(zf_sqlAdapter);
@@ -506,7 +514,7 @@ public class PoorMessageController extends MultiActionController{
 		people_sql += " MAX(CASE v7 WHEN '2019' THEN v4 ELSE '' END ) v4_2019, ";
 		people_sql += " MAX(CASE v7 WHEN '2019' THEN v5 ELSE '' END ) v5_2019, ";
 		people_sql += " MAX(CASE v7 WHEN '2019' THEN v6 ELSE '' END ) v6_2019 ";
-		people_sql += " from da_help_tz_measures where da_household_id="+pkid+" group  by v1,v2,v3 ";
+		people_sql += " from da_help_tz_measures"+year+" where da_household_id="+pkid+" group  by v1,v2,v3 ";
 		
 		SQLAdapter Patient_st_Adapter = new SQLAdapter(people_sql);
 		List<Map> Patient_st_List = this.getBySqlMapper.findRecords(Patient_st_Adapter);
@@ -575,27 +583,12 @@ public class PoorMessageController extends MultiActionController{
 				jsonArray9.add(val);
 			}
 			
-//			jsonArray9.put("rows", jsa); //这里的 rows 和total 的key 是固定的 
-//			response.getWriter().write(jsa.toString());
 		}
 		
-//		String bfcs_sql="SELECT v1,v2,v3, group_concat(pic_path order by pic_path separator ',') path FROM ("+
-//						"SELECT *  FROM da_help_measures a LEFT JOIN (SELECT pic_path,pic_pkid from da_pic WHERE pic_type=1 ) b ON a.pkid=b.pic_pkid "+
-//						"WHERE a.da_household_id="+pkid+" )aa GROUP BY pkid ORDER BY v1 DESC";
-//		SQLAdapter bfcs_sqlAdapter =new SQLAdapter(bfcs_sql);
-//		List<Map> bfcs_list=getBySqlMapper.findRecords(bfcs_sqlAdapter);
-//		for(Map val:bfcs_list){
-//			JSONObject bfcs_obj=new JSONObject ();
-//			bfcs_obj.put("bfcs_v1",val.get("v1")==null?"":val.get("v1"));//时间
-//			bfcs_obj.put("bfcs_v2",val.get("v2")==null?"":val.get("v2"));//项目内容
-//			bfcs_obj.put("bfcs_v3",val.get("v3")==null?"":val.get("v3"));//帮扶单位
-//			bfcs_obj.put("bfcs_pic",val.get("path")==null?"":val.get("path"));//图片
-//			jsonArray9.add(bfcs_obj);
-//		}
 		//帮扶成效
 		JSONArray jsonArray10 =new JSONArray();
 		String bfcx_sql="SELECT v1,v2,v3, group_concat(pic_path order by pic_path separator ',') path FROM ("+
-						"SELECT *  FROM da_help_results a LEFT JOIN (SELECT pic_path,pic_pkid from da_pic WHERE pic_type=3 ) b ON a.pkid=b.pic_pkid "+
+						"SELECT *  FROM da_help_results"+year+" a LEFT JOIN (SELECT pic_path,pic_pkid from da_pic"+year+" WHERE pic_type=3 ) b ON a.pkid=b.pic_pkid "+
 						"WHERE a.da_household_id="+pkid+" )aa GROUP BY pkid ORDER BY v1 DESC";
 		SQLAdapter bfcx_sqlAdapter =new SQLAdapter(bfcx_sql);
 		List<Map> bfcx_list=getBySqlMapper.findRecords(bfcx_sqlAdapter);
@@ -609,7 +602,7 @@ public class PoorMessageController extends MultiActionController{
 		}
 		//帮扶后收入
 		JSONArray jsonArray11 =new JSONArray();
-		String dqsrh_sql="SELECT * FROM da_helpback_income where da_household_id="+pkid;
+		String dqsrh_sql="SELECT * FROM da_helpback_income"+year+" where da_household_id="+pkid;
 		SQLAdapter dqsrh_sqlAdapter =new SQLAdapter(dqsrh_sql);
 		List<Map> dqsrh_list=getBySqlMapper.findRecords(dqsrh_sqlAdapter);
 		for(Map val:dqsrh_list){
@@ -659,7 +652,7 @@ public class PoorMessageController extends MultiActionController{
 		
 		//帮扶后支出
 		JSONArray jsonArray12 =new JSONArray();
-		String dqzch_sql="SELECT * FROM da_helpback_expenditure where da_household_id="+pkid;
+		String dqzch_sql="SELECT * FROM da_helpback_expenditure"+year+" where da_household_id="+pkid;
 		SQLAdapter dqzch_sqlAdapter =new SQLAdapter(dqzch_sql);
 		List<Map> dqzch_list=getBySqlMapper.findRecords(dqzch_sqlAdapter);
 		for(Map val:dqzch_list){
@@ -702,9 +695,9 @@ public class PoorMessageController extends MultiActionController{
 		//System.out.println(jsonArray13);
 		//异地搬迁
 		JSONArray jsonArray14 =new JSONArray();
-		String yd_sql="SELECT move_type,focus_info,dispersed_info,dispersed_address,dispersed_price,dispersed_agreement,v1,v2,v3, sf,path FROM  da_household_move a LEFT JOIN "+
-						"(SELECT v3 sf, da_household_id FROM da_life) b ON a.da_household_id=b.da_household_id LEFT JOIN "+
-						"(SELECT pic_pkid, group_concat(pic_path order by pic_path separator ',') path FROM da_pic where pic_type='6' AND pic_pkid="+pkid+") c ON"+
+		String yd_sql="SELECT move_type,focus_info,dispersed_info,dispersed_address,dispersed_price,dispersed_agreement,v1,v2,v3, sf,path FROM  da_household_move"+year+" a LEFT JOIN "+
+						"(SELECT v3 sf, da_household_id FROM da_life"+year+") b ON a.da_household_id=b.da_household_id LEFT JOIN "+
+						"(SELECT pic_pkid, group_concat(pic_path order by pic_path separator ',') path FROM da_pic"+year+" where pic_type='6' AND pic_pkid="+pkid+") c ON"+
 						"  a.da_household_id=c.pic_pkid where a.da_household_id="+pkid+" GROUP BY a.da_household_id";
 //		System.out.println(yd_sql);
 		SQLAdapter yd_sqlAdapter =new SQLAdapter(yd_sql);
@@ -758,7 +751,12 @@ public class PoorMessageController extends MultiActionController{
 		
 		String pkid = request.getParameter("pkid");
 		String str = request.getParameter("str");
-		
+		String year = request.getParameter("year");//年份
+		if ( "2016".equals(year) ) {
+			year = "_2016";
+		} else {
+			year = "" ;
+		}
 		//System.out.println(str);
 		
 		JSONArray jsonArray13 =new JSONArray();
@@ -769,15 +767,15 @@ public class PoorMessageController extends MultiActionController{
 		String sql = "select * from(";
 		
 		if(str.indexOf("走访情况")>1){
-			sql += "select pkid,v1,v2,v3,'da_help_visit' as da_type from da_help_visit where da_household_id="+pkid+" union all ";
+			sql += "select pkid,v1,v2,v3,'da_help_visit' as da_type from da_help_visit"+year+" where da_household_id="+pkid+" union all ";
 		}
 		
 		if(str.indexOf("帮扶措施")>1){
-			sql += "select pkid,v1,v2,v3,'da_help_measures' as da_type from da_help_measures where da_household_id="+pkid+" union all ";
+			sql += "select pkid,v1,v2,v3,'da_help_measures' as da_type from da_help_measures"+year+" where da_household_id="+pkid+" union all ";
 		}
 		
 		if(str.indexOf("帮扶成效")>1){
-			sql += "select pkid,v1,v2,v3,'da_help_results' as da_type from da_help_results where da_household_id="+pkid+" union all ";
+			sql += "select pkid,v1,v2,v3,'da_help_results' as da_type from da_help_results"+year+" where da_household_id="+pkid+" union all ";
 		}
 		
 		sql = sql.substring(0, sql.length()-10);
@@ -798,7 +796,7 @@ public class PoorMessageController extends MultiActionController{
 			String results=val.get("da_type").toString();
 			
 			if(results.equals("da_help_visit")){
-				String hql="SELECT group_concat(pic_path order by pic_path separator ',') pie FROM da_pic WHERE pic_pkid="+val.get("pkid")+" AND pic_type=2";
+				String hql="SELECT group_concat(pic_path order by pic_path separator ',') pie FROM da_pic"+year+" WHERE pic_pkid="+val.get("pkid")+" AND pic_type=2";
 				SQLAdapter sjzf_sqlAdapter =new SQLAdapter(hql);
 				List<Map> sjzf_list=getBySqlMapper.findRecords(sjzf_sqlAdapter);
 				if(null==sjzf_list.get(0)){
@@ -812,7 +810,7 @@ public class PoorMessageController extends MultiActionController{
 				
 			}
 			if(results.equals("da_help_measures")){
-				String hql="SELECT group_concat(pic_path order by pic_path separator ',') pie FROM da_pic WHERE pic_pkid="+val.get("pkid")+" AND pic_type=1";
+				String hql="SELECT group_concat(pic_path order by pic_path separator ',') pie FROM da_pic"+year+" WHERE pic_pkid="+val.get("pkid")+" AND pic_type=1";
 				SQLAdapter sjzf_sqlAdapter =new SQLAdapter(hql);
 				List<Map> sjzf_list=getBySqlMapper.findRecords(sjzf_sqlAdapter);
 				if(null==sjzf_list.get(0)){
@@ -825,7 +823,7 @@ public class PoorMessageController extends MultiActionController{
 				
 			}
 			if(results.equals("da_help_results")){
-				String hql="SELECT group_concat(pic_path order by pic_path separator ',') pie FROM da_pic WHERE pic_pkid="+val.get("pkid")+" AND pic_type=3";
+				String hql="SELECT group_concat(pic_path order by pic_path separator ',') pie FROM da_pic"+year+" WHERE pic_pkid="+val.get("pkid")+" AND pic_type=3";
 				SQLAdapter sjzf_sqlAdapter =new SQLAdapter(hql);
 				List<Map> sjzf_list=getBySqlMapper.findRecords(sjzf_sqlAdapter);
 				if(null==sjzf_list.get(0)){
@@ -953,6 +951,7 @@ public class PoorMessageController extends MultiActionController{
 		return null;
 	
 	}
+	
 	public ModelAndView getExporExcel(HttpServletRequest request,HttpServletResponse response) throws IOException{
 		
 		
