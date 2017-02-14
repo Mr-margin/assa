@@ -55,7 +55,12 @@ public class DataStatisticsController  extends MultiActionController{
 		String order=request.getParameter("order");	//正序
 		String sort=request.getParameter("sort");	//倒序
 		String sum_name = "";
-		
+		String year = request.getParameter("year");//年份
+		if( "2016".equals(year) ) {
+			year = "_2016";
+		} else {
+			year = "";
+		}
 		if(request.getParameter("qu_g")!=null&&!request.getParameter("qu_g").equals("")){ //获取旗区的值
 			qu_g = request.getParameter("qu_g").trim();
 		}
@@ -80,7 +85,7 @@ public class DataStatisticsController  extends MultiActionController{
 				ziduan = "v2";
 			}
 		}
-		String sql = "SELECT * from (select a."+ziduan+" as b1,SUM(a.b2) as b2 , SUM(a.b3) as b3, SUM(a.b4) as b4,SUM(a.b6)as b6,SUM(a.b7)as b7 ,SUM(a.b8) as b8,SUM(a.b9) as b9,SUM(a.b10) as b10,SUM(a.b11) as b11,SUM(a.b12) as b12,SUM(a.b13) as b13,a.b14 from da_statistics a"
+		String sql = "SELECT * from (select a."+ziduan+" as b1,SUM(a.b2) as b2 , SUM(a.b3) as b3, SUM(a.b4) as b4,SUM(a.b6)as b6,SUM(a.b7)as b7 ,SUM(a.b8) as b8,SUM(a.b9) as b9,SUM(a.b10) as b10,SUM(a.b11) as b11,SUM(a.b12) as b12,SUM(a.b13) as b13,a.b14 from da_statistics"+year+" a"
 				 +" where a.b14='"+ type +"' "+ cun_duyou +" GROUP BY a."+ziduan+") b join sys_company c on b.b1=c.com_name";
 		if(sort==""||sort==null){
 			sql += " where com_f_pkid="+pkid+"   and b2>0 order by b2 desc ";
@@ -217,7 +222,7 @@ public class DataStatisticsController  extends MultiActionController{
 		if(sfcg.equals("1")){//如果清除成功，执行插入数据语句
 			String insert_sql="INSERT INTO da_statistics(v1,v2,v3,b2,b3,b4,b6,b7,b8,b9,b10,b11,b12,b13,b14,b15) "
 					+ " select t1.v3 v1,t1.v4 v2,t1.v5 v3,b2,b3,b4,b6,b7,b8,b9,b10,b11,b12,b13,t1.sys_standard b14,'up_time' b15 from("
-					+ "select v3,v4,v5,COUNT(*) as b2,sum(v9) as b3,sys_standard from da_household group by v3,v4,v5,sys_standard) t1 "
+					+ "select v3,v4,v5,COUNT(*) as b2,sum(v9) as b3,sys_standard from da_household where v21!='已脱贫' group by v3,v4,v5,sys_standard) t1 "
 					+ " left join (select v3,v4,v5,COUNT(*) as b4 ,sys_standard from b4_t group by v3,v4,v5,sys_standard) t4 on t1.v3=t4.v3 and t1.v4=t4.v4 and t1.v5=t4.v5 and t1.sys_standard=t4.sys_standard "
 					+ " left join (select v3,v4,v5,COUNT(*) as b6 ,sys_standard from b6_t group by v3,v4,v5,sys_standard) t6 on t1.v3=t6.v3 and t1.v4=t6.v4 and t1.v5=t6.v5 and t1.sys_standard=t6.sys_standard "
 					+ " left join (select v3,v4,v5,COUNT(*) as b7 ,sys_standard from b7_t group by v3,v4,v5,sys_standard) t7 on t1.v3=t7.v3 and t1.v4=t7.v4 and t1.v5=t7.v5 and t1.sys_standard=t7.sys_standard "
@@ -266,11 +271,16 @@ public class DataStatisticsController  extends MultiActionController{
 		response.setCharacterEncoding("UTF-8");
 		String order=request.getParameter("order");
 		String sort=request.getParameter("sort");
-		
+		String year = request.getParameter("year");
+		if ( "2016".equals(year) ) {
+			year = "_2016";
+		} else {
+			year = "";
+		}
 		String sql = " select t1.com_name as b1,b2,b3,b4,b5 from sys_company t1 ";
-		sql += " left join (select sys_company_id,count(*) as b2 from sys_personal t1 join da_company t2 on t1.da_company_id=t2.pkid group by sys_company_id) t2 ";
+		sql += " left join (select sys_company_id,count(*) as b2 from sys_personal"+year+" t1 join da_company"+year+" t2 on t1.da_company_id=t2.pkid group by sys_company_id) t2 ";
 		sql += " on t1.pkid=t2.sys_company_id LEFT JOIN (select sys_company_id,count(*) as b3 from da_company t1 ";
-		sql += " join (select t1.pkid,t1.da_company_id from sys_personal t1 join sys_personal_household_many t2 on t1.pkid=t2.sys_personal_id group by t1.pkid,t1.da_company_id ";
+		sql += " join (select t1.pkid,t1.da_company_id from sys_personal"+year+" t1 join sys_personal_household_many"+year+" t2 on t1.pkid=t2.sys_personal_id group by t1.pkid,t1.da_company_id ";
 		sql += " ) t2 on t1.pkid=t2.da_company_id group by sys_company_id) t3 on t1.pkid=t3.sys_company_id ";
 		sql += " LEFT JOIN (select sys_company_id,count(*) as b4 from da_company group by sys_company_id) t4 on t1.pkid=t4.sys_company_id ";
 		sql += " LEFT JOIN (select sys_company_id,count(*) as b5 from da_company where v5 is not null and v5 !='' group by sys_company_id) t5 on t1.pkid=t5.sys_company_id ";
@@ -279,8 +289,6 @@ public class DataStatisticsController  extends MultiActionController{
 		}else{
 			sql += " where com_f_pkid=4 or t1.pkid=4 order by "+sort+" "+order+" ";
 		}
-		
-		
 		DecimalFormat df = new DecimalFormat("0.00");
 //		System.out.println(sql);
 		SQLAdapter Metadata_g_Adapter = new SQLAdapter(sql);
@@ -309,8 +317,6 @@ public class DataStatisticsController  extends MultiActionController{
 				
 				jsa.add(obj);
 			}
-			
-			
 			JSONObject json = new JSONObject();
 			json.put("page", "");
 			json.put("total", total);

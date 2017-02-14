@@ -175,9 +175,9 @@ public class SignOutController extends MultiActionController{
 			
 			//符合市级低收入户要求帮扶后人均纯收入比帮扶前增长20%、帮扶后人均纯收入大于1万元、不是危房、所有家庭成员均参加新农合、养老保险 条件的sql 语句
 			String sql = "";
-					sql += "select pkid,v3,v4,v5,v6,v9, round(((v39-v31)/v9),2) hrj,round(((d39-d31)/v9),2) drj,";
-					sql += "round(((((v39-v31)/v9)-((d39-d31)/v9))/ ((d39-d31)/v9))*100,2) jisuan from  ( ";
-					sql +="select pkid,v3,v4,v5,v6,v9 from da_household where  sys_standard='市级低收入人口' and v18='是' and v21!='已脱贫'";
+					sql += "select pkid,v3,v4,v5,v6,v9, round(((v39-v31)/v9),2) hrj,round((ABS((d39-d31))/v9),2) drj,";
+					sql += "round(((((v39-v31)/v9)-(ABS((d39-d31)/v9)))/ (ABS((d39-d31)/v9)))*100,2) jisuan from  ( ";
+					sql +="select pkid,v3,v4,v5,v6,v9 from da_household where  sys_standard='市级低收入人口' and v21!='已脱贫'";
 					sql += " and (v3 like '%"+search+"%' or v4 like '%"+search+"%' or v5 like '%"+search+"%' or v6 like '%"+search+"%' or v9 like '%"+search+"%') "+str+" ";
 					sql += ") a LEFT JOIN (select da_household_id,v2 from da_life  where v2 ='否')b ON a.pkid=b.da_household_id LEFT JOIN (";
 					sql += "select da_household_id,v39 from da_helpback_income where v39 is not null ) q1 on a.pkid=q1.da_household_id LEFT JOIN(";
@@ -185,12 +185,13 @@ public class SignOutController extends MultiActionController{
 					sql += "select da_household_id,v31 from da_helpback_expenditure where v31 is not null)q2 on a.pkid = q2.da_household_id LEFT JOIN ("+
 							"select da_household_id,v39 d39 from da_current_income where v39 is not null ) q3 on a.pkid=q3.da_household_id LEFT JOIN (";
 					sql += "select da_household_id ,v31 d31 from da_current_expenditure where v31 is not null) q4 on a.pkid=q4.da_household_id "+
-							"   where b.v2='否' and ((((v39-v31)/v9)-((d39-d31)/v9))/ ((d39-d31)/v9))*100>20  and ((v39-v31)/v9)>10000 group by pkid";
+							"   where b.v2='否' and ((((v39-v31)/v9)-(ABS((d39-d31)/v9)))/ (ABS((d39-d31)/v9)))*100>20  and ((v39-v31)/v9)>10000 group by pkid";
+					
+					
 			String  select_sql = sql+"  limit "+number+","+size;	
 			String  count_sql = "select count(*) from ("+sql+")aa";
 			SQLAdapter count_s_Adapter = new SQLAdapter(count_sql);
 			int total = this.getBySqlMapper.findrows(count_s_Adapter);
-			String Metadata_s_sql = "select pkid,v3,v4,v5,v6,v9 from da_household where sys_standard='市级低收入人口' and (v3 like '%"+search+"%' or v4 like '%"+search+"%' or v5 like '%"+search+"%' or v6 like '%"+search+"%' or v9 like '%"+search+"%') "+str+" limit "+number+","+size;
 			SQLAdapter Metadats_g_Adapter = new SQLAdapter(select_sql);
 			List<Map> Metadata_s_List = this.getBySqlMapper.findRecords(Metadats_g_Adapter);
 			

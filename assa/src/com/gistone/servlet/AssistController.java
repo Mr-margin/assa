@@ -63,7 +63,12 @@ public class AssistController extends MultiActionController{
 		String cha_qixian = "";
 		String cha_v3 = ""; 
 		String str = "";
-		
+		String year = request.getParameter("cha_year");//年份
+		if ("2016".equals(year) ) {
+			year = "_2016";
+		} else {
+			year = "";
+		}
 		if(request.getParameter("cha_bfdw")!=null&&!request.getParameter("cha_bfdw").equals("")){
 			cha_bfdw = request.getParameter("cha_bfdw").trim();
 			str += " t2.v1 like '%"+cha_bfdw+"%' and";
@@ -89,14 +94,14 @@ public class AssistController extends MultiActionController{
 		int number = Integer.parseInt(pageNumber);
 		int page = number == 0 ? 1 : (number/size)+1;
 		
-		String count_st_sql = "select count(*) from sys_personal t1 left join da_company t2 on t1.da_company_id=t2.pkid ";
-		String people_sql = "select t1.pkid,t1.col_name,t1.v1,t1.v3,t2.v1 as v11,t1.col_post,t1.telephone,x.bf_num from sys_personal t1 left join da_company t2 on t1.da_company_id=t2.pkid "
-				+ "LEFT JOIN (select sys_personal_id,count(*) as bf_num from sys_personal_household_many group by sys_personal_id) x on t1.pkid=x.sys_personal_id ";
+		String count_st_sql = "select count(*) from sys_personal"+year+" t1 left join da_company"+year+" t2 on t1.da_company_id=t2.pkid ";
+		String people_sql = "select t1.pkid,t1.col_name,t1.v1,t1.v3,t2.v1 as v11,t1.col_post,t1.telephone,x.bf_num from sys_personal"+year+" t1 left join da_company"+year+" t2 on t1.da_company_id=t2.pkid "
+				+ "LEFT JOIN (select sys_personal_id,count(*) as bf_num from sys_personal_household_many"+year+" group by sys_personal_id) x on t1.pkid=x.sys_personal_id ";
 		
 		if(request.getParameter("cha_juese")!=null&&!request.getParameter("cha_juese").equals("请选择")){
 			cha_juese = request.getParameter("cha_juese").trim();
 			str += " x.bf_num "+cha_juese+" and";
-			count_st_sql += " LEFT JOIN (select sys_personal_id,count(*) as bf_num from sys_personal_household_many group by sys_personal_id) x on t1.pkid=x.sys_personal_id ";
+			count_st_sql += " LEFT JOIN (select sys_personal_id,count(*) as bf_num from sys_personal_household_many"+year+" group by sys_personal_id) x on t1.pkid=x.sys_personal_id ";
 		}
 		//两个条件为空，按照全部查询
 		if(str.equals("")){

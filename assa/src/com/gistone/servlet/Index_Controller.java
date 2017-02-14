@@ -57,7 +57,8 @@ public class Index_Controller extends MultiActionController{
 			}
 
 			if(code.toString().equals("shi")==true){//市级用户
-				String sql="SELECT v3,count(*) AS count,sum(v9) AS sum FROM da_household where sys_standard='"+gors+"' and v21 !='已脱贫' group by v3";
+				String sql="select b.v3,count,count1,sum,sum1 from (SELECT v3,count(*) AS count,sum(v9) AS sum FROM da_household where sys_standard='"+gors+"' and v21 !='已脱贫' group by v3) a"+
+							" right JOIN (SELECT v3,count(*) AS count1 ,sum(v9) AS sum1 FROM da_household_2016 where sys_standard='"+gors+"' and v21 !='已脱贫' group by v3 )b on  a.v3=b.v3";
 				SQLAdapter sqlAdapter =new SQLAdapter(sql);
 				List<Map> sql_list = this.getBySqlMapper.findRecords(sqlAdapter);
 				JSONObject val = new JSONObject();
@@ -75,17 +76,23 @@ public class Index_Controller extends MultiActionController{
 					response.getWriter().print("0");
 				}
 			}else if(company_json.get("com_level").toString().equals("2")==true){//二级用户
-				String sql="SELECT y1.v4 AS v3,count(*) AS count,sum(y1.v9) AS sum FROM da_household y1 JOIN sys_company y2 ON y1.v3 = y2.com_name where y2.com_code="+code+" AND y1.sys_standard='"+gors+"' and v21!='已脱贫'  group by y1.v4";
+//				String sql="SELECT y1.v4 AS v3,count(*) AS count,sum(y1.v9) AS sum FROM da_household y1 JOIN sys_company y2 ON y1.v3 = y2.com_name where y2.com_code="+code+" AND y1.sys_standard='"+gors+"' and v21!='已脱贫'  group by y1.v4";
+				String sql=" select b.v3,count,count1,sum,sum1 from ( "+
+							"SELECT y1.v4 AS v3,count(*) AS count,sum(y1.v9) AS sum FROM da_household y1 JOIN sys_company y2 ON y1.v3 = y2.com_name where y2.com_code="+code+" AND y1.sys_standard='"+gors+"' and v21!='已脱贫'  group by y1.v4"+
+							")a right join ("+
+							"SELECT y1.v4 AS v3,count(*) AS count1,sum(y1.v9) AS sum1 FROM da_household_2016 y1 JOIN sys_company y2 ON y1.v3 = y2.com_name where y2.com_code="+code+" AND y1.sys_standard='"+gors+"' and v21!='已脱贫'  group by y1.v4"+
+							" )b on a.v3 = b.v3"	;
 				SQLAdapter sqlAdapter =new SQLAdapter(sql);
 				List<Map> sql_list = this.getBySqlMapper.findRecords(sqlAdapter);
 				JSONObject val = new JSONObject();
 				if(sql_list.size()>0){
 					JSONArray jsa=new JSONArray();
 					for(int i = 0;i<sql_list.size();i++){
-						Map Admin_st_map = sql_list.get(i);
-						for (Object key : Admin_st_map.keySet()) {
-							val.put(key, Admin_st_map.get(key));
-						}
+						val.put("v3","".equals(sql_list.get(i).get("v3")) || sql_list.get(i).get("v3") == null ?"": sql_list.get(i).get("v3").toString());
+						val.put("count","".equals(sql_list.get(i).get("count")) || sql_list.get(i).get("count") == null ?"0": sql_list.get(i).get("count").toString());
+						val.put("count1","".equals(sql_list.get(i).get("count1")) || sql_list.get(i).get("count1") == null ?"0": sql_list.get(i).get("count1").toString());
+						val.put("sum","".equals(sql_list.get(i).get("sum")) || sql_list.get(i).get("sum") == null ?"0": sql_list.get(i).get("sum").toString());
+						val.put("sum1","".equals(sql_list.get(i).get("sum1")) || sql_list.get(i).get("sum1") == null ?"0": sql_list.get(i).get("sum1").toString());
 						jsa.add(val);
 					}
 					response.getWriter().write(jsa.toString());
@@ -93,7 +100,12 @@ public class Index_Controller extends MultiActionController{
 					response.getWriter().print("0");
 				}
 			}else if(company_json.get("com_level").toString().equals("3")==true){
-				String sql="SELECT y1.v5 AS v3,count(*) AS count,sum(y1.v9) AS sum FROM da_household y1 JOIN sys_company y2 ON y1.v4 = y2.com_name where y2.com_code='"+code+"' AND y1.sys_standard='"+gors+"' and y1.v21!='已脱贫'  group by y1.v5";
+//				String sql="SELECT y1.v5 AS v3,count(*) AS count,sum(y1.v9) AS sum FROM da_household y1 JOIN sys_company y2 ON y1.v4 = y2.com_name where y2.com_code='"+code+"' AND y1.sys_standard='"+gors+"' and y1.v21!='已脱贫'  group by y1.v5";
+				String sql=" select b.v3,count,count1,sum,sum1 from ("+
+						"SELECT y1.v5 AS v3,count(*) AS count,sum(y1.v9) AS sum FROM da_household y1 JOIN sys_company y2 ON y1.v4 = y2.com_name where y2.com_code='"+code+"' AND y1.sys_standard='"+gors+"' and y1.v21!='已脱贫'  group by y1.v5"+
+						")a right join ("+
+						"SELECT y1.v5 AS v3,count(*) AS count1,sum(y1.v9) AS sum1 FROM da_household_2016 y1 JOIN sys_company y2 ON y1.v4 = y2.com_name where y2.com_code='"+code+"' AND y1.sys_standard='"+gors+"' and y1.v21!='已脱贫'  group by y1.v5"+
+						")b on a.v3 = b.v3 ";
 				SQLAdapter sqlAdapter =new SQLAdapter(sql);
 				List<Map> sql_list = this.getBySqlMapper.findRecords(sqlAdapter);
 				JSONObject val = new JSONObject();
@@ -111,7 +123,11 @@ public class Index_Controller extends MultiActionController{
 					response.getWriter().print("0");
 				}
 			}else if(company_json.get("com_level").toString().equals("4")==true){
-				String sql="SELECT y1.v5 AS v3,count(*) AS count,sum(y1.v9) AS sum FROM da_household y1 JOIN sys_company y2 ON y1.v4 = y2.com_name where y2.com_code='"+code+"' AND y1.sys_standard='"+gors+"' and y1.v21!='已脱贫' group by y1.v5";
+				String sql=" select b.v3,count,count1,sum,sum1 from ("+
+						"SELECT y1.v5 AS v3,count(*) AS count,sum(y1.v9) AS sum FROM da_household y1 JOIN sys_company y2 ON y1.v4 = y2.com_name where y2.com_code='"+code+"' AND y1.sys_standard='"+gors+"' and y1.v21!='已脱贫' group by y1.v5"+
+						" )a right join ("+
+						" SELECT y1.v5 AS v3,count(*) AS count1,sum(y1.v9) AS sum1 FROM da_household_2016 y1 JOIN sys_company y2 ON y1.v4 = y2.com_name where y2.com_code='"+code+"' AND y1.sys_standard='"+gors+"' and y1.v21!='已脱贫' group by y1.v5"+
+						")b on a.v3=b.v3";
 				SQLAdapter sqlAdapter =new SQLAdapter(sql);
 				List<Map> sql_list = this.getBySqlMapper.findRecords(sqlAdapter);
 				JSONObject val = new JSONObject();
@@ -130,12 +146,14 @@ public class Index_Controller extends MultiActionController{
 				}
 			}
 		}else{//未登录
-			String sql="SELECT v3,count(*) AS count,sum(v9) AS sum FROM da_household where sys_standard='"+gors+"' and v21!='已脱贫' group by v3";
+			String sql="select b.v3,count,count1,sum,sum1 from (SELECT v3,count(*) AS count,sum(v9) AS sum FROM da_household where sys_standard='"+gors+"' and v21!='已脱贫' group by v3)a "+
+						"  right JOIN  (SELECT v3,count(*) AS count1,sum(v9) AS sum1 FROM da_household_2016 where sys_standard='"+gors+"' and v21!='已脱贫' group by v3)b "+
+						" on a.v3 = b.v3 ";
 			SQLAdapter sqlAdapter =new SQLAdapter(sql);
 			List<Map> sql_list = this.getBySqlMapper.findRecords(sqlAdapter);
 			JSONObject val = new JSONObject();
+			JSONArray jsa=new JSONArray();
 			if(sql_list.size()>0){
-				JSONArray jsa=new JSONArray();
 				for(int i = 0;i<sql_list.size();i++){
 					Map Admin_st_map = sql_list.get(i);
 					for (Object key : Admin_st_map.keySet()) {
@@ -143,10 +161,9 @@ public class Index_Controller extends MultiActionController{
 					}
 					jsa.add(val);
 				}
-				response.getWriter().write(jsa.toString());
-			}else{
-				response.getWriter().print("0");
 			}
+			
+			response.getWriter().write(jsa.toString());
 		}
 
 		return null;
@@ -248,8 +265,6 @@ public class Index_Controller extends MultiActionController{
 						response.getWriter().print("0");
 					}
 				}
-
-
 			}
 
 		}else{//如果session为空，即未登录
@@ -313,8 +328,13 @@ public class Index_Controller extends MultiActionController{
 			ziduan = "v1";
 			tiaojian = " where c.com_level=2 and b2>0 order by b2 desc ";
 		}
-		sql = "SELECT v2,b1,b2,b3,b4,b6,b7,b8,b9,b10,b11,b12,b13 from (select a.v2,a."+ziduan+" as b1,SUM(a.b2) as b2 , SUM(a.b3) as b3, SUM(a.b4) as b4,SUM(a.b6)as b6,SUM(a.b7)as b7 ,SUM(a.b8) as b8,SUM(a.b9) as b9,SUM(a.b10) as b10,SUM(a.b11) as b11,SUM(a.b12) as b12,SUM(a.b13) as b13,a.b14 from da_statistics a "
-				+" where a.b14='"+ gors +"' "+xc_name+" GROUP BY a."+ziduan+") b join sys_company c on b.b1=c.com_name"+tiaojian;
+		sql = " SELECT a.v2,b.b1,b2,b22,b3,b33,b4,b6,b7,b8,b9,b10,b11,b12,b13 from (SELECT v2,b1,b2,b3,b4,b6,b7,b8,b9,b10,b11,b12,b13 from (select a.v2,a."+ziduan+" as b1,"+
+				"SUM(a.b2) as b2 , SUM(a.b3) as b3, SUM(a.b4) as b4,SUM(a.b6)as b6,SUM(a.b7)as b7 ,SUM(a.b8) as b8,SUM(a.b9) as b9,SUM(a.b10) as b10,SUM(a.b11) as b11,"+
+				"SUM(a.b12) as b12,SUM(a.b13) as b13,a.b14 from da_statistics a "+
+				" where a.b14='"+ gors +"' "+xc_name+" GROUP BY a."+ziduan+") b join sys_company c on b.b1=c.com_name"+tiaojian+")a right join("+
+				"SELECT v2,b1,b2 b22,b3 b33 from (select a.v2,a."+ziduan+" as b1,"+
+				"SUM(a.b2) as b2 , SUM(a.b3) as b3  from da_statistics_2016 a "+
+				" where a.b14='"+ gors +"' "+xc_name+" GROUP BY a."+ziduan+") b join sys_company c on b.b1=c.com_name"+tiaojian+")b on a.b1=b.b1";
 		SQLAdapter sql_find=new SQLAdapter(sql);
 		List<Map> sql_list = this.getBySqlMapper.findRecords(sql_find);
 		JSONObject val = new JSONObject();
@@ -324,6 +344,8 @@ public class Index_Controller extends MultiActionController{
 				val.put("b1",asmap.get("b1")==null?"":asmap.get("b1"));
 				val.put("b2",asmap.get("b2")==null?"0":asmap.get("b2"));
 				val.put("b3",asmap.get("b3")==null?"0":asmap.get("b3"));
+				val.put("b22",asmap.get("b22")==null?"0":asmap.get("b22"));
+				val.put("b33",asmap.get("b33")==null?"0":asmap.get("b33"));
 				val.put("b10",asmap.get("b10")==null?"0":asmap.get("b10"));
 				val.put("b11",asmap.get("b11")==null?"0":asmap.get("b11"));
 				val.put("b12",asmap.get("b12")==null?"0":asmap.get("b12"));
@@ -511,14 +533,12 @@ public class Index_Controller extends MultiActionController{
 								}
 							}
 							session.setAttribute("weihu_map", weihu_map);
-
 							//浏览数据的权限
 							company_map.put("com_type", "帮扶人");
 							session.setAttribute("company_map", company_map);
 
 						}
 						response.getWriter().print("1");//成功
-
 					}
 
 				}else{
@@ -644,7 +664,14 @@ public class Index_Controller extends MultiActionController{
 		String cha_lddh="";
 		String cha_sbfc="";
 		String str="";
-
+		
+		String year = request.getParameter("cha_year");//年份
+		if( "2016".equals(year) ) {
+			year = "_2016";
+		} else {
+			year = "";
+		}
+		
 		if(request.getParameter("cha_qixian")!=null&&!request.getParameter("cha_qixian").equals("请选择")){
 			cha_qixian = request.getParameter("cha_qixian").trim();
 			str += " a1.sys_company_id like '%"+cha_qixian+"%' and";
@@ -687,30 +714,26 @@ public class Index_Controller extends MultiActionController{
 		String pkid=company_json.get("pkid").toString();//获取用户名称
 		if(pkid.equals("4")){
 			if(str==""){
-				people_sql = "select a1.pkid,a3.com_name as quname,a1.v1,a1.v2,a1.v3,a1.v4,a2.com_name,a1.v5,a1.sys_company_id,a2.com_f_pkid from da_company a1 "
+				people_sql = "select a1.pkid,a3.com_name as quname,a1.v1,a1.v2,a1.v3,a1.v4,a2.com_name,a1.v5,a1.sys_company_id,a2.com_f_pkid from da_company"+year+" a1 "
 						+ "LEFT JOIN sys_company a2 ON a1.v5=a2.pkid LEFT JOIN sys_company a3 ON a1.sys_company_id=a3.pkid  limit "+number+","+size;
 				count_st_sql = "select count(*) from da_company a1";
 			}else{
-				people_sql = "select a1.pkid,a3.com_name as quname,a1.v1,a1.v2,a1.v3,a1.v4,a2.com_name,a1.v5,a1.sys_company_id,a2.com_f_pkid from da_company a1 "
+				people_sql = "select a1.pkid,a3.com_name as quname,a1.v1,a1.v2,a1.v3,a1.v4,a2.com_name,a1.v5,a1.sys_company_id,a2.com_f_pkid from da_company"+year+" a1 "
 						+ "LEFT JOIN sys_company a2 ON a1.v5=a2.pkid LEFT JOIN sys_company a3 ON a1.sys_company_id=a3.pkid  where "+str.substring(0, str.length()-3)+" limit "+number+","+size;
-				count_st_sql = "select count(*) from da_company a1 LEFT JOIN sys_company a2 ON a1.v5=a2.pkid where "+str.substring(0, str.length()-3);
+				count_st_sql = "select count(*) from da_company"+year+" a1 LEFT JOIN sys_company a2 ON a1.v5=a2.pkid where "+str.substring(0, str.length()-3);
 			}	
 		}else{
 			String xian_id=company_json.get("xian_id").toString();//获取用户名称
 			if(str==""){
-				people_sql = "select a1.pkid,a3.com_name as quname,a1.v1,a1.v2,a1.v3,a1.v4,a2.com_name,a1.v5,a1.sys_company_id,a2.com_f_pkid from da_company a1 "
+				people_sql = "select a1.pkid,a3.com_name as quname,a1.v1,a1.v2,a1.v3,a1.v4,a2.com_name,a1.v5,a1.sys_company_id,a2.com_f_pkid from da_company"+year+" a1 "
 						+ "LEFT JOIN sys_company a2 ON a1.v5=a2.pkid LEFT JOIN sys_company a3 ON a1.sys_company_id=a3.pkid  where sys_company_id="+xian_id+" limit "+number+","+size;
-				count_st_sql = "select count(*) from da_company a1 where sys_company_id="+xian_id;
+				count_st_sql = "select count(*) from da_company"+year+" a1 where sys_company_id="+xian_id;
 			}else{
-				people_sql = "select a1.pkid,a3.com_name as quname,a1.v1,a1.v2,a1.v3,a1.v4,a2.com_name,a1.v5,a1.sys_company_id,a2.com_f_pkid from da_company a1 "
+				people_sql = "select a1.pkid,a3.com_name as quname,a1.v1,a1.v2,a1.v3,a1.v4,a2.com_name,a1.v5,a1.sys_company_id,a2.com_f_pkid from da_company"+year+" a1 "
 						+ "LEFT JOIN sys_company a2 ON a1.v5=a2.pkid LEFT JOIN sys_company a3 ON a1.sys_company_id=a3.pkid  where sys_company_id="+xian_id+" and "+str.substring(0, str.length()-3)+" limit "+number+","+size;
-				count_st_sql = "select count(*) from da_company a1 LEFT JOIN sys_company a2 ON a1.v5=a2.pkid where sys_company_id="+xian_id+" and "+str.substring(0, str.length()-3);
+				count_st_sql = "select count(*) from da_company"+year+" a1 LEFT JOIN sys_company a2 ON a1.v5=a2.pkid where sys_company_id="+xian_id+" and "+str.substring(0, str.length()-3);
 			}	
 		}
-		
-//		System.out.println(people_sql);
-//		System.out.println(count_st_sql);
-
 		SQLAdapter count_st_Adapter = new SQLAdapter(count_st_sql);
 		int total = this.getBySqlMapper.findrows(count_st_Adapter);
 
@@ -734,7 +757,6 @@ public class Index_Controller extends MultiActionController{
 		}
 		return null;
 	}
-
 	//添加帮扶单位
 	public ModelAndView addBfdw(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		String add_bfdw_mc = request.getParameter("add_bfdw_mc");
@@ -822,7 +844,6 @@ public class Index_Controller extends MultiActionController{
 		try{
 //			List<Map> Admin_st_List = this.getBySqlMapper.findRecords(del_sql);
 			this.getBySqlMapper.deleteSelective(del_sql);
-			
 			HttpSession session = request.getSession();
 			JSONObject json = new JSONObject();
 			if(session.getAttribute("Login_map")!=null){//验证session不为空
@@ -840,6 +861,5 @@ public class Index_Controller extends MultiActionController{
 		}
 		return null;
 	}
-
 }
 
