@@ -78,26 +78,9 @@
                             		<li id="H7-2_li" style="display:none;"><a id="H7-2">工程进度统计</a></li>
                             	</ul>
                             </li>
-                            
-                            <!-- <li class="dropdown" id="H1_li" style="display:none;">
-                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown" id="H1"> 扶贫手册录入 </a>
-                            </li>
-                            <li class="dropdown" id="H2_li" style="display:none">
-                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown" id="H2"> 帮扶信息查询 </a>
-                            </li> -->
-                            
                             <li class="dropdown" id="H3_li" style="display:none">
                                 <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown" id="H3-2"> 挂图作战 </a>
                             </li>
-                            
-                            <!--  <li class="dropdown" id="H3_li" style="display:none;">
-                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> 统计分析<span class="caret"></span></a>
-                                <ul role="menu" class="dropdown-menu">
-                                    <li id="H3-1_li" style="display:none;"><a id="H3-1">综合查询</a></li>
-                                    <li id="H3-2_li" style="display:none;"><a id="H3-2">统计汇总</a></li>
-                                </ul>
-                            </li> -->
-                            
                             <li class="dropdown" id="H4_li" style="display:none;">
                                 <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown" id="H4"> 识别与退出 </a>
                             </li>
@@ -201,11 +184,19 @@
 													</div>
 					    							
 					    							<div class="form-group" style="margin-bottom: 0px">
-					    								<div class="col-sm-6"></div>
+					    								<div class="col-sm-6">
+					    									<label class="col-sm-3 control-label" style="text-align:right;margin-top: 3px;">年份</label>
+															<div class="col-sm-8">
+																<select  class="form-control m-b" id="cha_year" name="cha_year">
+																	<option value="2017">2017</option>
+																	<option value="2016">2016</option>
+																</select>
+															</div>
+					    								
+					    								</div>
 					    								<div class="col-sm-6" style="float:right;">
 															<div class="col-sm-7"></div>
 															<div class="col-sm-5">
-																</button>
 																<button type="button" class="btn btn-primary" id="cha_button" name="cha_button" >
 																	<i class="fa fa-search"></i>&nbsp;&nbsp;<span class="bold">查询</span>
 																</button>

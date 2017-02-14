@@ -85,25 +85,9 @@
                             	</ul>
                             </li>
                             
-                            <!-- <li class="dropdown" id="H1_li" style="display:none;">
-                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown" id="H1"> 扶贫手册录入 </a>
-                            </li>
-                            <li class="dropdown" id="H2_li" style="display:none">
-                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown" id="H2"> 帮扶信息查询 </a>
-                            </li> -->
-                            
                             <li class="dropdown" id="H3_li" style="display:none">
                                 <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown" id="H3-2"> 挂图作战 </a>
                             </li>
-                            
-                            <!--  <li class="dropdown" id="H3_li" style="display:none;">
-                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> 统计分析<span class="caret"></span></a>
-                                <ul role="menu" class="dropdown-menu">
-                                    <li id="H3-1_li" style="display:none;"><a id="H3-1">综合查询</a></li>
-                                    <li id="H3-2_li" style="display:none;"><a id="H3-2">统计汇总</a></li>
-                                </ul>
-                            </li> -->
-                            
                             <li class="dropdown" id="H4_li" style="display:none;">
                                 <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown" id="H4"> 识别与退出 </a>
                             </li>
@@ -297,6 +281,17 @@
 															</div>
 														</div>
 														<div class="col-sm-4">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 3px;">年份</label>
+															<div class="col-sm-7">
+																<select class="form-control m-b" id="cha_year" name="cha_year">
+																	<option>2017</option>
+																	<option>2016</option>
+																</select>
+															</div>
+														</div>
+													</div>
+													<div class="form-group" style="margin-bottom: 0px">
+														<div class="col-sm-4" style="float:right;">
 															<div class="col-sm-3"></div>
 															<div class="col-sm-9">
 																<button type="button" class="btn btn-primary" id="cha_button" name="cha_button">
@@ -1116,6 +1111,8 @@
 													<tr>
 														<th>年纯收入（<code id="show_hdqncsr"></code >） / 家庭人数 （<code id="show_hdqjtrs"></code>） =
 															年人均纯收入（<code id="show_hdqnrj"></code>）
+															&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+															增长比率（<code id="zz_bilv"></code>）
 														</th>
 													</tr>
 												</tbody>
