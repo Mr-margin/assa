@@ -168,13 +168,6 @@ $(function () {
 			
 		}else if(app.inx==3){
 			/*时间轴中的复选框选择*/
-//			var go=$("input[value='走访情况']").parent(".icheckbox_square-green");
-//			if(go[0].className=="icheckbox_square-green hover"){
-//				$("#show_zfju").hide();
-//				
-//			}else{
-//				$("#show_zfju").show();
-//			}
 			
 			if ($("#show_checked input[value='走访情况']").parent(".icheckbox_square-green").hasClass('checked')) {
 	            $("#show_checked input[value='走访情况']").attr("checked","");
@@ -288,6 +281,7 @@ $(function () {
     	chaxun.cha_v6 = $("#cha_v6").val();
     	chaxun.cha_v8 = $("#cha_v8").val();
     	chaxun.cha_v8_1 = $("#cha_v8_1").val();
+    	chaxun.cha_year = $("#cha_year").val();
     	$("#yeqian").hide();
     	metTable_bxbxxb.bootstrapTable('destroy');//销毁现有表格数据
     	gachacun_initialization();//重新初始化数据
@@ -301,7 +295,7 @@ $(function () {
     	    dataType: "json",
     	    data:{cha_qx:$("#cha_qx").val(),cha_smx:$("#cha_smx").val(),cha_gcc:$("#cha_gcc").val(),cha_sbbz:$("#cha_sbbz").val(),cha_pksx:$("#cha_pksx").val(),
     	    	cha_zpyy:$("#cha_zpyy").val(),cha_mz:$("#cha_mz").val(),cha_renkou:$("#cha_renkou").val(),cha_banqian:$("#cha_banqian").val(),cha_v6:$("#cha_v6").val(),
-    	    	cha_v8:$("#cha_v8").val(),cha_v8_1:$("#cha_v8_1").val(),cha_bfdw:$("#cha_bfdw").val(),cha_bfzrr:$("#cha_bfzrr").val()
+    	    	cha_v8:$("#cha_v8").val(),cha_v8_1:$("#cha_v8_1").val(),cha_bfdw:$("#cha_bfdw").val(),cha_bfzrr:$("#cha_bfzrr").val(),year:$("#cha_year").val()
     	    	},
     	   
     	    beforeSend: function(){
@@ -349,7 +343,7 @@ $(function () {
     	    dataType: "json",
     	    data:{cha_qx:$("#cha_qx").val(),cha_smx:$("#cha_smx").val(),cha_gcc:$("#cha_gcc").val(),cha_sbbz:$("#cha_sbbz").val(),cha_pksx:$("#cha_pksx").val(),
     	    	cha_zpyy:$("#cha_zpyy").val(),cha_mz:$("#cha_mz").val(),cha_renkou:$("#cha_renkou").val(),cha_banqian:$("#cha_banqian").val(),cha_v6:$("#cha_v6").val(),
-    	    	cha_v8:$("#cha_v8").val(),cha_v8_1:$("#cha_v8_1").val(),cha_bfdw:$("#cha_bfdw").val(),cha_bfzrr:$("#cha_bfzrr").val()
+    	    	cha_v8:$("#cha_v8").val(),cha_v8_1:$("#cha_v8_1").val(),cha_bfdw:$("#cha_bfdw").val(),cha_bfzrr:$("#cha_bfzrr").val(),year:$("#cha_year").val()
     	    	},
     	   
     	    beforeSend: function(){
@@ -398,7 +392,7 @@ $(function () {
     	    dataType: "json",
     	    data:{cha_qx:$("#cha_qx").val(),cha_smx:$("#cha_smx").val(),cha_gcc:$("#cha_gcc").val(),cha_sbbz:$("#cha_sbbz").val(),cha_pksx:$("#cha_pksx").val(),
     	    	cha_zpyy:$("#cha_zpyy").val(),cha_mz:$("#cha_mz").val(),cha_renkou:$("#cha_renkou").val(),cha_banqian:$("#cha_banqian").val(),cha_v6:$("#cha_v6").val(),
-    	    	cha_v8:$("#cha_v8").val(),cha_v8_1:$("#cha_v8_1").val(),cha_bfdw:$("#cha_bfdw").val(),cha_bfzrr:$("#cha_bfzrr").val()
+    	    	cha_v8:$("#cha_v8").val(),cha_v8_1:$("#cha_v8_1").val(),cha_bfdw:$("#cha_bfdw").val(),cha_bfzrr:$("#cha_bfzrr").val(),year:$("#cha_year").val()
     	    	},
     	   
     	    beforeSend: function(){
@@ -448,7 +442,7 @@ $(function () {
     	    dataType: "json",
     	    data:{cha_qx:$("#cha_qx").val(),cha_smx:$("#cha_smx").val(),cha_gcc:$("#cha_gcc").val(),cha_sbbz:$("#cha_sbbz").val(),cha_pksx:$("#cha_pksx").val(),
     	    	cha_zpyy:$("#cha_zpyy").val(),cha_mz:$("#cha_mz").val(),cha_renkou:$("#cha_renkou").val(),cha_banqian:$("#cha_banqian").val(),cha_v6:$("#cha_v6").val(),
-    	    	cha_v8:$("#cha_v8").val(),cha_v8_1:$("#cha_v8_1").val(),cha_bfdw:$("#cha_bfdw").val(),cha_bfzrr:$("#cha_bfzrr").val()
+    	    	cha_v8:$("#cha_v8").val(),cha_v8_1:$("#cha_v8_1").val(),cha_bfdw:$("#cha_bfdw").val(),cha_bfzrr:$("#cha_bfzrr").val(),year:$("#cha_year").val()
     	    	},
     	   
     	    beforeSend: function(){
@@ -498,7 +492,7 @@ $(function () {
     	    dataType: "json",
     	    data:{cha_qx:$("#cha_qx").val(),cha_smx:$("#cha_smx").val(),cha_gcc:$("#cha_gcc").val(),cha_sbbz:$("#cha_sbbz").val(),cha_pksx:$("#cha_pksx").val(),
     	    	cha_zpyy:$("#cha_zpyy").val(),cha_mz:$("#cha_mz").val(),cha_renkou:$("#cha_renkou").val(),cha_banqian:$("#cha_banqian").val(),cha_v6:$("#cha_v6").val(),
-    	    	cha_v8:$("#cha_v8").val(),cha_v8_1:$("#cha_v8_1").val(),cha_bfdw:$("#cha_bfdw").val(),cha_bfzrr:$("#cha_bfzrr").val()
+    	    	cha_v8:$("#cha_v8").val(),cha_v8_1:$("#cha_v8_1").val(),cha_bfdw:$("#cha_bfdw").val(),cha_bfzrr:$("#cha_bfzrr").val(),year:$("#cha_year").val()
     	    	},
     	   
     	    beforeSend: function(){
@@ -546,7 +540,7 @@ $(function () {
     	    dataType: "json",
     	    data:{cha_qx:$("#cha_qx").val(),cha_smx:$("#cha_smx").val(),cha_gcc:$("#cha_gcc").val(),cha_sbbz:$("#cha_sbbz").val(),cha_pksx:$("#cha_pksx").val(),
     	    	cha_zpyy:$("#cha_zpyy").val(),cha_mz:$("#cha_mz").val(),cha_renkou:$("#cha_renkou").val(),cha_banqian:$("#cha_banqian").val(),cha_v6:$("#cha_v6").val(),
-    	    	cha_v8:$("#cha_v8").val(),cha_v8_1:$("#cha_v8_1").val(),cha_bfdw:$("#cha_bfdw").val(),cha_bfzrr:$("#cha_bfzrr").val()
+    	    	cha_v8:$("#cha_v8").val(),cha_v8_1:$("#cha_v8_1").val(),cha_bfdw:$("#cha_bfdw").val(),cha_bfzrr:$("#cha_bfzrr").val(),year:$("#cha_year").val()
     	    	},
     	   
     	    beforeSend: function(){
@@ -594,7 +588,7 @@ $(function () {
     	    dataType: "json",
     	    data:{cha_qx:$("#cha_qx").val(),cha_smx:$("#cha_smx").val(),cha_gcc:$("#cha_gcc").val(),cha_sbbz:$("#cha_sbbz").val(),cha_pksx:$("#cha_pksx").val(),
     	    	cha_zpyy:$("#cha_zpyy").val(),cha_mz:$("#cha_mz").val(),cha_renkou:$("#cha_renkou").val(),cha_banqian:$("#cha_banqian").val(),cha_v6:$("#cha_v6").val(),
-    	    	cha_v8:$("#cha_v8").val(),cha_v8_1:$("#cha_v8_1").val(),cha_bfdw:$("#cha_bfdw").val(),cha_bfzrr:$("#cha_bfzrr").val()
+    	    	cha_v8:$("#cha_v8").val(),cha_v8_1:$("#cha_v8_1").val(),cha_bfdw:$("#cha_bfdw").val(),cha_bfzrr:$("#cha_bfzrr").val(),year:$("#cha_year").val()
     	    	},
     	   
     	    beforeSend: function(){
@@ -649,6 +643,7 @@ $(function () {
     	$("#cha_v8").val();
     	$("#cha_v8_1").val("请选择");
     	$("#cha_banqian").val("请选择");
+    	$("#cha_year").val("2017");
     	$('#chauxnshiousuo').click();
     	chaxun = {};
     	$("#yeqian").hide();
@@ -666,7 +661,6 @@ function handle_shijianzhou(){
             str += $(this).val()+","
         }
     })
-    
     if(str!=""){
     	$.ajax({  		       
     	    url: "/assa/getZaiXiangGengXinController.do",
@@ -675,7 +669,9 @@ function handle_shijianzhou(){
     	    dataType: "json",
     	    data:{
     	    	pkid: shijianzhou_pkid,
-    	    	str: str
+    	    	year: $("#cha_year").val(),
+    	    	str: str,
+    	    	
             },
     	    success: function (data) {
     	    	if (typeof data != "undefined") {
@@ -833,6 +829,7 @@ function queryParams_bxbxxb(params) {  //配置参数
 	temp.cha_v6 = chaxun.cha_v6;
     temp.cha_v8 = chaxun.cha_v8;
     temp.cha_v8_1 = chaxun.cha_v8_1;
+    temp.cha_year = chaxun.cha_year;
 	return temp;
 }
 
@@ -858,7 +855,7 @@ function savePoorMessage(pkid){
 	    async:true,
 	    dataType:"json",
 	    data:{
-	    	pkid:pkid,
+	    	pkid:pkid,year:$("#cha_year").val()
         },
 	    success: function (data) {
 	    	if(data.data4[0].sh_v3=="是"){
@@ -2330,6 +2327,16 @@ function savePoorMessage(pkid){
 	    	}
 	    	
 	    	
+	    	//增长比率
+	    	var bfhrj_hl=((parseFloat(aa)-parseFloat(bb))/(data.data1[0].v9)).toFixed(2);//帮扶后收入
+	    	var bfqrj_hl=((parseFloat(a)-parseFloat(b))/(data.data1[0].v9)).toFixed(2);//帮扶前收入
+	    	if ( bfqrj_hl == 0 || bfqrj_hl <0 ) {
+	    		$("#zz_bilv").text("数据错误");
+	    	} else {
+	    		$("#zz_bilv").text((((bfhrj_hl-bfqrj_hl)/bfqrj_hl).toFixed(2))*100+"%");
+	    	}
+	    	
+	    	
 	    	//帮扶后支出情况统计图
 	    	$("#show_bfhzc").html("<p><strong>帮扶后支出情况统计图</strong></p><div id='pie-chart4' class='chart' style='height:550px;width:630px;'></div>");
 	    	$("#show_bfhzcline").html("<div id='pie-chart4_2' class='chart' style='height:550px;width:630px;'></div>");
@@ -2680,6 +2687,7 @@ function detailFormatter1(index, row) {
 function queryParams_cuoshi(params) {  //配置参数
 	var temp = {};
     temp.pkid = $("#hu_pkid").val();
+    temp.year = $("#cha_year").val();
    
     return temp;
 }
@@ -2700,7 +2708,7 @@ function method1(tableid) {
 	    async:true,
 	    dataType: "json",
 	    data:{
-	    	pkid:shijianzhou_pkid,
+	    	pkid:shijianzhou_pkid,year:$("#cha_year").val()
         },
 	    beforeSend: function(){
 	    },

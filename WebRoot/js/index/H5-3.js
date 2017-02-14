@@ -22,6 +22,7 @@ $(function(){
 		chaxun.cha_ldxm=$("#cha_ldxm").val();
 		chaxun.cha_lddh=$("#cha_lddh").val();
 		chaxun.cha_sbfc=$("#cha_sbfc").val();
+		chaxun.cha_year = $("#cha_year").val();
 		$metTable.bootstrapTable('destroy');//销毁表格数据
 		metTable_initialization();//初始化
 	});
@@ -35,6 +36,10 @@ $(function(){
 		$("#cha_ldxm").val("");
 		$("#cha_lddh").val("");
 		$("#cha_sbfc").val("");
+		$("#cha_year").val("2017");
+		$("#add_bfdw_button").show();
+		$("#update_bfdw_button").show();
+		$("#delete_bfdw_button").show();
 		$('#chauxnshiousuo').click();
 		$("#cha_button").click();
 		$metTable.bootstrapTable('destroy');//销毁表格数据
@@ -95,6 +100,20 @@ $(function(){
 		}
 	});
 	
+	$("#cha_year").click(function () {
+		
+		if ( $("#cha_year").val() == "2016" ) {
+			$("#add_bfdw_button").hide();
+			$("#update_bfdw_button").hide();
+			$("#delete_bfdw_button").hide();
+		} else if ( $("#cha_year").val() == "2017" ) {
+			$("#add_bfdw_button").show();
+			$("#update_bfdw_button").show();
+			$("#delete_bfdw_button").show();
+		}
+		
+	})
+	
 });
 var xiugaiID="";
 function shoubangfucun(){
@@ -147,13 +166,6 @@ function teshu_xiqian(str,str1,str2){
 		dataType:"json",
 		success: function (data) {
 			qixian='<option>请选择</option>';
-//			if(type=="单位"){
-//				if(val.com_level == "1"){
-//					qixian += '<option value="4">鄂尔多斯市</option>';
-//				}
-//			}else  if(type=="管理员"){
-//				qixian += '<option value="4">鄂尔多斯市</option>';
-//			}
 			qixian += '<option value="4">鄂尔多斯市</option>';
 			$.each(data,function(i,item){
 				if(type=="单位"){
@@ -438,7 +450,7 @@ function queryParams(params) {
 	temp.cha_ldxm = chaxun.cha_ldxm;
 	temp.cha_lddh = chaxun.cha_lddh;
 	temp.cha_sbfc = chaxun.cha_sbfc;
-
+	temp.cha_year = chaxun.cha_year;
 	return temp;
 }
 

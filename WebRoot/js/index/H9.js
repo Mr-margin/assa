@@ -15,12 +15,18 @@ $(function () {
 		metTable_g.bootstrapTable('destroy');//销毁现有表格数据
 		guoding_initialization();//重新初始化数据
 	});
-
 	$("#sum_g").change(function () {
 		metTable_g.bootstrapTable('destroy');//销毁现有表格数据
 		guoding_initialization();//重新初始化数据
 	});
-	
+	$("#year_g").change(function () {
+		metTable_g.bootstrapTable('destroy');//销毁现有表格数据
+		guoding_initialization();//重新初始化数据
+	});
+	$("#year_s").change(function () {
+		metTable_s.bootstrapTable('destroy');//销毁现有表格数据
+		shiding_initialization();//重新初始化数据
+	});
 	$("#qu_s").change(function () {
 		if($("#qu_s").val()==4){
 			$("#sum_s").html("<option>请选择</option>");
@@ -33,6 +39,10 @@ $(function () {
 	$("#sum_s").change(function () {
 		metTable_s.bootstrapTable('destroy');//销毁现有表格数据
 		shiding_initialization();//重新初始化数据
+	});
+	$("#year_bfr").change(function(){
+		metTable_b.bootstrapTable('destroy');//销毁现有表格数据
+		bangfuren_initialization();
 	});
 	
 	time();
@@ -165,6 +175,7 @@ function queryParams_g(params) {  //配置参数
     temp.sum_g = $("#sum_g").val();
     temp.order=params.order;
     temp.sort=params.sort;
+    temp.year=$("#year_g").val();
     return temp;
 }
 
@@ -206,6 +217,7 @@ function queryParams_s(params) {  //配置参数
     temp.sum_g = $("#sum_s").val();
     temp.order=params.order;
     temp.sort=params.sort;
+    temp.year=$("#year_s").val();
     return temp;
 }
 
@@ -242,5 +254,6 @@ function queryParams_b(params) {  //配置参数
 	var temp = {};
 	 temp.order=params.order;
 	 temp.sort=params.sort;
+	 temp.year=$("#year_bfr").val();
     return temp;
 }
