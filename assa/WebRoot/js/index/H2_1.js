@@ -89,6 +89,7 @@ $(function () {
     	chaxun.cha_v6 = $("#cha_v6").val();
     	chaxun.cha_v8 = $("#cha_v8").val();
     	chaxun.cha_v8_1 = $("#cha_v8_1").val();
+    	chaxun.cha_year = $("#cha_year").val();
     	$("#yeqian").hide();
     	metTable_bxbxxb.bootstrapTable('destroy');//销毁现有表格数据
     	gachacun_initialization();//重新初始化数据
@@ -110,6 +111,7 @@ $(function () {
     	$("#cha_v8").val();
     	$("#cha_v8_1").val("请选择");
     	$("#cha_banqian").val("请选择");
+    	$("#cha_year").val("2017");
     	$('#chauxnshiousuo').click();
     	chaxun = {};
     	$("#yeqian").hide();
@@ -186,7 +188,7 @@ function chakan_info(pkid){
 function gachacun_initialization(){
 	metTable_bxbxxb.bootstrapTable({
 		method: 'POST',
-		height: "597",
+//		height: "597",
 		url: "/assa/getPoorMessageController.do",
 		dataType: "json",//从服务器返回的数据类型	
 		striped: true,	 //使表格带有条纹
@@ -244,6 +246,7 @@ function queryParams_bxbxxb(params) {  //配置参数
 	temp.cha_v6 = chaxun.cha_v6;
     temp.cha_v8 = chaxun.cha_v8;
     temp.cha_v8_1 = chaxun.cha_v8_1;
+    temp.cha_year = chaxun.cha_year;
 	return temp;
 }
 //台账基本信息
@@ -258,7 +261,7 @@ function savePoorMessage(pkid){
 	    async:true,
 	    dataType:"json",
 	    data:{
-	    	pkid:pkid,
+	    	pkid:pkid,year:$("#cha_year").val()
         },
 	    success: function (data) {
 	    	//基本信息

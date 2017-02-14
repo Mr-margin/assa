@@ -153,7 +153,7 @@ function shouru_save(){
         },
 	    success: function (data) {
 	    	if (data == "1") {
-	    		toastr["success"]("success", "生产条件修改");
+	    		toastr["success"]("success", "当前收入");
 	    	}else{
 	    		toastr["warning"]("warning", "修改失败，检查数据后重试");
 	    	}
@@ -179,7 +179,7 @@ function zhichu_save(){
         },
 	    success: function (data) {
 	    	if (data == "1") {
-	    		toastr["success"]("success", "生活条件修改");
+	    		toastr["success"]("success", "当前支出");
 	    	}else{
 	    		toastr["warning"]("warning", "修改失败，检查数据后重试");
 	    	}

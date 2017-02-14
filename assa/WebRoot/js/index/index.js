@@ -3,6 +3,7 @@ $(function () {
 		com_level="1";
 	}else{//登录成功
 		com_level=jsondata.company.com_level;//用户层级
+//		$("#gonggao").modal();
 	}
 	
 	guobiao();//所有业务数据，默认国标
@@ -25,6 +26,9 @@ $(function () {
 		$("#popup").show();//查找ID为popup的DIV show()显示#gray
 		tc_center();
 	});
+//	var iTop = (window.screen.height-30-300)/2; //获得窗口的垂直位置;  
+//	var iLeft = (window.screen.width-10-400)/2; //获得窗口的水平位置; 
+//	window.open ("gonggao.html", "公告通知", "height=400,width=400,top="+iTop+",left="+iLeft+",menubar=no, scrollbars=no, resizable=no,location=no, status=no,titlebar=no"); 
 });
 
 var com_level;//用户层级
@@ -201,9 +205,13 @@ function zongbiao(code,gors){
 	var aa;//name
 	var dd;//户数
 	var cc;//人数
+	var last_dd;//去年户数
+	var last_cc;//去年人数
 	var hha;//统计名称
 	var hhh=0;//总户数
 	var hhr=0;//总人数
+	var last_hhh=0;//去年总户数
+	var last_hhr=0;//去年总人数
 	if(com_level==1){//当为不同用户的时候，表头改变。
 		$("#index_yi_title").html("旗县");
 		hha="全市";
@@ -247,22 +255,37 @@ function zongbiao(code,gors){
 		    				aa = aa.substring(0,aa.length-4);
 		    			}
 		    		}
-		    		if(item.count=="0"){//户数
+		    		if(item.count=="0" || item.count == undefined){//户数
 		    			dd='<span class="c_red">0</span>';
 		    		}else{
 		    			dd='<span class="c_green">'+item.count+'</span>';
 		    			hhh=parseInt(item.count)+parseInt(hhh);
 		    		}
-		    		if(item.sum=="0"){//人数
+		    		//去年户数
+//		    		alert(item.count1)
+		    		if ( item.count1 == "0"  ){
+		    			last_dd='<span class="c_red">0</span>';
+		    		}else{
+		    			last_dd='<span class="c_green">'+item.count1+'</span>';
+		    			last_hhh=parseInt(item.count1)+parseInt(last_hhh);
+		    		}
+		    		if(item.sum=="0" || item.sum == undefined){//人数
 		    			cc='<span class="c_red">0</span>';
 		    		}else{
 		    			cc='<span class="c_green">'+item.sum+'</span>';
 		    			hhr=parseInt(item.sum)+parseInt(hhr);
 		    		}
-		    		html+='<tr><td class="text-center">'+aa+'</td><td class="text-center" >'+dd+'</td><td class="text-center" >'+cc+'</td></tr>';
+		    		//去年人数
+		    		if(item.sum1=="0"){//人数
+		    			last_cc='<span class="c_red">0</span>';
+		    		}else{
+		    			last_cc='<span class="c_green">'+item.sum1+'</span>';
+		    			last_hhr=parseInt(item.sum1)+parseInt(last_hhr);
+		    		}
+		    		html+='<tr><td class="text-center">'+aa+'</td><td class="text-center" >'+dd+'</td><td class="text-center" >'+cc+'</td><td class="text-center" >'+last_dd+'</td><td class="text-center" >'+last_cc+'</td></tr>';
 		    		
 		    	});
-		    	html+='<tr><td class="text-center">'+hha+'</td><td class="text-center" ><span class="c_green">'+hhh+'</span></td><td class="text-center" ><span class="c_green">'+hhr+'</span></td></tr>';
+		    	html+='<tr><td class="text-center">'+hha+'</td><td class="text-center" ><span class="c_green">'+hhh+'</span></td><td class="text-center" ><span class="c_green">'+hhr+'</span></td><td class="text-center" ><span class="c_green">'+last_hhh+'</span></td><td class="text-center" ><span class="c_green">'+last_hhr+'</span></td></tr>';
 		    	$("#shangfangzongbiao").html(html);
 	    	}
 	    },
@@ -283,6 +306,8 @@ function xiafangbiaoge(code,gors){
 	var aa;//名称
 	var bb;//人数
 	var cc;//户数
+	var last_bb;//去年人数
+	var last_cc;//去年户数
 	var dd;//落实帮扶责任人
 	var ee;//制定帮扶计划
 	var ff;//帮扶措施
@@ -290,10 +315,13 @@ function xiafangbiaoge(code,gors){
 	var hha;//统计名称
 	var hh1="0";//全市-户数
 	var hh2="0";//全市-人数
+	var last_hh1="0";//去年全市-户数
+	var last_hh2="0";//去年全市-人数
 	var hh3="0";//全市-落实帮扶责任人
 	var hh4="0";//全市-制定帮扶计划
 	var hh5="0";//全市-帮扶措施
 	var hh6="0";
+	
 	if(com_level==1){//当为不同用户的时候，表头改变。
 		$("#index_er_title").html("旗县");
 		hha="全市";
@@ -343,12 +371,26 @@ function xiafangbiaoge(code,gors){
 		    			cc='<span class="c_green">'+item.b2+'</span>';
 		    			hh1=parseInt(item.b2)+parseInt(hh1);
 		    		}
+		    		//去年户数
+		    		if(item.b22=="0"||item.b22==null){
+		    			last_cc='<span class="c_red">0</span>';
+		    		}else{
+		    			last_cc='<span class="c_green">'+item.b22+'</span>';
+		    			last_hh1=parseInt(item.b22)+parseInt(last_hh1);
+		    		}
 		    		//人数
 		    		if(item.b3=="0"||item.b3==null){
 		    			bb='<span class="c_red">0</span>';
 		    		}else{
 		    			bb='<span class="c_green">'+item.b3+'</span>';
 		    			hh2=parseInt(item.b3)+parseInt(hh2);
+		    		}
+		    		//去年人数
+		    		if(item.b33=="0"||item.b33==null){
+		    			last_bb='<span class="c_red">0</span>';
+		    		}else{
+		    			last_bb='<span class="c_green">'+item.b33+'</span>';
+		    			last_hh2=parseInt(item.b33)+parseInt(last_hh2);
 		    		}
 		    		//落实帮扶责任人
 		    		if(item.b10=="0"||item.b10==null){
@@ -379,7 +421,7 @@ function xiafangbiaoge(code,gors){
 		    			hh6=parseInt(item.b13)+parseInt(hh6);
 		    		}
 		    		//循环赋值
-		    		html+='<tr><td class="text-center">'+aa+'</td><td class="text-center">'+cc+'</td><td class="text-center">'+bb+'</td><td class="text-center">'+dd+'</td><td class="text-center">'+ee+'</td><td class="text-center">'+ff+'</td><td class="text-center">'+gg+'</td></tr>';
+		    		html+='<tr><td class="text-center">'+aa+'</td><td class="text-center">'+cc+'</td><td class="text-center">'+bb+'</td><td class="text-center">'+last_cc+'</td><td class="text-center">'+last_bb+'</td><td class="text-center">'+dd+'</td><td class="text-center">'+ee+'</td><td class="text-center">'+ff+'</td><td class="text-center">'+gg+'</td></tr>';
 		    	});
 		    	if(hh1=="0"||hh1==null){
 	    			cc='<span class="c_red">0</span>';
@@ -390,6 +432,16 @@ function xiafangbiaoge(code,gors){
 	    			bb='<span class="c_red">0</span>';
 	    		}else{
 	    			bb='<span class="c_green">'+hh2+'</span>';
+	    		}
+		    	if(last_hh1=="0"||last_hh1==null){
+	    			last_cc='<span class="c_red">0</span>';
+	    		}else{
+	    			last_cc='<span class="c_green">'+last_hh1+'</span>';
+	    		}
+		    	if(last_hh2=="0"||last_hh2==null){
+	    			last_bb='<span class="c_red">0</span>';
+	    		}else{
+	    			last_bb='<span class="c_green">'+last_hh2+'</span>';
 	    		}
 		    	if(hh3=="0"||hh3==null){
 	    			dd='<span class="c_red">0</span>';
@@ -413,7 +465,7 @@ function xiafangbiaoge(code,gors){
 	    		}
 	    		
 	    		//下方的表格总计
-	    		html+='<tr><td class="text-center">'+hha+'</td><td class="text-center">'+cc+'</td><td class="text-center">'+bb+'</td><td class="text-center">'+dd+'</td><td class="text-center">'+ee+'</td><td class="text-center">'+ff+'</td><td class="text-center">'+gg+'</td></tr>';
+	    		html+='<tr><td class="text-center">'+hha+'</td><td class="text-center">'+cc+'</td><td class="text-center">'+bb+'</td><td class="text-center">'+last_cc+'</td><td class="text-center">'+last_bb+'</td><td class="text-center">'+dd+'</td><td class="text-center">'+ee+'</td><td class="text-center">'+ff+'</td><td class="text-center">'+gg+'</td></tr>';
 	    		//对下方的表格赋值
 	    		$("#xiafangzongbiao").html(html);
 	    	}

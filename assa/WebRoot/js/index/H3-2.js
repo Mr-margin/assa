@@ -1,6 +1,14 @@
+
+$(document).ready(function(){
+	$(".i-checks").iCheck({checkboxClass:"icheckbox_square-green",radioClass:"iradio_square-green",});//复选框样式	
+})
 $(function () {
 	//$("#show-content").height(document.body.scrollHeight-170);//当中间部分内容过少时，人为增加高度，设置为一屏
-	$("#anniu_1").html('<button type="button" class="btn btn-primary btn-xs" onclick="guobiao1()" style="font-size: 14px;">国家级贫困人口</button><div style="display:inline;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><button type="button" class="btn btn-outline btn-primary btn-xs" onclick="shibiao_1()" style="font-size: 14px;">市级低收入人口</button>');//市级或国家级贫困户选择按钮显示
+	$("#anniu_1").html('<button type="button" class="btn btn-primary btn-xs" onclick="guobiao1()" style="font-size: 14px;">国家级贫困人口</button>'+
+							'<div style="display:inline;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><button type="button" '+
+							'class="btn btn-outline btn-primary btn-xs" onclick="shibiao_1()" style="font-size: 14px;">市级低收入人口</button>'+
+							'');//市级或国家级贫困户选择按钮显示
+//	$(".i-checks").iCheck({checkboxClass:"icheckbox_square-green",radioClass:"iradio_square-green",});//复选框样式	
 	$("#anniu_3").html('<button type="button" class="btn btn-primary btn-xs" onclick="tuxing()" style="font-size: 14px;">图形</button><div style="display:inline;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><button type="button" class="btn btn-outline btn-primary btn-xs" onclick="biaoge()" style="font-size: 14px;">表格</button>');//表格或图形切换按钮显示
 	if(jsondata==null){//未登录
 		com_level="1";
@@ -33,6 +41,13 @@ $(function () {
 	show_jiatingguimo();//默认显示家庭人口规模
 	$("#mapChart").show();//显示图形
 	$("#tableChart").hide();//隐藏表格
+	$("#anniu_2 .iCheck-helper").click(function(){
+		qhxs();
+	});
+	$("#anniu_2 label").click(function(){
+		qhxs();
+	});
+	
 });
 
 var zi_id="";
@@ -162,16 +177,25 @@ var option_tiao = {
 	};
 //点击 国标 按钮
 function guobiao1(){
-	$("#anniu_1").html('<button type="button" class="btn btn-primary btn-xs" onclick="guobiao1()" style="font-size: 14px;">国家级贫困人口</button><div style="display:inline;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><button type="button" class="btn btn-outline btn-primary btn-xs" onclick="shibiao_1()" style="font-size: 14px;">市级低收入人口</button>');
+	
+	$("#anniu_1").html('<button type="button" class="btn btn-primary btn-xs" onclick="guobiao1()" style="font-size: 14px;">国家级贫困人口</button>'+
+						'<div style="display:inline;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><button type="button" '+
+						'class="btn btn-outline btn-primary btn-xs" onclick="shibiao_1()" style="font-size: 14px;">市级低收入人口</button>');
+//	$(".i-checks").iCheck({checkboxClass:"icheckbox_square-green",radioClass:"iradio_square-green",});//复选框样式	
 	H3_2_bzlx="国家级贫困人口";
 	qhxs();//仍然显示之前的主条件，子条件所要显示的东西
+//	$("#anniu_1 input[name='v1'][value='"+year+"']").prop("checked","true");
+//	$("#anniu_1 input[name='v1'][value='"+year+"']").parent(".iradio_square-green").addClass("checked");
 }
 
 //点击 市标 按钮
 function shibiao_1(){
 	$("#anniu_1").html('<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 14px;" onclick="guobiao1()">国家级贫困人口</button><div style="display:inline;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><button type="button" class="btn btn-primary btn-xs" style="font-size: 14px;" onclick="shibiao1()">市级低收入人口</button>');
+	$(".i-checks").iCheck({checkboxClass:"icheckbox_square-green",radioClass:"iradio_square-green",});//复选框样式	
 	H3_2_bzlx="市级低收入人口";
 	qhxs();//仍然显示之前的主条件，子条件所要显示的东西
+//	$("#anniu_1 input[name='v1'][value='"+year+"']").prop("checked","true");
+//	$("#anniu_1 input[name='v1'][value='"+year+"']").parent(".iradio_square-green").addClass("checked");
 }
 
 //点击图形按钮
@@ -237,18 +261,6 @@ $("#treeview22").treeview({
 	data: [{
 		text: "<a id='zpyy_tree' onclick='show_zhipinyuanyin();'>致贫原因<a>",
 	},
-//	{
-//		text: "<a id='sgdd_tree' onclick='showshehuidoudi();'>社会兜底<a>",
-//	},
-//	{
-//		text: "<a id='cyfp_tree' onclick='showchanyefupin();'>产业扶贫<a>",
-//	},
-//	{
-//		text: "<a id='hybf_tree' onclick='showhangyebangfu();'>行业帮扶<a>",
-//	},
-//	{
-//		text: "<a id='jvzy_tree' onclick='jiaoyvziyuan();'>教育资源<a>",
-//	},
 	],
 })
 $("#treeview33").treeview({
@@ -256,9 +268,6 @@ $("#treeview33").treeview({
 	data: [{
 		text: "<a id='lsbfbl_tree' onclick='showlsbfbl();'>落实帮扶比例<a>",
 	},
-//	{
-//		text: "<a id='jrfpdk_tree' onclick='showjrfpdk();'>金融扶贫贷款<a>",
-//	},
 	{
 		text: "<a id='zcgzd_tree' onclick='showzcgzd();'>驻村工作队<a>",
 	},
@@ -267,36 +276,6 @@ $("#treeview33").treeview({
 	},
 	],
 })
-//$("#treeview44").treeview({
-//	color: "#428bca",
-//	data: [{
-//		text: "<a id='pkhzsqk_tree' onclick=showpkhzsqk()>贫困户增收情况<a>",
-//	},
-//	{
-//		text: "<a id='bfhsrgc_tree' onclick=showbfhsrgc()>帮扶后收入构成<a>",
-//	},
-//	{
-//		text: "<a id='bfhszbl_tree' onclick=showbfhszbl()>帮扶后收支比例<a>",
-//	},
-//	{
-//		text: "<a id='tpblfb_tree' onclick=showtpblfb()>脱贫比例分布<a>",
-//	},
-//	],
-//})
-//$("#treeview55").treeview({
-//	color: "#428bca",
-//	data: [{
-//		text: "<a id='bffgl_tree' onclick=qingkong()>帮扶覆盖率<a>",
-//	},
-//	{
-//		text: "<a id='bfmyd_tree' onclick=qingkong()>帮扶满意度<a>",
-//	},
-//	{
-//		text: "<a id='xmjzkh_tree' onclick=qingkong()>项目进展考核<a>",
-//	},
-//	],
-//})
-
 //没有数据的暂时清空
 function qingkong(){
 	H3_2_tblx="";//清空图标类型
@@ -578,6 +557,7 @@ function showzcgzd(){
 
 //加载体现致贫原因图
 function zhipinyuanyin(shujv){
+	
 	var mapdatajson;//定义地图JSON
 	var map_name;//定义地图名称
 	mokuai_name="zpyy"
@@ -606,7 +586,8 @@ function zhipinyuanyin(shujv){
 		data:{
 			shujv:shujv,
 			leixing:H3_2_bzlx,
-			mokuai_name : mokuai_name
+			mokuai_name : mokuai_name,
+			year:$('#anniu_2 input[name="v1"]:checked ').val()
 		},
 		success: function (data) {
 			if(shujv=="zpyy"){
@@ -710,7 +691,8 @@ function show_nianlingjiegou(shujv,id){
 		data:{
 			shujv:shujv,
 			leixing:H3_2_bzlx,
-			mokuai_name : mokuai_name
+			mokuai_name : mokuai_name,
+			year:$('#anniu_2 input[name="v1"]:checked ').val()
 		},
 		success: function (data) {
 			if (id!="1") {
@@ -813,7 +795,8 @@ function jiankangzhuangk(){
 		async:false,
 		dataType: "json",
 		data:{
-			leixing:H3_2_bzlx
+			leixing:H3_2_bzlx,
+			year:$('#anniu_2 input[name="v1"]:checked ').val()
 		},
 		success: function (data) {
 			var count=[];
@@ -895,7 +878,8 @@ function renkouguimo(shujv){
 		data:{
 			shujv:shujv,
 			leixing:H3_2_bzlx,
-			mokuai_name : mokuai_name
+			mokuai_name : mokuai_name,
+			year:$('#anniu_2 input[name="v1"]:checked ').val()
 		},
 		success: function (data) {
 			if(shujv=="3"||shujv=="4"||shujv=="5"){
@@ -996,7 +980,8 @@ function wenhuachengdu(shujv){
 		data:{
 			shujv:shujv,
 			leixing:H3_2_bzlx,
-			mokuai_name : mokuai_name
+			mokuai_name : mokuai_name,
+			year:$('#anniu_2 input[name="v1"]:checked ').val()
 		},
 		success: function (data) {
 			if(shujv=="whcd"){
@@ -1092,7 +1077,7 @@ function bangfuzerenren(){
 		map_name=code;//地图名称
 	}
 	var myChart = echarts.init(document.getElementById('mapChart'));//声明id为mapChart的div为图形dom
-	var data = JSON.parse(ajax_async_t("/assa/H3_map_All.do", {shujv:shujv,leixing:H3_2_bzlx,mokuai_name : mokuai_name})); //调用ajax通用方法
+	var data = JSON.parse(ajax_async_t("/assa/H3_map_All.do", {shujv:shujv,leixing:H3_2_bzlx,mokuai_name : mokuai_name,year:$('#anniu_2 input[name="v1"]:checked ').val()})); //调用ajax通用方法
 	if(data=="0"){//没有数据
 		//对表格进行赋值
 		tables+='<table class="table table-hover margin bottom"><thead><tr><th style="width: 60%" class="text-center">类型</th><th style="width: 40%" class="text-center">数据</th>';
@@ -1162,7 +1147,7 @@ function zhucungzd(){
 		map_name=code;//地图名称
 	}
 	var myChart = echarts.init(document.getElementById('mapChart'));//声明id为mapChart的div为图形dom
-	var data = JSON.parse(ajax_async_t("/assa/H3_map_All.do", {shujv:shujv,leixing:H3_2_bzlx,mokuai_name : mokuai_name})); //调用ajax通用方法
+	var data = JSON.parse(ajax_async_t("/assa/H3_map_All.do", {shujv:shujv,leixing:H3_2_bzlx,mokuai_name : mokuai_name,year:$('#anniu_2 input[name="v1"]:checked ').val()})); //调用ajax通用方法
 	if(data=="0"){//没有数据
 		//对表格进行赋值
 		tables+='<table class="table table-hover margin bottom"><thead><tr><th style="width: 60%" class="text-center">类型</th><th style="width: 40%" class="text-center">数据</th>';
@@ -1341,7 +1326,8 @@ function jiatingshouzhi(shujv,id){
 		data:{
 			shujv:shujv,
 			leixing:H3_2_bzlx,
-			mokuai_name:mokuai_name
+			mokuai_name:mokuai_name,
+			year:$('#anniu_2 input[name="v1"]:checked ').val()
 		},
 		success: function (data) {
 			if (id!="1") {
@@ -1463,7 +1449,8 @@ function bangfubili(shujv,id){
 		data:{
 			shujv:shujv,
 			leixing:H3_2_bzlx,
-			mokuai_name : mokuai_name
+			mokuai_name : mokuai_name,
+			year:$('#anniu_2 input[name="v1"]:checked ').val()
 		},
 		success: function (data) {
 			if(id!="1"){
