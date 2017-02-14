@@ -21,6 +21,23 @@ var chaxun = {};//存储表格查询参数
 
 //特殊处理的旗县加载下拉菜单
 function teshu_xiqian(str,str1){
+	
+	$("#cha_year").click(function () {
+		if ( $("#cha_year").val() == "2016" ) {
+			$("#add_bf_button").hide();
+			$("#update_bf_button").hide();
+			$("#delete_bf_button").hide();
+			$("#export_button").hide();
+		} else {
+			$("#add_bf_button").show();
+			$("#update_bf_button").show();
+			$("#delete_bf_button").show();
+			$("#export_button").show();
+		}
+		
+	})
+	
+	
 	var qixian;
 	
 	var type = jsondata.company_map.com_type;
@@ -34,13 +51,6 @@ function teshu_xiqian(str,str1){
         },
 	    success: function (data) {
 	    	qixian='<option>请选择</option>';
-//	    	if(type=="单位"){
-//	    		if(val.com_level == "1"){
-//	    			qixian += '<option value="4">鄂尔多斯市</option>';
-//	    		}
-//	    	}else  if(type=="管理员"){
-//	    		qixian += '<option value="4">鄂尔多斯市</option>';
-//	    	}
 	    	qixian += '<option value="4">鄂尔多斯市</option>';
 	    	$.each(data,function(i,item){
 	    		if(type=="单位"){
@@ -182,6 +192,7 @@ $(function () {
     	chaxun.cha_dh = $("#cha_dh").val();
     	chaxun.cha_juese = $("#cha_juese").val();
     	chaxun.cha_v3 = $("#cha_v3").val();
+    	chaxun.cha_year = $("#cha_year").val();
     	metTable_bxbxxb.bootstrapTable('destroy');//销毁现有表格数据
     	pooruser_initialization();//重新初始化数据
     });
@@ -197,7 +208,13 @@ $(function () {
     	$("#cha_juese").val("请选择");
     	$("#cha_dh").val("");
     	$("#cha_v3").val("请选择");
+    	$("#cha_year").val("2017");
+    	$("#add_bf_button").show();
+		$("#update_bf_button").show();
+		$("#delete_bf_button").show();
+		$("#export_button").show();
     	$('#chauxnshiousuo').click();
+    	 
     	chaxun = {};
     	metTable_bxbxxb.bootstrapTable('destroy');//销毁现有表格数据
     	pooruser_initialization();//重新初始化数据
@@ -295,6 +312,7 @@ function queryParams_bxbxxb(params) {  //配置参数
     temp.cha_qixian = chaxun.cha_qixian;
     temp.cha_dh = chaxun.cha_dh;
     temp.cha_v3 = chaxun.cha_v3;
+    temp.cha_year = chaxun.cha_year;
     return temp;
 }
 
