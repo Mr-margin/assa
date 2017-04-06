@@ -92,7 +92,7 @@ function bfhsz(id){
 	    	$("#bangfuhoushouru #v36").val(data.shouru.v36);
 	    	$("#bangfuhoushouru #v37").val(data.shouru.v37);
 	    	$("#bangfuhoushouru #v38").val(data.shouru.v38);
-	    	
+	    	$("#bangfuhoushouru #helpback_total_income").val(data.total_income);
 	    	//支出
 	    	$('#bangfuhouzhichu #v1').val(data.zhichu.v1);
 	    	$('#bangfuhouzhichu #v2').val(data.zhichu.v2);
@@ -124,7 +124,7 @@ function bfhsz(id){
 	    	$('#bangfuhouzhichu #v28').val(data.zhichu.v28);
 	    	$('#bangfuhouzhichu #v29').val(data.zhichu.v29);
 	    	$('#bangfuhouzhichu #v30').val(data.zhichu.v30);
-	    	
+	    	$("#bangfuhouzhichu #helpback_total_expenditure").val(data.total_expenditure);
 	    },
 	    error: function () { 
 	    	toastr["error"]("error", "服务器异常");
@@ -149,8 +149,10 @@ function bangfuhoushouru_save(){
 	    	type:2
         },
 	    success: function (data) {
-	    	if (data == "1") {
+	    	var JsonData=JSON.parse(data);
+	    	if (JsonData.isSuccess=="1") {
 	    		toastr["success"]("success", "帮扶后收入");
+	    		$("#bangfuhoushouru #helpback_total_income").val(JsonData.total_income);
 	    	}else{
 	    		toastr["warning"]("warning", "修改失败，检查数据后重试");
 	    	}
@@ -175,8 +177,10 @@ function bangfuhouzhichu_save(){
 	    	type:2
         },
 	    success: function (data) {
-	    	if (data == "1") {
+	    	var JsonData=JSON.parse(data);
+	    	if (JsonData.isSuccess=="1" ) {
 	    		toastr["success"]("success", "帮扶后支出");
+	    		$("#bangfuhouzhichu #helpback_total_expenditure").val(JsonData.total_expenditure);
 	    	}else{
 	    		toastr["warning"]("warning", "修改失败，检查数据后重试");
 	    	}

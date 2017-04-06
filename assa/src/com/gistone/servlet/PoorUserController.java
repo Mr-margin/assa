@@ -1455,6 +1455,7 @@ public class PoorUserController extends MultiActionController{
 		
 		SQLAdapter sqlAdapter =new SQLAdapter(sql);
 		List<Map> list=getBySqlMapper.findRecords(sqlAdapter);
+		Float total_income=(float) 0;//收入总额
 		for(Map val:list){
 			JSONObject obj=new JSONObject ();
 			obj.put("v1",val.get("v1")==null?"":val.get("v1"));
@@ -1498,14 +1499,17 @@ public class PoorUserController extends MultiActionController{
 				obj.put("v42",val.get("v42")==null?"":val.get("v42"));
 				obj.put("v43",val.get("v43")==null?"":val.get("v43"));
 			}
-			
+			if(val.get("v39")!=null){
+				total_income+=Float.parseFloat(val.get("v39").toString());
+			}
 			zong.put("shouru", obj);
+			zong.put("total_income", total_income);
 		}
 		
 		
 		SQLAdapter xian_sqlAdapter =new SQLAdapter(xian_sql);
 		List<Map> xian_list=getBySqlMapper.findRecords(xian_sqlAdapter);
-		
+		Float total_expenditure=(float) 0;
 		for(Map val:xian_list){
 			JSONObject obj=new JSONObject ();
 			obj.put("v1",val.get("v1")==null?"":val.get("v1"));
@@ -1538,7 +1542,13 @@ public class PoorUserController extends MultiActionController{
 			obj.put("v28",val.get("v28")==null?"":val.get("v28"));
 			obj.put("v29",val.get("v29")==null?"":val.get("v29"));
 			obj.put("v30",val.get("v30")==null?"":val.get("v30"));
+			
+			if(val.get("v31")!=null){
+				total_expenditure+=Float.parseFloat(val.get("v31").toString());
+			}
+			
 			zong.put("zhichu", obj);
+			zong.put("total_expenditure", total_expenditure);
 		}
 			
 		response.getWriter().write(zong.toString());
@@ -1565,7 +1575,7 @@ public class PoorUserController extends MultiActionController{
 		float xiaoji_1 = 0;
 		float xiaoji_2 = 0;
 		float zong = 0;
-		
+		float total_income=0;
 		if(form_json.get("v1")!=null&&!form_json.get("v1").equals("")){//可以为空，如果没有取到值，证明前台为空，数据库需要清空此列
 			where += "v1='"+form_json.get("v1")+"',";
 		}else{
@@ -1777,7 +1787,7 @@ public class PoorUserController extends MultiActionController{
 		}
 		
 		where += "v10="+xiaoji_1+",v22="+xiaoji_2+",v39="+(zong+xiaoji_1+xiaoji_2);
-		
+		total_income+=(zong+xiaoji_1+xiaoji_2);
 //		if(where.length()>0){
 //			where = where.substring(0, where.length()-1);
 //		}
@@ -1791,7 +1801,7 @@ public class PoorUserController extends MultiActionController{
 		}
 		
 		//System.out.println(hu_sql);
-		
+		JSONObject jsonObject=new JSONObject();
 		SQLAdapter Metadata_table_Adapter = new SQLAdapter(hu_sql);
 		try{
 			this.getBySqlMapper.insertSelective(Metadata_table_Adapter);
@@ -1815,10 +1825,13 @@ public class PoorUserController extends MultiActionController{
 				}
 			}
 			
-			response.getWriter().write("1");
+			jsonObject.put("isSuccess", "1");
+			jsonObject.put("total_income", total_income);
+			
 		}catch (Exception e){
-			response.getWriter().write("0");
+			jsonObject.put("isSuccess", "0");
 		}
+		response.getWriter().write(jsonObject.toString());
 		return null;
 	}
 	
@@ -1837,7 +1850,7 @@ public class PoorUserController extends MultiActionController{
 		JSONObject form_json = JSONObject.fromObject(form_val);//表单数据
 		
 		float zong = 0;
-		
+		float total_expenditure=0;
 		String where = "";
 		if(form_json.get("v1")!=null&&!form_json.get("v1").equals("")){//可以为空，如果没有取到值，证明前台为空，数据库需要清空此列
 			where += "v1='"+form_json.get("v1")+"',";
@@ -2004,7 +2017,7 @@ public class PoorUserController extends MultiActionController{
 		}
 		
 		where += "v31="+zong;
-		
+		total_expenditure+=zong;
 //		if(where.length()>0){
 //			where = where.substring(0, where.length()-1);
 //		}
@@ -2017,7 +2030,7 @@ public class PoorUserController extends MultiActionController{
 		}
 		
 		//System.out.println(hu_sql);
-		
+		JSONObject jsonObject=new JSONObject();
 		SQLAdapter Metadata_table_Adapter = new SQLAdapter(hu_sql);
 		try{
 			this.getBySqlMapper.insertSelective(Metadata_table_Adapter);
@@ -2040,12 +2053,13 @@ public class PoorUserController extends MultiActionController{
 					this.getBySqlMapper.findRecords(hqlAdapter1);
 				}
 			}
+			jsonObject.put("isSuccess", "1");
+			jsonObject.put("total_expenditure", total_expenditure);
 			
-			response.getWriter().write("1");
 		}catch (Exception e){
-			response.getWriter().write("0");
+			jsonObject.put("isSuccess", "0");
 		}
-		
+		response.getWriter().write(jsonObject.toString());
 		return null;
 	}
 	

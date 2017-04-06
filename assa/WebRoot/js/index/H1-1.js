@@ -1101,3 +1101,5 @@ function yidi_pic_load(type,id){
 			"<div class=\"info\"></div><div class=\"btns\"><div id=\"filePicker2\"></div><div class=\"uploadBtn\">开始上传</div></div></div></div></div>");
 	Img_load('6',id,'yidi_img_load');
 }
+
+
