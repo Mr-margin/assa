@@ -71,18 +71,38 @@ public class PoorMessageController extends MultiActionController{
 		
 		String cha_year = request.getParameter("cha_year");//查找的年份
 		
-		
+		String hz_sql="";
 		String str = "";
 		
 		if(request.getParameter("cha_v6")!=null&&!request.getParameter("cha_v6").equals("")){
 			cha_v6 = request.getParameter("cha_v6").trim();
 			str += " a.v6 like '%"+cha_v6+"%' and";
 		}
-		
+		//判断身份证是否是户主身份证是则继续不是则先查出来户主身份证
 		if(request.getParameter("cha_v8")!=null&&!request.getParameter("cha_v8").equals("")){
 			cha_v8 = request.getParameter("cha_v8").trim();
-			str += " a.v8 like '%"+cha_v8+"%' and";
+			//根据传过来的身份证判断查询成员  若不是户主则可以查询出来相关户主Id 若家庭只有户主一人则直接走else
+			hz_sql = "select da_member.da_household_id m_id from da_member  where  v8 like '%"+cha_v8+"%'";
+			List<Map> map = this.getBySqlMapper.findRecords(new SQLAdapter(hz_sql));
+			if(map.size()>0){
+				String 	pkid = map.get(0).get("m_id").toString();
+				//通过户主Id查询户主身份证号
+				hz_sql = "select v8 from da_household where pkid = '"+pkid+"'";
+				List<Map> v_list = this.getBySqlMapper.findRecords(new SQLAdapter(hz_sql));
+				if(map.size()>0){
+					//通过户主身份证查询相关信息和原来步骤一样
+					cha_v8 = v_list.get(0).get("v8").toString();
+					str += " a.v8 like '%"+cha_v8+"%' and";
+				}
+			}else{
+				cha_v8 = request.getParameter("cha_v8").trim();
+				str += " a.v8 like '%"+cha_v8+"%' and";
+			}
 		}
+		/*if(request.getParameter("cha_v8")!=null&&!request.getParameter("cha_v8").equals("")){
+			cha_v8 = request.getParameter("cha_v8").trim();
+			str += " a.v8 like '%"+cha_v8+"%' and";
+		}*/
 		if(request.getParameter("cha_v8_1")!=null&&!request.getParameter("cha_v8_1").equals("请选择")){
 			cha_v8_1 = request.getParameter("cha_v8_1").trim();
 			if(cha_v8_1.equals("大于60岁")){
