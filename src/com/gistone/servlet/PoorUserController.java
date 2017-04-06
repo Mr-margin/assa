@@ -366,7 +366,7 @@ public class PoorUserController extends MultiActionController{
 		
 		
 		String count_st_sql = "select count(*) from (select a.pkid from da_household a ";
-		String people_sql = "select a.pkid,a.v3,a.v4,a.v5,a.v6,a.v9,a.v22,a.v23,a.v11,a.sys_standard from da_household a ";
+		String people_sql = "select a.pkid,a.v3,a.v4,a.v5,a.v6,a.v9,a.v22,a.v23,a.v11,a.sys_standard,a.entry_year from da_household a ";
 		
 		//如果帮扶人和帮扶单位条件被选择
 		if((request.getParameter("cha_bfdw")!=null&&!request.getParameter("cha_bfdw").equals(""))||(request.getParameter("cha_bfzrr")!=null&&!request.getParameter("cha_bfzrr").equals(""))){
@@ -412,7 +412,9 @@ public class PoorUserController extends MultiActionController{
 				Map Patient_st_map = Patient_st_List.get(i);
 				JSONObject val = new JSONObject();
 				for (Object key : Patient_st_map.keySet()) {
-					
+					if(!Patient_st_map.keySet().contains("entry_year")){
+						val.put("entry_year", "2016");
+					}
 					val.put(key, Patient_st_map.get(key));
 					
 					if(key.toString().equals("sys_standard")){
