@@ -1575,7 +1575,7 @@ public class PoorUserController extends MultiActionController{
 			where += "v2='"+form_json.get("v2")+"',";
 			xiaoji_1 += Float.parseFloat(form_json.get("v2").toString());
 		}else{
-			where += "v2=null,";
+			where += "v2=0,";
 		}
 		if(form_json.get("v3")!=null&&!form_json.get("v3").equals("")){//可以为空，如果没有取到值，证明前台为空，数据库需要清空此列
 			where += "v3='"+form_json.get("v3")+"',";
@@ -1586,7 +1586,7 @@ public class PoorUserController extends MultiActionController{
 			where += "v4='"+form_json.get("v4")+"',";
 			xiaoji_1 += Float.parseFloat(form_json.get("v4").toString());
 		}else{
-			where += "v4=null,";
+			where += "v4=0,";
 		}
 		if(form_json.get("v5")!=null&&!form_json.get("v5").equals("")){//可以为空，如果没有取到值，证明前台为空，数据库需要清空此列
 			where += "v5='"+form_json.get("v5")+"',";
@@ -1597,7 +1597,7 @@ public class PoorUserController extends MultiActionController{
 			where += "v6='"+form_json.get("v6")+"',";
 			xiaoji_1 += Float.parseFloat(form_json.get("v6").toString());
 		}else{
-			where += "v6=null,";
+			where += "v6=0,";
 		}
 		if(form_json.get("v7")!=null&&!form_json.get("v7").equals("")){//可以为空，如果没有取到值，证明前台为空，数据库需要清空此列
 			where += "v7='"+form_json.get("v7")+"',";
@@ -1608,7 +1608,7 @@ public class PoorUserController extends MultiActionController{
 			where += "v8='"+form_json.get("v8")+"',";
 			xiaoji_1 += Float.parseFloat(form_json.get("v8").toString());
 		}else{
-			where += "v8=null,";
+			where += "v8=0,";
 		}
 		
 		if(form_json.get("v11")!=null&&!form_json.get("v11").equals("")){//可以为空，如果没有取到值，证明前台为空，数据库需要清空此列
@@ -1620,7 +1620,7 @@ public class PoorUserController extends MultiActionController{
 			where += "v12='"+form_json.get("v12")+"',";
 			xiaoji_2 += Float.parseFloat(form_json.get("v12").toString());
 		}else{
-			where += "v12=null,";
+			where += "v12=0,";
 		}
 		if(form_json.get("v13")!=null&&!form_json.get("v13").equals("")){//可以为空，如果没有取到值，证明前台为空，数据库需要清空此列
 			where += "v13='"+form_json.get("v13")+"',";
@@ -1631,7 +1631,7 @@ public class PoorUserController extends MultiActionController{
 			where += "v14='"+form_json.get("v14")+"',";
 			xiaoji_2 += Float.parseFloat(form_json.get("v14").toString());
 		}else{
-			where += "v14=null,";
+			where += "v14=0,";
 		}
 		if(form_json.get("v15")!=null&&!form_json.get("v15").equals("")){//可以为空，如果没有取到值，证明前台为空，数据库需要清空此列
 			where += "v15='"+form_json.get("v15")+"',";
@@ -1642,7 +1642,7 @@ public class PoorUserController extends MultiActionController{
 			where += "v16='"+form_json.get("v16")+"',";
 			xiaoji_2 += Float.parseFloat(form_json.get("v16").toString());
 		}else{
-			where += "v16=null,";
+			where += "v16=0,";
 		}
 		if(form_json.get("v17")!=null&&!form_json.get("v17").equals("")){//可以为空，如果没有取到值，证明前台为空，数据库需要清空此列
 			where += "v17='"+form_json.get("v17")+"',";
@@ -1653,7 +1653,7 @@ public class PoorUserController extends MultiActionController{
 			where += "v18='"+form_json.get("v18")+"',";
 			xiaoji_2 += Float.parseFloat(form_json.get("v18").toString());
 		}else{
-			where += "v18=null,";
+			where += "v18=0,";
 		}
 		if(form_json.get("v19")!=null&&!form_json.get("v19").equals("")){//可以为空，如果没有取到值，证明前台为空，数据库需要清空此列
 			where += "v19='"+form_json.get("v19")+"',";
@@ -1664,7 +1664,7 @@ public class PoorUserController extends MultiActionController{
 			where += "v20='"+form_json.get("v20")+"',";
 			xiaoji_2 += Float.parseFloat(form_json.get("v20").toString());
 		}else{
-			where += "v20=null,";
+			where += "v20=0,";
 		}
 		if(form_json.get("v23")!=null&&!form_json.get("v23").equals("")){//可以为空，如果没有取到值，证明前台为空，数据库需要清空此列
 			where += "v23='"+form_json.get("v23")+"',";
@@ -1675,7 +1675,7 @@ public class PoorUserController extends MultiActionController{
 			where += "v24='"+form_json.get("v24")+"',";
 			zong += Float.parseFloat(form_json.get("v24").toString());
 		}else{
-			where += "v24=null,";
+			where += "v24=0,";
 		}
 		if(form_json.get("v25")!=null&&!form_json.get("v25").equals("")){//可以为空，如果没有取到值，证明前台为空，数据库需要清空此列
 			where += "v25='"+form_json.get("v25")+"',";
@@ -1686,7 +1686,7 @@ public class PoorUserController extends MultiActionController{
 			where += "v26='"+form_json.get("v26")+"',";
 			zong += Float.parseFloat(form_json.get("v26").toString());
 		}else{
-			where += "v26=null,";
+			where += "v26=0,";
 		}
 		if(form_json.get("v27")!=null&&!form_json.get("v27").equals("")){//可以为空，如果没有取到值，证明前台为空，数据库需要清空此列
 			where += "v27='"+form_json.get("v27")+"',";
@@ -1697,7 +1697,7 @@ public class PoorUserController extends MultiActionController{
 			where += "v28='"+form_json.get("v28")+"',";
 			zong += Float.parseFloat(form_json.get("v28").toString());
 		}else{
-			where += "v28=null,";
+			where += "v28=0,";
 		}
 		if(form_json.get("v29")!=null&&!form_json.get("v29").equals("")){//可以为空，如果没有取到值，证明前台为空，数据库需要清空此列
 			where += "v29='"+form_json.get("v29")+"',";
@@ -1708,7 +1708,7 @@ public class PoorUserController extends MultiActionController{
 			where += "v30='"+form_json.get("v30")+"',";
 			zong += Float.parseFloat(form_json.get("v30").toString());
 		}else{
-			where += "v30=null,";
+			where += "v30=0,";
 		}
 		if(form_json.get("v31")!=null&&!form_json.get("v31").equals("")){//可以为空，如果没有取到值，证明前台为空，数据库需要清空此列
 			where += "v31='"+form_json.get("v31")+"',";
@@ -1719,7 +1719,7 @@ public class PoorUserController extends MultiActionController{
 			where += "v32='"+form_json.get("v32")+"',";
 			zong += Float.parseFloat(form_json.get("v32").toString());
 		}else{
-			where += "v32=null,";
+			where += "v32=0,";
 		}
 		if(form_json.get("v33")!=null&&!form_json.get("v33").equals("")){//可以为空，如果没有取到值，证明前台为空，数据库需要清空此列
 			where += "v33='"+form_json.get("v33")+"',";
@@ -1730,7 +1730,7 @@ public class PoorUserController extends MultiActionController{
 			where += "v34='"+form_json.get("v34")+"',";
 			zong += Float.parseFloat(form_json.get("v34").toString());
 		}else{
-			where += "v34=null,";
+			where += "v34=0,";
 		}
 		if(form_json.get("v35")!=null&&!form_json.get("v35").equals("")){//可以为空，如果没有取到值，证明前台为空，数据库需要清空此列
 			where += "v35='"+form_json.get("v35")+"',";
@@ -1762,7 +1762,7 @@ public class PoorUserController extends MultiActionController{
 			where += "v41='"+form_json.get("v41")+"',";
 			xiaoji_2 += Float.parseFloat(form_json.get("v41").toString());
 		}else{
-			where += "v41=null,";
+			where += "v41=0,";
 		}
 		if(form_json.get("v42")!=null&&!form_json.get("v42").equals("")){//可以为空，如果没有取到值，证明前台为空，数据库需要清空此列
 			where += "v42='"+form_json.get("v42")+"',";
@@ -1773,7 +1773,7 @@ public class PoorUserController extends MultiActionController{
 			where += "v43='"+form_json.get("v43")+"',";
 			xiaoji_2 += Float.parseFloat(form_json.get("v43").toString());
 		}else{
-			where += "v43=null,";
+			where += "v43=0,";
 		}
 		
 		where += "v10="+xiaoji_1+",v22="+xiaoji_2+",v39="+(zong+xiaoji_1+xiaoji_2);
@@ -1848,7 +1848,7 @@ public class PoorUserController extends MultiActionController{
 			where += "v2='"+form_json.get("v2")+"',";
 			zong += Float.parseFloat(form_json.get("v2").toString());
 		}else{
-			where += "v2=null,";
+			where += "v2=0,";
 		}
 		if(form_json.get("v3")!=null&&!form_json.get("v3").equals("")){//可以为空，如果没有取到值，证明前台为空，数据库需要清空此列
 			where += "v3='"+form_json.get("v3")+"',";
@@ -1859,7 +1859,7 @@ public class PoorUserController extends MultiActionController{
 			where += "v4='"+form_json.get("v4")+"',";
 			zong += Float.parseFloat(form_json.get("v4").toString());
 		}else{
-			where += "v4=null,";
+			where += "v4=0,";
 		}
 		if(form_json.get("v5")!=null&&!form_json.get("v5").equals("")){//可以为空，如果没有取到值，证明前台为空，数据库需要清空此列
 			where += "v5='"+form_json.get("v5")+"',";
@@ -1870,7 +1870,7 @@ public class PoorUserController extends MultiActionController{
 			where += "v6='"+form_json.get("v6")+"',";
 			zong += Float.parseFloat(form_json.get("v6").toString());
 		}else{
-			where += "v6=null,";
+			where += "v6=0,";
 		}
 		if(form_json.get("v7")!=null&&!form_json.get("v7").equals("")){//可以为空，如果没有取到值，证明前台为空，数据库需要清空此列
 			where += "v7='"+form_json.get("v7")+"',";
@@ -1881,7 +1881,7 @@ public class PoorUserController extends MultiActionController{
 			where += "v8='"+form_json.get("v8")+"',";
 			zong += Float.parseFloat(form_json.get("v8").toString());
 		}else{
-			where += "v8=null,";
+			where += "v8=0,";
 		}
 		if(form_json.get("v9")!=null&&!form_json.get("v9").equals("")){//可以为空，如果没有取到值，证明前台为空，数据库需要清空此列
 			where += "v9='"+form_json.get("v9")+"',";
@@ -1892,7 +1892,7 @@ public class PoorUserController extends MultiActionController{
 			where += "v10='"+form_json.get("v10")+"',";
 			zong += Float.parseFloat(form_json.get("v10").toString());
 		}else{
-			where += "v10=null,";
+			where += "v10=0,";
 		}
 		if(form_json.get("v11")!=null&&!form_json.get("v11").equals("")){//可以为空，如果没有取到值，证明前台为空，数据库需要清空此列
 			where += "v11='"+form_json.get("v11")+"',";
@@ -1903,7 +1903,7 @@ public class PoorUserController extends MultiActionController{
 			where += "v12='"+form_json.get("v12")+"',";
 			zong += Float.parseFloat(form_json.get("v12").toString());
 		}else{
-			where += "v12=null,";
+			where += "v12=0,";
 		}
 		if(form_json.get("v13")!=null&&!form_json.get("v13").equals("")){//可以为空，如果没有取到值，证明前台为空，数据库需要清空此列
 			where += "v13='"+form_json.get("v13")+"',";
@@ -1914,7 +1914,7 @@ public class PoorUserController extends MultiActionController{
 			where += "v14='"+form_json.get("v14")+"',";
 			zong += Float.parseFloat(form_json.get("v14").toString());
 		}else{
-			where += "v14=null,";
+			where += "v14=0,";
 		}
 		if(form_json.get("v15")!=null&&!form_json.get("v15").equals("")){//可以为空，如果没有取到值，证明前台为空，数据库需要清空此列
 			where += "v15='"+form_json.get("v15")+"',";
@@ -1925,7 +1925,7 @@ public class PoorUserController extends MultiActionController{
 			where += "v16='"+form_json.get("v16")+"',";
 			zong += Float.parseFloat(form_json.get("v16").toString());
 		}else{
-			where += "v16=null,";
+			where += "v16=0,";
 		}
 		if(form_json.get("v17")!=null&&!form_json.get("v17").equals("")){//可以为空，如果没有取到值，证明前台为空，数据库需要清空此列
 			where += "v17='"+form_json.get("v17")+"',";
@@ -1936,7 +1936,7 @@ public class PoorUserController extends MultiActionController{
 			where += "v18='"+form_json.get("v18")+"',";
 			zong += Float.parseFloat(form_json.get("v18").toString());
 		}else{
-			where += "v18=null,";
+			where += "v18=0,";
 		}
 		if(form_json.get("v19")!=null&&!form_json.get("v19").equals("")){//可以为空，如果没有取到值，证明前台为空，数据库需要清空此列
 			where += "v19='"+form_json.get("v19")+"',";
@@ -1947,7 +1947,7 @@ public class PoorUserController extends MultiActionController{
 			where += "v20='"+form_json.get("v20")+"',";
 			zong += Float.parseFloat(form_json.get("v20").toString());
 		}else{
-			where += "v20=null,";
+			where += "v20=0,";
 		}
 		if(form_json.get("v21")!=null&&!form_json.get("v21").equals("")){//可以为空，如果没有取到值，证明前台为空，数据库需要清空此列
 			where += "v21='"+form_json.get("v21")+"',";
@@ -1958,7 +1958,7 @@ public class PoorUserController extends MultiActionController{
 			where += "v22='"+form_json.get("v22")+"',";
 			zong += Float.parseFloat(form_json.get("v22").toString());
 		}else{
-			where += "v22=null,";
+			where += "v22=0,";
 		}
 		if(form_json.get("v23")!=null&&!form_json.get("v23").equals("")){//可以为空，如果没有取到值，证明前台为空，数据库需要清空此列
 			where += "v23='"+form_json.get("v23")+"',";
@@ -1984,7 +1984,7 @@ public class PoorUserController extends MultiActionController{
 			where += "v27='"+form_json.get("v27")+"',";
 			zong += Float.parseFloat(form_json.get("v27").toString());
 		}else{
-			where += "v27=null,";
+			where += "v27=0,";
 		}
 		if(form_json.get("v28")!=null&&!form_json.get("v28").equals("")){//可以为空，如果没有取到值，证明前台为空，数据库需要清空此列
 			where += "v28='"+form_json.get("v28")+"',";
@@ -2000,7 +2000,7 @@ public class PoorUserController extends MultiActionController{
 			where += "v30='"+form_json.get("v30")+"',";
 			zong += Float.parseFloat(form_json.get("v30").toString());
 		}else{
-			where += "v30=null,";
+			where += "v30=0,";
 		}
 		
 		where += "v31="+zong;
