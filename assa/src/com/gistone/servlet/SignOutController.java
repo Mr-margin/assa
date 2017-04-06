@@ -176,8 +176,8 @@ public class SignOutController extends MultiActionController{
 			//符合市级低收入户要求帮扶后人均纯收入比帮扶前增长20%、帮扶后人均纯收入大于1万元、不是危房、所有家庭成员均参加新农合、养老保险 条件的sql 语句
 			String sql = "";
 					sql += "select pkid,v3,v4,v5,v6,v9, round(((v39-v31)/v9),2) hrj,round((ABS((d39-d31))/v9),2) drj,";
-					sql += "round(((((v39-v31)/v9)-(ABS((d39-d31)/v9)))/ (ABS((d39-d31)/v9)))*100,2) jisuan from  ( ";
-					sql +="select pkid,v3,v4,v5,v6,v9 from da_household where  sys_standard='市级低收入人口' and v21!='已脱贫'";
+					sql += "round(((((v39-v31)/v9)-(ABS((d39-d31)/v9)))/ (ABS((d39-d31)/v9)))*100,2) jisuan,flag from  ( ";
+					sql +="select pkid,v3,v4,v5,v6,v9,flag from da_household where  sys_standard='市级低收入人口' and v21!='已脱贫'";
 					sql += " and (v3 like '%"+search+"%' or v4 like '%"+search+"%' or v5 like '%"+search+"%' or v6 like '%"+search+"%' or v9 like '%"+search+"%') "+str+" ";
 					sql += ") a LEFT JOIN (select da_household_id,v2 from da_life  where v2 ='否')b ON a.pkid=b.da_household_id LEFT JOIN (";
 					sql += "select da_household_id,v39 from da_helpback_income where v39 is not null ) q1 on a.pkid=q1.da_household_id LEFT JOIN(";
@@ -200,8 +200,19 @@ public class SignOutController extends MultiActionController{
 				for(int i = 0;i<Metadata_s_List.size();i++){
 					Map Metadata_s_map = Metadata_s_List.get(i);
 					JSONObject val = new JSONObject();
+				
 					for (Object key : Metadata_s_map.keySet()) {
 						val.put(key, Metadata_s_map.get(key));
+						if(key.equals("flag")){
+							if(Metadata_s_map.get(key)!=null){
+								if(Metadata_s_map.get(key).toString().equals("1")){
+									val.put(key, "国转市");
+								}else if(Metadata_s_map.get(key).toString().equals("0")){
+									val.put(key, "市贫户");
+								}
+							}
+						}
+						
 						val.put("v6","<a onclick='chakan_info(\""+Metadata_s_map.get("pkid")+"\")'>"+Metadata_s_map.get("v6")+"</a>");
 					}
 					jsa.add(val);
@@ -239,7 +250,7 @@ public class SignOutController extends MultiActionController{
 			try {
 				for ( int i = 0 ; i < pkid.length ; i ++ ) {
 					if( "0".equals(type) ) {
-						String sql = "update da_household set sys_standard='市级低收入人口' where pkid = "+pkid[i];
+						String sql = "update da_household set sys_standard='市级低收入人口', flag='1' where pkid = "+pkid[i];
 						SQLAdapter sqlAdapter = new SQLAdapter (sql);
 						this.getBySqlMapper.updateSelective(sqlAdapter);
 						

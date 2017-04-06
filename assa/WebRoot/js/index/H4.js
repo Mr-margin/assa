@@ -398,7 +398,7 @@ function guoding_initialization(){
 		contentType: "application/x-www-form-urlencoded",	//请求远程数据的内容类型。
 		onLoadError: function (data) {
 			metTable_g.bootstrapTable('removeAll');
-			toastr["info"]("市级低收入人口识别退出", "没有找到匹配的记录");
+			toastr["info"]("国家级贫困人口识别退出", "没有找到匹配的记录");
 		},
 		onClickRow: function (row, $element) {
 			$('.success').removeClass('success');
@@ -449,7 +449,7 @@ function shiding_initialization(){
 		contentType: "application/x-www-form-urlencoded",	//请求远程数据的内容类型。
 		onLoadError: function (data) {
 			metTable_s.bootstrapTable('removeAll');
-			toastr["info"]("国家级贫困人口识别退出", "没有找到匹配的记录");
+			toastr["info"]("市级低收入人口识别退出", "没有找到匹配的记录");
 		},
 		onClickRow: function (row, $element) {
 			$('.success').removeClass('success');
