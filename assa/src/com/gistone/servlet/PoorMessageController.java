@@ -67,8 +67,8 @@ public class PoorMessageController extends MultiActionController{
 
 		String cha_v6 = "";//户主姓名
 		String cha_v8 = "";//身份证号
-		String cha_v8_1 = "";//年龄范围
-		
+		String cha_v8_1 = "";//年龄范围开始时间
+		String cha_v8_2 = "";//年龄范围截止时间
 		String cha_year = request.getParameter("cha_year");//查找的年份
 		
 		String hz_sql="";
@@ -103,17 +103,20 @@ public class PoorMessageController extends MultiActionController{
 			cha_v8 = request.getParameter("cha_v8").trim();
 			str += " a.v8 like '%"+cha_v8+"%' and";
 		}*/
-		if(request.getParameter("cha_v8_1")!=null&&!request.getParameter("cha_v8_1").equals("请选择")){
+		if(request.getParameter("cha_v8_1")!=null&&!request.getParameter("cha_v8_1").equals("")){
 			cha_v8_1 = request.getParameter("cha_v8_1").trim();
-			if(cha_v8_1.equals("大于60岁")){
-				str += " LENGTH(a.v8)>=18 and year(now()) year(substring(a.v8,7,8))>=60 and";
-			}else if(cha_v8_1.equals("小于16岁")){
-				str += " LENGTH(a.v8)>=18 and year(now()) year(substring(a.v8,7,8))<=16 and";
-			}else if(cha_v8_1.equals("17岁至59岁")){
-				str += " LENGTH(a.v8)>=18 and (year(now()) year(substring(a.v8,7,8))>=17 or year(now()) year(substring(a.v8,7,8))>=59) and";
+			if(request.getParameter("cha_v8_2")!=null&&!request.getParameter("cha_v8_2").equals("")){
+				cha_v8_2 = request.getParameter("cha_v8_2").trim();
+				str += " LENGTH(a.v8)>=18 and (TIMESTAMPDIFF(year,substring(a.v8, 7, 8),DATE(now()))>="+cha_v8_1+" and TIMESTAMPDIFF(year,substring(a.v8, 7, 8),DATE(now()))<="+cha_v8_2+") and";
+			}else{
+				str += " LENGTH(a.v8)>=18 and TIMESTAMPDIFF(year,substring(a.v8, 7, 8),DATE(now()))>="+cha_v8_1+" and";
+			}
+		}else{
+			if(request.getParameter("cha_v8_2")!=null&&!request.getParameter("cha_v8_2").equals("")){
+				cha_v8_2 = request.getParameter("cha_v8_2").trim();
+				str += " LENGTH(a.v8)>=18 and TIMESTAMPDIFF(year,substring(a.v8, 7, 8),DATE(now()))<="+cha_v8_2+" and";
 			}
 		}
-		
 		if(request.getParameter("cha_qx")!=null&&!request.getParameter("cha_qx").equals("请选择")){
 			cha_qx = request.getParameter("cha_qx").trim();
 			str += " a.v3 like '%"+cha_qx+"%' and";
@@ -163,7 +166,7 @@ public class PoorMessageController extends MultiActionController{
 			str_table = "";
 		}
 		
-		
+		String total_number_sql="select a.v9 from da_household"+str_table+" a ";//统计总人口数
 		String count_st_sql = "select count(*) from (select a.pkid from da_household"+str_table+" a ";
 		String people_sql = "select a.pkid,a.v3,a.v4,a.v5,a.v6,a.v9,a.v21,a.v22,a.v23,a.v11,a.sys_standard from da_household"+str_table+" a ";
 		//如果帮扶人和帮扶单位条件被选择
@@ -178,6 +181,7 @@ public class PoorMessageController extends MultiActionController{
 			}
 			count_st_sql += " LEFT JOIN sys_personal_household_many"+str_table+" x on x.da_household_id=a.pkid LEFT JOIN sys_personal"+str_table+" c on x.sys_personal_id = c.pkid join da_company"+str_table+" t2 on c.da_company_id=t2.pkid ";
 			people_sql += " LEFT JOIN sys_personal_household_many"+str_table+" x on x.da_household_id=a.pkid LEFT JOIN sys_personal"+str_table+" c on x.sys_personal_id = c.pkid join da_company"+str_table+" t2 on c.da_company_id=t2.pkid ";
+			total_number_sql += " LEFT JOIN sys_personal_household_many"+str_table+" x on x.da_household_id=a.pkid LEFT JOIN sys_personal"+str_table+" c on x.sys_personal_id = c.pkid join da_company"+str_table+" t2 on c.da_company_id=t2.pkid ";
 		}
 		
 		
@@ -188,10 +192,12 @@ public class PoorMessageController extends MultiActionController{
 		//两个条件为空，按照全部查询select * from sys_village_responsibility a  LEFT JOIN sys_company b  ON a.sys_company_id=b.pkid LEFT JOIN sys_user c ON a.pkid=c.sys_personal_id
 
 		if(str.equals("")){
+			total_number_sql += " GROUP BY a.pkid order by a.pkid";
 			count_st_sql += " GROUP BY a.pkid) ww";
 			people_sql += " GROUP BY a.pkid order by a.pkid limit "+number+","+size;
 		}else{
 			//带条件，按照条件查询
+			total_number_sql += " where "+str.substring(0, str.length()-3)+" GROUP BY a.pkid order by a.pkid";
 			count_st_sql += " where "+str.substring(0, str.length()-3)+" GROUP BY a.pkid) ww";
 			people_sql += " where "+str.substring(0, str.length()-3)+" GROUP BY a.pkid order by a.pkid limit "+number+","+size;
 		}
@@ -201,6 +207,10 @@ public class PoorMessageController extends MultiActionController{
 		
 		SQLAdapter Patient_st_Adapter = new SQLAdapter(people_sql);
 		List<Map> Patient_st_List = this.getBySqlMapper.findRecords(Patient_st_Adapter);
+		
+		SQLAdapter Patient_total_Adapter = new SQLAdapter(total_number_sql);
+		List<Map> Patient_total_List = this.getBySqlMapper.findRecords(Patient_total_Adapter);
+		int v9=0;//家庭人口
 		if(Patient_st_List.size()>0){
 			JSONArray jsa=new JSONArray();
 			for(int i = 0;i<Patient_st_List.size();i++){
@@ -217,6 +227,7 @@ public class PoorMessageController extends MultiActionController{
 							val.put("col_name", "是");
 						}
 					}
+					
 					val.put("chakan","<a onclick='chakan_info(\""+Patient_st_map.get("pkid")+"\")'>查看</a>");
 //					else if(!(key.toString().equals("col_name"))) {
 //						val.put("col_name", "否");
@@ -224,8 +235,14 @@ public class PoorMessageController extends MultiActionController{
 				}
 				jsa.add(val);
 			}
-			
+			for(int i = 0;i<Patient_total_List.size();i++){
+				Map Patient_total_map = Patient_total_List.get(i);
+				if(Patient_total_map.keySet().contains("v9")){
+					v9+=(Integer) Patient_total_map.get("v9");
+				}
+			}
 			JSONObject json = new JSONObject();
+			json.put("total_number",v9);
 			json.put("page", page);
 			json.put("total", total);
 			json.put("rows", jsa); //这里的 rows 和total 的key 是固定的 
