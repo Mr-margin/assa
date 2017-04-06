@@ -280,7 +280,8 @@ $(function () {
     	chaxun.cha_banqian = $("#cha_banqian").val();
     	chaxun.cha_v6 = $("#cha_v6").val();
     	chaxun.cha_v8 = $("#cha_v8").val();
-    	chaxun.cha_v8_1 = $("#cha_v8_1").val();
+    	chaxun.cha_v8_1 = $("#cha_v8_1").val();//年龄范围开始时间
+    	chaxun.cha_v8_2 = $("#cha_v8_2").val();//年龄范围截止时间
     	chaxun.cha_year = $("#cha_year").val();
     	$("#yeqian").hide();
     	metTable_bxbxxb.bootstrapTable('destroy');//销毁现有表格数据
@@ -801,9 +802,17 @@ function gachacun_initialization(){
 			metTable_bxbxxb.bootstrapTable('removeAll');
 			toastr["info"]("info", "没有找到匹配的记录");
 		},
+		onLoadSuccess: function (data) {
+			//console.log($("#total_number").html());
+			$("th[data-field=v9] .th-inner" ).html("家庭人口(总人口数:"+data.total_number+")")
+			//$("#total_number").html("("+data.total_number+")");
+			//console.log(">>.."+$(".th-inner #total_number").html());
+			//$("#total_number").html("("+data.total_number+")");
+		},
 		onClickRow: function (row, $element) {
 			$('.success').removeClass('success');
 			$($element).addClass('success');
+			
 		}
 	});
 }
@@ -829,6 +838,7 @@ function queryParams_bxbxxb(params) {  //配置参数
 	temp.cha_v6 = chaxun.cha_v6;
     temp.cha_v8 = chaxun.cha_v8;
     temp.cha_v8_1 = chaxun.cha_v8_1;
+    temp.cha_v8_2 = chaxun.cha_v8_2;
     temp.cha_year = chaxun.cha_year;
 	return temp;
 }
