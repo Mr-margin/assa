@@ -103,8 +103,12 @@ public class PoorUserController extends MultiActionController{
 		SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");  
         String newFileName = df.format(new Date()) + "_" + new Random().nextInt(1000);
         int da_household_id = 0;
+        
+        SimpleDateFormat df2 = new SimpleDateFormat("yyyy"); 
+        Date date=new Date();
+        int entry_year=Integer.parseInt(df2.format(date));
         try{
-        	String add_sql = "insert into da_household(v2,v3,v4,v5,v6,v9,v21) values('"+newFileName+"','"+qx+"','"+xaing+"','"+cun+"','"+huname+"','1','未脱贫')";
+        	String add_sql = "insert into da_household(v2,v3,v4,v5,v6,v9,v21,entry_year) values('"+newFileName+"','"+qx+"','"+xaing+"','"+cun+"','"+huname+"','1','未脱贫','"+entry_year+"')";
     		SQLAdapter Metadata_table_Adapter = new SQLAdapter(add_sql);
     		this.getBySqlMapper.insertSelective(Metadata_table_Adapter);//户主信息
     		
