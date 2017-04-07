@@ -183,6 +183,10 @@
  				
  				<!-- 导出所有数据-->
  				<prop key="exportExcel_all7.do">standingBookController</prop>
+ 				
+ 				<!-- 导出所有数据-->
+ 				<prop key="exportExcel_all8.do">standingBookController</prop>
+ 				
  				<!-- 国贫识别退出 -->
  				<prop key="getGp_tuichu.do">signOutController</prop>
  				

@@ -295,10 +295,31 @@ $(function () {
     });
     
     $('#exportExcel_all').click(function () {
+    	var form_val,form_name,jsonlevel,danxuan_val,jsonname;
+    	var Request = new Object();
+    	Request = GetRequest();
+    	
+    	form_val = Request['form_val'];
+    	form_name=Request['form_name'];
+    	jsonlevel= Request['jsonlevel'];
+    	danxuan_val= Request['danxuan_val'];
+    	level= Request['level'];
+    	jsonname=Request['json_name'];
+    	poverty_type=Request['poverty_type'];
+    	
     	$.ajax({  		       
-    	    url: "/assa/exportExcel_all.do",
+    	    url: "/assa/exportExcel_all8.do",
     	    type: "POST",
     	    async:true,
+    	    data:{
+    	    	"form_val":form_val,
+    	    	"form_name":form_name,
+    	    	"jsonlevel":jsonlevel,
+    	    	"danxuan_val":danxuan_val,
+    	    	"level":level,
+    	    	"jsonname":jsonname,
+    	    	"poverty_type":poverty_type
+    	    },
     	    dataType: "json",
     	    beforeSend: function(){
     	    	$('#exportExcel_all').hide();
@@ -543,6 +564,7 @@ function queryParams_bxbxxb(params) {  //配置参数
 	danxuan_val= Request['danxuan_val'];
 	level= Request['level'];
 	jsonname=Request['json_name'];
+	poverty_type=Request['poverty_type'];
 //	alert("jsonlevel"+jsonlevel);
 //	var temp={};
 	 temp.form_val =form_val;
@@ -551,6 +573,7 @@ function queryParams_bxbxxb(params) {  //配置参数
 	 temp.danxuan_val =danxuan_val;
 	 temp.level=level;
 	 temp.jsonname=jsonname;
+	 temp.poverty_type=poverty_type;
 //	 return temp;
 	 
 	return temp;
@@ -2499,7 +2522,6 @@ $(function() {
 //    });
    
     $('#find1').click(function(){
-    	
     		var form_name="jinben_form";
         	var danxuan_name="danxuan_form1";
         	data_find(form_name,danxuan_name);
@@ -2603,6 +2625,7 @@ function show_tree(){
 }
 
 function data_find(fname,dname){
+	var poverty_type=$('input:radio[name="poverty_type"]:checked').val();//获取选择的贫困类型（国贫0市贫1）
 	var form_name=fname;
 	var jsonlevel=JSON.stringify(json_level);
 	var form_val=JSON.stringify(getFormJson("#"+fname));
@@ -2627,13 +2650,13 @@ function data_find(fname,dname){
 		toastr["warning"]("提示", "请选择筛选条件");
 	}else{
 //		alert("form_name"+form_name+"jsonlevel"+jsonlevel+"form_val"+form_val+"danxuan_val"+danxuan_val+"&level="+level);
-		window.location.href="H10-1.html?v=2.0.2&form_name="+form_name+"&jsonlevel="+jsonlevel+"&form_val="+form_val+"&danxuan_val="+danxuan_val+"&json_name="+json_name+"&level="+level;
+		window.location.href="H10-1.html?v=2.0.2&form_name="+form_name+"&jsonlevel="+jsonlevel+"&form_val="+form_val+"&danxuan_val="+danxuan_val+"&json_name="+json_name+"&level="+level+"&poverty_type="+poverty_type;
 	}
 }
 
 
 function incompletedate(){
-	var form_val,form_name,jsonlevel,danxuan_val,json_name,json_danxuan,danxuan;
+	var form_val,form_name,jsonlevel,danxuan_val,json_name,json_danxuan,danxuan,poverty_type;
 	var data="";
 	var Request = new Object();
 	Request = GetRequest();
@@ -2642,6 +2665,7 @@ function incompletedate(){
 	form_name=Request['form_name'];
 	jsonlevel= Request['jsonlevel'];
 	danxuan_val= Request['danxuan_val'];
+	poverty_type=Request['poverty_type'];
 	if(title_name!=null){
 		var jsonobj=JSON.parse(danxuan_val);
 		var val = JSON.parse(title_name);

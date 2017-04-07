@@ -3748,8 +3748,9 @@ public class PoorUserController extends MultiActionController{
 		String pageNumber = request.getParameter("pageNumber");
 		String level=request.getParameter("level");
 		String jsonname=request.getParameter("jsonname");
+		String poverty_type=request.getParameter("poverty_type");//判断是啥类型贫困户（0：国贫1：市贫）
 		JSONObject form_json = JSONObject.fromObject(form_val);//表单数据
-//		System.out.println(form_json);
+		//System.out.println(poverty_type);
 		JSONObject danxuan_json = JSONObject.fromObject(danxuan_val);//表单数据
 		int size = Integer.parseInt(pageSize);
 		int number = Integer.parseInt(pageNumber);
@@ -3762,6 +3763,7 @@ public class PoorUserController extends MultiActionController{
 		
 		String left_sql = "";
 		String shilevel_sql="";
+		String poverty_type_sql="";
 		if (json_level.equals("undefined")) {
 			String shi_sql ="select * from sys_company c where c.com_level='"+ level +"'";
 			SQLAdapter shi_Adapter = new SQLAdapter(shi_sql);
@@ -3785,7 +3787,11 @@ public class PoorUserController extends MultiActionController{
 		}else if (shilevel==4) {
 			shilevel_sql+=" a.v5 like '%"+ shi_name +"%' ";
 		}
-		
+		if(poverty_type.equals("1")){
+			poverty_type_sql+=" and left(a.sys_standard,2)='市级' ";
+		}else{
+			poverty_type_sql+=" and left(a.sys_standard,3)='国家级' ";
+		}
 		if (form_name.equals("jinben_form")) {
 			if (danxuan_json.get("a").equals("0")) {  //未完成
 				if (form_json.get("v6")!=null&&!form_json.get("v6").equals("")) {
@@ -4625,11 +4631,12 @@ public class PoorUserController extends MultiActionController{
 				}
 			}
 		}
+		
 		String aString="";
-		String where =" where "+shilevel_sql+" and ("+ term.substring(0,term.length()-3) +")";
+		String where =" where "+shilevel_sql+poverty_type_sql+" and ("+ term.substring(0,term.length()-3) +")";
 		String people_sql="select a.pkid,a.v3,a.v4,a.v5,a.v6,a.v9,a.v21,a.v22,a.v23,a.v11,a.sys_standard from da_household a ";
-		String count_sql ="select count(*) from (select a.pkid from da_household a "+ left_sql +" where "+ shilevel_sql +" and ("+ term.substring(0,term.length()-3) +") GROUP BY a.pkid) z ";
-		String fpeople_sql=people_sql+left_sql+where+"GROUP BY a.pkid order by a.v2,a.pkid limit "+number+","+size;
+		String count_sql ="select count(*) from (select a.pkid from da_household a "+ left_sql +" where "+ shilevel_sql +poverty_type_sql+" and ("+ term.substring(0,term.length()-3) +") GROUP BY a.pkid) z ";
+		String fpeople_sql=people_sql+left_sql+where+" GROUP BY a.pkid order by a.v2,a.pkid limit "+number+","+size;
 		SQLAdapter count_st_Adapter = new SQLAdapter(count_sql);
 		int total = this.getBySqlMapper.findrows(count_st_Adapter);
 		if ( form_name ==null && form_name.equals("") && form_val  ==null && form_val .equals("")&& danxuan_val  ==null && danxuan_val .equals("")&& json_level  ==null && json_level .equals("")) {
