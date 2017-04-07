@@ -1447,14 +1447,14 @@
 																<label class="col-sm-3 control-label" style="text-align:right;">农业(水产)</label>
 																<div class="col-sm-9 form-inline">
 									                                <input type="text" placeholder="收入明细" id="v1" name="v1" class="form-control" style="width:250px;">
-									                                <input type="text" placeholder="金额(元)" id="v2" name="v2" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" >
+									                                <input type="text" placeholder="金额(元)" id="v2" name="v2" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')" >
 																</div>
 															</div>
 															<div class="col-sm-6">
 																<label class="col-sm-3 control-label" style="text-align:right;">畜牧业</label>
 																<div class="col-sm-9 form-inline">
 									                                <input type="text" placeholder="收入明细" id="v3" name="v3" class="form-control" style="width:250px;">
-									                                <input type="text" placeholder="金额(元)" id="v4" name="v4" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+									                                <input type="text" placeholder="金额(元)" id="v4" name="v4" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')">
 																</div>
 															</div>
 														</div>
@@ -1464,14 +1464,14 @@
 																<label class="col-sm-3 control-label" style="text-align:right;">林业</label>
 																<div class="col-sm-9 form-inline">
 									                                <input type="text" placeholder="收入明细" id="v5" name="v5" class="form-control" style="width:250px;">
-									                                <input type="text" placeholder="金额(元)" id="v6" name="v6" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+									                                <input type="text" placeholder="金额(元)" id="v6" name="v6" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')">
 																</div>
 															</div>
 															<div class="col-sm-6">
 																<label class="col-sm-3 control-label" style="text-align:right;">其他</label>
 																<div class="col-sm-9 form-inline">
 									                                <input type="text" placeholder="收入明细" id="v7" name="v7" class="form-control" style="width:250px;">
-									                                <input type="text" placeholder="金额(元)" id="v8" name="v8" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+									                                <input type="text" placeholder="金额(元)" id="v8" name="v8" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')">
 																</div>
 															</div>
 								                        </div>
@@ -1490,14 +1490,14 @@
 																<label class="col-sm-3 control-label" style="text-align:right;margin-top: 0px;">生态补偿金</label>
 																<div class="col-sm-9 form-inline">
 									                                <input type="text" placeholder="收入明细" id="v11" name="v11" class="form-control" style="width:250px;">
-									                                <input type="text" placeholder="金额(元)" id="v12" name="v12" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+									                                <input type="text" placeholder="金额(元)" id="v12" name="v12" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')">
 																</div>
 															</div>
 															<div class="col-sm-6">
 																<label class="col-sm-3 control-label" style="text-align:right;">养老保险金</label>
 																<div class="col-sm-9 form-inline">
 									                                <input type="text" placeholder="收入明细" id="v13" name="v13" class="form-control" style="width:250px;">
-									                                <input type="text" placeholder="金额(元)" id="v14" name="v14" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+									                                <input type="text" placeholder="金额(元)" id="v14" name="v14" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')">
 																</div>
 															</div>
 														</div>
@@ -1507,14 +1507,14 @@
 																<label class="col-sm-3 control-label" style="text-align:right;">低保金</label>
 																<div class="col-sm-9 form-inline">
 									                                <input type="text" placeholder="收入明细" id="v15" name="v15" class="form-control" style="width:250px;">
-									                                <input type="text" placeholder="金额(元)" id="v16" name="v16" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+									                                <input type="text" placeholder="金额(元)" id="v16" name="v16" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')">
 																</div>
 															</div>
 															<div class="col-sm-6">
 																<label class="col-sm-3 control-label" style="text-align:right;">五保金</label>
 																<div class="col-sm-9 form-inline">
 									                                <input type="text" placeholder="收入明细" id="v42" name="v42" class="form-control" style="width:250px;">
-									                                <input type="text" placeholder="金额(元)" id="v43" name="v43" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+									                                <input type="text" placeholder="金额(元)" id="v43" name="v43" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')">
 																</div>
 															</div>
 														</div>
@@ -1524,14 +1524,14 @@
 																<label class="col-sm-3 control-label" style="text-align:right;">燃煤补贴</label>
 																<div class="col-sm-9 form-inline">
 									                                <input type="text" placeholder="收入明细" id="v17" name="v17" class="form-control" style="width:250px;">
-									                                <input type="text" placeholder="金额(元)" id="v18" name="v18" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+									                                <input type="text" placeholder="金额(元)" id="v18" name="v18" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')">
 																</div>
 															</div>
 															<div class="col-sm-6">
 																<label class="col-sm-3 control-label" style="text-align:right;">计划生育金</label>
 																<div class="col-sm-9 form-inline">
 									                                <input type="text" placeholder="收入明细" id="v40" name="v40" class="form-control" style="width:250px;">
-									                                <input type="text" placeholder="金额(元)" id="v41" name="v41" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+									                                <input type="text" placeholder="金额(元)" id="v41" name="v41" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')">
 																</div>
 															</div>
 														</div>
@@ -1541,7 +1541,7 @@
 																<label class="col-sm-3 control-label" style="text-align:right;">其他</label>
 																<div class="col-sm-9 form-inline">
 									                                <input type="text" placeholder="收入明细" id="v19" name="v19" class="form-control" style="width:250px;">
-									                                <input type="text" placeholder="金额(元)" id="v20" name="v20" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+									                                <input type="text" placeholder="金额(元)" id="v20" name="v20" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')">
 																</div>
 															</div>
 								                        </div>
@@ -1561,14 +1561,14 @@
 																<label class="col-sm-3 control-label" style="text-align:right;margin-top: 0px;">土地、草牧<br>场流转</label>
 																<div class="col-sm-9 form-inline">
 									                                <input type="text" placeholder="收入明细" id="v23" name="v23" class="form-control" style="width:250px;">
-									                                <input type="text" placeholder="金额(元)" id="v24" name="v24" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+									                                <input type="text" placeholder="金额(元)" id="v24" name="v24" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')">
 																</div>
 															</div>
 															<div class="col-sm-6">
 																<label class="col-sm-3 control-label" style="text-align:right;">其他</label>
 																<div class="col-sm-9 form-inline">
 									                                <input type="text" placeholder="收入明细" id="v25" name="v25" class="form-control" style="width:250px;">
-									                                <input type="text" placeholder="金额(元)" id="v26" name="v26" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+									                                <input type="text" placeholder="金额(元)" id="v26" name="v26" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')">
 																</div>
 															</div>
 														</div>
@@ -1589,7 +1589,7 @@
 																	<div class="col-sm-12 form-inline">
 																		<input type="text" placeholder="工资性收入项目" id="v35" name="v35" class="form-control" style="width:180px;">
 										                                <input type="text" placeholder="收入明细" id="v27" name="v27" class="form-control" style="width:180px;">
-										                                <input type="text" placeholder="金额(元)" id="v28" name="v28" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+										                                <input type="text" placeholder="金额(元)" id="v28" name="v28" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')">
 																	</div>
 																</div>
 																<br>
@@ -1597,7 +1597,7 @@
 																	<div class="col-sm-12 form-inline">
 										                                <input type="text" placeholder="工资性收入项目" id="v36" name="v36" class="form-control" style="width:180px;">
 										                                <input type="text" placeholder="收入明细" id="v29" name="v29" class="form-control" style="width:180px;">
-										                                <input type="text" placeholder="金额(元)" id="v30" name="v30" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+										                                <input type="text" placeholder="金额(元)" id="v30" name="v30" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')">
 																	</div>
 																</div>
 															</div>
@@ -1614,7 +1614,7 @@
 																	<div class="col-sm-12 form-inline">
 										                                <input type="text" placeholder="其他收入项目" id="v37" name="v37" class="form-control" style="width:180px;">
 										                                <input type="text" placeholder="收入明细" id="v31" name="v31" class="form-control" style="width:180px;">
-										                                <input type="text" placeholder="金额(元)" id="v32" name="v32" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+										                                <input type="text" placeholder="金额(元)" id="v32" name="v32" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')">
 																	</div>
 																</div>
 																<br>
@@ -1622,7 +1622,7 @@
 																	<div class="col-sm-12 form-inline">
 										                                <input type="text" placeholder="其他收入项目" id="v38" name="v38" class="form-control" style="width:180px;">
 										                                <input type="text" placeholder="收入明细" id="v33" name="v33" class="form-control" style="width:180px;">
-										                                <input type="text" placeholder="金额(元)" id="v34" name="v34" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+										                                <input type="text" placeholder="金额(元)" id="v34" name="v34" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')">
 																	</div>
 																</div>
 															</div>
@@ -1673,14 +1673,14 @@
 																<label class="col-sm-3 control-label" style="text-align:right;">农资费用</label>
 																<div class="col-sm-9 form-inline">
 									                                <input type="text" placeholder="支出明细" id="v1" name="v1" class="form-control" style="width:250px;">
-									                                <input type="text" placeholder="金额(元)" id="v2" name="v2" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+									                                <input type="text" placeholder="金额(元)" id="v2" name="v2" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')">
 																</div>
 															</div>
 															<div class="col-sm-6">
 																<label class="col-sm-3 control-label" style="text-align:right;margin-top: 0px;">固定资产折<br>旧和租赁费</label>
 																<div class="col-sm-9 form-inline">
 									                                <input type="text" placeholder="支出明细" id="v3" name="v3" class="form-control" style="width:250px;">
-									                                <input type="text" placeholder="金额(元)" id="v4" name="v4" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+									                                <input type="text" placeholder="金额(元)" id="v4" name="v4" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')">
 																</div>
 															</div>
 														</div>
@@ -1690,14 +1690,14 @@
 																<label class="col-sm-3 control-label" style="text-align:right;">水电燃料支出</label>
 																<div class="col-sm-9 form-inline">
 									                                <input type="text" placeholder="支出明细" id="v5" name="v5" class="form-control" style="width:250px;">
-									                                <input type="text" placeholder="金额(元)" id="v6" name="v6" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+									                                <input type="text" placeholder="金额(元)" id="v6" name="v6" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')">
 																</div>
 															</div>
 															<div class="col-sm-6">
 																<label class="col-sm-3 control-label" style="text-align:right;margin-top: 0px;">承包土地<br>草场费用</label>
 																<div class="col-sm-9 form-inline">
 									                                <input type="text" placeholder="支出明细" id="v7" name="v7" class="form-control" style="width:250px;">
-									                                <input type="text" placeholder="金额(元)" id="v8" name="v8" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+									                                <input type="text" placeholder="金额(元)" id="v8" name="v8" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')">
 																</div>
 															</div>
 								                        </div>
@@ -1707,14 +1707,14 @@
 																<label class="col-sm-3 control-label" style="text-align:right;">饲草料</label>
 																<div class="col-sm-9 form-inline">
 									                                <input type="text" placeholder="支出明细" id="v9" name="v9" class="form-control" style="width:250px;">
-									                                <input type="text" placeholder="金额(元)" id="v10" name="v10" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+									                                <input type="text" placeholder="金额(元)" id="v10" name="v10" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')">
 																</div>
 															</div>
 															<div class="col-sm-6">
 																<label class="col-sm-3 control-label" style="text-align:right;">防疫防治支出</label>
 																<div class="col-sm-9 form-inline">
 									                                <input type="text" placeholder="支出明细" id="v11" name="v11" class="form-control" style="width:250px;">
-									                                <input type="text" placeholder="金额(元)" id="v12" name="v12" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+									                                <input type="text" placeholder="金额(元)" id="v12" name="v12" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')">
 																</div>
 															</div>
 														</div>
@@ -1724,14 +1724,14 @@
 																<label class="col-sm-3 control-label" style="text-align:right;">种（仔）畜</label>
 																<div class="col-sm-9 form-inline">
 									                                <input type="text" placeholder="支出明细" id="v13" name="v13" class="form-control" style="width:250px;">
-									                                <input type="text" placeholder="金额(元)" id="v14" name="v14" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+									                                <input type="text" placeholder="金额(元)" id="v14" name="v14" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')">
 																</div>
 															</div>
 															<div class="col-sm-6">
 																<label class="col-sm-3 control-label" style="text-align:right;margin-top: 0px;">销售费用<br>通讯费用</label>
 																<div class="col-sm-9 form-inline">
 									                                <input type="text" placeholder="支出明细" id="v15" name="v15" class="form-control" style="width:250px;">
-									                                <input type="text" placeholder="金额(元)" id="v16" name="v16" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+									                                <input type="text" placeholder="金额(元)" id="v16" name="v16" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')">
 																</div>
 															</div>
 														</div>
@@ -1741,7 +1741,7 @@
 																<label class="col-sm-3 control-label" style="text-align:right;">借贷利息</label>
 																<div class="col-sm-9 form-inline">
 									                                <input type="text" placeholder="支出明细" id="v17" name="v17" class="form-control" style="width:250px;">
-									                                <input type="text" placeholder="金额(元)" id="v18" name="v18" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+									                                <input type="text" placeholder="金额(元)" id="v18" name="v18" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')">
 																</div>
 															</div>
 								                        </div>
@@ -1762,7 +1762,7 @@
 																	<div class="col-sm-12 form-inline">
 										                                <input type="text" placeholder="政策性支出项目" id="v23" name="v23" class="form-control" style="width:180px;">
 										                                <input type="text" placeholder="支出明细" id="v19" name="v19" class="form-control" style="width:180px;">
-						                                				<input type="text" placeholder="金额(元)" id="v20" name="v20" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+						                                				<input type="text" placeholder="金额(元)" id="v20" name="v20" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')">
 																	</div>
 																</div>
 																<br>
@@ -1770,7 +1770,7 @@
 																	<div class="col-sm-12 form-inline">
 										                                <input type="text" placeholder="政策性支出项目" id="v24" name="v24" class="form-control" style="width:180px;">
 										                                <input type="text" placeholder="支出明细" id="v21" name="v21" class="form-control" style="width:180px;">
-						                                				<input type="text" placeholder="金额(元)" id="v22" name="v22" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+						                                				<input type="text" placeholder="金额(元)" id="v22" name="v22" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')">
 																	</div>
 																</div>
 															</div>
@@ -1787,7 +1787,7 @@
 																	<div class="col-sm-12 form-inline">
 										                                <input type="text" placeholder="其他支出项目" id="v25" name="v25" class="form-control" style="width:180px;">
 										                                <input type="text" placeholder="支出明细" id="v26" name="v26" class="form-control" style="width:180px;">
-						                               					<input type="text" placeholder="金额(元)" id="v27" name="v27" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+						                               					<input type="text" placeholder="金额(元)" id="v27" name="v27" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')">
 																	</div>
 																</div>
 																<br>
@@ -1795,7 +1795,7 @@
 																	<div class="col-sm-12 form-inline">
 										                                <input type="text" placeholder="其他支出项目" id="v28" name="v28" class="form-control" style="width:180px;">
 										                                <input type="text" placeholder="支出明细" id="v29" name="v29" class="form-control" style="width:180px;">
-						                               					<input type="text" placeholder="金额(元)" id="v30" name="v30" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+						                               					<input type="text" placeholder="金额(元)" id="v30" name="v30" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')">
 																	</div>
 																</div>
 															</div>
@@ -2710,14 +2710,14 @@
 																<label class="col-sm-3 control-label" style="text-align:right;">农业(水产)</label>
 																<div class="col-sm-9 form-inline">
 									                                <input type="text" placeholder="收入明细" id="v1" name="v1" class="form-control" style="width:250px;" Chinese="true">     
-									                                <input type="text" placeholder="金额(元)" id="v2" name="v2" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+									                                <input type="text" placeholder="金额(元)" id="v2" name="v2" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')">
 																</div>
 															</div>
 															<div class="col-sm-6">
 																<label class="col-sm-3 control-label" style="text-align:right;">畜牧业</label>
 																<div class="col-sm-9 form-inline">
 									                                <input type="text" placeholder="收入明细" id="v3" name="v3" class="form-control" style="width:250px;" >
-									                                <input type="text" placeholder="金额(元)" id="v4" name="v4" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+									                                <input type="text" placeholder="金额(元)" id="v4" name="v4" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')">
 																</div>
 															</div>
 														</div>
@@ -2727,14 +2727,14 @@
 																<label class="col-sm-3 control-label" style="text-align:right;">林业</label>
 																<div class="col-sm-9 form-inline">
 									                                <input type="text" placeholder="收入明细" id="v5" name="v5" class="form-control" style="width:250px;">
-									                                <input type="text" placeholder="金额(元)" id="v6" name="v6" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+									                                <input type="text" placeholder="金额(元)" id="v6" name="v6" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')">
 																</div>
 															</div>
 															<div class="col-sm-6">
 																<label class="col-sm-3 control-label" style="text-align:right;">其他</label>
 																<div class="col-sm-9 form-inline">
 									                                <input type="text" placeholder="收入明细" id="v7" name="v7" class="form-control" style="width:250px;">
-									                                <input type="text" placeholder="金额(元)" id="v8" name="v8" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+									                                <input type="text" placeholder="金额(元)" id="v8" name="v8" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')">
 																</div>
 															</div>
 								                        </div>
@@ -2755,14 +2755,14 @@
 																<label class="col-sm-3 control-label" style="text-align:right;margin-top: 0px;">农林牧草<br>生态等补贴</label>
 																<div class="col-sm-9 form-inline">
 									                                <input type="text" placeholder="收入明细" id="v11" name="v11" class="form-control" style="width:250px;">
-									                                <input type="text" placeholder="金额(元)" id="v12" name="v12" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+									                                <input type="text" placeholder="金额(元)" id="v12" name="v12" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')">
 																</div>
 															</div>
 															<div class="col-sm-6">
 																<label class="col-sm-3 control-label" style="text-align:right;">养老金</label>
 																<div class="col-sm-9 form-inline">
 									                                <input type="text" placeholder="收入明细" id="v13" name="v13" class="form-control" style="width:250px;">
-									                                <input type="text" placeholder="金额(元)" id="v14" name="v14" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+									                                <input type="text" placeholder="金额(元)" id="v14" name="v14" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')">
 																</div>
 															</div>
 														</div>
@@ -2772,14 +2772,14 @@
 																<label class="col-sm-3 control-label" style="text-align:right;">低保(五保)补贴</label>
 																<div class="col-sm-9 form-inline">
 									                                <input type="text" placeholder="收入明细" id="v15" name="v15" class="form-control" style="width:250px;">
-									                                <input type="text" placeholder="金额(元)" id="v16" name="v16" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+									                                <input type="text" placeholder="金额(元)" id="v16" name="v16" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')">
 																</div>
 															</div>
 															<div class="col-sm-6">
 																<label class="col-sm-3 control-label" style="text-align:right;">燃煤补贴</label>
 																<div class="col-sm-9 form-inline">
 									                                <input type="text" placeholder="收入明细" id="v17" name="v17" class="form-control" style="width:250px;">
-									                                <input type="text" placeholder="金额(元)" id="v18" name="v18" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+									                                <input type="text" placeholder="金额(元)" id="v18" name="v18" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')">
 																</div>
 															</div>
 														</div>
@@ -2789,7 +2789,7 @@
 																<label class="col-sm-3 control-label" style="text-align:right;">其他</label>
 																<div class="col-sm-9 form-inline">
 									                                <input type="text" placeholder="收入明细" id="v19" name="v19" class="form-control" style="width:250px;">
-									                                <input type="text" placeholder="金额(元)" id="v20" name="v20" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+									                                <input type="text" placeholder="金额(元)" id="v20" name="v20" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')">
 																</div>
 															</div>
 								                        </div>
@@ -2809,14 +2809,14 @@
 																<label class="col-sm-3 control-label" style="text-align:right;margin-top: 0px;">土地、草牧<br>场流转</label>
 																<div class="col-sm-9 form-inline">
 									                                <input type="text" placeholder="收入明细" id="v23" name="v23" class="form-control" style="width:250px;">
-									                                <input type="text" placeholder="金额(元)" id="v24" name="v24" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" >
+									                                <input type="text" placeholder="金额(元)" id="v24" name="v24" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')" >
 																</div>
 															</div>
 															<div class="col-sm-6">
 																<label class="col-sm-3 control-label" style="text-align:right;">其他</label>
 																<div class="col-sm-9 form-inline">
 									                                <input type="text" placeholder="收入明细" id="v25" name="v25" class="form-control" style="width:250px;">
-									                                <input type="text" placeholder="金额(元)" id="v26" name="v26" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+									                                <input type="text" placeholder="金额(元)" id="v26" name="v26" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')">
 																</div>
 															</div>
 														</div>
@@ -2837,7 +2837,7 @@
 																	<div class="col-sm-12 form-inline">
 																		<input type="text" placeholder="工资性收入项目" id="v35" name="v35" class="form-control" style="width:180px;">
 										                                <input type="text" placeholder="收入明细" id="v27" name="v27" class="form-control" style="width:180px;">
-										                                <input type="text" placeholder="金额(元)" id="v28" name="v28" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+										                                <input type="text" placeholder="金额(元)" id="v28" name="v28" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')">
 																	</div>
 																</div>
 																<br>
@@ -2845,7 +2845,7 @@
 																	<div class="col-sm-12 form-inline">
 										                                <input type="text" placeholder="工资性收入项目" id="v36" name="v36" class="form-control" style="width:180px;">
 										                                <input type="text" placeholder="收入明细" id="v29" name="v29" class="form-control" style="width:180px;">
-										                                <input type="text" placeholder="金额(元)" id="v30" name="v30" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+										                                <input type="text" placeholder="金额(元)" id="v30" name="v30" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')">
 																	</div>
 																</div>
 															</div>
@@ -2862,7 +2862,7 @@
 																	<div class="col-sm-12 form-inline">
 										                                <input type="text" placeholder="其他收入项目" id="v37" name="v37" class="form-control" style="width:180px;">
 										                                <input type="text" placeholder="收入明细" id="v31" name="v31" class="form-control" style="width:180px;">
-										                                <input type="text" placeholder="金额(元)" id="v32" name="v32" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+										                                <input type="text" placeholder="金额(元)" id="v32" name="v32" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')">
 																	</div>
 																</div>
 																<br>
@@ -2870,7 +2870,7 @@
 																	<div class="col-sm-12 form-inline">
 										                                <input type="text" placeholder="其他收入项目" id="v38" name="v38" class="form-control" style="width:180px;">
 										                                <input type="text" placeholder="收入明细" id="v33" name="v33" class="form-control" style="width:180px;">
-										                                <input type="text" placeholder="金额(元)" id="v34" name="v34" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+										                                <input type="text" placeholder="金额(元)" id="v34" name="v34" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')">
 																	</div>
 																</div>
 															</div>
@@ -2923,14 +2923,14 @@
 																<label class="col-sm-3 control-label" style="text-align:right;">农资费用</label>
 																<div class="col-sm-9 form-inline">
 									                                <input type="text" placeholder="支出明细" id="v1" name="v1" class="form-control" style="width:250px;">
-									                                <input type="text" placeholder="金额(元)" id="v2" name="v2" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+									                                <input type="text" placeholder="金额(元)" id="v2" name="v2" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')">
 																</div>
 															</div>
 															<div class="col-sm-6">
 																<label class="col-sm-3 control-label" style="text-align:right;margin-top: 0px;">固定资产折<br>旧和租赁费</label>
 																<div class="col-sm-9 form-inline">
 									                                <input type="text" placeholder="支出明细" id="v3" name="v3" class="form-control" style="width:250px;">
-									                                <input type="text" placeholder="金额(元)" id="v4" name="v4" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+									                                <input type="text" placeholder="金额(元)" id="v4" name="v4" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')">
 																</div>
 															</div>
 														</div>
@@ -2940,14 +2940,14 @@
 																<label class="col-sm-3 control-label" style="text-align:right;">水电燃料支出</label>
 																<div class="col-sm-9 form-inline">
 									                                <input type="text" placeholder="支出明细" id="v5" name="v5" class="form-control" style="width:250px;">
-									                                <input type="text" placeholder="金额(元)" id="v6" name="v6" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+									                                <input type="text" placeholder="金额(元)" id="v6" name="v6" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')">
 																</div>
 															</div>
 															<div class="col-sm-6">
 																<label class="col-sm-3 control-label" style="text-align:right;margin-top: 0px;">承包土地<br>草场费用</label>
 																<div class="col-sm-9 form-inline">
 									                                <input type="text" placeholder="支出明细" id="v7" name="v7" class="form-control" style="width:250px;">
-									                                <input type="text" placeholder="金额(元)" id="v8" name="v8" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+									                                <input type="text" placeholder="金额(元)" id="v8" name="v8" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')">
 																</div>
 															</div>
 								                        </div>
@@ -2957,14 +2957,14 @@
 																<label class="col-sm-3 control-label" style="text-align:right;">饲草料</label>
 																<div class="col-sm-9 form-inline">
 									                                <input type="text" placeholder="支出明细" id="v9" name="v9" class="form-control" style="width:250px;">
-									                                <input type="text" placeholder="金额(元)" id="v10" name="v10" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+									                                <input type="text" placeholder="金额(元)" id="v10" name="v10" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')">
 																</div>
 															</div>
 															<div class="col-sm-6">
 																<label class="col-sm-3 control-label" style="text-align:right;">防疫防治支出</label>
 																<div class="col-sm-9 form-inline">
 									                                <input type="text" placeholder="支出明细" id="v11" name="v11" class="form-control" style="width:250px;">
-									                                <input type="text" placeholder="金额(元)" id="v12" name="v12" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+									                                <input type="text" placeholder="金额(元)" id="v12" name="v12" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')">
 																</div>
 															</div>
 														</div>
@@ -2974,14 +2974,14 @@
 																<label class="col-sm-3 control-label" style="text-align:right;">种（仔）畜</label>
 																<div class="col-sm-9 form-inline">
 									                                <input type="text" placeholder="支出明细" id="v13" name="v13" class="form-control" style="width:250px;" >
-									                                <input type="text" placeholder="金额(元)" id="v14" name="v14" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+									                                <input type="text" placeholder="金额(元)" id="v14" name="v14" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')">
 																</div>
 															</div>
 															<div class="col-sm-6">
 																<label class="col-sm-3 control-label" style="text-align:right;margin-top: 0px;">销售费用<br>通讯费用</label>
 																<div class="col-sm-9 form-inline">
 									                                <input type="text" placeholder="支出明细" id="v15" name="v15" class="form-control" style="width:250px;">
-									                                <input type="text" placeholder="金额(元)" id="v16" name="v16" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+									                                <input type="text" placeholder="金额(元)" id="v16" name="v16" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')">
 																</div>
 															</div>
 														</div>
@@ -2991,7 +2991,7 @@
 																<label class="col-sm-3 control-label" style="text-align:right;">借贷利息</label>
 																<div class="col-sm-9 form-inline">
 									                                <input type="text" placeholder="支出明细" id="v17" name="v17" class="form-control" style="width:250px;">
-									                                <input type="text" placeholder="金额(元)" id="v18" name="v18" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+									                                <input type="text" placeholder="金额(元)" id="v18" name="v18" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')">
 																</div>
 															</div>
 								                        </div>
@@ -3012,7 +3012,7 @@
 																	<div class="col-sm-12 form-inline">
 										                                <input type="text" placeholder="政策性支出项目" id="v23" name="v23" class="form-control" style="width:180px;">
 										                                <input type="text" placeholder="支出明细" id="v19" name="v19" class="form-control" style="width:180px;">
-						                                				<input type="text" placeholder="金额(元)" id="v20" name="v20" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+						                                				<input type="text" placeholder="金额(元)" id="v20" name="v20" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')">
 																	</div>
 																</div>
 																<br>
@@ -3020,7 +3020,7 @@
 																	<div class="col-sm-12 form-inline">
 										                                <input type="text" placeholder="政策性支出项目" id="v24" name="v24" class="form-control" style="width:180px;">
 										                                <input type="text" placeholder="支出明细" id="v21" name="v21" class="form-control" style="width:180px;">
-						                                				<input type="text" placeholder="金额(元)" id="v22" name="v22" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+						                                				<input type="text" placeholder="金额(元)" id="v22" name="v22" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')">
 																	</div>
 																</div>
 															</div>
@@ -3037,7 +3037,7 @@
 																	<div class="col-sm-12 form-inline">
 										                                <input type="text" placeholder="其他支出项目" id="v25" name="v25" class="form-control" style="width:180px;">
 										                                <input type="text" placeholder="支出明细" id="v26" name="v26" class="form-control" style="width:180px;">
-						                               					<input type="text" placeholder="金额(元)" id="v27" name="v27" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+						                               					<input type="text" placeholder="金额(元)" id="v27" name="v27" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')">
 																	</div>
 																</div>
 																<br>
@@ -3045,7 +3045,7 @@
 																	<div class="col-sm-12 form-inline">
 										                                <input type="text" placeholder="其他支出项目" id="v28" name="v28" class="form-control" style="width:180px;">
 										                                <input type="text" placeholder="支出明细" id="v29" name="v29" class="form-control" style="width:180px;">
-						                               					<input type="text" placeholder="金额(元)" id="v30" name="v30" class="form-control" style="width:80px;" number="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+						                               					<input type="text" placeholder="金额(元)" id="v30" name="v30" class="form-control" style="width:80px;" number="true" onkeyup="if(isNaN(this.value))execCommand('undo')" onafterpaste="if(isNaN(this.value))execCommand('undo')">
 																	</div>
 																</div>
 															</div>
