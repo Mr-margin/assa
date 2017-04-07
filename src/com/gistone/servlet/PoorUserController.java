@@ -298,10 +298,14 @@ public class PoorUserController extends MultiActionController{
 		String cha_v6 = "";//户主姓名
 		String cha_v8 = "";//身份证号
 		String cha_v8_1 = "";//年龄范围
-		
+		String cha_year = "";//查找的年份
 
 		String str = "";
 		
+		if(request.getParameter("cha_year")!=null&&!request.getParameter("cha_year").equals("")){
+			cha_year = request.getParameter("cha_year").trim();
+			str += " a.entry_year= "+cha_year+" and";
+		}
 		if(request.getParameter("cha_v6")!=null&&!request.getParameter("cha_v6").equals("")){
 			cha_v6 = request.getParameter("cha_v6").trim();
 			str += " a.v6 like '%"+cha_v6+"%' and";

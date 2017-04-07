@@ -499,7 +499,8 @@ public class StandingBookController extends MultiActionController{
 		String str="";
 		String cha_v6 = "";//户主姓名
 		String cha_v8 = "";//身份证号
-		String cha_v8_1 = "";//年龄范围
+		String cha_v8_1 = "";//年龄范围开始时间
+		String cha_v8_2 = "";//年龄范围截止时间
 		String year = request.getParameter("year");
 		if ( "2016".equals(year) ) {
 			year = "_2016";
@@ -517,14 +518,18 @@ public class StandingBookController extends MultiActionController{
 			cha_v8 = request.getParameter("cha_v8").trim();
 			str += " t1.v8 like '%"+cha_v8+"%' and";
 		}
-		if(request.getParameter("cha_v8_1")!=null&&!request.getParameter("cha_v8_1").equals("请选择")){
+		if(request.getParameter("cha_v8_1")!=null&&!request.getParameter("cha_v8_1").equals("")){
 			cha_v8_1 = request.getParameter("cha_v8_1").trim();
-			if(cha_v8_1.equals("大于60岁")){
-				str += " LENGTH(t1.v8)>=18 and year(now()) year(substring(a.v8,7,8))>=60 and";
-			}else if(cha_v8_1.equals("小于16岁")){
-				str += " LENGTH(t1.v8)>=18 and year(now()) year(substring(a.v8,7,8))<=16 and";
-			}else if(cha_v8_1.equals("17岁至59岁")){
-				str += " LENGTH(t1.v8)>=18 and (year(now()) year(substring(a.v8,7,8))>=17 or year(now()) year(substring(t1.v8,7,8))>=59) and";
+			if(request.getParameter("cha_v8_2")!=null&&!request.getParameter("cha_v8_2").equals("")){
+				cha_v8_2 = request.getParameter("cha_v8_2").trim();
+				str += " LENGTH(t1.v8)>=18 and (TIMESTAMPDIFF(year,substring(t1.v8, 7, 8),DATE(now()))>="+cha_v8_1+" and TIMESTAMPDIFF(year,substring(t1.v8, 7, 8),DATE(now()))<="+cha_v8_2+") and";
+			}else{
+				str += " LENGTH(t1.v8)>=18 and TIMESTAMPDIFF(year,substring(t1.v8, 7, 8),DATE(now()))>="+cha_v8_1+" and";
+			}
+		}else{
+			if(request.getParameter("cha_v8_2")!=null&&!request.getParameter("cha_v8_2").equals("")){
+				cha_v8_2 = request.getParameter("cha_v8_2").trim();
+				str += " LENGTH(t1.v8)>=18 and TIMESTAMPDIFF(year,substring(t1.v8, 7, 8),DATE(now()))<="+cha_v8_2+" and";
 			}
 		}
 		
@@ -775,7 +780,8 @@ public class StandingBookController extends MultiActionController{
 		String str="";
 		String cha_v6 = "";//户主姓名
 		String cha_v8 = "";//身份证号
-		String cha_v8_1 = "";//年龄范围
+		String cha_v8_1 = "";//最小年龄范围
+		String cha_v8_2 = "";//最大年龄范围
 		String year = request.getParameter("year");
 		if ( "2016".equals(year) ) {
 			year = "_2016";
@@ -792,14 +798,18 @@ public class StandingBookController extends MultiActionController{
 			cha_v8 = request.getParameter("cha_v8").trim();
 			str += " t1.v8 like '%"+cha_v8+"%' and";
 		}
-		if(request.getParameter("cha_v8_1")!=null&&!request.getParameter("cha_v8_1").equals("请选择")){
+		if(request.getParameter("cha_v8_1")!=null&&!request.getParameter("cha_v8_1").equals("")){
 			cha_v8_1 = request.getParameter("cha_v8_1").trim();
-			if(cha_v8_1.equals("大于60岁")){
-				str += " LENGTH(t1.v8)>=18 and year(now()) year(substring(a.v8,7,8))>=60 and";
-			}else if(cha_v8_1.equals("小于16岁")){
-				str += " LENGTH(t1.v8)>=18 and year(now()) year(substring(a.v8,7,8))<=16 and";
-			}else if(cha_v8_1.equals("17岁至59岁")){
-				str += " LENGTH(t1.v8)>=18 and (year(now()) year(substring(a.v8,7,8))>=17 or year(now()) year(substring(t1.v8,7,8))>=59) and";
+			if(request.getParameter("cha_v8_2")!=null&&!request.getParameter("cha_v8_2").equals("")){
+				cha_v8_2 = request.getParameter("cha_v8_2").trim();
+				str += " LENGTH(t1.v8)>=18 and (TIMESTAMPDIFF(year,substring(t1.v8, 7, 8),DATE(now()))>="+cha_v8_1+" and TIMESTAMPDIFF(year,substring(t1.v8, 7, 8),DATE(now()))<="+cha_v8_2+") and";
+			}else{
+				str += " LENGTH(t1.v8)>=18 and TIMESTAMPDIFF(year,substring(t1.v8, 7, 8),DATE(now()))>="+cha_v8_1+" and";
+			}
+		}else{
+			if(request.getParameter("cha_v8_2")!=null&&!request.getParameter("cha_v8_2").equals("")){
+				cha_v8_2 = request.getParameter("cha_v8_2").trim();
+				str += " LENGTH(t1.v8)>=18 and TIMESTAMPDIFF(year,substring(t1.v8, 7, 8),DATE(now()))<="+cha_v8_2+" and";
 			}
 		}
 		
@@ -1015,7 +1025,8 @@ public class StandingBookController extends MultiActionController{
 		String str="";
 		String cha_v6 = "";//户主姓名
 		String cha_v8 = "";//身份证号
-		String cha_v8_1 = "";//年龄范围
+		String cha_v8_1 = "";//最小年龄范围
+		String cha_v8_2 = "";//最大年龄范围
 		String year = request.getParameter("year");
 		if ( "2016".equals(year) ) {
 			year = "_2016";
@@ -1032,14 +1043,18 @@ public class StandingBookController extends MultiActionController{
 			cha_v8 = request.getParameter("cha_v8").trim();
 			str += " t1.v8 like '%"+cha_v8+"%' and";
 		}
-		if(request.getParameter("cha_v8_1")!=null&&!request.getParameter("cha_v8_1").equals("请选择")){
+		if(request.getParameter("cha_v8_1")!=null&&!request.getParameter("cha_v8_1").equals("")){
 			cha_v8_1 = request.getParameter("cha_v8_1").trim();
-			if(cha_v8_1.equals("大于60岁")){
-				str += " LENGTH(t1.v8)>=18 and year(now()) year(substring(a.v8,7,8))>=60 and";
-			}else if(cha_v8_1.equals("小于16岁")){
-				str += " LENGTH(t1.v8)>=18 and year(now()) year(substring(a.v8,7,8))<=16 and";
-			}else if(cha_v8_1.equals("17岁至59岁")){
-				str += " LENGTH(t1.v8)>=18 and (year(now()) year(substring(a.v8,7,8))>=17 or year(now()) year(substring(t1.v8,7,8))>=59) and";
+			if(request.getParameter("cha_v8_2")!=null&&!request.getParameter("cha_v8_2").equals("")){
+				cha_v8_2 = request.getParameter("cha_v8_2").trim();
+				str += " LENGTH(t1.v8)>=18 and (TIMESTAMPDIFF(year,substring(t1.v8, 7, 8),DATE(now()))>="+cha_v8_1+" and TIMESTAMPDIFF(year,substring(t1.v8, 7, 8),DATE(now()))<="+cha_v8_2+") and";
+			}else{
+				str += " LENGTH(t1.v8)>=18 and TIMESTAMPDIFF(year,substring(t1.v8, 7, 8),DATE(now()))>="+cha_v8_1+" and";
+			}
+		}else{
+			if(request.getParameter("cha_v8_2")!=null&&!request.getParameter("cha_v8_2").equals("")){
+				cha_v8_2 = request.getParameter("cha_v8_2").trim();
+				str += " LENGTH(t1.v8)>=18 and TIMESTAMPDIFF(year,substring(t1.v8, 7, 8),DATE(now()))<="+cha_v8_2+" and";
 			}
 		}
 		
@@ -1780,7 +1795,8 @@ public class StandingBookController extends MultiActionController{
 		String str="";
 		String cha_v6 = "";//户主姓名
 		String cha_v8 = "";//身份证号
-		String cha_v8_1 = "";//年龄范围
+		String cha_v8_1 = "";//最小年龄范围
+		String cha_v8_2 = "";//最大年龄范围
 		String year = request.getParameter("year");
 		if ( "2016".equals(year) ) {
 			year = "_2016";
@@ -1797,14 +1813,18 @@ public class StandingBookController extends MultiActionController{
 			cha_v8 = request.getParameter("cha_v8").trim();
 			str += " t1.v8 like '%"+cha_v8+"%' and";
 		}
-		if(request.getParameter("cha_v8_1")!=null&&!request.getParameter("cha_v8_1").equals("请选择")){
+		if(request.getParameter("cha_v8_1")!=null&&!request.getParameter("cha_v8_1").equals("")){
 			cha_v8_1 = request.getParameter("cha_v8_1").trim();
-			if(cha_v8_1.equals("大于60岁")){
-				str += " LENGTH(t1.v8)>=18 and year(now()) year(substring(a.v8,7,8))>=60 and";
-			}else if(cha_v8_1.equals("小于16岁")){
-				str += " LENGTH(t1.v8)>=18 and year(now()) year(substring(a.v8,7,8))<=16 and";
-			}else if(cha_v8_1.equals("17岁至59岁")){
-				str += " LENGTH(t1.v8)>=18 and (year(now()) year(substring(a.v8,7,8))>=17 or year(now()) year(substring(t1.v8,7,8))>=59) and";
+			if(request.getParameter("cha_v8_2")!=null&&!request.getParameter("cha_v8_2").equals("")){
+				cha_v8_2 = request.getParameter("cha_v8_2").trim();
+				str += " LENGTH(t1.v8)>=18 and (TIMESTAMPDIFF(year,substring(t1.v8, 7, 8),DATE(now()))>="+cha_v8_1+" and TIMESTAMPDIFF(year,substring(t1.v8, 7, 8),DATE(now()))<="+cha_v8_2+") and";
+			}else{
+				str += " LENGTH(t1.v8)>=18 and TIMESTAMPDIFF(year,substring(t1.v8, 7, 8),DATE(now()))>="+cha_v8_1+" and";
+			}
+		}else{
+			if(request.getParameter("cha_v8_2")!=null&&!request.getParameter("cha_v8_2").equals("")){
+				cha_v8_2 = request.getParameter("cha_v8_2").trim();
+				str += " LENGTH(t1.v8)>=18 and TIMESTAMPDIFF(year,substring(t1.v8, 7, 8),DATE(now()))<="+cha_v8_2+" and";
 			}
 		}
 		
@@ -2040,7 +2060,8 @@ public class StandingBookController extends MultiActionController{
 		String str="";
 		String cha_v6 = "";//户主姓名
 		String cha_v8 = "";//身份证号
-		String cha_v8_1 = "";//年龄范围
+		String cha_v8_1 = "";//最小年龄范围
+		String cha_v8_2 = "";//最大年龄范围
 		String year = request.getParameter("year");
 		if ( "2016".equals(year) ) {
 			year = "_2016";
@@ -2057,14 +2078,18 @@ public class StandingBookController extends MultiActionController{
 			cha_v8 = request.getParameter("cha_v8").trim();
 			str += " t1.v8 like '%"+cha_v8+"%' and";
 		}
-		if(request.getParameter("cha_v8_1")!=null&&!request.getParameter("cha_v8_1").equals("请选择")){
+		if(request.getParameter("cha_v8_1")!=null&&!request.getParameter("cha_v8_1").equals("")){
 			cha_v8_1 = request.getParameter("cha_v8_1").trim();
-			if(cha_v8_1.equals("大于60岁")){
-				str += " LENGTH(t1.v8)>=18 and year(now()) year(substring(a.v8,7,8))>=60 and";
-			}else if(cha_v8_1.equals("小于16岁")){
-				str += " LENGTH(t1.v8)>=18 and year(now()) year(substring(a.v8,7,8))<=16 and";
-			}else if(cha_v8_1.equals("17岁至59岁")){
-				str += " LENGTH(t1.v8)>=18 and (year(now()) year(substring(a.v8,7,8))>=17 or year(now()) year(substring(t1.v8,7,8))>=59) and";
+			if(request.getParameter("cha_v8_2")!=null&&!request.getParameter("cha_v8_2").equals("")){
+				cha_v8_2 = request.getParameter("cha_v8_2").trim();
+				str += " LENGTH(t1.v8)>=18 and (TIMESTAMPDIFF(year,substring(t1.v8, 7, 8),DATE(now()))>="+cha_v8_1+" and TIMESTAMPDIFF(year,substring(t1.v8, 7, 8),DATE(now()))<="+cha_v8_2+") and";
+			}else{
+				str += " LENGTH(t1.v8)>=18 and TIMESTAMPDIFF(year,substring(t1.v8, 7, 8),DATE(now()))>="+cha_v8_1+" and";
+			}
+		}else{
+			if(request.getParameter("cha_v8_2")!=null&&!request.getParameter("cha_v8_2").equals("")){
+				cha_v8_2 = request.getParameter("cha_v8_2").trim();
+				str += " LENGTH(t1.v8)>=18 and TIMESTAMPDIFF(year,substring(t1.v8, 7, 8),DATE(now()))<="+cha_v8_2+" and";
 			}
 		}
 		
@@ -2368,7 +2393,8 @@ public class StandingBookController extends MultiActionController{
 		String str="";
 		String cha_v6 = "";//户主姓名
 		String cha_v8 = "";//身份证号
-		String cha_v8_1 = "";//年龄范围
+		String cha_v8_1 = "";//最小年龄范围
+		String cha_v8_2 = "";//最大年龄范围
 		String year = request.getParameter("year");
 		if ( "2016".equals(year) ) {
 			year = "_2016";
@@ -2385,14 +2411,18 @@ public class StandingBookController extends MultiActionController{
 			cha_v8 = request.getParameter("cha_v8").trim();
 			str += " t1.v8 like '%"+cha_v8+"%' and";
 		}
-		if(request.getParameter("cha_v8_1")!=null&&!request.getParameter("cha_v8_1").equals("请选择")){
+		if(request.getParameter("cha_v8_1")!=null&&!request.getParameter("cha_v8_1").equals("")){
 			cha_v8_1 = request.getParameter("cha_v8_1").trim();
-			if(cha_v8_1.equals("大于60岁")){
-				str += " LENGTH(t1.v8)>=18 and year(now()) year(substring(a.v8,7,8))>=60 and";
-			}else if(cha_v8_1.equals("小于16岁")){
-				str += " LENGTH(t1.v8)>=18 and year(now()) year(substring(a.v8,7,8))<=16 and";
-			}else if(cha_v8_1.equals("17岁至59岁")){
-				str += " LENGTH(t1.v8)>=18 and (year(now()) year(substring(a.v8,7,8))>=17 or year(now()) year(substring(t1.v8,7,8))>=59) and";
+			if(request.getParameter("cha_v8_2")!=null&&!request.getParameter("cha_v8_2").equals("")){
+				cha_v8_2 = request.getParameter("cha_v8_2").trim();
+				str += " LENGTH(t1.v8)>=18 and (TIMESTAMPDIFF(year,substring(t1.v8, 7, 8),DATE(now()))>="+cha_v8_1+" and TIMESTAMPDIFF(year,substring(t1.v8, 7, 8),DATE(now()))<="+cha_v8_2+") and";
+			}else{
+				str += " LENGTH(t1.v8)>=18 and TIMESTAMPDIFF(year,substring(t1.v8, 7, 8),DATE(now()))>="+cha_v8_1+" and";
+			}
+		}else{
+			if(request.getParameter("cha_v8_2")!=null&&!request.getParameter("cha_v8_2").equals("")){
+				cha_v8_2 = request.getParameter("cha_v8_2").trim();
+				str += " LENGTH(t1.v8)>=18 and TIMESTAMPDIFF(year,substring(t1.v8, 7, 8),DATE(now()))<="+cha_v8_2+" and";
 			}
 		}
 		
@@ -2583,7 +2613,8 @@ public class StandingBookController extends MultiActionController{
 		String str="";
 		String cha_v6 = "";//户主姓名
 		String cha_v8 = "";//身份证号
-		String cha_v8_1 = "";//年龄范围
+		String cha_v8_1 = "";//最小年龄范围
+		String cha_v8_2 = "";//最大年龄范围
 		String year = request.getParameter("year");
 		if ( "2016".equals(year) ) {
 			year = "_2016";
@@ -2600,14 +2631,18 @@ public class StandingBookController extends MultiActionController{
 			cha_v8 = request.getParameter("cha_v8").trim();
 			str += " t1.v8 like '%"+cha_v8+"%' and";
 		}
-		if(request.getParameter("cha_v8_1")!=null&&!request.getParameter("cha_v8_1").equals("请选择")){
+		if(request.getParameter("cha_v8_1")!=null&&!request.getParameter("cha_v8_1").equals("")){
 			cha_v8_1 = request.getParameter("cha_v8_1").trim();
-			if(cha_v8_1.equals("大于60岁")){
-				str += " LENGTH(t1.v8)>=18 and year(now()) year(substring(a.v8,7,8))>=60 and";
-			}else if(cha_v8_1.equals("小于16岁")){
-				str += " LENGTH(t1.v8)>=18 and year(now()) year(substring(a.v8,7,8))<=16 and";
-			}else if(cha_v8_1.equals("17岁至59岁")){
-				str += " LENGTH(t1.v8)>=18 and (year(now()) year(substring(a.v8,7,8))>=17 or year(now()) year(substring(t1.v8,7,8))>=59) and";
+			if(request.getParameter("cha_v8_2")!=null&&!request.getParameter("cha_v8_2").equals("")){
+				cha_v8_2 = request.getParameter("cha_v8_2").trim();
+				str += " LENGTH(t1.v8)>=18 and (TIMESTAMPDIFF(year,substring(t1.v8, 7, 8),DATE(now()))>="+cha_v8_1+" and TIMESTAMPDIFF(year,substring(t1.v8, 7, 8),DATE(now()))<="+cha_v8_2+") and";
+			}else{
+				str += " LENGTH(t1.v8)>=18 and TIMESTAMPDIFF(year,substring(t1.v8, 7, 8),DATE(now()))>="+cha_v8_1+" and";
+			}
+		}else{
+			if(request.getParameter("cha_v8_2")!=null&&!request.getParameter("cha_v8_2").equals("")){
+				cha_v8_2 = request.getParameter("cha_v8_2").trim();
+				str += " LENGTH(t1.v8)>=18 and TIMESTAMPDIFF(year,substring(t1.v8, 7, 8),DATE(now()))<="+cha_v8_2+" and";
 			}
 		}
 		
@@ -2926,6 +2961,1270 @@ public class StandingBookController extends MultiActionController{
 //				        sheet_4.addCell(new Label( 21 , conut_8 ,list_8.get(0).get("v42")==null?"":list_8.get(0).get("v42").toString() ,coty));
 //				        sheet_4.addCell(new Label( 22 , conut_8 ,list_8.get(0).get("v43")==null?"":list_8.get(0).get("v43").toString() ,coty));
 //				        
+				        sheet_8.addCell(new Label( 23 , conut_8 ,list_8.get(0).get("v19")==null?"":list_8.get(0).get("v19").toString() ,coty));
+				        sheet_8.addCell(new Label( 24 , conut_8 ,list_8.get(0).get("v20")==null?"":list_8.get(0).get("v20").toString() ,coty));
+				        sheet_8.addCell(new Label( 25 , conut_8 ,list_8.get(0).get("v21")==null?"":list_8.get(0).get("v21").toString() ,coty));
+				        sheet_8.addCell(new Label( 26 , conut_8 ,list_8.get(0).get("v22")==null?"":list_8.get(0).get("v22").toString() ,coty));
+				        sheet_8.addCell(new Label( 27 , conut_8 ,list_8.get(0).get("v23")==null?"":list_8.get(0).get("v23").toString() ,coty));
+				        sheet_8.addCell(new Label( 28 , conut_8 ,list_8.get(0).get("v24")==null?"":list_8.get(0).get("v24").toString() ,coty));
+				        sheet_8.addCell(new Label( 29 , conut_8 ,list_8.get(0).get("v25")==null?"":list_8.get(0).get("v25").toString() ,coty));
+				        sheet_8.addCell(new Label( 30 , conut_8 ,list_8.get(0).get("v26")==null?"":list_8.get(0).get("v26").toString() ,coty));
+				        sheet_8.addCell(new Label( 31 , conut_8 ,list_8.get(0).get("v35")==null?"":list_8.get(0).get("v35").toString() ,coty));
+				        sheet_8.addCell(new Label( 32 , conut_8 ,list_8.get(0).get("v27")==null?"":list_8.get(0).get("v27").toString() ,coty));
+				        sheet_8.addCell(new Label( 33 , conut_8 ,list_8.get(0).get("v28")==null?"":list_8.get(0).get("v28").toString() ,coty));
+				        sheet_8.addCell(new Label( 34 , conut_8 ,list_8.get(0).get("v36")==null?"":list_8.get(0).get("v36").toString() ,coty));
+				        sheet_8.addCell(new Label( 35 , conut_8 ,list_8.get(0).get("v29")==null?"":list_8.get(0).get("v29").toString() ,coty));
+				        sheet_8.addCell(new Label( 36 , conut_8 ,list_8.get(0).get("v30")==null?"":list_8.get(0).get("v30").toString() ,coty));
+				        sheet_8.addCell(new Label( 37 , conut_8 ,list_8.get(0).get("v37")==null?"":list_8.get(0).get("v37").toString() ,coty));
+				        sheet_8.addCell(new Label( 38 , conut_8 ,list_8.get(0).get("v31")==null?"":list_8.get(0).get("v31").toString() ,coty));
+				        sheet_8.addCell(new Label( 39 , conut_8 ,list_8.get(0).get("v32")==null?"":list_8.get(0).get("v32").toString() ,coty));
+				        sheet_8.addCell(new Label( 40 , conut_8 ,list_8.get(0).get("v38")==null?"":list_8.get(0).get("v38").toString() ,coty));
+				        sheet_8.addCell(new Label( 41 , conut_8 ,list_8.get(0).get("v33")==null?"":list_8.get(0).get("v33").toString() ,coty));
+				        sheet_8.addCell(new Label( 42 , conut_8 ,list_8.get(0).get("v34")==null?"":list_8.get(0).get("v34").toString() ,coty));
+				        sheet_8.addCell(new Label( 43 , conut_8 ,list_8.get(0).get("v39")==null?"":list_8.get(0).get("v39").toString() ,coty));
+//				        
+//				        //帮扶后支出
+				        String bfh_sql="select v1 cv1,v2 cv2,v3 cv3,v4 cv4,v5 cv5,v6 cv6,v7 cv7,v8 cv8,v9 cv9,v10 cv10,v11 cv11,"+
+				        				"v12 cv12,v13 cv13,v14 cv14,v15 cv15,v16 cv16,v17 cv17,v18 cv18,v19 cv19,v20 cv20,v21 cv21,v22 cv22,"+
+				        				"v23 cv23,v24 cv24,v25 cv25,v26 cv26,v27 cv27,v28 cv28,v29 cv29,v30 cv30,v31 cv31,da_household_id "+
+				        				"from da_helpback_expenditure"+year+" where da_household_id="+s1_map.get("pkid");
+				        SQLAdapter bfh_sqlAdapter=new SQLAdapter(bfh_sql);
+				        List<Map> bfh_list=this.getBySqlMapper.findRecords(bfh_sqlAdapter);
+				        sheet_8.addCell(new Label( 44 , conut_8 ,bfh_list.get(0).get("cv1")==null?"":bfh_list.get(0).get("cv1").toString() ,coty));
+				        sheet_8.addCell(new Label( 45 , conut_8 ,bfh_list.get(0).get("cv2")==null?"":bfh_list.get(0).get("cv2").toString() ,coty));
+				        sheet_8.addCell(new Label( 46 , conut_8 ,bfh_list.get(0).get("cv3")==null?"":bfh_list.get(0).get("cv3").toString() ,coty));
+				        sheet_8.addCell(new Label( 47 , conut_8 ,bfh_list.get(0).get("cv4")==null?"":bfh_list.get(0).get("cv4").toString() ,coty));
+				        sheet_8.addCell(new Label( 48 , conut_8 ,bfh_list.get(0).get("cv5")==null?"":bfh_list.get(0).get("cv5").toString() ,coty));
+				        sheet_8.addCell(new Label( 49 , conut_8 ,bfh_list.get(0).get("cv6")==null?"":bfh_list.get(0).get("cv6").toString() ,coty));
+				        sheet_8.addCell(new Label( 50 , conut_8 ,bfh_list.get(0).get("cv7")==null?"":bfh_list.get(0).get("cv7").toString() ,coty));
+				        sheet_8.addCell(new Label( 51 , conut_8 ,bfh_list.get(0).get("cv8")==null?"":bfh_list.get(0).get("cv8").toString() ,coty));
+				        sheet_8.addCell(new Label( 52 , conut_8 ,bfh_list.get(0).get("cv9")==null?"":bfh_list.get(0).get("cv9").toString() ,coty));
+				        sheet_8.addCell(new Label( 53 , conut_8 ,bfh_list.get(0).get("cv10")==null?"":bfh_list.get(0).get("cv10").toString() ,coty));
+				        sheet_8.addCell(new Label( 54 , conut_8 ,bfh_list.get(0).get("cv11")==null?"":bfh_list.get(0).get("cv11").toString() ,coty));
+				        sheet_8.addCell(new Label( 55 , conut_8 ,bfh_list.get(0).get("cv12")==null?"":bfh_list.get(0).get("cv12").toString() ,coty));
+				        sheet_8.addCell(new Label( 56 , conut_8 ,bfh_list.get(0).get("cv13")==null?"":bfh_list.get(0).get("cv13").toString() ,coty));
+				        sheet_8.addCell(new Label( 57 , conut_8 ,bfh_list.get(0).get("cv14")==null?"":bfh_list.get(0).get("cv14").toString() ,coty));
+				        sheet_8.addCell(new Label( 58 , conut_8 ,bfh_list.get(0).get("cv15")==null?"":bfh_list.get(0).get("cv15").toString() ,coty));
+				        sheet_8.addCell(new Label( 59 , conut_8 ,bfh_list.get(0).get("cv16")==null?"":bfh_list.get(0).get("cv16").toString() ,coty));
+				        sheet_8.addCell(new Label( 60 , conut_8 ,bfh_list.get(0).get("cv17")==null?"":bfh_list.get(0).get("cv17").toString() ,coty));
+				        sheet_8.addCell(new Label( 61 , conut_8 ,bfh_list.get(0).get("cv18")==null?"":bfh_list.get(0).get("cv18").toString() ,coty));
+				        
+				        sheet_8.addCell(new Label( 62 , conut_8 ,bfh_list.get(0).get("cv23")==null?"":bfh_list.get(0).get("cv23").toString() ,coty));
+				        sheet_8.addCell(new Label( 63 , conut_8 ,bfh_list.get(0).get("cv19")==null?"":bfh_list.get(0).get("cv19").toString() ,coty));
+				        sheet_8.addCell(new Label( 64 , conut_8 ,bfh_list.get(0).get("cv20")==null?"":bfh_list.get(0).get("cv20").toString() ,coty));
+				        
+				        sheet_8.addCell(new Label( 65 , conut_8 ,bfh_list.get(0).get("cv24")==null?"":bfh_list.get(0).get("cv24").toString() ,coty));
+				        sheet_8.addCell(new Label( 66 , conut_8 ,bfh_list.get(0).get("cv21")==null?"":bfh_list.get(0).get("cv21").toString() ,coty));
+				        sheet_8.addCell(new Label( 67 , conut_8 ,bfh_list.get(0).get("cv22")==null?"":bfh_list.get(0).get("cv22").toString() ,coty));
+				        sheet_8.addCell(new Label( 68 , conut_8 ,bfh_list.get(0).get("cv25")==null?"":bfh_list.get(0).get("cv25").toString() ,coty));
+				        sheet_8.addCell(new Label( 69 , conut_8 ,bfh_list.get(0).get("cv26")==null?"":bfh_list.get(0).get("cv26").toString() ,coty));
+				        sheet_8.addCell(new Label( 70 , conut_8 ,bfh_list.get(0).get("cv27")==null?"":bfh_list.get(0).get("cv27").toString() ,coty));
+				        sheet_8.addCell(new Label( 71 , conut_8 ,bfh_list.get(0).get("cv28")==null?"":bfh_list.get(0).get("cv28").toString() ,coty));
+				        sheet_8.addCell(new Label( 72 , conut_8 ,bfh_list.get(0).get("cv29")==null?"":bfh_list.get(0).get("cv29").toString() ,coty));
+				        sheet_8.addCell(new Label( 73 , conut_8 ,bfh_list.get(0).get("cv30")==null?"":bfh_list.get(0).get("cv30").toString() ,coty));
+				        sheet_8.addCell(new Label( 74 , conut_8 ,bfh_list.get(0).get("cv31")==null?"":bfh_list.get(0).get("cv31").toString() ,coty));
+				        String aa="";
+						String bb="";
+						if("".equals(list_8.get(0).get("v39"))||list_8.get(0).get("v39")==null){
+							aa="0";
+						}else{
+							aa=list_8.get(0).get("v39").toString();
+						}
+						if("".equals(bfh_list.get(0).get("cv31"))||bfh_list.get(0).get("cv31")==null){
+							bb="0";
+						}else{
+							bb=bfh_list.get(0).get("cv31").toString();
+						}
+						double c_c=Double.parseDouble(aa);
+						double c1_c=Double.parseDouble(bb);
+						double c2_c=c_c-c1_c;
+						String ncsr_c=String.format("%.2f", c2_c);
+						double cc_c=Double.parseDouble(s1_map.get("v9").toString());
+						double cnum_c=c2_c/cc_c;
+						String str1_c=String.format("%.2f", cnum_c);
+				        sheet_8.addCell(new Label( 75 , conut_8 ,ncsr_c ,coty));
+				        sheet_8.addCell(new Label( 76 , conut_8 ,str1_c,coty));
+				        sheet_8.setRowView(conut_8, 500); // 设置第一行的高度
+				        conut_8++;
+		        
+		        }
+		        //写入数据并关闭文件
+	            book.write();
+	            book.close();
+	            response.getWriter().write("{\"path\": \""+saveUrl+newFileName+"\"}");
+	            response.getWriter().close();
+			}catch(Exception e){
+				response.getWriter().write("1");
+				response.getWriter().close();
+			}
+		}else{
+			response.getWriter().write("0");
+			response.getWriter().close();
+		}
+		return null;
+	}
+	
+	
+	/**
+	 * 导出所有信息
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws IOException 
+	 */
+	public ModelAndView exportExcel_all7(HttpServletRequest request,HttpServletResponse response) throws IOException{
+		String cha_qx = "";//旗县
+		String cha_smx ="";//苏木乡
+		String cha_gcc ="";//嘎查村
+		String cha_sbbz ="";//识别标准
+		String cha_pksx ="";//贫困户属性
+		String cha_zpyy ="";//致贫原因
+		String cha_mz ="";//户主民族
+		String cha_renkou ="";//贫困户人口
+		String cha_bfdw ="";//帮扶单位
+		String cha_bfzrr ="";//帮扶责任人
+		String cha_banqian ="";//是否纳入易地扶贫搬迁
+		String str="";
+		String cha_v6 = "";//户主姓名
+		String cha_v8 = "";//身份证号
+		String cha_v8_1 = "";//最小年龄范围
+		String cha_v8_2 = "";//最大年龄范围
+		String year = request.getParameter("year");
+		if ( "2016".equals(year) ) {
+			year = "_2016";
+		} else {
+			year = "";
+		}
+		String ss=request.getParameter("cha_bfdw");
+		if(request.getParameter("cha_v6")!=null&&!request.getParameter("cha_v6").equals("")){
+			cha_v6 = request.getParameter("cha_v6").trim();
+			str += " t1.v6 like '%"+cha_v6+"%' and";
+		}
+		
+		if(request.getParameter("cha_v8")!=null&&!request.getParameter("cha_v8").equals("")){
+			cha_v8 = request.getParameter("cha_v8").trim();
+			str += " t1.v8 like '%"+cha_v8+"%' and";
+		}
+		if(request.getParameter("cha_v8_1")!=null&&!request.getParameter("cha_v8_1").equals("")){
+			cha_v8_1 = request.getParameter("cha_v8_1").trim();
+			if(request.getParameter("cha_v8_2")!=null&&!request.getParameter("cha_v8_2").equals("")){
+				cha_v8_2 = request.getParameter("cha_v8_2").trim();
+				str += " LENGTH(t1.v8)>=18 and (TIMESTAMPDIFF(year,substring(t1.v8, 7, 8),DATE(now()))>="+cha_v8_1+" and TIMESTAMPDIFF(year,substring(t1.v8, 7, 8),DATE(now()))<="+cha_v8_2+") and";
+			}else{
+				str += " LENGTH(t1.v8)>=18 and TIMESTAMPDIFF(year,substring(t1.v8, 7, 8),DATE(now()))>="+cha_v8_1+" and";
+			}
+		}else{
+			if(request.getParameter("cha_v8_2")!=null&&!request.getParameter("cha_v8_2").equals("")){
+				cha_v8_2 = request.getParameter("cha_v8_2").trim();
+				str += " LENGTH(t1.v8)>=18 and TIMESTAMPDIFF(year,substring(t1.v8, 7, 8),DATE(now()))<="+cha_v8_2+" and";
+			}
+		}
+		
+		if(request.getParameter("cha_qx")!=null&&!request.getParameter("cha_qx").equals("请选择")){
+			cha_qx = request.getParameter("cha_qx").trim();
+			str += " t1.v3 like '%"+cha_qx+"%' and";
+		}
+		if(request.getParameter("cha_smx")!=null&&!request.getParameter("cha_smx").equals("请选择")){
+			cha_smx = request.getParameter("cha_smx").trim();
+			str += " t1.v4 like '%"+cha_smx+"%' and";
+		}
+		if(request.getParameter("cha_gcc")!=null&&!request.getParameter("cha_gcc").equals("请选择")){
+			cha_gcc = request.getParameter("cha_gcc").trim();
+			str += " t1.v5 like '%"+cha_gcc+"%' and";
+		}
+		if(request.getParameter("cha_sbbz")!=null&&!request.getParameter("cha_sbbz").equals("请选择")){
+			cha_sbbz = request.getParameter("cha_sbbz").trim();
+			str += " t1.sys_standard like '%"+cha_sbbz+"%' and";
+		}
+		if(request.getParameter("cha_pksx")!=null&&!request.getParameter("cha_pksx").equals("请选择")){
+			cha_pksx = request.getParameter("cha_pksx").trim();
+			str += " t1.v22 like '%"+cha_pksx+"%' and";
+		}
+		if(request.getParameter("cha_zpyy")!=null&&!request.getParameter("cha_zpyy").equals("请选择")){
+			cha_zpyy = request.getParameter("cha_zpyy").trim();
+			str += " t1.v23 like '%"+cha_zpyy+"%' and";
+		}
+		if(request.getParameter("cha_mz")!=null&&!request.getParameter("cha_mz").equals("请选择")){
+			cha_mz = request.getParameter("cha_mz").trim();
+			str += " t1.v11 like '%"+cha_mz+"%' and";
+		}
+		if(request.getParameter("cha_renkou")!=null&&!request.getParameter("cha_renkou").equals("请选择")){
+			cha_renkou = request.getParameter("cha_renkou").trim().substring(0,1);
+			if("5".equals(cha_renkou)){
+				str += " t1.v9>=5 and";
+			}else{
+				str += " t1.v9 like '%"+cha_renkou+"%' and";
+			}
+		}
+		
+		//如果易地扶贫搬迁条件被选择
+		if(request.getParameter("cha_banqian")!=null&&!request.getParameter("cha_banqian").equals("请选择")){
+			cha_banqian = request.getParameter("cha_banqian").trim();
+			str += " t1.v21='"+cha_banqian+"' and";
+		}
+		
+		HttpSession session = request.getSession();
+		if(session.getAttribute("Login_map")!=null){//验证session不为空
+			try{
+				Map Login_map = (Map)session.getAttribute("Login_map");//用户的user表内容
+				Map company = (Map)session.getAttribute("company");//用户的单位信息
+				
+				SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");  
+				String newFileName = df.format(new Date()) + "_" + new Random().nextInt(1000) + ".xls";
+		        //获取文件需要上传到的路径
+				String savePath = request.getServletContext().getRealPath("/")+ "attached\\exportExcel\\"; 
+				 // 文件保存目录URL  
+		        String saveUrl = request.getContextPath() + "/attached/exportExcel/"; 
+		        
+				WritableWorkbook book = Workbook.createWorkbook( new File(savePath+newFileName));//打开文件
+				
+				//标题样式
+				WritableFont title_style =new WritableFont(WritableFont.createFont("微软雅黑"), 8 ,WritableFont.BOLD);
+				WritableCellFormat tsty = new WritableCellFormat(title_style);
+				tsty.setAlignment(Alignment.CENTRE);  //平行居中
+				tsty.setVerticalAlignment(VerticalAlignment.CENTRE);  //垂直居中
+				tsty.setWrap(true);
+//				tsty.setLocked(true);
+				
+				//正文样式
+				WritableFont content_style =new WritableFont(WritableFont.createFont("微软雅黑"), 8 ,WritableFont.NO_BOLD);
+				WritableCellFormat coty = new WritableCellFormat(content_style);
+				coty.setAlignment(Alignment.CENTRE);  //平行居中
+				coty.setVerticalAlignment(VerticalAlignment.CENTRE);  //垂直居中
+				coty.setWrap(true);
+				
+//				coty.setLocked(true);
+//				coty.setIndentation(4);
+				
+				//贫困户基本信息
+				String sql_1 = "select t1.pkid,t1.v3,t1.v4,t1.v5,t1.v6,t1.v8,t1.v9,t1.v22,t1.v29,t1.v30,t1.v31,t1.v23,t1.v33,t1.v25,t1.v26,t1.v27,t1.sys_standard,t2.basic_address,t2.basic_explain "
+						+ "from da_household"+year+" t1 join da_household_basic"+year+" t2 on t1.pkid=t2.da_household_id ";
+				
+				if((request.getParameter("cha_bfdw")!=null&&!request.getParameter("cha_bfdw").equals(""))||(request.getParameter("cha_bfzrr")!=null&&!request.getParameter("cha_bfzrr").equals(""))){
+					if(request.getParameter("cha_bfdw")!=null&&!request.getParameter("cha_bfdw").equals("")){
+						cha_bfdw = request.getParameter("cha_bfdw").trim();
+						str += " t3.v1 like '%"+cha_bfdw+"%' and";
+					}
+					if(request.getParameter("cha_bfzrr")!=null&&!request.getParameter("cha_bfzrr").equals("")){
+						cha_bfzrr = request.getParameter("cha_bfzrr").trim();
+						str += " c.col_name like '%"+cha_bfzrr+"%' and";
+					}
+					sql_1 += " LEFT JOIN sys_personal_household_many"+year+" x on x.da_household_id=t1.pkid LEFT JOIN sys_personal"+year+" c on x.sys_personal_id = c.pkid join da_company t3 on c.da_company_id=t3.pkid ";
+				}
+				
+				
+				if(str.equals("")){
+					sql_1 += "order by t1.pkid";
+				}else{
+					sql_1 += " where "+str.substring(0, str.length()-3)+" order by t1.pkid";
+				}
+				SQLAdapter s1_Adapter = new SQLAdapter(sql_1);
+				List<Map> s1_List = this.getBySqlMapper.findRecords(s1_Adapter);
+				
+				WritableSheet sheet_1 = book.createSheet( "贫困户基本信息 " , 0);//生成第一页工作表，参数0表示这是第一页
+				
+				int[] headerArrHight_1 = {13,20,25,20,20,30,20,15,20,30,35,10,30,10,20,13,25,30,30};
+		        String headerArr_1[] = {"家庭编号","旗区","苏木乡","噶查村","户主姓名","证件号码","识别标准","贫困户属性","主要致贫原因","其他致贫原因","致贫原因说明","家庭人口","家庭住址"
+		        		,"是否军烈属","是否独生子女户","是否双女户","联系电话","开户银行名称","银行卡号"};
+		        for (int i = 0; i < headerArr_1.length; i++) {
+		        	sheet_1.addCell(new Label( i , 0 , headerArr_1[i], tsty));
+		        	sheet_1.setColumnView(i, headerArrHight_1[i]);
+		        }
+		        sheet_1.setRowView(0, 500); // 设置第一行的高度
+				sheet_1.getSettings().setHorizontalFreeze(5);
+				sheet_1.getSettings().setVerticalFreeze(1);
+				//生产生活
+				WritableSheet sheet_2 = book.createSheet( "生产生活" , 1);
+		        int[] headerArrHight_3 = {13,20,25,20,15,15,20,15,20,15,
+		        						18,15,15,12,15,8,8,8,15,15,10,
+		        						20,10,15,15,30,30,20,15,20,15};
+		        String headerArr_3[] = {"家庭编号","旗区","苏木乡","噶查村","户主姓名","耕地面积（亩）","水浇地面积（亩）","林地面积（亩）","退耕还林面积（亩）","草牧场面积（亩）",
+					        		"生产用房面积（㎡）","林果面积（亩）","水面面积（亩）","其他","家禽（只）","牛（头）","羊（只）","猪（头）","其他","住房面积（㎡）","是否危房",
+					        		"是否纳入易地扶贫搬迁","饮水情况","饮水是否困难","饮水是否安全","通电情况","入户路类型","与主干路距离（公里）","主要燃料类型","是否加入农民专业合作社","有无卫生厕所"};
+		        for (int i = 0; i < headerArr_3.length; i++) {
+		        	sheet_2.addCell(new Label( i , 0 , headerArr_3[i], tsty));
+		        	sheet_2.setColumnView(i, headerArrHight_3[i]);
+		        }
+		        sheet_2.setRowView(0, 500); // 设置第一行的高度
+		        sheet_2.getSettings().setHorizontalFreeze(5);
+		        sheet_2.getSettings().setVerticalFreeze(1);
+		        
+		        int conut = 1;
+		        int conut_3 = 1;
+		        for (int i = 0; i < s1_List.size(); i++) {   //循环一个list里面的数据到excel中
+		        	Map s1_map = s1_List.get(i);
+		        	sheet_1.addCell(new Label( 0 , conut ,s1_map.get("pkid")==null?"":s1_map.get("pkid").toString() ,coty));
+		        	sheet_1.addCell(new Label( 1 , conut ,s1_map.get("v3")==null?"":s1_map.get("v3").toString() ,coty));
+		        	sheet_1.addCell(new Label( 2 , conut ,s1_map.get("v4")==null?"":s1_map.get("v4").toString() ,coty));
+		        	sheet_1.addCell(new Label( 3 , conut ,s1_map.get("v5")==null?"":s1_map.get("v5").toString() ,coty));
+		        	sheet_1.addCell(new Label( 4 , conut ,s1_map.get("v6")==null?"":s1_map.get("v6").toString() ,coty));
+		        	sheet_1.addCell(new Label( 5 , conut ,s1_map.get("v8")==null?"":s1_map.get("v8").toString() ,coty));
+		        	sheet_1.addCell(new Label( 6 , conut ,s1_map.get("sys_standard")==null?"":s1_map.get("sys_standard").toString() ,coty));
+		        	sheet_1.addCell(new Label( 7 , conut ,s1_map.get("v22")==null?"":s1_map.get("v22").toString() ,coty));
+		        	sheet_1.addCell(new Label( 8 , conut ,s1_map.get("v23")==null?"":s1_map.get("v23").toString() ,coty));
+		        	sheet_1.addCell(new Label( 9 , conut ,s1_map.get("v33")==null?"":s1_map.get("v33").toString() ,coty));
+		        	sheet_1.addCell(new Label( 10 , conut ,s1_map.get("basic_explain")==null?"":s1_map.get("basic_explain").toString() ,coty));
+		        	sheet_1.addCell(new Label( 11 , conut ,s1_map.get("v9")==null?"":s1_map.get("v9").toString() ,coty));
+		        	sheet_1.addCell(new Label( 12 , conut ,s1_map.get("basic_address")==null?"":s1_map.get("basic_address").toString() ,coty));
+		        	sheet_1.addCell(new Label( 13 , conut ,s1_map.get("v29")==null?"":s1_map.get("v29").toString() ,coty));
+		        	sheet_1.addCell(new Label( 14 , conut ,s1_map.get("v30")==null?"":s1_map.get("v30").toString() ,coty));
+		        	sheet_1.addCell(new Label( 15 , conut ,s1_map.get("v31")==null?"":s1_map.get("v31").toString() ,coty));
+		        	sheet_1.addCell(new Label( 16 , conut ,s1_map.get("v25")==null?"":s1_map.get("v25").toString() ,coty));
+		        	sheet_1.addCell(new Label( 17 , conut ,s1_map.get("v26")==null?"":s1_map.get("v26").toString() ,coty));
+		        	sheet_1.addCell(new Label( 18 , conut ,s1_map.get("v27")==null?"":s1_map.get("v27").toString() ,coty));
+		        	sheet_1.setRowView(conut, 500); // 设置第一行的高度
+		        	conut++;
+					//生产生活
+		        	String sql_3="select da_household_id ,v1 pv1,v2 pv2,v3 pv3,v4 pv4,v5 pv5,v6 pv6,v7 pv7,v8 pv8,v9 pv9,v10 pv10,v11 pv11,v12 pv12,v13 pv13,"+
+		        					"v14 pv14 from da_production"+year+" where da_household_id='"+s1_map.get("pkid")+"'";
+							
+		        	SQLAdapter s3_Adapter = new SQLAdapter(sql_3);
+					List<Map> s3_List = this.getBySqlMapper.findRecords(s3_Adapter);
+				        for (int a = 0; a < s3_List.size(); a++) {   //循环一个list里面的数据到excel中
+				        	Map sc_map = s3_List.get(a);
+				        	sheet_2.addCell(new Label( 0 , conut_3 ,s1_map.get("pkid")==null?"":s1_map.get("pkid").toString() ,coty));
+				        	sheet_2.addCell(new Label( 1 , conut_3 ,s1_map.get("v3")==null?"":s1_map.get("v3").toString() ,coty));
+				        	sheet_2.addCell(new Label( 2 , conut_3 ,s1_map.get("v4")==null?"":s1_map.get("v4").toString() ,coty));
+				        	sheet_2.addCell(new Label( 3 , conut_3 ,s1_map.get("v5")==null?"":s1_map.get("v5").toString() ,coty));
+				        	sheet_2.addCell(new Label( 4 , conut_3 ,s1_map.get("v6")==null?"":s1_map.get("v6").toString() ,coty));
+				        	
+				        	sheet_2.addCell(new Label( 5 , conut_3 ,sc_map.get("pv1")==null||"".equals(sc_map.get("pv1"))?"":sc_map.get("pv1").toString() ,coty));
+				        	sheet_2.addCell(new Label( 6 , conut_3 ,sc_map.get("pv2")==null||"".equals(sc_map.get("pv2"))?"":sc_map.get("pv2").toString() ,coty));
+				        	sheet_2.addCell(new Label( 7 , conut_3 ,sc_map.get("pv3")==null||"".equals(sc_map.get("pv3"))?"":sc_map.get("pv3").toString() ,coty));
+				        	sheet_2.addCell(new Label( 8 , conut_3 ,sc_map.get("pv4")==null||"".equals(sc_map.get("pv4"))?"":sc_map.get("pv4").toString() ,coty));
+				        	sheet_2.addCell(new Label( 9 , conut_3 ,sc_map.get("pv5")==null||"".equals(sc_map.get("pv5"))?"":sc_map.get("pv5").toString() ,coty));
+				        	sheet_2.addCell(new Label( 10 , conut_3 ,sc_map.get("pv6")==null||"".equals(sc_map.get("pv6"))?"":sc_map.get("pv6").toString() ,coty));
+				        	sheet_2.addCell(new Label( 11 , conut_3 ,sc_map.get("pv13")==null||"".equals(sc_map.get("pv13"))?"":sc_map.get("pv13").toString() ,coty));
+				        	sheet_2.addCell(new Label( 12 , conut_3 ,sc_map.get("pv14")==null||"".equals(sc_map.get("pv14"))?"":sc_map.get("pv14").toString() ,coty));
+				        	sheet_2.addCell(new Label( 13 , conut_3 ,sc_map.get("pv7")==null||"".equals(sc_map.get("pv7"))?"":sc_map.get("pv7").toString() ,coty));
+				        	sheet_2.addCell(new Label( 14 , conut_3 ,sc_map.get("pv8")==null||"".equals(sc_map.get("pv8"))?"":sc_map.get("pv8").toString() ,coty));
+				        	sheet_2.addCell(new Label( 15 , conut_3 ,sc_map.get("pv9")==null||"".equals(sc_map.get("pv9"))?"":sc_map.get("pv9").toString() ,coty));
+				        	sheet_2.addCell(new Label( 16 , conut_3 ,sc_map.get("pv10")==null||"".equals(sc_map.get("pv10"))?"":sc_map.get("pv10").toString() ,coty));
+				        	sheet_2.addCell(new Label( 17 , conut_3 ,sc_map.get("pv11")==null||"".equals(sc_map.get("pv11"))?"":sc_map.get("pv11").toString() ,coty));
+				        	sheet_2.addCell(new Label( 18 , conut_3 ,sc_map.get("pv12")==null||"".equals(sc_map.get("pv12"))?"":sc_map.get("pv12").toString() ,coty));
+				        	
+				        
+				        }
+				        
+				        //生活
+				        String sh_sql="select da_household_id,v1 lv1,v2 lv2,v3 lv3,v4 lv4, v5 lv5,v6 lv6,v7 lv7,v8 lv8,v9 lv9,v10 lv10,v11 lv11,v12 lv12 from da_life"+year+" where  da_household_id='"+s1_map.get("pkid")+"'";
+				        SQLAdapter sh_sqlAdapter=new SQLAdapter (sh_sql);
+				        List<Map> sh_list=this.getBySqlMapper.findRecords(sh_sqlAdapter);
+				        for (int a = 0; a < sh_list.size(); a++) {
+				        	//循环一个list里面的数据到excel中
+				        	Map sc_map = sh_list.get(a);
+				        	sheet_2.addCell(new Label( 19 , conut_3 ,sc_map.get("lv1")==null||"".equals(sc_map.get("lv1"))?"":sc_map.get("lv1").toString() ,coty));
+				        	sheet_2.addCell(new Label( 20 , conut_3 ,sc_map.get("lv2")==null||"".equals(sc_map.get("lv2"))?"":sc_map.get("lv2").toString() ,coty));
+				        	sheet_2.addCell(new Label( 21 , conut_3 ,sc_map.get("lv3")==null||"".equals(sc_map.get("lv3"))?"":sc_map.get("lv3").toString() ,coty));
+				        	sheet_2.addCell(new Label( 22 , conut_3 ,sc_map.get("lv4")==null||"".equals(sc_map.get("lv4"))?"":sc_map.get("lv4").toString() ,coty));
+				        	sheet_2.addCell(new Label( 23 , conut_3 ,sc_map.get("lv8")==null||"".equals(sc_map.get("lv8"))?"":sc_map.get("lv8").toString() ,coty));
+				        	sheet_2.addCell(new Label( 24 , conut_3 ,sc_map.get("lv9")==null||"".equals(sc_map.get("lv9"))?"":sc_map.get("lv9").toString() ,coty));
+				        	sheet_2.addCell(new Label( 25 , conut_3 ,sc_map.get("lv5")==null||"".equals(sc_map.get("lv5"))?"":sc_map.get("lv5").toString() ,coty));
+				        	sheet_2.addCell(new Label( 26 , conut_3 ,sc_map.get("lv6")==null||"".equals(sc_map.get("lv6"))?"":sc_map.get("lv6").toString() ,coty));
+				        	sheet_2.addCell(new Label( 27 , conut_3 ,sc_map.get("lv7")==null||"".equals(sc_map.get("lv7"))?"":sc_map.get("lv7").toString() ,coty));
+				        	sheet_2.addCell(new Label( 28 , conut_3 ,sc_map.get("lv10")==null||"".equals(sc_map.get("lv10"))?"":sc_map.get("lv10").toString() ,coty));
+				        	sheet_2.addCell(new Label( 29 , conut_3 ,sc_map.get("lv11")==null||"".equals(sc_map.get("lv11"))?"":sc_map.get("lv11").toString() ,coty));
+				        	sheet_2.addCell(new Label( 30 , conut_3 ,sc_map.get("lv12")==null||"".equals(sc_map.get("lv12"))?"":sc_map.get("lv12").toString() ,coty));
+				        	sheet_2.setRowView(conut_3, 500); // 设置第一行的高度
+				        	
+				        	conut_3++;
+				        }
+		        }
+		        //家庭成员
+		        WritableSheet sheet_3 = book.createSheet( "家庭成员 " , 0);
+		        
+		        int[] headerArrHight_2 = {13,20,25,20,20,10,30,15,15,15,20,20,25,20,20,20,25,30,30,30};
+		        String headerArr_2[] = {"家庭编号","旗区","苏木乡","噶查村","户主姓名","性别","证件号码","与户主关系","民族","文化程度","在校生状况","健康状况","劳动能力","务工状况","务工时间（月）","是否参加新农合",
+		        		"是否参加新型养老保险","是否参加城镇职工基本养老保险","政治面貌","是否现役军人"};
+		        
+		        for (int i = 0; i < headerArr_2.length; i++) {
+		        	sheet_3.addCell(new Label( i , 0 , headerArr_2[i], tsty));
+		        	sheet_3.setColumnView(i, headerArrHight_2[i]);
+		        }
+//		        HSSFRow row =book.getSheet(0).getRow(1);
+//		        setDataValidation(1,2);
+		        sheet_3.setRowView(0, 500); // 设置第一行的高度
+		        sheet_3.getSettings().setHorizontalFreeze(5);
+		        sheet_3.getSettings().setVerticalFreeze(1);
+		        int conut_2 = 1;
+		        for (int i = 0; i < s1_List.size(); i++) {   //循环一个list里面的数据到excel中
+		        	Map s1_map = s1_List.get(i);
+		        	//家庭成员
+					String sql_2 ="select pkid,v3,v4,v5,v6,v7,v8,v10,v11,v12,v13,v14,v15,v16,v17,v18,v19,v20,v28,v32, sys_standard from da_household"+year+" where pkid="+s1_map.get("pkid");
+		        	SQLAdapter s2_sqlAdapter=new SQLAdapter(sql_2);
+		        	List<Map> s2_list=this.getBySqlMapper.findRecords(s2_sqlAdapter);
+		        	sheet_3.addCell(new Label( 0 , conut_2 ,s2_list.get(0).get("pkid")==null?"":s2_list.get(0).get("pkid").toString() ,coty));
+		        	sheet_3.addCell(new Label( 1 , conut_2 ,s2_list.get(0).get("v3")==null?"":s2_list.get(0).get("v3").toString() ,coty));
+		        	sheet_3.addCell(new Label( 2 , conut_2 ,s2_list.get(0).get("v4")==null?"":s2_list.get(0).get("v4").toString() ,coty));
+		        	sheet_3.addCell(new Label( 3 , conut_2 ,s2_list.get(0).get("v5")==null?"":s2_list.get(0).get("v5").toString() ,coty));
+		        	sheet_3.addCell(new Label( 4 , conut_2 ,s2_list.get(0).get("v6")==null?"":s2_list.get(0).get("v6").toString() ,coty));
+		        	sheet_3.addCell(new Label( 5 , conut_2 ,s2_list.get(0).get("v7")==null?"":s2_list.get(0).get("v7").toString() ,coty));
+		        	sheet_3.addCell(new Label( 6 , conut_2 ,s2_list.get(0).get("v8")==null?"":s2_list.get(0).get("v8").toString() ,coty));
+		        	sheet_3.addCell(new Label( 7 , conut_2 ,s2_list.get(0).get("v10")==null?"":s2_list.get(0).get("v10").toString() ,coty));
+		        	sheet_3.addCell(new Label( 8 , conut_2 ,s2_list.get(0).get("v11")==null?"":s2_list.get(0).get("v11").toString() ,coty));
+		        	sheet_3.addCell(new Label( 9 , conut_2 ,s2_list.get(0).get("v12")==null?"":s2_list.get(0).get("v12").toString() ,coty));
+		        	sheet_3.addCell(new Label( 10 , conut_2 ,s2_list.get(0).get("v13")==null?"":s2_list.get(0).get("v13").toString() ,coty));
+		        	sheet_3.addCell(new Label( 11 , conut_2 ,s2_list.get(0).get("v14")==null?"":s2_list.get(0).get("v14").toString() ,coty));
+		        	sheet_3.addCell(new Label( 12 , conut_2 ,s2_list.get(0).get("v15")==null?"":s2_list.get(0).get("v15").toString() ,coty));
+		        	sheet_3.addCell(new Label( 13 , conut_2 ,s2_list.get(0).get("v16")==null?"":s2_list.get(0).get("v16").toString() ,coty));
+		        	sheet_3.addCell(new Label( 14 , conut_2 ,s2_list.get(0).get("v17")==null?"":s2_list.get(0).get("v17").toString() ,coty));
+		        	sheet_3.addCell(new Label( 15 , conut_2 ,s2_list.get(0).get("v18")==null?"":s2_list.get(0).get("v18").toString() ,coty));
+		        	sheet_3.addCell(new Label( 16 , conut_2 ,s2_list.get(0).get("v19")==null?"":s2_list.get(0).get("v19").toString() ,coty));
+		        	sheet_3.addCell(new Label( 17 , conut_2 ,s2_list.get(0).get("v20")==null?"":s2_list.get(0).get("v20").toString() ,coty));
+		        	sheet_3.addCell(new Label( 18 , conut_2 ,s2_list.get(0).get("v28")==null?"":s2_list.get(0).get("v28").toString() ,coty));
+		        	sheet_3.addCell(new Label( 19 , conut_2 ,s2_list.get(0).get("v32")==null?"":s2_list.get(0).get("v32").toString() ,coty));
+		        	sheet_3.setRowView(conut_2, 500); // 设置第一行的高度
+		        	conut_2++;
+		        	String cha_sql="select da_household_id, v3,v4,v5,v6,v7,v8,v10,v11,v12,v13,v14,v15,v16,v17,v18,v19,v20,v28,v32 from da_member"+year+" where da_household_id="+s1_map.get("pkid");
+		        	SQLAdapter sqlAdapter=new SQLAdapter(cha_sql);
+		        	List<Map> cha_list=this.getBySqlMapper.findRecords(sqlAdapter);
+		        	if(cha_list.size()>0){
+		        		for(int j=0;j<cha_list.size();j++){
+			        		
+		        			sheet_3.addCell(new Label( 0 , conut_2 ,cha_list.get(j).get("da_household_id")==null?"":cha_list.get(j).get("da_household_id").toString() ,coty));
+		        			sheet_3.addCell(new Label( 1 , conut_2 ,cha_list.get(j).get("v3")==null?"":cha_list.get(j).get("v3").toString() ,coty));
+		        			sheet_3.addCell(new Label( 2 , conut_2 ,cha_list.get(j).get("v4")==null?"":cha_list.get(j).get("v4").toString() ,coty));
+		        			sheet_3.addCell(new Label( 3 , conut_2 ,cha_list.get(j).get("v5")==null?"":cha_list.get(j).get("v5").toString() ,coty));
+		        			sheet_3.addCell(new Label( 4 , conut_2 ,cha_list.get(j).get("v6")==null?"":cha_list.get(j).get("v6").toString() ,coty));
+		        			sheet_3.addCell(new Label( 5 , conut_2 ,cha_list.get(j).get("v7")==null?"":cha_list.get(j).get("v7").toString() ,coty));
+		        			sheet_3.addCell(new Label( 6 , conut_2 ,cha_list.get(j).get("v8")==null?"":cha_list.get(j).get("v8").toString() ,coty));
+		        			sheet_3.addCell(new Label( 7 , conut_2 ,cha_list.get(j).get("v10")==null?"":cha_list.get(j).get("v10").toString() ,coty));
+		        			sheet_3.addCell(new Label( 8 , conut_2 ,cha_list.get(j).get("v11")==null?"":cha_list.get(j).get("v11").toString() ,coty));
+		        			sheet_3.addCell(new Label( 9 , conut_2 ,cha_list.get(j).get("v12")==null?"":cha_list.get(j).get("v12").toString() ,coty));
+		        			sheet_3.addCell(new Label( 10 , conut_2 ,cha_list.get(j).get("v13")==null?"":cha_list.get(j).get("v13").toString() ,coty));
+		        			sheet_3.addCell(new Label( 11 , conut_2 ,cha_list.get(j).get("v14")==null?"":cha_list.get(j).get("v14").toString() ,coty));
+		        			sheet_3.addCell(new Label( 12 , conut_2 ,cha_list.get(j).get("v15")==null?"":cha_list.get(j).get("v15").toString() ,coty));
+		        			sheet_3.addCell(new Label( 13 , conut_2 ,cha_list.get(j).get("v16")==null?"":cha_list.get(j).get("v16").toString() ,coty));
+		        			sheet_3.addCell(new Label( 14 , conut_2 ,cha_list.get(j).get("v17")==null?"":cha_list.get(j).get("v17").toString() ,coty));
+		        			sheet_3.addCell(new Label( 15 , conut_2 ,cha_list.get(j).get("v18")==null?"":cha_list.get(j).get("v18").toString() ,coty));
+		        			sheet_3.addCell(new Label( 16 , conut_2 ,cha_list.get(j).get("v19")==null?"":cha_list.get(j).get("v19").toString() ,coty));
+		        			sheet_3.addCell(new Label( 17 , conut_2 ,cha_list.get(j).get("v20")==null?"":cha_list.get(j).get("v20").toString() ,coty));
+		        			sheet_3.addCell(new Label( 18 , conut_2 ,cha_list.get(j).get("v28")==null?"":cha_list.get(j).get("v28").toString() ,coty));
+		        			sheet_3.addCell(new Label( 19 , conut_2 ,cha_list.get(j).get("v32")==null?"":cha_list.get(j).get("v32").toString() ,coty));
+		        			sheet_3.setRowView(conut_2, 500); // 设置第一行的高度
+				        	conut_2++;
+			        	}
+		        	}
+		        }
+		        //当前收支分析
+		        WritableSheet sheet_4 = book.createSheet( "当前收支分析" , 0);
+//		        
+		        sheet_4.mergeCells( 0 ,0 , 0 , 2 );
+		        sheet_4.addCell(new Label( 0 , 0 , "家庭编号", tsty));
+		        
+		        sheet_4.mergeCells( 1 ,0 , 1 , 2 );
+		        sheet_4.addCell(new Label( 1 , 0, "旗区", tsty));
+		        sheet_4.setColumnView(1, 20);
+		        sheet_4.mergeCells( 2 ,0 , 2 , 2 );
+		        sheet_4.addCell(new Label( 2 , 0 , "苏木乡", tsty));
+		        sheet_4.setColumnView(2, 20);
+		        sheet_4.mergeCells( 3 ,0 , 3 , 2 );
+		        sheet_4.addCell(new Label( 3 , 0 , "嘎查村", tsty));
+		        sheet_4.setColumnView(3, 20);
+		        sheet_4.mergeCells(4 ,0 , 4 , 2 );
+		        sheet_4.addCell(new Label( 4 , 0 , "户主姓名", tsty));
+		        
+		        
+		        sheet_4.mergeCells( 5 ,0 ,47 ,0 );
+		        sheet_4.addCell(new Label( 5 , 0 , "当前收入情况", tsty));
+		        sheet_4.mergeCells( 48 ,0 , 78 ,0 );
+		        sheet_4.addCell(new Label( 48 , 0 , "当前支出情况", tsty));
+		        sheet_4.mergeCells( 5 , 1 , 6 , 1 );
+		        sheet_4.addCell(new Label( 5 , 1 , "农业（水产）", tsty));
+		        sheet_4.addCell(new Label( 5 , 2 , "收入明细", tsty));
+		        sheet_4.addCell(new Label( 6 , 2 , "金额（元）", tsty));
+		        
+		        sheet_4.mergeCells( 7 , 1 , 8 , 1 );
+		        sheet_4.addCell(new Label( 7 , 1 , "畜牧业", tsty));
+		        sheet_4.addCell(new Label( 7 , 2 , "收入明细", tsty));
+		        sheet_4.addCell(new Label( 8 , 2 , "金额（元）", tsty));
+//
+		        sheet_4.mergeCells( 9 , 1 , 10 , 1 );
+		        sheet_4.addCell(new Label( 9 , 1 , "林业", tsty));
+		        sheet_4.addCell(new Label( 9, 2 , "收入明细", tsty));
+		        sheet_4.addCell(new Label( 10 , 2 , "金额", tsty));
+		        
+		        sheet_4.mergeCells( 11 , 1 , 12 , 1 );
+		        sheet_4.addCell(new Label( 11, 1 , "其他", tsty));
+		        sheet_4.addCell(new Label(11 , 2 , "收入明细", tsty));
+		        sheet_4.addCell(new Label( 12 , 2 , "金额", tsty));
+		        
+		        sheet_4.mergeCells( 13, 1 , 14 , 1 );
+		        sheet_4.addCell(new Label( 13, 1 , "小计", tsty));
+		        sheet_4.addCell(new Label(13 , 2 , "收入明细", tsty));
+		        sheet_4.addCell(new Label( 14 , 2 , "金额", tsty));
+		        sheet_4.mergeCells( 15 , 1 , 16, 1 );
+		        sheet_4.addCell(new Label( 15, 1 , "农林牧草、生态等补贴", tsty));
+		        sheet_4.addCell(new Label(15 , 2 , "收入明细", tsty));
+		        sheet_4.addCell(new Label( 16 , 2 , "金额", tsty));
+		        
+		        sheet_4.mergeCells( 17 , 1 , 18, 1 );
+		        sheet_4.addCell(new Label( 17, 1 , "养老金", tsty));
+		        sheet_4.addCell(new Label(17 , 2 , "收入明细", tsty));
+		        sheet_4.addCell(new Label( 18 , 2 , "金额", tsty));
+		        
+		        sheet_4.mergeCells( 19 , 1 , 20, 1 );
+		        sheet_4.addCell(new Label( 19, 1 , "低保（五保）补贴", tsty));
+		        sheet_4.addCell(new Label(19 , 2 , "收入明细", tsty));
+		        sheet_4.addCell(new Label( 20 , 2 , "金额", tsty));
+		        sheet_4.mergeCells( 21 , 1 , 22, 1 );
+		        sheet_4.addCell(new Label( 21, 1 , "燃煤补贴", tsty));
+		        sheet_4.addCell(new Label(21 , 2 , "收入明细", tsty));
+		        sheet_4.addCell(new Label( 22 , 2 , "金额", tsty));
+		        sheet_4.mergeCells( 23 , 1 , 24, 1 );
+		        sheet_4.addCell(new Label( 23, 1 , "五保金", tsty));
+		        sheet_4.addCell(new Label(23 , 2 , "收入明细", tsty));
+		        sheet_4.addCell(new Label( 24 , 2 , "金额", tsty));
+		        sheet_4.mergeCells( 25 , 1 , 26, 1 );
+		        sheet_4.addCell(new Label( 25, 1 , "计划生育", tsty));
+		        sheet_4.addCell(new Label(25, 2 , "收入明细", tsty));
+		        sheet_4.addCell(new Label( 26 , 2 , "金额", tsty));
+		        sheet_4.mergeCells( 27 , 1 , 28, 1 );
+		        sheet_4.addCell(new Label( 27, 1 , "其他", tsty));
+		        sheet_4.addCell(new Label(27 , 2 , "收入明细", tsty));
+		        sheet_4.addCell(new Label( 28 , 2 , "金额", tsty));
+		        
+		        sheet_4.mergeCells( 29 , 1 , 30, 1 );
+		        sheet_4.addCell(new Label( 29, 1 , "小计", tsty));
+		        sheet_4.addCell(new Label(29 , 2 , "收入明细", tsty));
+		        sheet_4.addCell(new Label( 30 , 2 , "金额", tsty));
+		        sheet_4.mergeCells( 31 , 1 , 32, 1 );
+		        sheet_4.addCell(new Label( 31, 1 , "土地、草牧场流转", tsty));
+		        sheet_4.addCell(new Label(31 , 2 , "收入明细", tsty));
+		        sheet_4.addCell(new Label( 32 , 2 , "金额", tsty));
+		        sheet_4.mergeCells( 33 , 1 , 34, 1 );
+		        sheet_4.addCell(new Label(33, 1 , "其他", tsty));
+		        sheet_4.addCell(new Label(33 , 2 , "收入明细", tsty));
+		        sheet_4.addCell(new Label( 34 , 2 , "金额", tsty));
+		        
+		        sheet_4.mergeCells( 35 , 1 , 40, 1 );
+		        sheet_4.addCell(new Label( 35 , 1 , "工资性收入", tsty));
+		        sheet_4.addCell(new Label(35 , 2 , "项目", tsty));
+		        sheet_4.addCell(new Label( 36 , 2 , "收入明细", tsty));
+		        sheet_4.addCell(new Label( 37 , 2 , "金额", tsty));
+		        sheet_4.addCell(new Label(38 , 2 , "项目", tsty));
+		        sheet_4.addCell(new Label( 39 , 2 , "收入明细", tsty));
+		        sheet_4.addCell(new Label( 40 , 2 , "金额", tsty));
+		        
+		        sheet_4.mergeCells( 41 , 1 ,46, 1 );
+		        sheet_4.addCell(new Label(41 , 1 , "其他收入", tsty));
+		        sheet_4.addCell(new Label(41 , 2 , "项目", tsty));
+		        sheet_4.addCell(new Label( 42 , 2 , "收入明细", tsty));
+		        sheet_4.addCell(new Label(43, 2 , "金额", tsty));
+		        sheet_4.addCell(new Label(44 , 2 , "项目", tsty));
+		        sheet_4.addCell(new Label( 45 , 2 , "收入明细", tsty));
+		        sheet_4.addCell(new Label( 46 , 2 , "金额", tsty));
+		        
+		        sheet_4.mergeCells( 47 , 1 , 47, 2 );
+		        sheet_4.addCell(new Label(47 , 1 , "总收入合计", tsty));
+		        //当前支出
+		        sheet_4.mergeCells( 48 , 1 , 49 , 1 );
+		        sheet_4.addCell(new Label( 48 , 1 , "农资费用", tsty));
+		        sheet_4.addCell(new Label( 48 , 2 , "支出明细", tsty));
+		        sheet_4.addCell(new Label( 49 , 2 , "金额（元）", tsty));
+		        sheet_4.mergeCells( 50 , 1 , 51 , 1 );
+		        sheet_4.addCell(new Label( 50 , 1 , "固定财产折旧和租赁费", tsty));
+		        sheet_4.addCell(new Label( 50 , 2 , "支出明细", tsty));
+		        sheet_4.addCell(new Label( 51 , 2 , "金额（元）", tsty));
+		        sheet_4.mergeCells( 52, 1 , 53 , 1 );
+		        sheet_4.addCell(new Label( 52 , 1 , "水电燃料支出", tsty));
+		        sheet_4.addCell(new Label(52 , 2 , "支出明细", tsty));
+		        sheet_4.addCell(new Label( 53 , 2 , "金额（元）", tsty));
+		        sheet_4.mergeCells( 54 , 1 , 55 , 1 );
+		        sheet_4.addCell(new Label( 54 , 1 , "承包土地、草场费用", tsty));
+		        sheet_4.addCell(new Label(54 , 2 , "支出明细", tsty));
+		        sheet_4.addCell(new Label( 55 , 2 , "金额（元）", tsty));
+		        sheet_4.mergeCells( 56 , 1 , 57 , 1 );
+		        sheet_4.addCell(new Label( 56 , 1 , "饲草料", tsty));
+		        sheet_4.addCell(new Label(56 , 2 , "支出明细细", tsty));
+		        sheet_4.addCell(new Label( 57 , 2 , "金额（元）", tsty));
+		        sheet_4.mergeCells( 58 , 1 , 59 , 1 );
+		        sheet_4.addCell(new Label( 58 , 1 , "防疫防治支出", tsty));
+		        sheet_4.addCell(new Label(58 , 2 , "支出明细", tsty));
+		        sheet_4.addCell(new Label( 59 , 2 , "金额（元）", tsty));
+		        sheet_4.mergeCells( 60 , 1 , 61 , 1 );
+		        sheet_4.addCell(new Label( 60 , 1 , "种（仔）畜", tsty));
+		        sheet_4.addCell(new Label(60 , 2 , "支出明细", tsty));
+		        sheet_4.addCell(new Label( 61 , 2 , "金额（元）", tsty));
+		        sheet_4.mergeCells( 62 , 1 , 63 , 1 );
+		        sheet_4.addCell(new Label( 62 , 1 , "销售费用和通讯费用", tsty));
+		        sheet_4.addCell(new Label(62 , 2 , "支出明细", tsty));
+		        sheet_4.addCell(new Label( 63 , 2 , "金额（元）", tsty));
+		        sheet_4.mergeCells( 64 , 1 , 65 , 1 );
+		        sheet_4.addCell(new Label( 64, 1 , "借贷利息", tsty));
+		        sheet_4.addCell(new Label(64, 2 , "支出明细", tsty));
+		        sheet_4.addCell(new Label( 65, 2 , "金额（元）", tsty));
+		        sheet_4.mergeCells( 66 , 1 ,71 , 1 );
+		        sheet_4.addCell(new Label( 66, 1 , "政策性支出", tsty));
+		        sheet_4.addCell(new Label(66, 2 , "项目", tsty));
+		        sheet_4.addCell(new Label(67, 2 , "支出明细", tsty));
+		        sheet_4.addCell(new Label(68, 2 , "金额（元）", tsty));
+		        sheet_4.addCell(new Label(69, 2 , "项目", tsty));
+		        sheet_4.addCell(new Label( 70, 2 , "支出明细", tsty));
+		        sheet_4.addCell(new Label( 71, 2 , "金额（元）", tsty));
+		        sheet_4.mergeCells( 72 , 1 ,77 , 1 );
+		        sheet_4.addCell(new Label( 72, 1 , "其他支出", tsty));
+		        sheet_4.addCell(new Label(72, 2 , "项目", tsty));
+		        sheet_4.addCell(new Label( 73, 2 , "支出明细", tsty));
+		        sheet_4.addCell(new Label( 74, 2 , "金额（元）", tsty));
+		        sheet_4.addCell(new Label(75, 2 , "项目", tsty));
+		        sheet_4.addCell(new Label( 76, 2 , "支出明细", tsty));
+		        sheet_4.addCell(new Label( 77, 2 , "金额（元）", tsty));
+		        sheet_4.mergeCells( 78 , 1 ,78 , 2 );
+		        sheet_4.addCell(new Label( 78,1 , "总支出合计", tsty));
+		        sheet_4.mergeCells( 79 , 0 ,79 , 2 );
+		        sheet_4.addCell(new Label( 79,0 , "年纯收入", tsty));
+		        sheet_4.mergeCells( 80 , 0 ,80 , 2 );
+		        sheet_4.addCell(new Label( 80,0 , "年人均纯收入", tsty));
+		        sheet_4.setRowView(0, 500);
+		        sheet_4.setRowView(1, 500);
+		        sheet_4.setRowView(2, 500);
+				SheetSettings ws=sheet_4.getSettings();
+				ws.setHorizontalFreeze(5);//列
+				ws.setVerticalFreeze(3);//行
+		        int conut_4= 3;
+		        for (int i = 0; i < s1_List.size(); i++) {   //循环一个list里面的数据到excel中
+		        	Map s1_map = s1_List.get(i);
+			        	
+				        
+				        //当前收支分析
+				        String sql_4="select * from da_current_income"+year+" where da_household_id="+s1_map.get("pkid");
+				        SQLAdapter sqlAdapter_4=new SQLAdapter(sql_4);
+				        List<Map> list_4=this.getBySqlMapper.findRecords(sqlAdapter_4);
+				        sheet_4.addCell(new Label( 0 , conut_4 ,list_4.get(0).get("da_household_id")==null?"":list_4.get(0).get("da_household_id").toString() ,coty));
+				        
+				        sheet_4.addCell(new Label( 1 , conut_4 ,s1_map.get("v3")==null?"":s1_map.get("v3").toString() ,coty));
+				        sheet_4.addCell(new Label( 2 , conut_4 ,s1_map.get("v4")==null?"":s1_map.get("v4").toString(),coty));
+				        sheet_4.addCell(new Label(3 , conut_4 ,s1_map.get("v5")==null?"":s1_map.get("v5").toString(),coty));
+				        sheet_4.addCell(new Label( 4 , conut_4 ,s1_map.get("v6")==null?"":s1_map.get("v6").toString() ,coty));
+				        
+				        sheet_4.addCell(new Label( 5 , conut_4 ,list_4.get(0).get("v1")==null?"":list_4.get(0).get("v1").toString() ,coty));
+				        sheet_4.addCell(new Label( 6 , conut_4 ,list_4.get(0).get("v2")==null?"":list_4.get(0).get("v2").toString() ,coty));
+				        sheet_4.addCell(new Label( 7 , conut_4 ,list_4.get(0).get("v3")==null?"":list_4.get(0).get("v3").toString() ,coty));
+				        sheet_4.addCell(new Label( 8 , conut_4 ,list_4.get(0).get("v4")==null?"":list_4.get(0).get("v4").toString() ,coty));
+				        sheet_4.addCell(new Label( 9 , conut_4 ,list_4.get(0).get("v5")==null?"":list_4.get(0).get("v5").toString() ,coty));
+				        sheet_4.addCell(new Label( 10 , conut_4 ,list_4.get(0).get("v6")==null?"":list_4.get(0).get("v6").toString() ,coty));
+				        sheet_4.addCell(new Label( 11 , conut_4 ,list_4.get(0).get("v7")==null?"":list_4.get(0).get("v7").toString() ,coty));
+				        sheet_4.addCell(new Label( 12 , conut_4 ,list_4.get(0).get("v8")==null?"":list_4.get(0).get("v8").toString() ,coty));
+				        sheet_4.addCell(new Label( 13 , conut_4 ,list_4.get(0).get("v9")==null?"":list_4.get(0).get("v9").toString() ,coty));
+				        sheet_4.addCell(new Label( 14 , conut_4 ,list_4.get(0).get("v10")==null?"":list_4.get(0).get("v10").toString() ,coty));
+				        sheet_4.addCell(new Label( 15 , conut_4 ,list_4.get(0).get("v11")==null?"":list_4.get(0).get("v11").toString() ,coty));
+				        sheet_4.addCell(new Label( 16 , conut_4 ,list_4.get(0).get("v12")==null?"":list_4.get(0).get("v12").toString() ,coty));
+				        sheet_4.addCell(new Label( 17 , conut_4 ,list_4.get(0).get("v13")==null?"":list_4.get(0).get("v13").toString() ,coty));
+				        sheet_4.addCell(new Label( 18 , conut_4 ,list_4.get(0).get("v14")==null?"":list_4.get(0).get("v14").toString() ,coty));
+				        sheet_4.addCell(new Label( 19 , conut_4 ,list_4.get(0).get("v15")==null?"":list_4.get(0).get("v15").toString() ,coty));
+				        sheet_4.addCell(new Label( 20 , conut_4 ,list_4.get(0).get("v16")==null?"":list_4.get(0).get("v16").toString() ,coty));
+				        sheet_4.addCell(new Label( 21 , conut_4 ,list_4.get(0).get("v17")==null?"":list_4.get(0).get("v17").toString() ,coty));
+				        sheet_4.addCell(new Label( 22 , conut_4 ,list_4.get(0).get("v18")==null?"":list_4.get(0).get("v18").toString() ,coty));
+				        sheet_4.addCell(new Label( 23 , conut_4 ,list_4.get(0).get("v40")==null?"":list_4.get(0).get("v40").toString() ,coty));
+				        sheet_4.addCell(new Label( 24 , conut_4 ,list_4.get(0).get("v41")==null?"":list_4.get(0).get("v41").toString() ,coty));
+				        sheet_4.addCell(new Label( 25 , conut_4 ,list_4.get(0).get("v42")==null?"":list_4.get(0).get("v42").toString() ,coty));
+				        sheet_4.addCell(new Label( 26 , conut_4 ,list_4.get(0).get("v43")==null?"":list_4.get(0).get("v43").toString() ,coty));
+				        sheet_4.addCell(new Label( 27 , conut_4 ,list_4.get(0).get("v19")==null?"":list_4.get(0).get("v19").toString() ,coty));
+				        sheet_4.addCell(new Label( 28 , conut_4 ,list_4.get(0).get("v20")==null?"":list_4.get(0).get("v20").toString() ,coty));
+				        sheet_4.addCell(new Label( 29 , conut_4 ,list_4.get(0).get("v21")==null?"":list_4.get(0).get("v21").toString() ,coty));
+				        sheet_4.addCell(new Label( 30 , conut_4 ,list_4.get(0).get("v22")==null?"":list_4.get(0).get("v22").toString() ,coty));
+				        sheet_4.addCell(new Label( 31 , conut_4 ,list_4.get(0).get("v23")==null?"":list_4.get(0).get("v23").toString() ,coty));
+				        sheet_4.addCell(new Label( 32 , conut_4 ,list_4.get(0).get("v24")==null?"":list_4.get(0).get("v24").toString() ,coty));
+				        sheet_4.addCell(new Label( 33 , conut_4 ,list_4.get(0).get("v25")==null?"":list_4.get(0).get("v25").toString() ,coty));
+				        sheet_4.addCell(new Label( 34 , conut_4 ,list_4.get(0).get("v26")==null?"":list_4.get(0).get("v26").toString() ,coty));
+				        sheet_4.addCell(new Label( 35 , conut_4 ,list_4.get(0).get("v35")==null?"":list_4.get(0).get("v35").toString() ,coty));
+				        sheet_4.addCell(new Label( 36 , conut_4 ,list_4.get(0).get("v27")==null?"":list_4.get(0).get("v27").toString() ,coty));
+				        sheet_4.addCell(new Label( 37 , conut_4 ,list_4.get(0).get("v28")==null?"":list_4.get(0).get("v28").toString() ,coty));
+				        sheet_4.addCell(new Label( 38 , conut_4 ,list_4.get(0).get("v36")==null?"":list_4.get(0).get("v36").toString() ,coty));
+				        sheet_4.addCell(new Label( 39 , conut_4 ,list_4.get(0).get("v29")==null?"":list_4.get(0).get("v29").toString() ,coty));
+				        sheet_4.addCell(new Label( 40 , conut_4 ,list_4.get(0).get("v30")==null?"":list_4.get(0).get("v30").toString() ,coty));
+				        sheet_4.addCell(new Label( 41 , conut_4 ,list_4.get(0).get("v37")==null?"":list_4.get(0).get("v37").toString() ,coty));
+				        sheet_4.addCell(new Label( 42 , conut_4 ,list_4.get(0).get("v31")==null?"":list_4.get(0).get("v31").toString() ,coty));
+				        sheet_4.addCell(new Label( 43 , conut_4 ,list_4.get(0).get("v32")==null?"":list_4.get(0).get("v32").toString() ,coty));
+				        sheet_4.addCell(new Label( 44 , conut_4 ,list_4.get(0).get("v38")==null?"":list_4.get(0).get("v38").toString() ,coty));
+				        sheet_4.addCell(new Label( 45 , conut_4 ,list_4.get(0).get("v33")==null?"":list_4.get(0).get("v33").toString() ,coty));
+				        sheet_4.addCell(new Label( 46 , conut_4 ,list_4.get(0).get("v34")==null?"":list_4.get(0).get("v34").toString() ,coty));
+				        sheet_4.addCell(new Label( 47 , conut_4 ,list_4.get(0).get("v39")==null?"":list_4.get(0).get("v39").toString() ,coty));
+				        //支出
+				        String zc_sql="select v1 cv1,v2 cv2,v3 cv3,v4 cv4,v5 cv5,v6 cv6,v7 cv7,v8 cv8,v9 cv9,v10 cv10,v11 cv11,"+
+				        				"v12 cv12,v13 cv13,v14 cv14,v15 cv15,v16 cv16,v17 cv17,v18 cv18,v19 cv19,v20 cv20,v21 cv21,v22 cv22,"+
+				        				"v23 cv23,v24 cv24,v25 cv25,v26 cv26,v27 cv27,v28 cv28,v29 cv29,v30 cv30,v31 cv31,da_household_id from da_current_expenditure"+year+" "+
+				        				" where da_household_id="+s1_map.get("pkid");
+				        SQLAdapter zc_sqlAdapter=new SQLAdapter(zc_sql);
+				        List<Map> zc_list=this.getBySqlMapper.findRecords(zc_sqlAdapter);
+				        
+				        sheet_4.addCell(new Label( 48 , conut_4 ,zc_list.get(0).get("cv1")==null?"":zc_list.get(0).get("cv1").toString() ,coty));
+				        sheet_4.addCell(new Label( 49 , conut_4 ,zc_list.get(0).get("cv2")==null?"":zc_list.get(0).get("cv2").toString() ,coty));
+				        sheet_4.addCell(new Label( 50 , conut_4 ,zc_list.get(0).get("cv3")==null?"":zc_list.get(0).get("cv3").toString() ,coty));
+				        sheet_4.addCell(new Label( 51 , conut_4 ,zc_list.get(0).get("cv4")==null?"":zc_list.get(0).get("cv4").toString() ,coty));
+				        sheet_4.addCell(new Label( 52 , conut_4 ,zc_list.get(0).get("cv5")==null?"":zc_list.get(0).get("cv5").toString() ,coty));
+				        sheet_4.addCell(new Label( 53 , conut_4 ,zc_list.get(0).get("cv6")==null?"":zc_list.get(0).get("cv6").toString() ,coty));
+				        sheet_4.addCell(new Label( 54 , conut_4 ,zc_list.get(0).get("cv7")==null?"":zc_list.get(0).get("cv7").toString() ,coty));
+				        sheet_4.addCell(new Label( 55 , conut_4 ,zc_list.get(0).get("cv8")==null?"":zc_list.get(0).get("cv8").toString() ,coty));
+				        sheet_4.addCell(new Label( 56 , conut_4 ,zc_list.get(0).get("cv9")==null?"":zc_list.get(0).get("cv9").toString() ,coty));
+				        sheet_4.addCell(new Label( 57 , conut_4 ,zc_list.get(0).get("cv10")==null?"":zc_list.get(0).get("cv10").toString() ,coty));
+				        sheet_4.addCell(new Label( 58 , conut_4 ,zc_list.get(0).get("cv11")==null?"":zc_list.get(0).get("cv11").toString() ,coty));
+				        sheet_4.addCell(new Label( 59 , conut_4 ,zc_list.get(0).get("cv12")==null?"":zc_list.get(0).get("cv12").toString() ,coty));
+				        sheet_4.addCell(new Label( 60 , conut_4 ,zc_list.get(0).get("cv13")==null?"":zc_list.get(0).get("cv13").toString() ,coty));
+				        sheet_4.addCell(new Label( 61 , conut_4 ,zc_list.get(0).get("cv14")==null?"":zc_list.get(0).get("cv14").toString() ,coty));
+				        sheet_4.addCell(new Label(62 , conut_4 ,zc_list.get(0).get("cv15")==null?"":zc_list.get(0).get("cv15").toString() ,coty));
+				        sheet_4.addCell(new Label( 63 , conut_4 ,zc_list.get(0).get("cv16")==null?"":zc_list.get(0).get("cv16").toString() ,coty));
+				        sheet_4.addCell(new Label( 64 , conut_4 ,zc_list.get(0).get("cv17")==null?"":zc_list.get(0).get("cv17").toString() ,coty));
+				        sheet_4.addCell(new Label( 65 , conut_4 ,zc_list.get(0).get("cv18")==null?"":zc_list.get(0).get("cv18").toString() ,coty));
+				        sheet_4.addCell(new Label( 66 , conut_4 ,zc_list.get(0).get("cv19")==null?"":zc_list.get(0).get("cv19").toString() ,coty));
+				        sheet_4.addCell(new Label( 67 , conut_4 ,zc_list.get(0).get("cv20")==null?"":zc_list.get(0).get("cv20").toString() ,coty));
+				        sheet_4.addCell(new Label( 68 , conut_4 ,zc_list.get(0).get("cv21")==null?"":zc_list.get(0).get("cv21").toString() ,coty));
+				        sheet_4.addCell(new Label( 69 , conut_4 ,zc_list.get(0).get("cv22")==null?"":zc_list.get(0).get("cv22").toString() ,coty));
+				        sheet_4.addCell(new Label( 70 , conut_4 ,zc_list.get(0).get("cv23")==null?"":zc_list.get(0).get("cv23").toString() ,coty));
+				        sheet_4.addCell(new Label( 71 , conut_4 ,zc_list.get(0).get("cv24")==null?"":zc_list.get(0).get("cv24").toString() ,coty));
+				        sheet_4.addCell(new Label( 72 , conut_4 ,zc_list.get(0).get("cv25")==null?"":zc_list.get(0).get("cv25").toString() ,coty));
+				        sheet_4.addCell(new Label( 73 , conut_4 ,zc_list.get(0).get("cv26")==null?"":zc_list.get(0).get("cv26").toString() ,coty));
+				        sheet_4.addCell(new Label( 74 , conut_4 ,zc_list.get(0).get("cv27")==null?"":zc_list.get(0).get("cv27").toString() ,coty));
+				        sheet_4.addCell(new Label( 75 , conut_4 ,zc_list.get(0).get("cv28")==null?"":zc_list.get(0).get("cv28").toString() ,coty));
+				        sheet_4.addCell(new Label( 76 , conut_4 ,zc_list.get(0).get("cv29")==null?"":zc_list.get(0).get("cv29").toString() ,coty));
+				        sheet_4.addCell(new Label( 77 , conut_4 ,zc_list.get(0).get("cv30")==null?"":zc_list.get(0).get("cv30").toString() ,coty));
+				        sheet_4.addCell(new Label( 78 , conut_4 ,zc_list.get(0).get("cv31")==null?"":zc_list.get(0).get("cv31").toString() ,coty));
+				        
+				        String a="";
+						String b="";
+						if("".equals(list_4.get(0).get("v39"))||list_4.get(0).get("v39")==null){
+							a="0";
+						}else{
+							a=list_4.get(0).get("v39").toString();
+						}
+						if("".equals(zc_list.get(0).get("cv31"))||zc_list.get(0).get("cv31")==null){
+							b="0";
+						}else{
+							b=zc_list.get(0).get("cv31").toString();
+						}
+						double c=Double.parseDouble(a);
+						double c1=Double.parseDouble(b);
+						double c2=c-c1;
+						String ncsr=String.format("%.2f", c2);
+						double cc=Double.parseDouble(s1_map.get("v9").toString());
+						double cnum=c2/cc;
+						String str1=String.format("%.2f", cnum);
+				        sheet_4.addCell(new Label( 79 , conut_4 ,ncsr ,coty));
+				        sheet_4.addCell(new Label( 80 , conut_4 ,str1,coty));
+				        sheet_4.setRowView(conut_4, 500); // 设置第一行的高度
+				        conut_4++;
+		        
+		        }
+		        //帮扶单位和责任人
+		        WritableSheet sheet_5 = book.createSheet( "帮扶单位和责任人" , 0);
+		        sheet_5.addCell(new Label( 0,0 , "家庭编号", tsty));
+		        sheet_5.addCell(new Label( 1,0 , "旗区", tsty));
+		        sheet_5.addCell(new Label( 2,0 , "苏木乡", tsty));
+		        sheet_5.addCell(new Label( 3,0 , "嘎查村", tsty));
+		        sheet_5.addCell(new Label( 4,0 , "户主姓名", tsty));
+		        sheet_5.addCell(new Label( 5,0 , "帮扶人姓名", tsty));
+		        sheet_5.addCell(new Label( 6,0 , "单位", tsty));
+		        sheet_5.addCell(new Label( 7,0 , "职务", tsty));
+		        sheet_5.addCell(new Label( 8,0 , "电话", tsty));
+		        sheet_5.addCell(new Label( 9,0 , "帮扶目标", tsty));
+		        sheet_5.addCell(new Label( 10,0 , "帮扶时限", tsty));
+		        sheet_5.addCell(new Label( 11,0 , "帮扶计划", tsty));
+		        sheet_5.setRowView(0, 500);
+		        sheet_5.setColumnView(1, 20);
+		        sheet_5.setColumnView(2, 20);
+		        sheet_5.setColumnView(3, 20);
+		        sheet_5.setColumnView(4, 20);
+		        sheet_5.setColumnView(5, 20);
+		        sheet_5.setColumnView(6, 30);
+		        sheet_5.setColumnView(7, 20);
+		        sheet_5.setColumnView(8, 20);
+		        sheet_5.setColumnView(9, 650);
+		        sheet_5.setColumnView(10, 20);
+		        sheet_5.setColumnView(11, 650);
+		        sheet_5.getSettings().setHorizontalFreeze(5);
+		        sheet_5.getSettings().setVerticalFreeze(1);
+		        int conut_5= 1;
+		        for (int i = 0; i < s1_List.size(); i++) {   //循环一个list里面的数据到excel中
+		        	Map s1_map = s1_List.get(i);
+			        //帮扶人
+			        String bfr_sql="SELECT da_household_id,telephone ,col_post, col_name,t2.v1 FROM sys_personal_household_many"+year+" a"+
+			        			" LEFT JOIN sys_personal"+year+" b ON a.sys_personal_id = b.pkid join da_company"+year+" t2 on b.da_company_id=t2.pkid where da_household_id="+s1_map.get("pkid");
+			        SQLAdapter bfr_sqlAdapter=new SQLAdapter(bfr_sql);
+			        List<Map> bfr_list=this.getBySqlMapper.findRecords(bfr_sqlAdapter);
+			        int jh_count=conut_5;
+			        if(bfr_list.size()>0){
+			        	for(int d=0;d<bfr_list.size();d++){
+			        		sheet_5.addCell(new Label(0, conut_5 ,"".equals(bfr_list.get(d).get("da_household_id"))||bfr_list.get(d).get("da_household_id")==null?"":bfr_list.get(d).get("da_household_id").toString() ,coty));
+			        		sheet_5.addCell(new Label(1, conut_5 ,s1_map.get("v3")==null?"":s1_map.get("v3").toString() ,coty));
+			        		sheet_5.addCell(new Label(2, conut_5 ,s1_map.get("v4")==null?"":s1_map.get("v4").toString() ,coty));
+			        		sheet_5.addCell(new Label(3, conut_5 ,s1_map.get("v5")==null?"":s1_map.get("v5").toString() ,coty));
+			        		sheet_5.addCell(new Label(4, conut_5 ,s1_map.get("v6")==null?"":s1_map.get("v6").toString() ,coty));
+			        		sheet_5.addCell(new Label(5, conut_5 ,bfr_list.get(d).get("col_name")==null?"":bfr_list.get(d).get("col_name").toString() ,coty));
+			        		sheet_5.addCell(new Label(6, conut_5 ,bfr_list.get(d).get("v1")==null?"":bfr_list.get(d).get("v1").toString() ,coty));
+			        		sheet_5.addCell(new Label(7, conut_5 ,bfr_list.get(d).get("col_post")==null?"":bfr_list.get(d).get("col_post").toString() ,coty));
+			        		sheet_5.addCell(new Label(8, conut_5 ,bfr_list.get(d).get("telephone")==null?"":bfr_list.get(d).get("telephone").toString() ,coty));
+			        		sheet_5.setRowView(conut_5, 500); // 设置第一行的高度
+			        		conut_5++;
+			        	}
+			        }else{
+			        	sheet_5.addCell(new Label(0, conut_5 ,s1_map.get("pkid").toString() ,coty));
+			        	sheet_5.addCell(new Label(1, conut_5 ,s1_map.get("v3")==null?"":s1_map.get("v3").toString() ,coty));
+		        		sheet_5.addCell(new Label(2, conut_5 ,s1_map.get("v4")==null?"":s1_map.get("v4").toString() ,coty));
+		        		sheet_5.addCell(new Label(3, conut_5 ,s1_map.get("v5")==null?"":s1_map.get("v5").toString() ,coty));
+		        		sheet_5.addCell(new Label(4, conut_5 ,s1_map.get("v6")==null?"":s1_map.get("v6").toString() ,coty));
+		        		sheet_5.addCell(new Label(5, conut_5 ,"",coty));
+		        		sheet_5.addCell(new Label(6, conut_5 ,"",coty));
+		        		sheet_5.addCell(new Label(7, conut_5 ,"",coty));
+		        		sheet_5.addCell(new Label(8, conut_5 ,"",coty));
+		        		sheet_5.setRowView(conut_5, 500); // 设置第一行的高度
+		        		conut_5++;
+			        }
+	        
+			        //计划
+			        String bfjh_sql="SELECT v1 ,v2 ,v3  from da_help_info where da_household_id="+s1_map.get("pkid");
+			        SQLAdapter bfjh_sqlAdapter=new SQLAdapter(bfjh_sql);
+			        List<Map> bfjh_list=this.getBySqlMapper.findRecords(bfjh_sqlAdapter);
+			        if(bfjh_list.size()>0){
+			        	if(bfjh_list.get(0)==null){
+			        		sheet_5.mergeCells( 9,jh_count,9,conut_5-1 );
+				        	sheet_5.addCell(new Label(9, jh_count ,"" ,coty));
+				        	sheet_5.mergeCells( 10,jh_count,10,conut_5-1 );
+				        	sheet_5.addCell(new Label(10, jh_count ,"",coty));
+				        	sheet_5.mergeCells( 11,jh_count,11,conut_5-1 );
+				        	sheet_5.addCell(new Label(11, jh_count ,"",coty));
+			        	}else{
+			        		sheet_5.mergeCells( 9,jh_count,9,conut_5-1 );
+				        	sheet_5.addCell(new Label(9, jh_count ,"".equals(bfjh_list.get(0).get("v1"))||bfjh_list.get(0).get("v1")==null?"":bfjh_list.get(0).get("v1").toString() ,coty));
+				        	sheet_5.mergeCells( 10,jh_count,10,conut_5-1 );
+				        	sheet_5.addCell(new Label(10, jh_count ,"".equals(bfjh_list.get(0).get("v2"))||bfjh_list.get(0).get("v2")==null?"":bfjh_list.get(0).get("v2").toString() ,coty));
+				        	sheet_5.mergeCells( 11,jh_count,11,conut_5-1 );
+				        	sheet_5.addCell(new Label(11, jh_count ,"".equals(bfjh_list.get(0).get("v3"))||bfjh_list.get(0).get("v3")==null?"":bfjh_list.get(0).get("v3").toString() ,coty));
+			        	}
+			        	
+			        }else{
+			        	sheet_5.mergeCells( 9,jh_count,9,conut_5-1);
+			        	sheet_5.addCell(new Label(9, jh_count ,"" ,coty));
+			        	sheet_5.mergeCells( 10,jh_count,10,conut_5-1 );
+			        	sheet_5.addCell(new Label(10, jh_count ,"",coty));
+			        	sheet_5.mergeCells( 11,jh_count,11,conut_5-1 );
+			        	sheet_5.addCell(new Label(11, jh_count ,"" ,coty));
+			        }
+		        
+		        }
+		        //走访记录
+		        WritableSheet sheet_6 = book.createSheet( "帮扶人走访记录" , 0);
+		        sheet_6.addCell(new Label( 0,0 , "家庭编号", tsty));
+		        sheet_6.addCell(new Label( 1,0 , "旗区", tsty));
+		        sheet_6.setColumnView(1, 20);
+		        sheet_6.addCell(new Label( 2,0 , "苏木乡", tsty));
+		        sheet_6.setColumnView(2, 20);
+		        sheet_6.addCell(new Label( 3,0 , "嘎查村", tsty));
+		        sheet_6.setColumnView(3, 20);
+		        sheet_6.addCell(new Label( 4,0 , "户主姓名", tsty));
+		        sheet_6.addCell(new Label( 5,0 , "走访时间", tsty));
+		        sheet_6.addCell(new Label( 6,0 , "帮扶干部", tsty));
+		        sheet_6.addCell(new Label( 7,0 , "走访情况记录", tsty));
+		        sheet_6.setRowView(0, 500);
+		        sheet_6.setColumnView(7, 650);
+		        sheet_6.getSettings().setHorizontalFreeze(5);
+		        sheet_6.getSettings().setVerticalFreeze(1);
+		        
+		        //帮扶措施
+				WritableSheet sheet_cs = book.createSheet("帮扶措施", 1);
+				sheet_cs.mergeCells(0, 0, 0,1);
+				sheet_cs.addCell(new Label(0, 0, "家庭编号",tsty));
+				
+				sheet_cs.mergeCells(1, 0, 1,1);
+				sheet_cs.addCell(new Label(1, 0, "旗区",tsty));
+				sheet_cs.setColumnView(1, 20);
+				sheet_cs.mergeCells(2, 0, 2,1);
+				sheet_cs.addCell(new Label(2, 0, "苏木乡",tsty));
+				sheet_cs.setColumnView(2, 20);
+				sheet_cs.mergeCells(3, 0, 3,1);
+				sheet_cs.addCell(new Label(3, 0, "嘎查村",tsty));
+				sheet_cs.setColumnView(3, 20);
+				sheet_cs.mergeCells(4, 0, 4,1);
+				sheet_cs.addCell(new Label(4, 0, "户主姓名",tsty));
+				
+				sheet_cs.mergeCells(5, 0, 5, 1);
+				sheet_cs.addCell(new Label(5, 0, "项目类别",tsty));
+				sheet_cs.mergeCells(6, 0, 6, 1);
+				sheet_cs.addCell(new Label(6, 0, "扶持措施",tsty));
+				sheet_cs.mergeCells(7, 0, 7, 1);
+				sheet_cs.addCell(new Label(7, 0, "是否符合扶持条件",tsty));
+				
+				sheet_cs.mergeCells(8, 0, 10, 0);
+				sheet_cs.addCell(new Label(8, 0, "2016年",tsty));
+				sheet_cs.addCell(new Label(8, 1, "项目需求量",tsty));
+				sheet_cs.addCell(new Label(9, 1, "受益资金/政策",tsty));
+				sheet_cs.addCell(new Label(10, 1, "项目类别",tsty));
+				
+				sheet_cs.mergeCells(11, 0, 13, 0 );
+				sheet_cs.addCell(new Label(11, 0, "2017年",tsty));
+				sheet_cs.addCell(new Label(11, 1, "项目需求量",tsty));
+				sheet_cs.addCell(new Label(12, 1, "受益资金/政策",tsty));
+				sheet_cs.addCell(new Label(13, 1, "落实时间",tsty));
+				
+				sheet_cs.mergeCells(14, 0, 16, 0);
+				sheet_cs.addCell(new Label(14, 0, "2018年",tsty));
+				sheet_cs.addCell(new Label(14, 1, "项目需求量",tsty));
+				sheet_cs.addCell(new Label(15, 1, "受益资金/政策",tsty));
+				sheet_cs.addCell(new Label(16, 1, "落实时间",tsty));
+				sheet_cs.mergeCells(17, 0, 19, 0);
+				sheet_cs.addCell(new Label(17, 0, "2019年",tsty));
+				sheet_cs.addCell(new Label(17, 1, "项目需求量",tsty));
+				sheet_cs.addCell(new Label(18, 1, "受益资金/政策",tsty));
+				sheet_cs.addCell(new Label(19, 1, "落实时间",tsty));
+				sheet_cs.setRowView(0, 500);
+				sheet_cs.setRowView(1, 500);
+				sheet_cs.getSettings().setHorizontalFreeze(5);
+				sheet_cs.getSettings().setVerticalFreeze(2);
+		        int conut_6= 1;
+		        int conut_7= 2;
+		        for (int i = 0; i < s1_List.size(); i++) {   //循环一个list里面的数据到excel中
+		        	Map s1_map = s1_List.get(i);
+			        //走访记录
+			        String zf_sql="select v1,v2,v3,da_household_id from da_help_visit"+year+" where da_household_id="+s1_map.get("pkid");
+			        SQLAdapter zf_sqlAdapter=new SQLAdapter (zf_sql);
+			        List<Map> zf_list=this.getBySqlMapper.findRecords(zf_sqlAdapter);
+			        if(zf_list.size()>0){
+			        	for(int e=0;e<zf_list.size();e++){
+			        		sheet_6.addCell(new Label(0, conut_6 ,zf_list.get(e).get("da_household_id")==null?"":zf_list.get(e).get("da_household_id").toString() ,coty));
+			        		sheet_6.addCell(new Label(1, conut_6 ,s1_map.get("v3")==null?"":s1_map.get("v3").toString() ,coty));
+			        		sheet_6.addCell(new Label(2, conut_6 ,s1_map.get("v4")==null?"":s1_map.get("v4").toString() ,coty));
+			        		sheet_6.addCell(new Label(3, conut_6 ,s1_map.get("v5")==null?"":s1_map.get("v5").toString() ,coty));
+			        		sheet_6.addCell(new Label(4, conut_6 ,s1_map.get("v6")==null?"":s1_map.get("v6").toString() ,coty));
+			        		sheet_6.addCell(new Label(5, conut_6 ,zf_list.get(e).get("v1")==null?"":zf_list.get(e).get("v1").toString() ,coty));
+			        		sheet_6.addCell(new Label(6, conut_6 ,zf_list.get(e).get("v2")==null?"":zf_list.get(e).get("v2").toString() ,coty));
+			        		sheet_6.addCell(new Label(7, conut_6 ,zf_list.get(e).get("v3")==null?"":zf_list.get(e).get("v3").toString() ,coty));
+			        		sheet_6.setRowView(conut_6, 500);
+			        		conut_6++;
+			        	}
+			        }else{
+			        	sheet_6.addCell(new Label(0, conut_6 ,s1_map.get("pkid").toString(),coty));
+		        		sheet_6.addCell(new Label(1, conut_6 ,s1_map.get("v3")==null?"":s1_map.get("v3").toString() ,coty));
+		        		sheet_6.addCell(new Label(2, conut_6 ,s1_map.get("v4")==null?"":s1_map.get("v4").toString(),coty));
+		        		sheet_6.addCell(new Label(3, conut_6 ,s1_map.get("v5")==null?"":s1_map.get("v5").toString() ,coty));
+		        		sheet_6.addCell(new Label(4, conut_6 ,s1_map.get("v6")==null?"":s1_map.get("v6").toString() ,coty));
+		        		sheet_6.addCell(new Label(5, conut_6 ,"" ,coty));
+		        		sheet_6.addCell(new Label(6, conut_6 ,"" ,coty));
+		        		sheet_6.addCell(new Label(7, conut_6 ,"" ,coty));
+		        		sheet_6.setRowView(conut_6, 500);
+		        		conut_6++;
+			        }
+	        
+			        //帮扶措施
+			        String cs_sql="select v1,v2,v3,da_household_id , MAX(CASE v7 WHEN '2016' THEN v4 ELSE '' END ) v4_2016, "+
+			        		"MAX(CASE v7 WHEN '2016' THEN v5 ELSE '' END ) v5_2016,MAX(CASE v7 WHEN '2016' THEN v6 ELSE '' END ) v6_2016,  "+
+			        		"MAX(CASE v7 WHEN '2017' THEN v4 ELSE '' END ) v4_2017,MAX(CASE v7 WHEN '2017' THEN v5 ELSE '' END ) v5_2017,"+
+			        		"MAX(CASE v7 WHEN '2017' THEN v6 ELSE '' END ) v6_2017,MAX(CASE v7 WHEN '2018' THEN v4 ELSE '' END ) v4_2018, "+
+			        		"MAX(CASE v7 WHEN '2018' THEN v5 ELSE '' END ) v5_2018,MAX(CASE v7 WHEN '2018' THEN v6 ELSE '' END ) v6_2018,"+
+			        		"MAX(CASE v7 WHEN '2019' THEN v4 ELSE '' END ) v4_2019,MAX(CASE v7 WHEN '2019' THEN v5 ELSE '' END ) v5_2019, "+
+			        		"MAX(CASE v7 WHEN '2019' THEN v6 ELSE '' END ) v6_2019 from da_help_tz_measures"+year+" where da_household_id="+s1_map.get("pkid")+" group  by v1,v2,v3 ";
+	        
+			        SQLAdapter cs_sqlAdapter=new SQLAdapter(cs_sql);
+			        List<Map> cs_list=this.getBySqlMapper.findRecords(cs_sqlAdapter);
+			        if(cs_list.size()>0){
+			        	for(int f=0;f<cs_list.size();f++){
+				        	sheet_cs.addCell(new Label(0, conut_7 ,cs_list.get(f).get("da_household_id")==null?"":cs_list.get(f).get("da_household_id").toString() ,coty));
+				        	sheet_cs.addCell(new Label(1, conut_7 ,s1_map.get("v3")==null?"":s1_map.get("v3").toString() ,coty));
+				        	sheet_cs.addCell(new Label(2, conut_7 ,s1_map.get("v4")==null?"":s1_map.get("v4").toString() ,coty));
+				        	sheet_cs.addCell(new Label(3, conut_7 ,s1_map.get("v5")==null?"":s1_map.get("v5").toString() ,coty));
+				        	sheet_cs.addCell(new Label(4, conut_7 ,s1_map.get("v6")==null?"":s1_map.get("v6").toString() ,coty));
+				        	sheet_cs.addCell(new Label(5, conut_7 ,cs_list.get(f).get("v1")==null?"":cs_list.get(f).get("v1").toString() ,coty));
+				        	sheet_cs.addCell(new Label(6, conut_7 ,cs_list.get(f).get("v2")==null?"":cs_list.get(f).get("v2").toString() ,coty));
+				        	sheet_cs.addCell(new Label(7, conut_7 ,cs_list.get(f).get("v3")==null?"":cs_list.get(f).get("v3").toString() ,coty));
+				        	sheet_cs.addCell(new Label(8, conut_7 ,cs_list.get(f).get("v4_2016")==null?"":cs_list.get(f).get("v4_2016").toString() ,coty));
+				        	sheet_cs.addCell(new Label(9, conut_7 ,cs_list.get(f).get("v5_2016")==null?"":cs_list.get(f).get("v5_2016").toString() ,coty));
+				        	sheet_cs.addCell(new Label(10, conut_7 ,cs_list.get(f).get("v6_2016")==null?"":cs_list.get(f).get("v6_2016").toString() ,coty));
+				        	sheet_cs.addCell(new Label(11, conut_7 ,cs_list.get(f).get("v4_2017")==null?"":cs_list.get(f).get("v4_2017").toString() ,coty));
+				        	sheet_cs.addCell(new Label(12, conut_7 ,cs_list.get(f).get("v5_2016")==null?"":cs_list.get(f).get("v5_2017").toString() ,coty));
+				        	sheet_cs.addCell(new Label(13, conut_7 ,cs_list.get(f).get("v6_2017")==null?"":cs_list.get(f).get("v6_2017").toString() ,coty));
+				        	sheet_cs.addCell(new Label(14, conut_7 ,cs_list.get(f).get("v4_2018")==null?"":cs_list.get(f).get("v4_2018").toString() ,coty));
+				        	sheet_cs.addCell(new Label(15, conut_7 ,cs_list.get(f).get("v5_2018")==null?"":cs_list.get(f).get("v5_2018").toString() ,coty));
+				        	sheet_cs.addCell(new Label(16, conut_7 ,cs_list.get(f).get("v6_2018")==null?"":cs_list.get(f).get("v6_2018").toString() ,coty));
+				        	sheet_cs.addCell(new Label(17, conut_7 ,cs_list.get(f).get("v4_2019")==null?"":cs_list.get(f).get("v4_2019").toString() ,coty));
+				        	sheet_cs.addCell(new Label(18, conut_7 ,cs_list.get(f).get("v5_2019")==null?"":cs_list.get(f).get("v5_2019").toString() ,coty));
+				        	sheet_cs.addCell(new Label(19, conut_7 ,cs_list.get(f).get("v6_2019")==null?"":cs_list.get(f).get("v6_2019").toString() ,coty));
+				        	sheet_cs.setRowView(conut_7, 500);
+				        	conut_7++;
+			        	}
+			        }else{
+			        	sheet_cs.addCell(new Label(0, conut_7 ,s1_map.get("pkid").toString(),coty));
+			          	sheet_cs.addCell(new Label(1, conut_7 ,s1_map.get("v3")==null?"":s1_map.get("v3").toString() ,coty));
+			        	sheet_cs.addCell(new Label(2, conut_7 ,s1_map.get("v4")==null?"":s1_map.get("v4").toString() ,coty));
+			        	sheet_cs.addCell(new Label(3, conut_7 ,s1_map.get("v5")==null?"":s1_map.get("v5").toString() ,coty));
+			        	sheet_cs.addCell(new Label(4, conut_7 ,s1_map.get("v6")==null?"":s1_map.get("v6").toString() ,coty));
+			        	sheet_cs.addCell(new Label(5, conut_7 ,"",coty));
+			        	sheet_cs.addCell(new Label(6, conut_7 ,"",coty));
+			        	sheet_cs.addCell(new Label(7, conut_7 ,"" ,coty));
+			        	sheet_cs.addCell(new Label(8, conut_7 ,"",coty));
+			        	sheet_cs.addCell(new Label(9, conut_7 ,"",coty));
+			        	sheet_cs.addCell(new Label(10, conut_7 ,"" ,coty));
+			        	sheet_cs.addCell(new Label(11, conut_7 ,"" ,coty));
+			        	sheet_cs.addCell(new Label(12, conut_7 ,"",coty));
+			        	sheet_cs.addCell(new Label(13, conut_7 ,"" ,coty));
+			        	sheet_cs.addCell(new Label(14, conut_7 ,"" ,coty));
+			        	sheet_cs.addCell(new Label(15, conut_7 ,"",coty));
+			        	sheet_cs.addCell(new Label(16, conut_7 ,"",coty));
+			        	sheet_cs.addCell(new Label(17, conut_7 ,"",coty));
+			        	sheet_cs.addCell(new Label(18, conut_7 ,"",coty));
+			        	sheet_cs.addCell(new Label(19, conut_7 ,"",coty));
+			        	sheet_cs.setRowView(conut_7, 500);
+			        	conut_7++;
+			        }
+		        }
+		      //帮扶成效
+				WritableSheet sheet_9 = book.createSheet("帮扶成效", 0);
+				sheet_9.addCell(new Label(0, 0, "家庭编号", tsty));
+				sheet_9.addCell(new Label(1, 0, "旗区", tsty));
+				sheet_9.setColumnView(1, 20);
+				sheet_9.addCell(new Label(2, 0, "苏木乡", tsty));
+				sheet_9.setColumnView(2, 20);
+				sheet_9.addCell(new Label(3, 0, "嘎查村", tsty));
+				sheet_9.setColumnView(3, 20);
+				sheet_9.addCell(new Label(4, 0, "户主姓名", tsty));
+				sheet_9.addCell(new Label(5, 0, "时间", tsty));
+				sheet_9.addCell(new Label(6, 0, "成效内容", tsty));
+				sheet_9.addCell(new Label(7, 0, "贫困户签字", tsty));
+				sheet_9.setRowView(0, 500);
+				sheet_9.setColumnView(6, 650);
+				sheet_9.getSettings().setHorizontalFreeze(5);
+				sheet_9.getSettings().setVerticalFreeze(1);
+		        int conut_9= 1;
+		        for (int i = 0; i < s1_List.size(); i++) {   //循环一个list里面的数据到excel中
+		        	Map s1_map = s1_List.get(i);
+			        //帮扶成效
+			        String cx_sql="select da_household_id,v1,v2,v3 from da_help_results"+year+" where da_household_id="+s1_map.get("pkid");
+			        SQLAdapter cx_sqlAdapter=new SQLAdapter(cx_sql);
+			        List<Map> cx_list=this.getBySqlMapper.findRecords(cx_sqlAdapter);
+			        if(cx_list.size()>0){
+			        	for ( int j = 0 ; j < cx_list .size() ; j ++ ){
+			        		 sheet_9.addCell(new Label( 0, conut_9 ,cx_list.get(j).get("da_household_id")==null?"":cx_list.get(j).get("da_household_id").toString() ,coty));
+			        		  sheet_9.addCell(new Label(1, conut_9 ,s1_map.get("v3")==null?"":s1_map.get("v3").toString() ,coty));
+			        		  sheet_9.addCell(new Label(2, conut_9 ,s1_map.get("v4")==null?"":s1_map.get("v4").toString() ,coty));
+			        		  sheet_9.addCell(new Label(3, conut_9,s1_map.get("v5")==null?"":s1_map.get("v5").toString() ,coty));
+			        		  sheet_9.addCell(new Label(4, conut_9 ,s1_map.get("v6")==null?"":s1_map.get("v6").toString() ,coty));
+			        		  sheet_9.addCell(new Label( 5, conut_9 ,cx_list.get(j).get("v1")==null?"":cx_list.get(j).get("v1").toString() ,coty));
+			        		  sheet_9.addCell(new Label( 6, conut_9 ,cx_list.get(j).get("v2")==null?"":cx_list.get(j).get("v2").toString() ,coty));
+			        		  sheet_9.addCell(new Label( 7, conut_9 ,cx_list.get(j).get("v3")==null?"":cx_list.get(j).get("v3").toString() ,coty));
+			        		  sheet_9.setRowView(conut_9, 500); // 设置第一行的高度
+			        		  conut_9++;
+			        	}
+		        		 
+			        }else{
+			        	  sheet_9.addCell(new Label( 0,conut_9, s1_map.get("pkid").toString() ,coty));
+			        	  sheet_9.addCell(new Label(1, conut_9 ,s1_map.get("v3")==null?"":s1_map.get("v3").toString() ,coty));
+		        		  sheet_9.addCell(new Label(2, conut_9 ,s1_map.get("v4")==null?"":s1_map.get("v4").toString() ,coty));
+		        		  sheet_9.addCell(new Label(3, conut_9 ,s1_map.get("v5")==null?"":s1_map.get("v5").toString() ,coty));
+		        		  sheet_9.addCell(new Label(4, conut_9 ,s1_map.get("v6")==null?"":s1_map.get("v6").toString() ,coty));
+		        		  sheet_9.addCell(new Label( 5, conut_9 ,"" ,coty));
+		        		  sheet_9.addCell(new Label( 6, conut_9 ,"" ,coty));
+		        		  sheet_9.addCell(new Label( 7, conut_9 ,"" ,coty));
+		        		  sheet_9.setRowView(conut_9, 500); // 设置第一行的高度
+		        		  conut_9++;
+			        }
+		        
+		        }
+				//帮扶后收支
+				WritableSheet sheet_8 = book.createSheet("帮扶后收支分析", 0);
+				sheet_8.mergeCells(0, 0, 0, 2);
+				sheet_8.addCell(new Label(0, 0, "家庭编号", tsty));
+				
+				sheet_8.mergeCells(1, 0, 1, 2);
+				sheet_8.addCell(new Label(1, 0, "旗区", tsty));
+				sheet_8.setColumnView(1, 20);
+				sheet_8.mergeCells(2, 0, 2, 2);
+				sheet_8.addCell(new Label(2, 0, "苏木乡", tsty));
+				sheet_8.setColumnView(2, 20);
+				sheet_8.mergeCells(3, 0, 3, 2);
+				sheet_8.addCell(new Label(3, 0, "嘎查村", tsty));
+				sheet_8.setColumnView(3, 20);
+				sheet_8.mergeCells(4, 0, 4, 2);
+				sheet_8.addCell(new Label(4, 0, "户主姓名", tsty));
+				sheet_8.mergeCells(5, 0, 43, 0);
+				sheet_8.addCell(new Label(5, 0, "帮扶后收入情况", tsty));
+				sheet_8.mergeCells(44, 0, 74, 0);
+				sheet_8.addCell(new Label(44, 0, "帮扶后支出情况", tsty));
+				sheet_8.mergeCells(5, 1, 6, 1);
+				sheet_8.addCell(new Label(5, 1, "农业（水产）", tsty));
+				sheet_8.addCell(new Label(5, 2, "收入明细", tsty));
+				sheet_8.addCell(new Label(6, 2, "金额（元）", tsty));
+
+				sheet_8.mergeCells(7, 1, 8, 1);
+				sheet_8.addCell(new Label(7, 1, "畜牧业", tsty));
+				sheet_8.addCell(new Label(7, 2, "收入明细", tsty));
+				sheet_8.addCell(new Label(8, 2, "金额（元）", tsty));
+				//
+				sheet_8.mergeCells(9, 1, 10, 1);
+				sheet_8.addCell(new Label(9, 1, "林业", tsty));
+				sheet_8.addCell(new Label(9, 2, "收入明细", tsty));
+				sheet_8.addCell(new Label(10, 2, "金额", tsty));
+				sheet_8.mergeCells(11, 1, 12, 1);
+				sheet_8.addCell(new Label(11, 1, "其他", tsty));
+				sheet_8.addCell(new Label(11, 2, "收入明细", tsty));
+				sheet_8.addCell(new Label(12, 2, "金额", tsty));
+				sheet_8.mergeCells(13, 1, 14, 1);
+				sheet_8.addCell(new Label(13, 1, "小计", tsty));
+				sheet_8.addCell(new Label(13, 2, "收入明细", tsty));
+				sheet_8.addCell(new Label(14, 2, "金额", tsty));
+				sheet_8.mergeCells(15, 1, 16, 1);
+				sheet_8.addCell(new Label(15, 1, "农林牧草、生态等补贴", tsty));
+				sheet_8.addCell(new Label(15, 2, "收入明细", tsty));
+				sheet_8.addCell(new Label(16, 2, "金额", tsty));
+
+				sheet_8.mergeCells(17, 1, 18, 1);
+				sheet_8.addCell(new Label(17, 1, "养老金", tsty));
+				sheet_8.addCell(new Label(17, 2, "收入明细", tsty));
+				sheet_8.addCell(new Label(18, 2, "金额", tsty));
+
+				sheet_8.mergeCells(19, 1, 20, 1);
+				sheet_8.addCell(new Label(19, 1, "低保（五保）补贴", tsty));
+				sheet_8.addCell(new Label(19, 2, "收入明细", tsty));
+				sheet_8.addCell(new Label(20, 2, "金额", tsty));
+				sheet_8.mergeCells(21, 1, 22, 1);
+				sheet_8.addCell(new Label(21, 1, "燃煤补贴", tsty));
+				sheet_8.addCell(new Label(21, 2, "收入明细", tsty));
+				sheet_8.addCell(new Label(22, 2, "金额", tsty));
+				
+//				sheet_8.mergeCells(19, 1, 20, 1);
+//				sheet_8.addCell(new Label(19, 1, "五保金", tsty));
+//				sheet_8.addCell(new Label(19, 2, "收入明细", tsty));
+//				sheet_8.addCell(new Label(20, 2, "金额", tsty));
+//				sheet_8.mergeCells(21, 1, 22, 1);
+//				sheet_8.addCell(new Label(21, 1, "计划生育", tsty));
+//				sheet_8.addCell(new Label(21, 2, "收入明细", tsty));
+//				sheet_8.addCell(new Label(22, 2, "金额", tsty));
+				
+				sheet_8.mergeCells(23, 1, 24, 1);
+				sheet_8.addCell(new Label(23, 1, "其他", tsty));
+				sheet_8.addCell(new Label(23, 2, "收入明细", tsty));
+				sheet_8.addCell(new Label(24, 2, "金额", tsty));
+
+				sheet_8.mergeCells(25, 1, 26, 1);
+				sheet_8.addCell(new Label(25, 1, "小计", tsty));
+				sheet_8.addCell(new Label(25, 2, "收入明细", tsty));
+				sheet_8.addCell(new Label(26, 2, "金额", tsty));
+				sheet_8.mergeCells(27, 1, 28, 1);
+				sheet_8.addCell(new Label(27, 1, "土地、草牧场流转", tsty));
+				sheet_8.addCell(new Label(27, 2, "收入明细", tsty));
+				sheet_8.addCell(new Label(28, 2, "金额", tsty));
+				sheet_8.mergeCells(29, 1, 30, 1);
+				sheet_8.addCell(new Label(29, 1, "其他", tsty));
+				sheet_8.addCell(new Label(29, 2, "收入明细", tsty));
+				sheet_8.addCell(new Label(30, 2, "金额", tsty));
+
+				sheet_8.mergeCells(31, 1, 36, 1);
+				sheet_8.addCell(new Label(31, 1, "工资性收入", tsty));
+				sheet_8.addCell(new Label(31, 2, "项目", tsty));
+				sheet_8.addCell(new Label(32, 2, "收入明细", tsty));
+				sheet_8.addCell(new Label(33, 2, "金额", tsty));
+				sheet_8.addCell(new Label(34, 2, "项目", tsty));
+				sheet_8.addCell(new Label(35, 2, "收入明细", tsty));
+				sheet_8.addCell(new Label(36, 2, "金额", tsty));
+
+				sheet_8.mergeCells(37, 1, 42, 1);
+				sheet_8.addCell(new Label(37, 1, "其他收入", tsty));
+				sheet_8.addCell(new Label(37, 2, "项目", tsty));
+				sheet_8.addCell(new Label(38, 2, "收入明细", tsty));
+				sheet_8.addCell(new Label(39, 2, "金额", tsty));
+				sheet_8.addCell(new Label(40, 2, "项目", tsty));
+				sheet_8.addCell(new Label(41, 2, "收入明细", tsty));
+				sheet_8.addCell(new Label(42, 2, "金额", tsty));
+
+				sheet_8.mergeCells(43, 1, 43, 2);
+				sheet_8.addCell(new Label(43, 1, "总收入合计", tsty));
+				// 当前支出
+				sheet_8.mergeCells(44, 1, 45, 1);
+				sheet_8.addCell(new Label(44, 1, "农资费用", tsty));
+				sheet_8.addCell(new Label(44, 2, "支出明细", tsty));
+				sheet_8.addCell(new Label(45, 2, "金额（元）", tsty));
+				sheet_8.mergeCells(46, 1, 47, 1);
+				sheet_8.addCell(new Label(46, 1, "固定财产折旧和租赁费", tsty));
+				sheet_8.addCell(new Label(46, 2, "支出明细", tsty));
+				sheet_8.addCell(new Label(47, 2, "金额（元）", tsty));
+				sheet_8.mergeCells(48, 1, 49, 1);
+				sheet_8.addCell(new Label(48, 1, "水电燃料支出", tsty));
+				sheet_8.addCell(new Label(48, 2, "支出明细", tsty));
+				sheet_8.addCell(new Label(49, 2, "金额（元）", tsty));
+				sheet_8.mergeCells(50, 1, 51, 1);
+				sheet_8.addCell(new Label(50, 1, "承包土地、草场费用", tsty));
+				sheet_8.addCell(new Label(50, 2, "支出明细", tsty));
+				sheet_8.addCell(new Label(51, 2, "金额（元）", tsty));
+				sheet_8.mergeCells(52, 1, 53, 1);
+				sheet_8.addCell(new Label(52, 1, "饲草料", tsty));
+				sheet_8.addCell(new Label(52, 2, "支出明细细", tsty));
+				sheet_8.addCell(new Label(53, 2, "金额（元）", tsty));
+				sheet_8.mergeCells(54, 1, 55, 1);
+				sheet_8.addCell(new Label(54, 1, "防疫防治支出", tsty));
+				sheet_8.addCell(new Label(54, 2, "支出明细", tsty));
+				sheet_8.addCell(new Label(55, 2, "金额（元）", tsty));
+				sheet_8.mergeCells(56, 1, 57, 1);
+				sheet_8.addCell(new Label(56, 1, "种（仔）畜", tsty));
+				sheet_8.addCell(new Label(56, 2, "支出明细", tsty));
+				sheet_8.addCell(new Label(57, 2, "金额（元）", tsty));
+				sheet_8.mergeCells(58, 1, 59, 1);
+				sheet_8.addCell(new Label(58, 1, "销售费用和通讯费用", tsty));
+				sheet_8.addCell(new Label(58, 2, "支出明细", tsty));
+				sheet_8.addCell(new Label(59, 2, "金额（元）", tsty));
+				sheet_8.mergeCells(60, 1, 61, 1);
+				sheet_8.addCell(new Label(60, 1, "借贷利息", tsty));
+				sheet_8.addCell(new Label(60, 2, "支出明细", tsty));
+				sheet_8.addCell(new Label(61, 2, "金额（元）", tsty));
+				sheet_8.mergeCells(62, 1, 67, 1);
+				sheet_8.addCell(new Label(62, 1, "政策性支出", tsty));
+				sheet_8.addCell(new Label(62, 2, "项目", tsty));
+				sheet_8.addCell(new Label(63, 2, "支出明细", tsty));
+				sheet_8.addCell(new Label(64, 2, "金额（元）", tsty));
+				sheet_8.addCell(new Label(65, 2, "项目", tsty));
+				sheet_8.addCell(new Label(66, 2, "支出明细", tsty));
+				sheet_8.addCell(new Label(67, 2, "金额（元）", tsty));
+				sheet_8.mergeCells(68, 1, 73, 1);
+				sheet_8.addCell(new Label(68, 1, "其他支出", tsty));
+				sheet_8.addCell(new Label(68, 2, "项目", tsty));
+				sheet_8.addCell(new Label(69, 2, "支出明细", tsty));
+				sheet_8.addCell(new Label(70, 2, "金额（元）", tsty));
+				sheet_8.addCell(new Label(71, 2, "项目", tsty));
+				sheet_8.addCell(new Label(72, 2, "支出明细", tsty));
+				sheet_8.addCell(new Label(73, 2, "金额（元）", tsty));
+				sheet_8.mergeCells(74, 1, 74, 2);
+				sheet_8.addCell(new Label(74, 1, "总支出合计", tsty));
+				sheet_8.mergeCells(75, 0, 75, 2);
+				sheet_8.addCell(new Label(75, 0, "年纯收入", tsty));
+				sheet_8.mergeCells(76, 0, 76, 2);
+				sheet_8.addCell(new Label(76, 0, "年人均纯收入", tsty));
+				sheet_8.setRowView(0, 500);
+				sheet_8.setRowView(1, 500);
+				sheet_8.setRowView(2, 500);
+				SheetSettings ws2=sheet_8.getSettings();
+				ws2.setHorizontalFreeze(5);//列
+				ws2.setVerticalFreeze(3);//行
+		        int conut_8= 3;
+		        for (int i = 0; i < s1_List.size(); i++) {   //循环一个list里面的数据到excel中
+		        	Map s1_map = s1_List.get(i);
+			        	
+				        
+				     
+				        
+				        
+				        //帮扶后收支
+				        String sql_8="select * from da_helpback_income"+year+" where da_household_id="+s1_map.get("pkid");
+				        SQLAdapter sqlAdapter_8=new SQLAdapter(sql_8);
+				        List<Map> list_8=this.getBySqlMapper.findRecords(sqlAdapter_8);
+				        sheet_8.addCell(new Label( 0 , conut_8 ,list_8.get(0).get("da_household_id")==null?"":list_8.get(0).get("da_household_id").toString() ,coty));
+				        sheet_8.addCell(new Label(1, conut_8 ,s1_map.get("v3")==null?"":s1_map.get("v3").toString() ,coty));
+			          	sheet_8.addCell(new Label(2, conut_8 ,s1_map.get("v4")==null?"":s1_map.get("v4").toString() ,coty));
+			          	sheet_8.addCell(new Label(3, conut_8 ,s1_map.get("v5")==null?"":s1_map.get("v5").toString() ,coty));
+			          	sheet_8.addCell(new Label(4, conut_8 ,s1_map.get("v6")==null?"":s1_map.get("v6").toString() ,coty));
+				        sheet_8.addCell(new Label( 5 , conut_8 ,list_8.get(0).get("v1")==null?"":list_8.get(0).get("v1").toString() ,coty));
+				        sheet_8.addCell(new Label( 6 , conut_8 ,list_8.get(0).get("v2")==null?"":list_8.get(0).get("v2").toString() ,coty));
+				        sheet_8.addCell(new Label( 7 , conut_8 ,list_8.get(0).get("v3")==null?"":list_8.get(0).get("v3").toString() ,coty));
+				        sheet_8.addCell(new Label( 8 , conut_8 ,list_8.get(0).get("v4")==null?"":list_8.get(0).get("v4").toString() ,coty));
+				        sheet_8.addCell(new Label( 9 , conut_8 ,list_8.get(0).get("v5")==null?"":list_8.get(0).get("v5").toString() ,coty));
+				        sheet_8.addCell(new Label( 10 , conut_8 ,list_8.get(0).get("v6")==null?"":list_8.get(0).get("v6").toString() ,coty));
+				        sheet_8.addCell(new Label( 11 , conut_8 ,list_8.get(0).get("v7")==null?"":list_8.get(0).get("v7").toString() ,coty));
+				        sheet_8.addCell(new Label( 12 , conut_8 ,list_8.get(0).get("v8")==null?"":list_8.get(0).get("v8").toString() ,coty));
+				        sheet_8.addCell(new Label( 13 , conut_8 ,list_8.get(0).get("v9")==null?"":list_8.get(0).get("v9").toString() ,coty));
+				        sheet_8.addCell(new Label( 14 , conut_8 ,list_8.get(0).get("v10")==null?"":list_8.get(0).get("v10").toString() ,coty));
+				        sheet_8.addCell(new Label( 15 , conut_8 ,list_8.get(0).get("v11")==null?"":list_8.get(0).get("v11").toString() ,coty));
+				        sheet_8.addCell(new Label( 16 , conut_8 ,list_8.get(0).get("v12")==null?"":list_8.get(0).get("v12").toString() ,coty));
+				        sheet_8.addCell(new Label( 17 , conut_8 ,list_8.get(0).get("v13")==null?"":list_8.get(0).get("v13").toString() ,coty));
+				        sheet_8.addCell(new Label( 18 , conut_8 ,list_8.get(0).get("v14")==null?"":list_8.get(0).get("v14").toString() ,coty));
+				        sheet_8.addCell(new Label( 19 , conut_8 ,list_8.get(0).get("v15")==null?"":list_8.get(0).get("v15").toString() ,coty));
+				        sheet_8.addCell(new Label( 20 , conut_8 ,list_8.get(0).get("v16")==null?"":list_8.get(0).get("v16").toString() ,coty));
+				        sheet_8.addCell(new Label( 21 , conut_8 ,list_8.get(0).get("v17")==null?"":list_8.get(0).get("v17").toString() ,coty));
+				        sheet_8.addCell(new Label( 22 , conut_8 ,list_8.get(0).get("v18")==null?"":list_8.get(0).get("v18").toString() ,coty));
 				        sheet_8.addCell(new Label( 23 , conut_8 ,list_8.get(0).get("v19")==null?"":list_8.get(0).get("v19").toString() ,coty));
 				        sheet_8.addCell(new Label( 24 , conut_8 ,list_8.get(0).get("v20")==null?"":list_8.get(0).get("v20").toString() ,coty));
 				        sheet_8.addCell(new Label( 25 , conut_8 ,list_8.get(0).get("v21")==null?"":list_8.get(0).get("v21").toString() ,coty));
