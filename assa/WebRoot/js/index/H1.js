@@ -124,7 +124,7 @@ $(function () {
     	chaxun.cha_v6 = $("#cha_v6").val();
     	chaxun.cha_v8 = $("#cha_v8").val();
     	chaxun.cha_v8_1 = $("#cha_v8_1").val();
-    	
+    	chaxun.cha_year = $("#cha_year").val();//年份
     	$("#tab_jbqk").hide();//基本情况
     	$("#tab_dqszh").hide();//当前收支
     	$("#tab_bfdwyzrr").hide();//帮扶单位与责任人
@@ -163,6 +163,7 @@ $(function () {
     	$("#cha_v8").val();
     	$("#cha_v8_1").val("请选择");
     	$("#cha_banqian").val("请选择");
+    	$("#cha_year").val("2017");
     	$('#chauxnshiousuo').click();
     	chaxun = {};
     	
@@ -338,6 +339,6 @@ function queryParams_bxbxxb(params) {  //配置参数
     temp.cha_v6 = chaxun.cha_v6;
     temp.cha_v8 = chaxun.cha_v8;
     temp.cha_v8_1 = chaxun.cha_v8_1;
-	
+    temp.cha_year = chaxun.cha_year;
     return temp;
 }
