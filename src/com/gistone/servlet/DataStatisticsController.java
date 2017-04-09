@@ -85,7 +85,7 @@ public class DataStatisticsController  extends MultiActionController{
 				ziduan = "v2";
 			}
 		}
-		String sql = "SELECT * from (select a."+ziduan+" as b1,SUM(a.b2) as b2 , SUM(a.b3) as b3, SUM(a.b4) as b4,SUM(a.b6)as b6,SUM(a.b7)as b7 ,SUM(a.b8) as b8,SUM(a.b9) as b9,SUM(a.b10) as b10,SUM(a.b11) as b11,SUM(a.b12) as b12,SUM(a.b13) as b13,a.b14 from da_statistics"+year+" a"
+		String sql = "SELECT * from (select a."+ziduan+" as b1,SUM(a.b2) as b2 , SUM(a.b3) as b3, SUM(a.b4) as b4,SUM(a.b6)as b6,SUM(a.b7)as b7 ,SUM(a.b8) as b8,SUM(a.b9) as b9,SUM(a.b10) as b10,SUM(a.b11) as b11,SUM(a.b12) as b12,SUM(a.b13) as b13,SUM(a.b16) as b16,SUM(a.b17) as b17,a.b14 from da_statistics"+year+" a"
 				 +" where a.b14='"+ type +"' "+ cun_duyou +" GROUP BY a."+ziduan+") b join sys_company c on b.b1=c.com_name";
 		if(sort==""||sort==null){
 			sql += " where com_f_pkid="+pkid+"   and b2>0 order by b2 desc ";
@@ -160,6 +160,18 @@ public class DataStatisticsController  extends MultiActionController{
 						str1=df.format((Double.parseDouble(val.get("b13").toString()))/(Double.parseDouble(val.get("b2").toString()))*100)+"%";
 						obj.put("b13",val.get("b13")==null?"<code>0</code>":getData(val.get("b2").toString(),val.get("b13").toString())+"("+str1+")"+"<div class=\"progress progress-mini\"><div style=\"width:"+str1+";\" class=\"progress-bar\"></div></div>");
 					}
+					if("".equals(val.get("b16"))||val.get("b16")==null){
+						obj.put("b16",val.get("b16")==null?"<code>0</code>":getData(val.get("b2").toString(),val.get("b16").toString()));
+					}else{
+						str1=df.format((Double.parseDouble(val.get("b16").toString()))/(Double.parseDouble(val.get("b2").toString()))*100)+"%";
+						obj.put("b16",val.get("b16")==null?"<code>0</code>":getData(val.get("b2").toString(),val.get("b16").toString())+"("+str1+")"+"<div class=\"progress progress-mini\"><div style=\"width:"+str1+";\" class=\"progress-bar\"></div></div>");
+					}
+					if("".equals(val.get("b17"))||val.get("b17")==null){
+						obj.put("b17",val.get("b17")==null?"<code>0</code>":getData(val.get("b2").toString(),val.get("b17").toString()));
+					}else{
+						str1=df.format((Double.parseDouble(val.get("b17").toString()))/(Double.parseDouble(val.get("b2").toString()))*100)+"%";
+						obj.put("b17",val.get("b17")==null?"<code>0</code>":getData(val.get("b2").toString(),val.get("b17").toString())+"("+str1+")"+"<div class=\"progress progress-mini\"><div style=\"width:"+str1+";\" class=\"progress-bar\"></div></div>");
+					}
 					jsa.add(obj);
 				}
 			}
@@ -220,8 +232,8 @@ public class DataStatisticsController  extends MultiActionController{
 			sfcg="0";//清除失败为0
 		}
 		if(sfcg.equals("1")){//如果清除成功，执行插入数据语句
-			String insert_sql="INSERT INTO da_statistics(v1,v2,v3,b2,b3,b4,b6,b7,b8,b9,b10,b11,b12,b13,b14,b15) "
-					+ " select t1.v3 v1,t1.v4 v2,t1.v5 v3,b2,b3,b4,b6,b7,b8,b9,b10,b11,b12,b13,t1.sys_standard b14,'up_time' b15 from("
+			String insert_sql="INSERT INTO da_statistics(v1,v2,v3,b2,b3,b4,b6,b7,b8,b9,b10,b11,b12,b13,b14,b15,b16,b17) "
+					+ " select t1.v3 v1,t1.v4 v2,t1.v5 v3,b2,b3,b4,b6,b7,b8,b9,b10,b11,b12,b13,b16,b17,t1.sys_standard b14,'up_time' b15 from("
 					+ "select v3,v4,v5,COUNT(*) as b2,sum(v9) as b3,sys_standard from da_household where v21!='已脱贫' group by v3,v4,v5,sys_standard) t1 "
 					+ " left join (select v3,v4,v5,COUNT(*) as b4 ,sys_standard from b4_t group by v3,v4,v5,sys_standard) t4 on t1.v3=t4.v3 and t1.v4=t4.v4 and t1.v5=t4.v5 and t1.sys_standard=t4.sys_standard "
 					+ " left join (select v3,v4,v5,COUNT(*) as b6 ,sys_standard from b6_t group by v3,v4,v5,sys_standard) t6 on t1.v3=t6.v3 and t1.v4=t6.v4 and t1.v5=t6.v5 and t1.sys_standard=t6.sys_standard "
@@ -231,7 +243,9 @@ public class DataStatisticsController  extends MultiActionController{
 					+ " left join (select v3,v4,v5,COUNT(*) as b10 ,sys_standard from b10_t group by v3,v4,v5,sys_standard) t10 on t1.v3=t10.v3 and t1.v4=t10.v4 and t1.v5=t10.v5 and t1.sys_standard=t10.sys_standard "
 					+ " left join (select v3,v4,v5,COUNT(*) as b11 ,sys_standard from b11_t group by v3,v4,v5,sys_standard) t11 on t1.v3=t11.v3 and t1.v4=t11.v4 and t1.v5=t11.v5 and t1.sys_standard=t11.sys_standard "
 					+ " left join (select v3,v4,v5,COUNT(*) as b12 ,sys_standard from b12_t group by v3,v4,v5,sys_standard) t12 on t1.v3=t12.v3 and t1.v4=t12.v4 and t1.v5=t12.v5 and t1.sys_standard=t12.sys_standard "
-					+ " left join (select v3,v4,v5,COUNT(*) as b13 ,sys_standard from b13_t group by v3,v4,v5,sys_standard) t13 on t1.v3=t13.v3 and t1.v4=t13.v4 and t1.v5=t13.v5 and t1.sys_standard=t13.sys_standard";
+					+ " left join (select v3,v4,v5,COUNT(*) as b13 ,sys_standard from b13_t group by v3,v4,v5,sys_standard) t13 on t1.v3=t13.v3 and t1.v4=t13.v4 and t1.v5=t13.v5 and t1.sys_standard=t13.sys_standard"
+					+ " left join (select v3,v4,v5,COUNT(*) as b16 ,sys_standard from b14_t group by v3,v4,v5,sys_standard) t14 on t1.v3=t14.v3 and t1.v4=t14.v4 and t1.v5=t14.v5 and t1.sys_standard=t14.sys_standard"
+					+ " left join (select v3,v4,v5,COUNT(*) as b17 ,sys_standard from b15_t group by v3,v4,v5,sys_standard) t15 on t1.v3=t15.v3 and t1.v4=t15.v4 and t1.v5=t15.v5 and t1.sys_standard=t15.sys_standard";
 			try {
 				SQLAdapter insert_sqlAdapter = new SQLAdapter(insert_sql);
 				this.getBySqlMapper.findRecords(insert_sqlAdapter);
