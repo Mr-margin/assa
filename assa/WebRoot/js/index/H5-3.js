@@ -47,6 +47,9 @@ $(function(){
 	});
 	//点击添加按钮
 	$("#add_bfdw_button").click(function(){
+		$(".chosen-select").css("width","200px");
+		$(".chosen-container.chosen-container-multi").css("width","200px");
+	
 		$("#add_bf").show();
 		$("#up_bf").hide();
 		//shoubangfucun();
@@ -54,6 +57,8 @@ $(function(){
 	});
 	//点击修改按钮
 	$("#update_bfdw_button").click(function(){
+		$("#cha_gcc_up").css("width","200px");
+		$("#cha_gcc_up_chosen").css("width","200px");
 		var row = getSelectedRow();//获取选中的行
     	if (typeof row != "undefined") {
     		$("#add_bf").hide();
@@ -68,10 +73,32 @@ $(function(){
     			$("#up_qixian").val(row.sys_company_id);
     		}
     		if (typeof row.com_name != "undefined") {
-    			$("#cha_gcc_up").html('<option  value="'+row.v5+'">'+row.com_name+'</option>');
+    			var ids = row.v5.split(",");
+    			var com_names = row.com_name.split(",");
+    			if(ids.length>0 && com_names.length>0){
+    				html="";
+    				//ids为多个的时候
+    				for(var item in ids){
+    					html+='<option  value="'+ids[item]+'" >'+com_names[item]+'</option>';
+    						
+    				}
+    				//显示多个村
+    				$("#cha_gcc_up").html(html);
+    				//将显示的村标记为选中
+    				for(var i in ids){
+    					$("#cha_gcc_up option[value='"+ids[i]+"']").attr("selected","selected");
+    				}
+    				//更新数据显示在前端
+    				$(".chosen-select").trigger("chosen:updated");//多项选择器动态加载不出数据的问题
+    			}else{
+    				$("#cha_gcc_up").html('<option  value="'+row.v5+'">'+row.com_name+'</option>');	
+    				$("#cha_gcc_up option[value='"+row.v5+"']").attr("selected","selected");
+    				$(".chosen-select").trigger("chosen:updated");//多项选择器动态加载不出数据的问题
+    			}
+    			 
     		}
     		
-    		
+    		 
     		xiugaiID=row.pkid;
     		//shoubangfucun();
     		document.getElementById("up_bf").scrollIntoView();//定位到添加帮扶单位界面
@@ -79,6 +106,14 @@ $(function(){
     		toastr["info"]("info", "必须选择一条记录");
     	}
 	});
+	
+	 chose_get_ini('#cha_gcc_up');
+	    //change 事件  
+	 $('#cha_gcc_up').change(function(){
+	        $('#cha_gcc_ids').val(chose_get_value('#cha_gcc_up'));
+	    
+	    });
+	 
 	//点击删除按钮
 	$("#delete_bfdw_button").click(function(){
 		var row = getSelectedRow(metTable);//必须确认先选中一条
@@ -138,6 +173,7 @@ function shoubangfucun(){
 			$("#cha_smx_up").html('<option value="'+jsondata.company.xiang+'">'+jsondata.company.xiang+'</option>');
 			teshu_cun(jsondata.company.xiang,$('#cha_gcc'));
 			teshu_cun(jsondata.company.xiang,$('#cha_gcc_up'));
+			config();
 		}else if(val.com_level == "4"){
 			$('#cha_qx').html('<option  value="'+jsondata.company.xian+'">'+jsondata.company.xian+'</option>');
 			$("#cha_smx").html('<option value="'+jsondata.company.xiang+'">'+jsondata.company.xiang+'</option>');
@@ -216,7 +252,7 @@ function teshu_cun(chongmingle,str){
 	    	str:chongmingle,
         },
 	    success: function (data) {
-	    	cun='<option>请选择</option>';
+	    	cun='';
 	    	$.each(data,function(i,item){
 	    		if(type=="单位"){
 	    			if(val.com_level == "1"){
@@ -232,9 +268,22 @@ function teshu_cun(chongmingle,str){
 	    			}
 	    		}else if(type=="管理员"){
 	    			cun+='<option value="'+item.pkid+'">'+item.com_name+'</option>';
+	    			
 	    		}
+	    		$(".chosen-select option[value='"+item.pkid+"']").attr("selected","selected");
 	    	});
 	    	str.html(cun);
+	    	$(".chosen-select").trigger("chosen:updated");//多项选择器动态加载不出数据的问题
+		    //多选select 数据同步
+		    chose_get_ini('#cha_gcc');
+		    //change 事件
+		    $('#cha_gcc').change(function(){
+
+		        $('#cha_gcc_ids').val(chose_get_value('#cha_gcc'));
+		 
+		    });
+	    	
+	    	
 	    },
 	    error: function () { 
 	    }  
@@ -243,6 +292,7 @@ function teshu_cun(chongmingle,str){
 
 //添加帮扶单位
 function addBfdw(){
+
 	$.ajax({
 		url: "/assa/addBfdw.do",
 		type: "POST",
@@ -254,7 +304,7 @@ function addBfdw(){
 			add_bfdw_ldxm:$("#add_bfdw_ldxm").val(),
 			add_bfdw_dz:$("#add_bfdw_dz").val(),
 			add_bfdw_lddh:$("#add_bfdw_lddh").val(),
-			cha_gcc:$("#cha_gcc").val()
+			cha_gcc_ids:$("#cha_gcc_ids").val()
 		},
 		success: function (data) {
 			if(data==1){
@@ -289,7 +339,7 @@ function upBfdw(){
 			up_bfdw_ldxm:$("#up_bfdw_ldxm").val(),
 			up_bfdw_dz:$("#up_bfdw_dz").val(),
 			up_bfdw_lddh:$("#up_bfdw_lddh").val(),
-			up_cha_gcc:$("#cha_gcc_up").val()
+			cha_gcc_ids:$("#cha_gcc_ids").val()
 		},
 		success: function (data) {
 			if(data==1){
@@ -459,3 +509,23 @@ function getSelectedRow() {
 	var index = $metTable.find('tr.success').data('index');
 	return $metTable.bootstrapTable('getData')[index];
 }
+
+
+
+
+  
+
+//select 数据同步
+function chose_get_ini(select){
+    $(select).chosen().change(function(){$(select).trigger("chosen:updated");});
+}
+//select value获取
+function chose_get_value(select){
+    return $(select).val();
+}
+//select text获取，多选时请注意
+function chose_get_text(select){
+    return $(select+" option:selected").text();
+}
+
+
