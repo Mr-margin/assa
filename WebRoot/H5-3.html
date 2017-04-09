@@ -27,12 +27,15 @@
 	<link href="css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
 	<link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
 	<link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+	 <link href="css/plugins/chosen/chosen.css" rel="stylesheet">
+	  <link href="css/plugins/chosen/bootstrap.min14ed.css" rel="stylesheet">
+	   <link href="css/plugins/chosen/style.min862f.css" rel="stylesheet">
 	<link type="text/css" rel="stylesheet" href="css/style.css" />
+	
     <base target="_blank">
 	<style>
 		.c_red {
 			font-size: 13px;
-			background-color: #FFF;
 			color: red;
 			font-weight: bold;
 		}
@@ -230,11 +233,13 @@
 				                
 				            </div><!-- 面板内容 -->
 				    	</div><!-- 外层面板 -->
+				    	
 			    	</div><!-- 第二行表格加地图 -->
                     
                     
 					<!-- 添加帮扶单位 -->
-           		 	<div class="row" id="add_bf" name="add_bf" style="display:none;">
+           		 	<div class="row" id="add_bf" name="add_bf" style="display:none;" >
+           		 	
 			    		<div class="ibox float-e-margins"><!-- 外层面板 -->
 			    			<div class="ibox-title">
 			                	<h5 id="xia_title">添加帮扶单位</h5>
@@ -288,15 +293,19 @@
 										</div>
 										
 										
-										<div class="panel panel-info">
+										<div class="panel panel-info" >
+										
+										
 											<div class="panel-body">
 												<h5>对口帮扶嘎查村</h5>
+												
 												<div class="ibox-content">
+												
 													<div class="row">
 														<div class="col-sm-4">
 															<label class="col-sm-4 control-label" style="text-align:left;margin-top: 10px;">归属旗县</label>
 															<div class="col-sm-8" style="padding-left: 0px;">
-																<select class="form-control m-b" id="cha_qx" name="cha_qx" onchange="getinfo_xiang(this.value,$('#cha_smx'))">
+																<select class="form-control m-b" id="cha_qx" name="cha_qx"  onchange="getinfo_xiang(this.value,$('#cha_smx'))">
 																	<option>请选择</option>
 																</select>
 															</div>
@@ -309,13 +318,15 @@
 																</select>
 															</div>
 														</div>
-														<div class="col-sm-4">
-															<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;">嘎查村</label>
-															<div class="col-sm-8">
-																<select class="form-control m-b" id="cha_gcc" name="cha_gcc">
-																	<option>请选择</option>
+														
+														<div class="col-sm-4" style="width: 350px">
+														<input type="text" placeholder="嘎查村ID"  class="form-control" style="display: none;" id="cha_gcc_ids" name="cha_gcc_ids">
+															<label class="col-sm-4 control-label"  style="text-align:right;margin-top: 5px;">嘎查村</label>
+															<div class="col-sm-8"> 
+																<select class="chosen-select"  data-placeholder="请选择"  style="width: 350px"  multiple   id="cha_gcc"   name="cha_gcc">
+																	<option disabled="disabled">请选择</option>
 																</select>
-															</div>
+															 </div> 
 														</div>
 													</div>
 												</div>
@@ -339,6 +350,7 @@
 					        	</div>
 					    	</div><!-- 面板内容 -->
 					    </div><!-- 外层面板 -->
+					    
 	    			</div><!-- 添加帮扶人 -->
 	    		
 	    		
@@ -415,15 +427,16 @@
 															<label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;">苏木乡</label>
 															<div class="col-sm-8">
 																<select class="form-control m-b" id="cha_smx_up" name="cha_smx_up" onchange="teshu_cun(this.value,$('#cha_gcc_up'))">
-																	<option>请选择</option>
+																	<option >请选择</option>
 																</select>
 															</div>
 														</div>
 														<div class="col-sm-4">
 															<label class="col-sm-4 control-label" style="text-align:right;margin-top: 10px;">嘎查村</label>
 															<div class="col-sm-8">
-																<select class="form-control m-b" id="cha_gcc_up" name="cha_gcc_up">
-																	<option>请选择</option>
+															<select class="chosen-select" data-placeholder="请选择"   style="width: 350px"  multiple   id="cha_gcc_up"   name="cha_gcc_up">
+															
+																	<option disabled="disabled">请选择</option> 
 																</select>
 															</div>
 														</div>

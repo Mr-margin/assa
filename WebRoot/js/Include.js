@@ -85,6 +85,8 @@ function loadSMLibs(str) {//
 	}else if(str=='5-3'){
 		inputScript('js/plugins/suggest/bootstrap-suggest.min.js');//按钮式下拉菜单组件的搜索建议插件
 		inputScript('js/plugins/treeview/bootstrap-treeview.js');//树形结构
+		inputScript('js/plugins/chosen/chosen.jquery.js');//多选选择器
+		inputScript('js/plugins/chosen/form-advanced-demo.min.js');//多选选择器
 		inputScript('js/index/H5-3.js?'+ver);
 	}else if(str=='5-2'){
 		inputScript('js/index/H5-2.js?'+ver);
