@@ -736,16 +736,34 @@ public class Index_Controller extends MultiActionController{
 		}
 		SQLAdapter count_st_Adapter = new SQLAdapter(count_st_sql);
 		int total = this.getBySqlMapper.findrows(count_st_Adapter);
-
+		
 		SQLAdapter Admin_st_Adapter = new SQLAdapter(people_sql);
 		List<Map> Admin_st_List = this.getBySqlMapper.findRecords(Admin_st_Adapter);
 		if(Admin_st_List.size()>0){
 			JSONArray jsa=new JSONArray();
 			for(int i = 0;i<Admin_st_List.size();i++){
+				String com_sql = "";
+				String com_name="";
 				Map Admin_st_map = Admin_st_List.get(i);
 				JSONObject val = new JSONObject();
 				for (Object key : Admin_st_map.keySet()) {
+					//如果v5存在多个村的id时  将其拆分查询村名 并且拼接显示在前台
+					if(key.equals("v5")&&Admin_st_map.get(key).toString().split(",").length>0){
+						String[] ids = Admin_st_map.get(key).toString().split(",");
+						for(int j=0;j<ids.length;j++){
+							com_sql = "select com_name from sys_company where pkid = '"+ids[j]+"'";
+							SQLAdapter com_sql_Adapter = new SQLAdapter(com_sql);
+							List<Map> com_list =  this.getBySqlMapper.findRecords(com_sql_Adapter);
+							if(com_list.size()>0){
+								com_name += com_list.get(0).get("com_name").toString()+",";
+							}	
+						}
+					}
 					val.put(key, Admin_st_map.get(key));
+				}
+				//覆盖原来数据库中查询的一个村的错误数据
+				if(val.get("com_name")!=null){
+					val.put("com_name", com_name.substring(0, com_name.length()-1));
 				}
 				jsa.add(val);
 			}
@@ -767,8 +785,8 @@ public class Index_Controller extends MultiActionController{
 		
 		String cha_gcc = "null";
 
-		if(request.getParameter("cha_gcc")!=null&&!request.getParameter("cha_gcc").equals("请选择")){
-			cha_gcc = request.getParameter("cha_gcc").trim();
+		if(request.getParameter("cha_gcc_ids")!=null&&!request.getParameter("cha_gcc_ids").equals("请选择")){
+			cha_gcc = request.getParameter("cha_gcc_ids").trim();
 		}
 		
 		String Sql = "insert into da_company (sys_company_id,v1,v2,v3,v4,v5) values('"+add_qixian+"','"+add_bfdw_mc+"','"+add_bfdw_dz+"','"+add_bfdw_ldxm+"','"+add_bfdw_lddh+"','"+cha_gcc+"')";
@@ -809,8 +827,8 @@ public class Index_Controller extends MultiActionController{
 		String up_bfdw_lddh = request.getParameter("up_bfdw_lddh");
 		
 		String cha_gcc = "null";
-		if(request.getParameter("up_cha_gcc")!=null&&!request.getParameter("up_cha_gcc").equals("请选择")){
-			cha_gcc = request.getParameter("up_cha_gcc").trim();
+		if(request.getParameter("cha_gcc_ids")!=null&&!request.getParameter("cha_gcc_ids").equals("请选择")){
+			cha_gcc = request.getParameter("cha_gcc_ids").trim();
 		}
 		
 		String Sql = "update da_company set sys_company_id='"+up_qixian+"', v1='"+up_bfdw_mc+"', v2='"+up_bfdw_dz+"',v3='"+up_bfdw_ldxm+"',v4='"+up_bfdw_lddh+"',v5='"+cha_gcc+"' where pkid="+id;
