@@ -85,7 +85,7 @@ public class DataStatisticsController  extends MultiActionController{
 				ziduan = "v2";
 			}
 		}
-		String sql = "SELECT * from (select a."+ziduan+" as b1,SUM(a.b2) as b2 , SUM(a.b3) as b3, SUM(a.b4) as b4,SUM(a.b6)as b6,SUM(a.b7)as b7 ,SUM(a.b8) as b8,SUM(a.b9) as b9,SUM(a.b10) as b10,SUM(a.b11) as b11,SUM(a.b12) as b12,SUM(a.b13) as b13,SUM(a.b16) as b16,SUM(a.b17) as b17,a.b14 from da_statistics"+year+" a"
+		String sql = "SELECT * from (select a."+ziduan+" as b1,SUM(a.b2) as b2 , SUM(a.b3) as b3, SUM(a.b4) as b4,SUM(a.b6)as b6,SUM(a.b7)as b7 ,SUM(a.b8) as b8,SUM(a.b9) as b9,SUM(a.b10) as b10,SUM(a.b11) as b11,SUM(a.b12) as b12,SUM(a.b13) as b13,a.b14,SUM(a.b16) as b16,SUM(a.b17) as b17 from da_statistics"+year+" a"
 				 +" where a.b14='"+ type +"' "+ cun_duyou +" GROUP BY a."+ziduan+") b join sys_company c on b.b1=c.com_name";
 		if(sort==""||sort==null){
 			sql += " where com_f_pkid="+pkid+"   and b2>0 order by b2 desc ";
@@ -101,6 +101,7 @@ public class DataStatisticsController  extends MultiActionController{
 			JSONArray jsa=new JSONArray();
 			for(Map val:Metadata_g_List){
 				JSONObject obj = new JSONObject ();
+				str1 = "";
 				if(val.get("b2")!=null){
 					obj.put("b1",val.get("b1")==null?"":val.get("b1"));
 					obj.put("b2",val.get("b2")==null?"":val.get("b2"));
@@ -233,7 +234,7 @@ public class DataStatisticsController  extends MultiActionController{
 		}
 		if(sfcg.equals("1")){//如果清除成功，执行插入数据语句
 			String insert_sql="INSERT INTO da_statistics(v1,v2,v3,b2,b3,b4,b6,b7,b8,b9,b10,b11,b12,b13,b14,b15,b16,b17) "
-					+ " select t1.v3 v1,t1.v4 v2,t1.v5 v3,b2,b3,b4,b6,b7,b8,b9,b10,b11,b12,b13,b16,b17,t1.sys_standard b14,'up_time' b15 from("
+					+ " select t1.v3 v1,t1.v4 v2,t1.v5 v3,b2,b3,b4,b6,b7,b8,b9,b10,b11,b12,b13,t1.sys_standard b14,'up_time' b15,b16,b17 from("
 					+ "select v3,v4,v5,COUNT(*) as b2,sum(v9) as b3,sys_standard from da_household where v21!='已脱贫' group by v3,v4,v5,sys_standard) t1 "
 					+ " left join (select v3,v4,v5,COUNT(*) as b4 ,sys_standard from b4_t group by v3,v4,v5,sys_standard) t4 on t1.v3=t4.v3 and t1.v4=t4.v4 and t1.v5=t4.v5 and t1.sys_standard=t4.sys_standard "
 					+ " left join (select v3,v4,v5,COUNT(*) as b6 ,sys_standard from b6_t group by v3,v4,v5,sys_standard) t6 on t1.v3=t6.v3 and t1.v4=t6.v4 and t1.v5=t6.v5 and t1.sys_standard=t6.sys_standard "
@@ -244,7 +245,7 @@ public class DataStatisticsController  extends MultiActionController{
 					+ " left join (select v3,v4,v5,COUNT(*) as b11 ,sys_standard from b11_t group by v3,v4,v5,sys_standard) t11 on t1.v3=t11.v3 and t1.v4=t11.v4 and t1.v5=t11.v5 and t1.sys_standard=t11.sys_standard "
 					+ " left join (select v3,v4,v5,COUNT(*) as b12 ,sys_standard from b12_t group by v3,v4,v5,sys_standard) t12 on t1.v3=t12.v3 and t1.v4=t12.v4 and t1.v5=t12.v5 and t1.sys_standard=t12.sys_standard "
 					+ " left join (select v3,v4,v5,COUNT(*) as b13 ,sys_standard from b13_t group by v3,v4,v5,sys_standard) t13 on t1.v3=t13.v3 and t1.v4=t13.v4 and t1.v5=t13.v5 and t1.sys_standard=t13.sys_standard"
-					+ " left join (select v3,v4,v5,COUNT(*) as b16 ,sys_standard from b14_t group by v3,v4,v5,sys_standard) t14 on t1.v3=t14.v3 and t1.v4=t14.v4 and t1.v5=t14.v5 and t1.sys_standard=t14.sys_standard"
+					+ " left join (select v3,v4,v5,COUNT(*) as b16 ,sys_standard from b14_t group by v3,v4,v5,sys_standard) t14 on t1.v3=t14.v3 and t1.v4=t14.v4 and t1.v5=t14.v5 and t1.sys_standard=t14.sys_standard "
 					+ " left join (select v3,v4,v5,COUNT(*) as b17 ,sys_standard from b15_t group by v3,v4,v5,sys_standard) t15 on t1.v3=t15.v3 and t1.v4=t15.v4 and t1.v5=t15.v5 and t1.sys_standard=t15.sys_standard";
 			try {
 				SQLAdapter insert_sqlAdapter = new SQLAdapter(insert_sql);
@@ -254,6 +255,8 @@ public class DataStatisticsController  extends MultiActionController{
 				SQLAdapter uptime_sqlAdapter = new SQLAdapter(uptime_sql);
 				this.getBySqlMapper.updateSelective(uptime_sqlAdapter);
 				response.getWriter().write("1");
+				
+				
 			} catch (Exception e) {
 				response.getWriter().write("0");//插入失败，返回0
 			}
