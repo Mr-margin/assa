@@ -203,16 +203,6 @@ public class SignOutController extends MultiActionController{
 				
 					for (Object key : Metadata_s_map.keySet()) {
 						val.put(key, Metadata_s_map.get(key));
-						if(key.equals("flag")){
-							if(Metadata_s_map.get(key)!=null){
-								if(Metadata_s_map.get(key).toString().equals("1")){
-									val.put(key, "国转市");
-								}else if(Metadata_s_map.get(key).toString().equals("0")){
-									val.put(key, "市贫户");
-								}
-							}
-						}
-						
 						val.put("v6","<a onclick='chakan_info(\""+Metadata_s_map.get("pkid")+"\")'>"+Metadata_s_map.get("v6")+"</a>");
 					}
 					jsa.add(val);
@@ -250,7 +240,7 @@ public class SignOutController extends MultiActionController{
 			try {
 				for ( int i = 0 ; i < pkid.length ; i ++ ) {
 					if( "0".equals(type) ) {
-						String sql = "update da_household set sys_standard='市级低收入人口', flag='1' where pkid = "+pkid[i];
+						String sql = "update da_household set sys_standard='市级低收入人口' where pkid = "+pkid[i];
 						SQLAdapter sqlAdapter = new SQLAdapter (sql);
 						this.getBySqlMapper.updateSelective(sqlAdapter);
 						
