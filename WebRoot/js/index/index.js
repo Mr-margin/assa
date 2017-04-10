@@ -204,14 +204,18 @@ function index_map(code,gors){
 function zongbiao(code,gors){
 	var aa;//name
 	var dd;//户数
-	var cc;//人数
+	var cc;//未脱贫人数
+	var ycc;//已脱贫人数
 	var last_dd;//去年户数
-	var last_cc;//去年人数
+	var last_cc;//去年未脱贫人数
+	var last_ycc;//去年已脱贫人数
 	var hha;//统计名称
 	var hhh=0;//总户数
-	var hhr=0;//总人数
+	var hhr=0;//未脱贫总人数
+	var yhhr=0;//已脱贫总人数
 	var last_hhh=0;//去年总户数
 	var last_hhr=0;//去年总人数
+	var last_yhhr=0;//去年总人数
 	if(com_level==1){//当为不同用户的时候，表头改变。
 		$("#index_yi_title").html("旗县");
 		hha="全市";
@@ -269,23 +273,35 @@ function zongbiao(code,gors){
 		    			last_dd='<span class="c_green">'+item.count1+'</span>';
 		    			last_hhh=parseInt(item.count1)+parseInt(last_hhh);
 		    		}
-		    		if(item.sum=="0" || item.sum == undefined){//人数
+		    		if(item.sum=="0" || item.sum == undefined){//未脱贫人数
 		    			cc='<span class="c_red">0</span>';
 		    		}else{
 		    			cc='<span class="c_green">'+item.sum+'</span>';
 		    			hhr=parseInt(item.sum)+parseInt(hhr);
 		    		}
+		    		if(item.sum2=="0" || item.sum2 == undefined){//已脱贫人数
+		    			ycc='<span class="c_red">0</span>';
+		    		}else{
+		    			ycc='<span class="c_green">'+item.sum2+'</span>';
+		    			yhhr=parseInt(item.sum2)+parseInt(yhhr);
+		    		}
 		    		//去年人数
-		    		if(item.sum1=="0"){//人数
+		    		if(item.sum1=="0"){//未脱贫人数
 		    			last_cc='<span class="c_red">0</span>';
 		    		}else{
 		    			last_cc='<span class="c_green">'+item.sum1+'</span>';
 		    			last_hhr=parseInt(item.sum1)+parseInt(last_hhr);
 		    		}
-		    		html+='<tr><td class="text-center">'+aa+'</td><td class="text-center" >'+dd+'</td><td class="text-center" >'+cc+'</td><td class="text-center" >'+last_dd+'</td><td class="text-center" >'+last_cc+'</td></tr>';
+		    		if(item.sum3=="0" || item.sum3 == undefined){//已脱贫人数
+		    			last_ycc='<span class="c_red">0</span>';
+		    		}else{
+		    			last_ycc='<span class="c_green">'+item.sum3+'</span>';
+		    			last_yhhr=parseInt(item.sum3)+parseInt(last_yhhr);
+		    		}
+		    		html+='<tr><td class="text-center">'+aa+'</td><td class="text-center" >'+dd+'</td><td class="text-center" >'+cc+'</td><td class="text-center" >'+ycc+'</td><td class="text-center" >'+last_dd+'</td><td class="text-center" >'+last_cc+'</td><td class="text-center" >'+last_ycc+'</td></tr>';
 		    		
 		    	});
-		    	html+='<tr><td class="text-center">'+hha+'</td><td class="text-center" ><span class="c_green">'+hhh+'</span></td><td class="text-center" ><span class="c_green">'+hhr+'</span></td><td class="text-center" ><span class="c_green">'+last_hhh+'</span></td><td class="text-center" ><span class="c_green">'+last_hhr+'</span></td></tr>';
+		    	html+='<tr><td class="text-center">'+hha+'</td><td class="text-center" ><span class="c_green">'+hhh+'</span></td><td class="text-center" ><span class="c_green">'+hhr+'</span></td><td class="text-center" ><span class="c_green">'+yhhr+'</span></td><td class="text-center" ><span class="c_green">'+last_hhh+'</span></td><td class="text-center" ><span class="c_green">'+last_hhr+'</span></td><td class="text-center" ><span class="c_green">'+last_yhhr+'</span></td></tr>';
 		    	$("#shangfangzongbiao").html(html);
 	    	}
 	    },
