@@ -55,25 +55,36 @@ public class Index_Controller extends MultiActionController{
 			for(String key : company.keySet()){
 				company_json.put(key, company.get(key));
 			}
-
 			if(code.toString().equals("shi")==true){//市级用户
 				String sql="select b.v3,count,count1,sum,sum1 from (SELECT v3,count(*) AS count,sum(v9) AS sum FROM da_household where sys_standard='"+gors+"' and v21 !='已脱贫' group by v3) a"+
 							" right JOIN (SELECT v3,count(*) AS count1 ,sum(v9) AS sum1 FROM da_household_2016 where sys_standard='"+gors+"' and v21 !='已脱贫' group by v3 )b on  a.v3=b.v3";
+				String sql2="select d.v3,sum2,sum3 from (SELECT v3,sum(v9) AS sum2 FROM da_household where sys_standard='"+gors+"' and v21 ='已脱贫' group by v3) c"+
+						" right JOIN (SELECT v3,sum(v9) AS sum3 FROM da_household_2016 where sys_standard='"+gors+"' and v21 ='已脱贫' group by v3 )d on  c.v3=d.v3";
 				SQLAdapter sqlAdapter =new SQLAdapter(sql);
 				List<Map> sql_list = this.getBySqlMapper.findRecords(sqlAdapter);
+				SQLAdapter sqlAdapter2 =new SQLAdapter(sql2);
+				List<Map> sql_list2 = this.getBySqlMapper.findRecords(sqlAdapter2);
 				JSONObject val = new JSONObject();
 				if(sql_list.size()>0){
 					JSONArray jsa=new JSONArray();
 					for(int i = 0;i<sql_list.size();i++){
+						
 						Map Admin_st_map = sql_list.get(i);
+						
 						for (Object key : Admin_st_map.keySet()) {
 							val.put(key, Admin_st_map.get(key));
+						}
+						if(sql_list2.size()>0){
+							Map Admin_st_map2 = sql_list2.get(i);
+						for (Object key : Admin_st_map2.keySet()) {
+							val.put(key, Admin_st_map2.get(key));
+						}
 						}
 						jsa.add(val);
 					}
 					response.getWriter().write(jsa.toString());
 				}else{
-					response.getWriter().print("0");
+					response.getWriter().write("0");
 				}
 			}else if(company_json.get("com_level").toString().equals("2")==true){//二级用户
 //				String sql="SELECT y1.v4 AS v3,count(*) AS count,sum(y1.v9) AS sum FROM da_household y1 JOIN sys_company y2 ON y1.v3 = y2.com_name where y2.com_code="+code+" AND y1.sys_standard='"+gors+"' and v21!='已脱贫'  group by y1.v4";
