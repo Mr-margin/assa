@@ -271,7 +271,7 @@ public class AssistController extends MultiActionController{
 		if(sys_company_id!=null&&!sys_company_id.equals("")){
 			where = " where t1.sys_company_id="+sys_company_id;
 		}
-		String st_sql = "select t1.pkid,t1.v1,t1.v3,t1.v4,t2.com_name from da_company t1 LEFT JOIN sys_company t2 on t1.v5=t2.pkid "+where;
+		String st_sql = "select t1.pkid,t1.v1,t1.v3,t1.v4,t2.com_name,t1.v5 from da_company t1 LEFT JOIN sys_company t2 on t1.v5=t2.pkid "+where;
 		//System.out.println(st_sql);
 		
 		SQLAdapter Patient_st_Adapter = new SQLAdapter(st_sql);
@@ -281,9 +281,12 @@ public class AssistController extends MultiActionController{
 		if(Patient_st_List.size()>0){
 			
 			for(int i = 0;i<Patient_st_List.size();i++){
+				
 				Map Patient_st_map = Patient_st_List.get(i);
 				JSONObject val = new JSONObject();
 				for (Object key : Patient_st_map.keySet()) {
+					String com_sql = "";
+					String com_name="";
 					val.put("pkid", Patient_st_map.get("pkid"));
 					
 //					if(Patient_st_map.get("v1").toString().length()>15){
@@ -294,7 +297,22 @@ public class AssistController extends MultiActionController{
 					val.put("v1", Patient_st_map.get("v1"));
 					val.put("v3", Patient_st_map.get("v3")==null?"":Patient_st_map.get("v3"));
 					val.put("v4", Patient_st_map.get("v4")==null?"":Patient_st_map.get("v4"));
-					val.put("com_name", Patient_st_map.get("com_name")==null?"":Patient_st_map.get("com_name"));
+					//选择单位时  多个嘎查村的显示
+					if(Patient_st_map.get("v5")!=null&&Patient_st_map.get("v5").toString().split(",").length>1){
+						String[] ids = Patient_st_map.get("v5").toString().split(",");
+						for(int j=0;j<ids.length;j++){
+							com_sql = "select com_name from sys_company where pkid = '"+ids[j]+"'";
+							SQLAdapter com_sql_Adapter = new SQLAdapter(com_sql);
+							List<Map> com_list =  this.getBySqlMapper.findRecords(com_sql_Adapter);
+							if(com_list.size()>0){
+								com_name += com_list.get(0).get("com_name").toString()+",";
+							}	
+						}
+						val.put("com_name", com_name.substring(0, com_name.length()-1));
+					}else{
+						val.put("com_name", Patient_st_map.get("com_name")==null?"":Patient_st_map.get("com_name"));
+					}
+					
 				}
 				jsa.add(val);
 			}
