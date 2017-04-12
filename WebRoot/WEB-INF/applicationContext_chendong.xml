@@ -122,6 +122,10 @@
 				
 				<!-- 贫困户的信息查询初始化 -->
 				<prop key="getPoorMessageController.do">PoorMessageController</prop>
+				<!-- 贫困户的信息查询初始化 管理测试使用 -->
+				<prop key="getPoorMessageManage.do">PoorMessageController</prop>
+				<!-- 撤销操作 国贫转市贫 -->
+				<prop key="chexiao_update.do">PoorMessageController</prop>
 				<!-- 贫困户详细信息 -->
 				<prop key="getPoorDetailController.do">PoorMessageController</prop>
 				<!-- 获取所有的旗县 -->

@@ -119,5 +119,8 @@ function loadSMLibs(str) {//
 		inputScript('js/index/H10.js?'+ver);
 		inputScript('js/pooruser/currency.js?'+ver);
 		
+	}else if(str=='manage'){
+		inputScript('js/pooruser/currency.js?'+ver);
+		inputScript('js/index/H2_manage.js?'+ver);
 	}
 }

@@ -793,9 +793,9 @@ public class PoorUserController extends MultiActionController{
 		}
 		if(form_json.get("sys_standard")!=null&&!form_json.get("sys_standard").equals("")){//下拉框，一定有值，但是要筛除“请选择”
 			if(form_json.get("sys_standard").equals("请选择")){
-				where += "sys_standard='',flag='',";
+				where += "sys_standard='',init_flag='',";
 			}else{
-				where += "sys_standard='"+form_json.get("sys_standard")+"',flag='"+form_json.get("sys_standard")+"',";
+				where += "sys_standard='"+form_json.get("sys_standard")+"',init_flag='"+form_json.get("sys_standard")+"',";
 			}
 		}
 		if(form_json.get("v22")!=null&&!form_json.get("v22").equals("")){//下拉框，一定有值，但是要筛除“请选择”
