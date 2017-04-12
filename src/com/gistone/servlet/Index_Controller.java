@@ -64,11 +64,11 @@ public class Index_Controller extends MultiActionController{
 				List<Map> sql_list = this.getBySqlMapper.findRecords(sqlAdapter);
 				SQLAdapter sqlAdapter2 =new SQLAdapter(sql2);
 				List<Map> sql_list2 = this.getBySqlMapper.findRecords(sqlAdapter2);
-				JSONObject val = new JSONObject();
+				
 				if(sql_list.size()>0){
 					JSONArray jsa=new JSONArray();
 					for(int i = 0;i<sql_list.size();i++){
-						
+						JSONObject val = new JSONObject();
 						Map Admin_st_map = sql_list.get(i);
 						
 						for (Object key : Admin_st_map.keySet()) {
@@ -95,9 +95,10 @@ public class Index_Controller extends MultiActionController{
 							" )b on a.v3 = b.v3"	;
 				SQLAdapter sqlAdapter =new SQLAdapter(sql);
 				List<Map> sql_list = this.getBySqlMapper.findRecords(sqlAdapter);
-				JSONObject val = new JSONObject();
+				
 				if(sql_list.size()>0){
 					JSONArray jsa=new JSONArray();
+					JSONObject val = new JSONObject();
 					for(int i = 0;i<sql_list.size();i++){
 						val.put("v3","".equals(sql_list.get(i).get("v3")) || sql_list.get(i).get("v3") == null ?"": sql_list.get(i).get("v3").toString());
 						val.put("count","".equals(sql_list.get(i).get("count")) || sql_list.get(i).get("count") == null ?"0": sql_list.get(i).get("count").toString());
@@ -119,10 +120,11 @@ public class Index_Controller extends MultiActionController{
 						")b on a.v3 = b.v3 ";
 				SQLAdapter sqlAdapter =new SQLAdapter(sql);
 				List<Map> sql_list = this.getBySqlMapper.findRecords(sqlAdapter);
-				JSONObject val = new JSONObject();
+				
 				if(sql_list.size()>0){
 					JSONArray jsa=new JSONArray();
 					for(int i = 0;i<sql_list.size();i++){
+						JSONObject val = new JSONObject();
 						Map Admin_st_map = sql_list.get(i);
 						for (Object key : Admin_st_map.keySet()) {
 							val.put(key, Admin_st_map.get(key));
@@ -141,11 +143,12 @@ public class Index_Controller extends MultiActionController{
 						")b on a.v3=b.v3";
 				SQLAdapter sqlAdapter =new SQLAdapter(sql);
 				List<Map> sql_list = this.getBySqlMapper.findRecords(sqlAdapter);
-				JSONObject val = new JSONObject();
+				
 				if(sql_list.size()>0){
 					JSONArray jsa=new JSONArray();
 					for(int i = 0;i<sql_list.size();i++){
 						Map Admin_st_map = sql_list.get(i);
+						JSONObject val = new JSONObject();
 						for (Object key : Admin_st_map.keySet()) {
 							val.put(key, Admin_st_map.get(key));
 						}
@@ -162,10 +165,11 @@ public class Index_Controller extends MultiActionController{
 						" on a.v3 = b.v3 ";
 			SQLAdapter sqlAdapter =new SQLAdapter(sql);
 			List<Map> sql_list = this.getBySqlMapper.findRecords(sqlAdapter);
-			JSONObject val = new JSONObject();
+			
 			JSONArray jsa=new JSONArray();
 			if(sql_list.size()>0){
 				for(int i = 0;i<sql_list.size();i++){
+					JSONObject val = new JSONObject();
 					Map Admin_st_map = sql_list.get(i);
 					for (Object key : Admin_st_map.keySet()) {
 						val.put(key, Admin_st_map.get(key));
