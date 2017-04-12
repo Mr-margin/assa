@@ -1048,4 +1048,264 @@ public class PoorMessageController extends MultiActionController{
 		return null;
 	
 	}
+	
+	
+	/**
+	 * 获得贫困户信息 管理测试使用 不在正式服务器使用
+	 * @description 
+	 * @method  getPoorMessageManage
+	 * @param　request
+	 * @author luoshuai 
+	 * @date 2017年4月12日 下午3:26:52
+	 *
+	 */
+	public ModelAndView getPoorMessageManage(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		String pageSize = request.getParameter("pageSize");
+		String pageNumber = request.getParameter("pageNumber");
+		String cha_qx = "";//旗县
+		String cha_smx ="";//苏木乡
+		String cha_gcc ="";//嘎查村
+		String cha_sbbz ="";//识别标准
+		String cha_pksx ="";//贫困户属性
+		String cha_zpyy ="";//致贫原因
+		String cha_mz ="";//户主民族
+		String cha_renkou ="";//贫困户人口
+		String cha_bfdw ="";//帮扶单位
+		String cha_bfzrr ="";//帮扶责任人
+		String cha_banqian ="";//是否纳入易地扶贫搬迁
+
+		String cha_v6 = "";//户主姓名
+		String cha_v8 = "";//身份证号
+		String cha_v8_1 = "";//年龄范围开始时间
+		String cha_v8_2 = "";//年龄范围截止时间
+		String cha_year = request.getParameter("cha_year");//查找的年份
+		
+		String hz_sql="";
+		String str = "";
+		
+		if(request.getParameter("cha_v6")!=null&&!request.getParameter("cha_v6").equals("")){
+			cha_v6 = request.getParameter("cha_v6").trim();
+			str += " a.v6 like '%"+cha_v6+"%' and";
+		}
+		//判断身份证是否是户主身份证是则继续不是则先查出来户主身份证
+		if(request.getParameter("cha_v8")!=null&&!request.getParameter("cha_v8").equals("")){
+			cha_v8 = request.getParameter("cha_v8").trim();
+			//根据传过来的身份证判断查询成员  若不是户主则可以查询出来相关户主Id 若家庭只有户主一人则直接走else
+			hz_sql = "select da_member.da_household_id m_id from da_member  where  v8 like '%"+cha_v8+"%'";
+			List<Map> map = this.getBySqlMapper.findRecords(new SQLAdapter(hz_sql));
+			if(map.size()>0){
+				String 	pkid = map.get(0).get("m_id").toString();
+				//通过户主Id查询户主身份证号
+				hz_sql = "select v8 from da_household where pkid = '"+pkid+"'";
+				List<Map> v_list = this.getBySqlMapper.findRecords(new SQLAdapter(hz_sql));
+				if(map.size()>0){
+					//通过户主身份证查询相关信息和原来步骤一样
+					cha_v8 = v_list.get(0).get("v8").toString();
+					str += " a.v8 like '%"+cha_v8+"%' and";
+				}
+			}else{
+				cha_v8 = request.getParameter("cha_v8").trim();
+				str += " a.v8 like '%"+cha_v8+"%' and";
+			}
+		}
+		/*if(request.getParameter("cha_v8")!=null&&!request.getParameter("cha_v8").equals("")){
+			cha_v8 = request.getParameter("cha_v8").trim();
+			str += " a.v8 like '%"+cha_v8+"%' and";
+		}*/
+		if(request.getParameter("cha_v8_1")!=null&&!request.getParameter("cha_v8_1").equals("")){
+			cha_v8_1 = request.getParameter("cha_v8_1").trim();
+			if(request.getParameter("cha_v8_2")!=null&&!request.getParameter("cha_v8_2").equals("")){
+				cha_v8_2 = request.getParameter("cha_v8_2").trim();
+				str += " LENGTH(a.v8)>=18 and (TIMESTAMPDIFF(year,substring(a.v8, 7, 8),DATE(now()))>="+cha_v8_1+" and TIMESTAMPDIFF(year,substring(a.v8, 7, 8),DATE(now()))<="+cha_v8_2+") and";
+			}else{
+				str += " LENGTH(a.v8)>=18 and TIMESTAMPDIFF(year,substring(a.v8, 7, 8),DATE(now()))>="+cha_v8_1+" and";
+			}
+		}else{
+			if(request.getParameter("cha_v8_2")!=null&&!request.getParameter("cha_v8_2").equals("")){
+				cha_v8_2 = request.getParameter("cha_v8_2").trim();
+				str += " LENGTH(a.v8)>=18 and TIMESTAMPDIFF(year,substring(a.v8, 7, 8),DATE(now()))<="+cha_v8_2+" and";
+			}
+		}
+		if(request.getParameter("cha_qx")!=null&&!request.getParameter("cha_qx").equals("请选择")){
+			cha_qx = request.getParameter("cha_qx").trim();
+			str += " a.v3 like '%"+cha_qx+"%' and";
+		}
+		if(request.getParameter("cha_smx")!=null&&!request.getParameter("cha_smx").equals("请选择")){
+			cha_smx = request.getParameter("cha_smx").trim();
+			str += " a.v4 like '%"+cha_smx+"%' and";
+		}
+		if(request.getParameter("cha_gcc")!=null&&!request.getParameter("cha_gcc").equals("请选择")){
+			cha_gcc = request.getParameter("cha_gcc").trim();
+			str += " a.v5 like '%"+cha_gcc+"%' and";
+		}
+		if(request.getParameter("cha_sbbz")!=null&&!request.getParameter("cha_sbbz").equals("请选择")){
+			cha_sbbz = request.getParameter("cha_sbbz").trim();
+			str += " a.sys_standard like '%"+cha_sbbz+"%' and";
+		}
+		if(request.getParameter("cha_pksx")!=null&&!request.getParameter("cha_pksx").equals("请选择")){
+			cha_pksx = request.getParameter("cha_pksx").trim();
+			str += " a.v22 like '%"+cha_pksx+"%' and";
+		}
+		if(request.getParameter("cha_zpyy")!=null&&!request.getParameter("cha_zpyy").equals("请选择")){
+			cha_zpyy = request.getParameter("cha_zpyy").trim();
+			str += " a.v23 like '%"+cha_zpyy+"%' and";
+		}
+		if(request.getParameter("cha_mz")!=null&&!request.getParameter("cha_mz").equals("请选择")){
+			cha_mz = request.getParameter("cha_mz").trim();
+			str += " a.v11 like '%"+cha_mz+"%' and";
+		}
+		if(request.getParameter("cha_renkou")!=null&&!request.getParameter("cha_renkou").equals("请选择")){
+			cha_renkou = request.getParameter("cha_renkou").trim().substring(0,1);
+			if("5".equals(cha_renkou)){
+				str += " a.v9>=5 and";
+			}else{
+				str += " a.v9 like '%"+cha_renkou+"%' and";
+			}
+		}
+		
+		//如果易地扶贫搬迁条件被选择
+		if(request.getParameter("cha_banqian")!=null&&!request.getParameter("cha_banqian").equals("请选择")){
+			cha_banqian = request.getParameter("cha_banqian").trim();
+			str += " a.v21='"+cha_banqian+"' and";
+		}
+		String  str_table = "";
+		if( "2016".equals(cha_year) ) {
+			str_table = "_2016";
+		} else {
+			str_table = "";
+		}
+		
+		String total_number_sql="select a.v9 from da_household"+str_table+" a ";//统计总人口数
+		String count_st_sql = "select count(*) from (select a.pkid from da_household"+str_table+" a ";
+		String people_sql = "select a.pkid,a.v3,a.v4,a.v5,a.v6,a.v9,a.v21,a.v22,a.v23,a.v11,a.sys_standard,a.init_flag from da_household"+str_table+" a ";
+		//如果帮扶人和帮扶单位条件被选择
+		if((request.getParameter("cha_bfdw")!=null&&!request.getParameter("cha_bfdw").equals(""))||(request.getParameter("cha_bfzrr")!=null&&!request.getParameter("cha_bfzrr").equals(""))){
+			if(request.getParameter("cha_bfdw")!=null&&!request.getParameter("cha_bfdw").equals("")){
+				cha_bfdw = request.getParameter("cha_bfdw").trim();
+				str += " t2.v1 like '%"+cha_bfdw+"%' and";
+			}
+			if(request.getParameter("cha_bfzrr")!=null&&!request.getParameter("cha_bfzrr").equals("")){
+				cha_bfzrr = request.getParameter("cha_bfzrr").trim();
+				str += " c.col_name like '%"+cha_bfzrr+"%' and";
+			}
+			count_st_sql += " LEFT JOIN sys_personal_household_many"+str_table+" x on x.da_household_id=a.pkid LEFT JOIN sys_personal"+str_table+" c on x.sys_personal_id = c.pkid join da_company"+str_table+" t2 on c.da_company_id=t2.pkid ";
+			people_sql += " LEFT JOIN sys_personal_household_many"+str_table+" x on x.da_household_id=a.pkid LEFT JOIN sys_personal"+str_table+" c on x.sys_personal_id = c.pkid join da_company"+str_table+" t2 on c.da_company_id=t2.pkid ";
+			total_number_sql += " LEFT JOIN sys_personal_household_many"+str_table+" x on x.da_household_id=a.pkid LEFT JOIN sys_personal"+str_table+" c on x.sys_personal_id = c.pkid join da_company"+str_table+" t2 on c.da_company_id=t2.pkid ";
+		}
+		
+		
+		int size = Integer.parseInt(pageSize);
+		int number = Integer.parseInt(pageNumber);
+		int page = number == 0 ? 1 : (number/size)+1;
+		
+		//两个条件为空，按照全部查询select * from sys_village_responsibility a  LEFT JOIN sys_company b  ON a.sys_company_id=b.pkid LEFT JOIN sys_user c ON a.pkid=c.sys_personal_id
+
+		if(str.equals("")){
+			total_number_sql += " GROUP BY a.pkid order by a.pkid";
+			count_st_sql += " GROUP BY a.pkid) ww";
+			people_sql += " GROUP BY a.pkid order by a.pkid limit "+number+","+size;
+		}else{
+			//带条件，按照条件查询
+			total_number_sql += " where "+str.substring(0, str.length()-3)+" GROUP BY a.pkid order by a.pkid";
+			count_st_sql += " where "+str.substring(0, str.length()-3)+" GROUP BY a.pkid) ww";
+			people_sql += " where "+str.substring(0, str.length()-3)+" GROUP BY a.pkid order by a.pkid limit "+number+","+size;
+		}
+		
+		SQLAdapter count_st_Adapter = new SQLAdapter(count_st_sql);
+		int total = this.getBySqlMapper.findrows(count_st_Adapter);
+		
+		SQLAdapter Patient_st_Adapter = new SQLAdapter(people_sql);
+		List<Map> Patient_st_List = this.getBySqlMapper.findRecords(Patient_st_Adapter);
+		
+		SQLAdapter Patient_total_Adapter = new SQLAdapter(total_number_sql);
+		List<Map> Patient_total_List = this.getBySqlMapper.findRecords(Patient_total_Adapter);
+		int v9=0;//家庭人口
+		if(Patient_st_List.size()>0){
+			JSONArray jsa=new JSONArray();
+			for(int i = 0;i<Patient_st_List.size();i++){
+				Map Patient_st_map = Patient_st_List.get(i);
+				JSONObject val = new JSONObject();
+				for (Object key : Patient_st_map.keySet()) {
+					
+					val.put(key, Patient_st_map.get(key));
+					
+					if(key.toString().equals("col_name")){
+						if("".equals(Patient_st_map.get("col_name")+"")){
+							val.put("col_name", "否");
+						}else{
+							val.put("col_name", "是");
+						}
+					}
+					
+					val.put("chakan","<a onclick='chakan_info(\""+Patient_st_map.get("pkid")+"\")'>查看</a>");
+//					else if(!(key.toString().equals("col_name"))) {
+//						val.put("col_name", "否");
+//					}
+					if(Patient_st_map.get("init_flag").toString().equals("国家级贫困人口")&&Patient_st_map.get("v21").toString().equals("未脱贫")){
+						val.put("chexiao","撤回");
+					}else if(Patient_st_map.get("sys_standard").toString().equals("市级低收入人口")&&Patient_st_map.get("v21").toString().equals("未脱贫")){
+						val.put("chexiao","撤回");
+					}else if(Patient_st_map.get("sys_standard")==null || Patient_st_map.get("v21").toString()==null){
+						val.put("chexiao","撤回");
+					}else{
+						val.put("chexiao","<a onclick='chexiao_update(\""+Patient_st_map.get("pkid")+"\")'>撤回</a>");
+					}
+					
+				}
+				jsa.add(val);
+			}
+			for(int i = 0;i<Patient_total_List.size();i++){
+				Map Patient_total_map = Patient_total_List.get(i);
+				if(Patient_total_map.keySet().contains("v9")){
+					v9+=(Integer) Patient_total_map.get("v9");
+				}
+			}
+			JSONObject json = new JSONObject();
+			json.put("total_number",v9);
+			json.put("page", page);
+			json.put("total", total);
+			json.put("rows", jsa); //这里的 rows 和total 的key 是固定的 
+			response.getWriter().write(json.toString());
+		}
+		return null;
+	}
+	
+	/**
+	 * 撤销修改的贫困户级别  如 市贫户撤销 如果以前是国贫户则撤销之后为国贫户 以前是市贫户则不能更改
+	 * @description 
+	 * @method  getCunController
+	 * @param　request
+	 * @author luoshuai 
+	 * @date 2017年4月12日 下午3:27:02
+	 *
+	 */
+	public ModelAndView chexiao_update(HttpServletRequest request,HttpServletResponse response) throws IOException{
+		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		String pkid = request.getParameter("pkid");
+		String v21="",init_flag="";
+		String sql="select d.sys_standard,d.init_flag,d.v21 from da_household d where pkid = "+pkid;
+		SQLAdapter sqlAdapter =new SQLAdapter(sql);
+		List<Map> list=getBySqlMapper.findRecords(sqlAdapter);
+		
+		//已脱贫   未脱贫 但是是市贫户 
+		if(list.get(0).get("v21")!=null && !list.get(0).get("v21").equals("")){
+			if(list.get(0).get("v21").toString().equals("已脱贫")){
+				init_flag = "市级低收入人口";
+				v21 = "未脱贫";
+			}else if(list.get(0).get("v21").toString().equals("未脱贫")){
+				init_flag = "国家级贫困人口";
+				v21 = "未脱贫";
+			}
+			String update_sql = "update da_household set init_flag ='"+init_flag+"',v21='"+v21+"'where pkid="+pkid;
+			this.getBySqlMapper.updateSelective(new SQLAdapter(update_sql));
+			response.getWriter().write("1");
+		}else{
+			response.getWriter().write("0");
+		}
+		response.getWriter().close();
+		return null;
+	
+	}
+	
 }

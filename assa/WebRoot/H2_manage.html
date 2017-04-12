@@ -26,12 +26,7 @@
 	<link href="css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
 	<link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
 	<link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
-
-   
     <link type="text/css" rel="stylesheet" href="css/style.css" />
-
-    <link type="text/css" rel="stylesheet" href="css/style.css" />
-
     <base target="_blank">
 	<style>
 		.c_red {
@@ -46,11 +41,13 @@
 			color: #1ab394;
 			font-weight: bold;
 		}
-	</style>
-    <style>
         .lightBoxGallery img {
             margin: 5px;
             width: 160px;
+        }
+        .output img{
+        	width: 24px;
+    		height: 24px;
         }
     </style>
   </head>
@@ -58,6 +55,7 @@
   <body class="gray-bg top-navigation">
 	<div id="wrapper">
         <div id="page-wrapper" class="gray-bg">
+        
         
         	<!-- 头部菜单 -->
             <div class="row border-bottom white-bg">
@@ -70,7 +68,7 @@
                         	<li class="dropdown">
                                 <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown" id="in"> 扶贫概况</a>
                             </li>
-                            <li class="dropdown" id="H_li" style="display:none;">
+                            <li  class="dropdown" id="H_li" style="display:none;">
                             	<a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> 扶贫手册 <span class="caret"></span></a>
                             	<ul role="menu" class="dropdown-menu">
                             		<li id="H1_li" style="display:none;"><a id="H1">扶贫手册录入</a></li>
@@ -87,33 +85,18 @@
                             	</ul>
                             </li>
                             
-                            <!-- <li class="dropdown" id="H1_li" style="display:none;">
-                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown" id="H1"> 扶贫手册录入 </a>
-                            </li>
-                            <li class="dropdown" id="H2_li" style="display:none">
-                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown" id="H2"> 帮扶信息查询 </a>
-                            </li> -->
-                            
                             <li class="dropdown" id="H3_li" style="display:none">
                                 <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown" id="H3-2"> 挂图作战 </a>
                             </li>
-                            
-                            <!--  <li class="dropdown" id="H3_li" style="display:none;">
-                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> 统计分析<span class="caret"></span></a>
-                                <ul role="menu" class="dropdown-menu">
-                                    <li id="H3-1_li" style="display:none;"><a id="H3-1">综合查询</a></li>
-                                    <li id="H3-2_li" style="display:none;"><a id="H3-2">统计汇总</a></li>
-                                </ul>
-                            </li> -->
-                            
-                            <li class="active" id="H4_li" style="display:none;">
+                            <li class="dropdown" id="H4_li" style="display:none;">
                                 <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown" id="H4"> 识别与退出 </a>
                             </li>
-                            <li class="dropdown" id="H5_li" style="display:none;">
+                            <li  class="active" id="H5_li" style="display:none;">
                                 <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> 系统管理 <span class="caret"></span></a>
                                 <ul role="menu" class="dropdown-menu">
                                     <li id="H5-1_li" style="display:none;"><a id="H5-1">帮扶干部维护</a></li>
                                     <li id="H5-4_li" style="display:none;"><a id="H5-3">帮扶单位维护</a></li>
+                                     <!--  <li id="H2_manage_li" ><a id="H2_manage">帮扶信息查询维护</a></li> -->
                                     <li id="H5-2_li" style="display:none;"><a id="H6-1">账号查询</a></li>
                                     <li id="H5-3_li" style="display:none;"><a id="H5-2">维护控制</a></li>
                                     <li id="H8_li" style="display:none;"><a id="H8">系统查看</a></li>
@@ -125,123 +108,280 @@
                         </ul>
                     </div>
                 </nav>
-            </div><!-- 头部菜单 --> 
+            </div><!-- 头部菜单 -->
             
-            
-			<!-- 中间部分 -->           
+			<!-- 中间部分 -->
+
             <div id="show-content" class="wrapper wrapper-content">
                 <div class="container">
+                    <!-- 第二行表格加地图 -->
+                    <div class="row"  id="shang_yi">
+				    	<div class="ibox float-e-margins"><!-- 外层面板 -->
+				    		<div class="ibox-content"><!-- 面板内容 -->
+				    			<div class="row">
+				    				<div class="col-sm-12">
+										<div class="ibox panel panel-success border-bottom">
+											<div class="ibox-title panel-heading">
+												<h5 id="chauxnshiousuo_title">查询条件</h5>
+												<div class="ibox-tools">
+													<a class="collapse-link" id="chauxnshiousuo"> <i
+														class="fa fa-chevron-down"></i><strong id="title_tle" onclick="title_tle_zhankai()">展开</strong>
+													</a>
+												</div>
+											</div>
+											<div class="ibox-content panel-body" style="display: none;">
+												<form class="form-horizontal" id="cha_Form">
+	
+													<div class="form-group" style="margin-bottom: 0px" id="chauxn_quanxian">
+														<div class="col-sm-4">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 3px;">旗县</label>
+															<div class="col-sm-7">
+																<select class="form-control m-b" id="cha_qx" name="cha_qx" onchange="getinfo_xiang(this.value,$('#cha_smx'))">
+																	<option>请选择</option>
+																	<option>杭锦旗</option>
+																	<option>市级标准</option>
+																</select>
+															</div>
+														</div>
+	
+														<div class="col-sm-4">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 3px;">苏木乡</label>
+															<div class="col-sm-7">
+																<select class="form-control m-b" id="cha_smx" name="cha_smx" onchange="getinfo_cun(this.value,$('#cha_gcc'))">
+																	<option>请选择</option>
+																</select>
+															</div>
+														</div>
+	
+														<div class="col-sm-4">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 3px;">嘎查村</label>
+															<div class="col-sm-7">
+																<select class="form-control m-b" id="cha_gcc" name="cha_gcc">
+																	<option>请选择</option>
+																</select>
+															</div>
+														</div>
+													</div>
+													<div class="form-group" style="margin-bottom: 0px">
+	
+														<div class="col-sm-4">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 3px;">识别标准</label>
+															<div class="col-sm-7">
+																<select class="form-control m-b" id="cha_sbbz" name="cha_sbbz">
+																	<option>请选择</option>
+																	<option>国家级贫困人口</option>
+																	<option>市级低收入人口</option>
+																</select>
+															</div>
+														</div>
+	
+														<div class="col-sm-4">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 3px;">贫困户属性</label>
+															<div class="col-sm-7">
+																<select class="form-control m-b" id="cha_pksx" name="znegjia_xb_0">
+																	<option>请选择</option>
+																	<option>一般贫困户</option>
+																	<option>低保户</option>
+																	<option>五保户</option>
+																	<option>一般农户</option>
+																	<option>低保贫困户</option>
+																	<option>五保贫困户</option>
+																</select>
+															</div>
+														</div>
+	
+														<div class="col-sm-4">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 3px;">主要致贫原因</label>
+															<div class="col-sm-7">
+																<select class="form-control m-b" id="cha_zpyy" name="cha_zpyy">
+																	<option>请选择</option>
+																	<option>因病</option>
+																	<option>因残</option>
+																	<option>因学</option>
+																</select>
+															</div>
+														</div>
+	
+													</div>
+													<div class="form-group" style="margin-bottom: 0px">
+	
+														<div class="col-sm-4">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 3px;">户主民族</label>
+															<div class="col-sm-7">
+																<select class="form-control m-b" id="cha_mz" name="cha_mz">
+																</select>
+															</div>
+														</div>
+	
+														<div class="col-sm-4">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 3px;">贫困户人口</label>
+															<div class="col-sm-7">
+																<select class="form-control m-b" id="cha_renkou" name="cha_renkou">
+																	<option>请选择</option>
+																	<option>1人</option>
+																	<option>2人</option>
+																	<option>3人</option>
+																	<option>4人</option>
+																	<option>5人以上</option>
+																</select>
+															</div>
+														</div>
+	
+														<div class="col-sm-4">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 3px;">脱贫属性</label>
+															<div class="col-sm-7">
+																<select class="form-control m-b" id="cha_banqian" name="cha_banqian">
+																	<option>请选择</option>
+<!-- 																	<option>返贫</option>  -->
+																	<option>未脱贫</option>
+																	<option>已脱贫</option>
+																</select>
+															</div>
+														</div>
+	
+													</div>
+													<div class="form-group" style="margin-bottom: 0px">
+	
+														<div class="col-sm-4">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 3px;">户主姓名</label>
+															<div class="col-sm-7">
+																<input type="text" placeholder="请填写户主姓名" class="form-control" id="cha_v6" name="cha_v6">
+															</div>
+														</div>
+														<div class="col-sm-4">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 3px;">身份证号</label>
+															<div class="col-sm-7">
+																<input type="text" placeholder="请填写身份证号" class="form-control" id="cha_v8" name="cha_v8">
+															</div>
+														</div>
+														<div class="col-sm-4">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 3px;">年份</label>
+															<div class="col-sm-7">
+																<select class="form-control m-b" id="cha_year" name="cha_year">
+																	<option>2017</option>
+																	<option>2016</option>
+																</select>
+															</div>
+														</div>
+														</div>
+													<div class="form-group" style="margin-bottom: 0px">
+														<div class="col-sm-4">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 3px;">帮扶单位</label>
+															<div class="col-sm-7">
+																<input type="text" placeholder="请填写帮扶单位" class="form-control" id="cha_bfdw" name="cha_bfdw">
+															</div>
+														</div>
+														<div class="col-sm-4">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 3px;">帮扶责任人</label>
+															<div class="col-sm-7">
+																<input type="text" placeholder="请填写帮扶责任人" class="form-control" id="cha_bfzrr" name="cha_bfzrr">
+															</div>
+														</div>
+														<div class="col-sm-4">
+<!-- 														 <div class="form-group"> -->
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 3px;">年龄范围</label>
+															<div class="col-sm-7 input-daterange input-group">
+<!-- 																<select class="form-control m-b" id="cha_v8_1" name="cha_v8_1"> -->
+<!-- 																	<option>请选择</option> -->
+<!-- 																	<option>大于60岁</option> -->
+<!-- 																	<option>小于16岁</option> -->
+<!-- 																	<option>17岁至59岁</option> -->
+<!-- 																</select> -->
+																<input type="text" placeholder="start" class="input-sm form-control" id="cha_v8_1" name="cha_v8_1">
+																<span class="input-group-addon">~</span>
+																<input type="text" placeholder="end" class="input-sm form-control" id="cha_v8_2" name="cha_v8_2">
+															</div>
+														</div>
+<!-- 													</div> -->
+														
+													</div>
+													<div class="form-group" style="margin-bottom: 0px">
+														<div class="col-sm-4" style="float:right;">
+															<div class="col-sm-3"></div>
+															<div class="col-sm-9">
+																<button type="button" class="btn btn-primary" id="cha_button" name="cha_button">
+																	<i class="fa fa-search"></i>&nbsp;&nbsp;<span class="bold">查询</span>
+																</button>
+																<button type="button" class="btn btn-outline btn-warning pull-right" id="close_cha_button" name="close_cha_button" style="margin-right:50px;">
+																	<i class="fa fa-remove"></i>&nbsp;&nbsp;<span class="bold">清空</span>
+																</button>
+															</div>
+														</div>
+													</div>
+												</form>
+											</div>
+										</div>
+									</div>
+								</div>
+				    			
+				               <div class="row">
+									<div class="col-sm-12">
+										<div class="example-wrap">
+											<div class="example">
+												<div id="fpsc_update_tools" role="group">
+				                                    <a class="btn btn-info btn-outline" id="exportExcel_all"><i class="fa fa-external-link"></i> 导出基本情况</a>
+				                                    <a class="btn btn-info btn-outline" id="exportExcel_all1"><i class="fa fa-external-link"></i> 导出家庭成员</a>
+				                                    <a class="btn btn-info btn-outline" id="exportExcel_all2"><i class="fa fa-external-link"></i> 导出当前收支</a>
+				                                    <a class="btn btn-info btn-outline" id="exportExcel_all3"><i class="fa fa-external-link"></i> 导出帮扶单位和帮扶人</a>
+				                                    <a class="btn btn-info btn-outline" id="exportExcel_all4"><i class="fa fa-external-link"></i> 导出走访记录与帮扶措施</a>
+				                                    <a class="btn btn-info btn-outline" id="exportExcel_all5"><i class="fa fa-external-link"></i> 导出帮扶成效</a>
+				                                    <a class="btn btn-info btn-outline" id="exportExcel_all6"><i class="fa fa-external-link"></i> 导出帮扶后收入</a>
+				                                     <a class="btn btn-info btn-outline" id="exportExcel_all7"><i class="fa fa-external-link"></i> 导出所有数据</a>
+				                                    <div style="display: inline-block;display:none;" id="exportExcel_all_dengdai">
+							                            <div class="sk-spinner sk-spinner-fading-circle" style="display: inline-block;">
+							                                <div class="sk-circle1 sk-circle"></div>
+							                                <div class="sk-circle2 sk-circle"></div>
+							                                <div class="sk-circle3 sk-circle"></div>
+							                                <div class="sk-circle4 sk-circle"></div>
+							                                <div class="sk-circle5 sk-circle"></div>
+							                                <div class="sk-circle6 sk-circle"></div>
+							                                <div class="sk-circle7 sk-circle"></div>
+							                                <div class="sk-circle8 sk-circle"></div>
+							                                <div class="sk-circle9 sk-circle"></div>
+							                                <div class="sk-circle10 sk-circle"></div>
+							                                <div class="sk-circle11 sk-circle"></div>
+							                                <div class="sk-circle12 sk-circle"></div>
+							                            </div>
+							                            <div style="text-align:center;display: inline-block;">正在加载中，请稍后。。。。。。</div>
+							                    	</div>
+				                                </div>
+												<input type="text" style="display: none;" id="hu_pkid" name="hu_pkid">
+												<table id="metTable_bxbxxb">
+													<thead>
+														<tr>
+				                                            <!-- <th data-field="pkid" data-halign="center" data-align="center">序号</th> -->
+			                                            	<th data-field="v6" data-halign="center" data-align="center">户主姓名</th>
+			                                            	<th data-field="v3" data-halign="center" data-align="center">旗县</th>
+			                                            	<th data-field="v4" data-halign="center" data-align="center">苏木乡镇</th>
+				                                            <th data-field="v5" data-halign="center" data-align="center">嘎查村</th>
+				                                            <th data-field="v9" data-halign="center" data-align="center">家庭人口</th>
+				                                            <th data-field="v21" data-halign="center" data-align="center">脱贫属性</th>
+				                                            <th data-field="v22" data-halign="center" data-align="center">贫困户属性</th>
+				                                            <th data-field="sys_standard" data-halign="center" data-align="center">识别标准</th>
+				                                            <th data-field="chakan" data-halign="center" data-align="center">查看</th>
+				                                             <th data-field="chexiao" data-halign="center" data-align="center">操作</th>
+				                                        </tr>
+				                                    </thead>
+				                                </table>
+				                            </div>
+				                        </div>
+				                	</div>
+				               </div>
+				                
+				            </div><!-- 面板内容 -->
+				    	</div><!-- 外层面板 -->
+			    	</div><!-- 第二行表格加地图 -->
+                    
+					<!-- 第四行可以出表格 -->
                     <div class="row">
-                    	
-                    	<div class="tabs-container" id="yeqian">
+                   		 <div class="tabs-container" id="yeqian" style="display:none;">
 			                        
                             <ul class="nav nav-tabs"><!-- 分栏目的标题 -->
                             	<li class="active">
-                                	<a data-toggle="tab" href="#tab-1" aria-expanded="true"><i class="fa fa-flag-o"></i> 国家级贫困人口识别退出</a>
+                                	<a data-toggle="tab" href="#tab-1" aria-expanded="true"><i class="fa fa-user"></i> 基本情况</a>
                                 </li>
                                 <li class="active1">
-                                	<a data-toggle="tab" href="#tab-2" aria-expanded="false"><i class="fa fa-star"></i> 市级低收入人口识别退出</a>
-                                </li>
-                            </ul><!-- 分栏目的标题 -->
-			                            
-			                 <div class="tab-content"><!-- tab页面的内容 -->
-			                            
-			                    <div id="tab-1" class="tab-pane active"><!-- 第一个页签是国家级贫困人口 -->
-                            		<div class="panel-body">
-                            			<H5>退出标准：年人均纯收入大于<span style="color:red">4000</span>元，贫困户住房、教育有保障，医疗家庭成员全覆盖。</H5>
-                            			<div class="row">
-                            				<div class="col-sm-12">
-												<div class="example-wrap">
-													<div class="example">
-														<div class=" " id="exampleToolbar_g" role="group">
-						                                    <a class="btn btn-info btn-outline" id="tuichu_g"> 退出</a>
-						                                </div>
-			                            				<table id="metTable_g">
-						                                    <thead>
-						                                        <tr>
-						                                            <th data-field="state" data-checkbox="true"></th>
-						                                            <th data-field="pkid" data-visible="false">序号</th>
-					                                            	<th data-field="v3" data-halign="center" data-align="center">旗县</th>
-					                                            	<th data-field="v4" data-halign="center" data-align="center">苏木乡镇</th>
-						                                            <th data-field="v5" data-halign="center" data-align="center">嘎查村</th>
-						                                            <th data-field="v6" data-halign="center" data-align="center">户主姓名</th>
-						                                            <th data-field="v9" data-halign="center" data-align="center">家庭人口</th>
-						                                            <th data-field="jisuan" data-halign="center" data-align="center">年人均纯收入(元)</th>
-						                                        </tr>
-						                                    </thead>
-						                                </table>
-						                            </div>
-                            					</div>
-                            				</div>
-                            			</div>
-                            		</div>
-                            	</div>
-                            	
-                            	<div id="tab-2" class="tab-pane"><!-- 第一个页签是市级低收入人口 -->
-                            		<div class="panel-body">
-                            			<H5>退出标准：年人均纯收入较帮扶前增收<span style="color:red;">20%</span>并大于<span style="color:red;">1万元</span>，贫困户住房、教育有保障，医疗家庭成员全覆盖。</H5>
-                            			<div class="row">
-                            				<div class="col-sm-12">
-												<div class="example-wrap">
-													<div class="example">
-														<div class=" " id="exampleToolbar_s" role="group">
-						                                    <a class="btn btn-info btn-outline" id="tuichu_s"> 退出</a>
-						                                </div>
-			                            				<table id="metTable_s">
-						                                    <thead>
-						                                        <tr>
-						                                            <th data-field="state" data-checkbox="true"></th>
-						                                            <th data-field="pkid" data-visible="false">序号</th>
-					                                            	<th data-field="v3" data-halign="center" data-align="center">旗县</th>
-					                                            	<th data-field="v4" data-halign="center" data-align="center">苏木乡镇</th>
-						                                            <th data-field="v5" data-halign="center" data-align="center">嘎查村</th>
-						                                            <th data-field="v6" data-halign="center" data-align="center">户主姓名</th>
-						                                            <th data-field="v9" data-halign="center" data-align="center">家庭人口</th>
-						                                            <th data-field="drj" data-halign="center" data-align="center">帮扶前人均收入(元)</th>
-						                                            <th data-field="hrj" data-halign="center" data-align="center">帮扶后人均收入(元)</th>
-						                                            <th data-field="jisuan" data-halign="center" data-align="center">年人均纯收入增长率(%)</th>
-						                                           <!--  <th data-field="flag" data-halign="center" data-align="center">识别与退出</th> -->
-						                                        </tr>
-						                                    </thead>
-						                                </table>
-						                            </div>
-                            					</div>
-                            				</div>
-                            			</div>
-                            		</div>
-                            	</div>
-                            </div>
-                        </div>
-                    	
-                    </div>
-                </div>
-            </div><!-- 中间部分 -->
-            
-            
-            <!-- 尾部 -->
-            <div class="footer" id="weibu_title"></div><!-- 尾部 -->
-        </div>
-    </div>
-
-		<!--  添加新的家庭成员 -->
-    <div class="modal inmodal fade in" id="xiangxi" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-lg" style="width:1200px;">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">关闭</span>
-                    </button>
-                    <h2 class="modal-title">贫困户详细信息</h2>
-				</div>
-				<div class="modal-body">
-                      <div class="row">
-                   		 <div class="tabs-container" id="yeqian1">
-			                        
-                            <ul class="nav nav-tabs"><!-- 分栏目的标题 -->
-                            	<li class="active">
-                                	<a data-toggle="tab" href="#tab-8" aria-expanded="true"><i class="fa fa-user"></i> 基本情况</a>
-                                </li>
-                                <li class="active1">
-                                	<a data-toggle="tab" href="#tab-9" aria-expanded="false"><i class="fa fa-sign-in"></i> 当前收支</a>
+                                	<a data-toggle="tab" href="#tab-2" aria-expanded="false"><i class="fa fa-sign-in"></i> 当前收支</a>
                                 </li>
                                 <li class="active2">
                                 	<a data-toggle="tab" href="#tab-3" aria-expanded="false"><i class="fa fa-flag-checkered"></i> 帮扶人情况</a>
@@ -262,8 +402,14 @@
 			                            
 			                 <div class="tab-content"><!-- tab页面的内容 -->
 			                            
-			                    <div id="tab-8" class="tab-pane active"><!-- 第一个页签是基本情况 -->
+			                    <div id="tab-1" class="tab-pane active"><!-- 第一个页签是基本情况 -->
                             		<div class="panel-body">
+                            			<div class="output">
+                            				<button type="button" class="btn btn-info btn-outline" onclick="method1('df')">导出</button>
+<!--                             				<button type="button" class="btn btn-info btn-outline" onclick="dayins()">打印</button> -->
+<!-- 				                    		<a onclick="method1('df')"><img src="img/u313.png">导出</a> -->
+<!-- 				                    		<a onclick="dayins()" class="print_img"><img src="img/u3151.png">打印</a> -->
+			                    		</div>
                             			<div class="row" id="spinners" style="display:none;">
                             				<div class="col-sm-12">
                             					<div class="spiner-example">
@@ -514,9 +660,15 @@
 				                    </div>
 			                    </div>
 
-								<div id="tab-9" class="tab-pane">
+								<div id="tab-2" class="tab-pane">
 									<!-- 第二个页签是当前的收支分析 -->
 									<div class="panel-body">
+										<div class="output">
+				                    		<button type="button" class="btn btn-info btn-outline" onclick="method1('df')">导出</button>
+<!--                             				<button type="button" class="btn btn-info btn-outline" onclick="dayins()">打印</button> -->
+				                    		
+			                    		</div>
+										<br>
 										<p>
 											<strong>当前收支分析</strong>
 										</p>
@@ -802,6 +954,13 @@
 								<div id="tab-3" class="tab-pane">
 									<!-- 第三个页签是帮扶人情况 -->
 									<div class="panel-body">
+										<div class="output">
+				                    		<button type="button" class="btn btn-info btn-outline" onclick="method1('df')">导出</button>
+<!--                             				<button type="button" class="btn btn-info btn-outline" onclick="dayins()">打印</button> -->
+				                    		
+			                    		</div>
+
+										<br>
 										<p>
 											<strong>帮扶单位和责任人</strong>
 										</p>
@@ -833,6 +992,11 @@
 			                                
                                 <div id="tab-4" class="tab-pane"><!-- 第三个页签是帮扶人情况 -->
                                     <div class="panel-body">
+                                    	<div class="output">
+				                    		<button type="button" class="btn btn-info btn-outline" onclick="method1('df')">导出</button>
+<!--                             				<button type="button" class="btn btn-info btn-outline" onclick="dayins()">打印</button> -->
+				                    		
+			                    		</div>
                                         <div id="table_show"><!-- 表格显示 -->
 										<div class="text-right float-e-margins p-md">
 											<button type="button" class="btn btn-primary btn-xs" id="show_biaoge"><i class="fa fa-table"></i> 表格</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -887,6 +1051,11 @@
 											<div class="ibox">
 												
 												<div class="ibox-content">
+													<div class="output">
+							                    		<button type="button" class="btn btn-info btn-outline" onclick="method1('df')">导出</button>
+<!--                             							<button type="button" class="btn btn-info btn-outline" onclick="dayins()">打印</button> -->
+							                    		
+						                    		</div>
 													<div class="clients-list">
 														<div class="tab-content">
 															<div class="full-height-scroll">
@@ -927,6 +1096,13 @@
 			                            
 			                    <div id="tab-5" class="tab-pane"><!-- 第四个页签是帮扶后的收支分析 -->
 			                        <div class="panel-body">
+			                        	<div class="output">
+				                    		<button type="button" class="btn btn-info btn-outline" onclick="method1('df')">导出</button>
+<!--                             				<button type="button" class="btn btn-info btn-outline" onclick="dayins()">打印</button> -->
+				                    		
+			                    		</div>
+
+										<br>
 										<p>
 											<strong>帮扶后收支分析</strong>
 										</p>
@@ -942,6 +1118,8 @@
 													<tr>
 														<th>年纯收入（<code id="show_hdqncsr"></code >） / 家庭人数 （<code id="show_hdqjtrs"></code>） =
 															年人均纯收入（<code id="show_hdqnrj"></code>）
+															&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+															增长比率（<code id="zz_bilv"></code>）
 														</th>
 													</tr>
 												</tbody>
@@ -1199,6 +1377,12 @@
 			                            
 			                    <div id="tab-6" class="tab-pane"><!-- 第五个页签是易地扶贫搬迁 -->
 	                            	<div class="panel-body">
+	                            		<div class="output">
+				                    		<button type="button" class="btn btn-info btn-outline" onclick="method1('df')">导出</button>
+<!--                             				<button type="button" class="btn btn-info btn-outline" onclick="dayins()">打印</button> -->
+				                    		
+			                    		</div>
+	                                	<br>
 	                                    <div class="lightBoxGallery" id="photo_6a">
 	                                    	 <div class="row">
 					                        	<div class="col-sm-12">
@@ -1246,86 +1430,82 @@
                             </div><!-- tab页面的内容 -->
                         </div>
                     </div><!-- 第四行可以出表格 -->
-				
+                </div>
+            </div><!-- 中间部分 -->
             
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-white" data-dismiss="modal" id="close_jiating">关闭</button>
-				</div>
-			</div>
-		</div>
-	</div><!--  添加新的元数据结构 -->
-
-
-
-
-
-
+            <!-- 尾部 -->
+            <div class="footer" id="weibu_title"></div><!-- 尾部 -->
+        </div>
+    </div>
+    
+  
 	<!-- 修改密码页面 -->
     <div id="gray_2"></div>
 
-<div class="popup" id="popup_2">
+	<div class="popup" id="popup_2">
 
-	<div class="top_nav" >
-		<div align="center">
-			<i></i>
-			<span>修改密码</span>
-			<a class="guanbi"></a>
+		<div class="top_nav" >
+			<div align="center">
+				<i></i>
+				<span>修改密码</span>
+				<a class="guanbi"></a>
+			</div>
 		</div>
-	</div>
-	
-	<div class="main">
-		<div class="tc_login">
-			<div class="center">
-					<div align="center">
+		
+		<div class="main">
+			<div class="tc_login">
+				<div class="center">
 						<div align="center">
-						<br/>
-						<h4 style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;请输入原密码：</h4>
-						</div>
-						<br/>
-						<div>
-						<form class="" id="changepassword_form" onsubmit='return false' >
-							<input type="text" id="yhid" style="display:none;"  class="input_yh">
-							<div align="center">&nbsp;&nbsp;&nbsp;</div>
-							<div class="form-group" style="text-align:left;">
-								<input type="password" name="old_pass" id="old_pass" style="margin-left: 133px;" required="required" cp="true"  placeholder="原密码" autocomplete="off" class="input_mm">
-								<div align="center">&nbsp;&nbsp;&nbsp;</div>
-								<input type="password" name="new_pass" id="new_pass" style="margin-left: 133px;" required="required"  placeholder="新密码" autocomplete="off" class="input_mm">
-								<div align="center">&nbsp;&nbsp;&nbsp;</div>
-								<input type="password" name="new_pass_2" id="new_pass_2" style="margin-left: 133px;" required equalTo="#new_pass" placeholder="请再次输入新密码" autocomplete="off" class="input_mm">
+							<div align="center">
+							<br/>
+							<h4 style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;请输入原密码：</h4>
 							</div>
-						</form>
+							<br/>
+							<div>
+							<form class="" id="changepassword_form" onsubmit='return false' >
+								<input type="text" id="yhid" style="display:none;"  class="input_yh">
+								<div align="center">&nbsp;&nbsp;&nbsp;</div>
+								<div class="form-group" style="text-align:left;">
+									<input type="password" name="old_pass" id="old_pass" style="margin-left: 133px;" required="required" cp="true"  placeholder="原密码" autocomplete="off" class="input_mm">
+									<div align="center">&nbsp;&nbsp;&nbsp;</div>
+									<input type="password" name="new_pass" id="new_pass" style="margin-left: 133px;" required="required"  placeholder="新密码" autocomplete="off" class="input_mm">
+									<div align="center">&nbsp;&nbsp;&nbsp;</div>
+									<input type="password" name="new_pass_2" id="new_pass_2" style="margin-left: 133px;" required equalTo="#new_pass" placeholder="请再次输入新密码" autocomplete="off" class="input_mm">
+								</div>
+							</form>
+							</div>
 						</div>
-					</div>
-					
-					
-					<div align="center">
-						<input type="submit"   style="  -webkit-appearance: none;
-													    background: #36a803;
-													    border: none;
-													    border-radius: 2px;
-													    color: #fff;
-													    cursor: pointer;
-													    height: 50px;
-													    font-family: 'Open Sans', sans-serif;
-													    font-size: 1.2em;
-													    letter-spacing: 0.05em;
-													    text-align: center;
-													    text-transform: uppercase;
-													    transition: background 0.3s ease-in-out;
-													    width: 220px;
-													    padding: 0 50px 0 50px;
-   														font-weight: bold;"
-   							onclick="xiugaimima_anniu()" value="修&nbsp;改&nbsp;密&nbsp;码">
-					</div>
-				<hr align="center" />
+						
+						
+						<div align="center">
+							<input type="submit"   style="  -webkit-appearance: none;
+														    background: #36a803;
+														    border: none;
+														    border-radius: 2px;
+														    color: #fff;
+														    cursor: pointer;
+														    height: 50px;
+														    font-family: 'Open Sans', sans-serif;
+														    font-size: 1.2em;
+														    letter-spacing: 0.05em;
+														    text-align: center;
+														    text-transform: uppercase;
+														    transition: background 0.3s ease-in-out;
+														    width: 220px;
+														    padding: 0 50px 0 50px;
+	   														font-weight: bold;"
+	   							onclick="xiugaimima_anniu()" value="修&nbsp;改&nbsp;密&nbsp;码">
+						</div>
+					<hr align="center" />
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
-    <script src="js/Include.js"></script>
+	
+	<script src="js/Include.js"></script>
 	<script>
-		loadSMLibs("4");
+		loadSMLibs("manage");
 	</script>
+	
   </body>
 </html>
