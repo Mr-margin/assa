@@ -95,7 +95,7 @@ function dqsz(id){
 	    	$("#shouru #v41").val(data.shouru.v41);
 	    	$("#shouru #v42").val(data.shouru.v42);
 	    	$("#shouru #v43").val(data.shouru.v43);
-	    	$("#shouru #current_total_income").val(data.current_total_income);
+	    	$("#shouru #current_total_income").val(data.total_income);
 	    	//支出
 	    	$('#zhichu #v1').val(data.zhichu.v1);
 	    	$('#zhichu #v2').val(data.zhichu.v2);
@@ -127,7 +127,7 @@ function dqsz(id){
 	    	$('#zhichu #v28').val(data.zhichu.v28);
 	    	$('#zhichu #v29').val(data.zhichu.v29);
 	    	$('#zhichu #v30').val(data.zhichu.v30);
-	    	$("#zhichu #current_total_expenditure").val(data.current_total_expenditure);
+	    	$("#zhichu #current_total_expenditure").val(data.total_expenditure);
 	    },
 	    error: function () { 
 	    	toastr["error"]("error", "服务器异常");
