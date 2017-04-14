@@ -2601,7 +2601,6 @@ function click_tree(val){
 }
 
 var code;//行政编码
-var json_level;//层级
 function show_tree(){
 	var treeData;
 	$.ajax({  		       

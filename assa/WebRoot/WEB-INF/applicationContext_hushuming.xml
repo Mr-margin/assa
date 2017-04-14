@@ -19,6 +19,8 @@
 				<prop key="H3_map_All.do">SH3_Controller</prop>
 				<!-- H3页面所有直线图 -->
 				<prop key="getPicture_Line.do">SH3_Controller</prop>
+				<!-- 获取行政区划树节点-->
+				<prop key="getincompleteTreeData2.do">SH3_Controller</prop>
 			</props>
 		</property>
 	 </bean>
