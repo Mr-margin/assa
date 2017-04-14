@@ -282,6 +282,8 @@ $(function () {
     	chaxun.cha_v8 = $("#cha_v8").val();
     	chaxun.cha_v8_1 = $("#cha_v8_1").val();//年龄范围开始时间
     	chaxun.cha_v8_2 = $("#cha_v8_2").val();//年龄范围截止时间
+    	chaxun.cha_v24_1 = $("#cha_v24_1").val();//人均纯收入最小值
+    	chaxun.cha_v24_2 = $("#cha_v24_2").val();//人均纯收入最大值
     	chaxun.cha_year = $("#cha_year").val();
     	$("#yeqian").hide();
     	metTable_bxbxxb.bootstrapTable('destroy');//销毁现有表格数据
@@ -296,7 +298,7 @@ $(function () {
     	    dataType: "json",
     	    data:{cha_qx:$("#cha_qx").val(),cha_smx:$("#cha_smx").val(),cha_gcc:$("#cha_gcc").val(),cha_sbbz:$("#cha_sbbz").val(),cha_pksx:$("#cha_pksx").val(),
     	    	cha_zpyy:$("#cha_zpyy").val(),cha_mz:$("#cha_mz").val(),cha_renkou:$("#cha_renkou").val(),cha_banqian:$("#cha_banqian").val(),cha_v6:$("#cha_v6").val(),
-    	    	cha_v8:$("#cha_v8").val(),cha_v8_1:$("#cha_v8_1").val(),cha_v8_2:$("#cha_v8_2").val(),cha_bfdw:$("#cha_bfdw").val(),cha_bfzrr:$("#cha_bfzrr").val(),year:$("#cha_year").val()
+    	    	cha_v8:$("#cha_v8").val(),cha_v8_1:$("#cha_v8_1").val(),cha_v8_2:$("#cha_v8_2").val(),cha_v24_1:$("#cha_v24_1").val(),cha_v24_2:$("#cha_v24_2").val(),cha_bfdw:$("#cha_bfdw").val(),cha_bfzrr:$("#cha_bfzrr").val(),year:$("#cha_year").val()
     	    	},
     	   
     	    beforeSend: function(){
@@ -344,7 +346,7 @@ $(function () {
     	    dataType: "json",
     	    data:{cha_qx:$("#cha_qx").val(),cha_smx:$("#cha_smx").val(),cha_gcc:$("#cha_gcc").val(),cha_sbbz:$("#cha_sbbz").val(),cha_pksx:$("#cha_pksx").val(),
     	    	cha_zpyy:$("#cha_zpyy").val(),cha_mz:$("#cha_mz").val(),cha_renkou:$("#cha_renkou").val(),cha_banqian:$("#cha_banqian").val(),cha_v6:$("#cha_v6").val(),
-    	    	cha_v8:$("#cha_v8").val(),cha_v8_1:$("#cha_v8_1").val(),cha_v8_2:$("#cha_v8_2").val(),cha_bfdw:$("#cha_bfdw").val(),cha_bfzrr:$("#cha_bfzrr").val(),year:$("#cha_year").val()
+    	    	cha_v8:$("#cha_v8").val(),cha_v8_1:$("#cha_v8_1").val(),cha_v8_2:$("#cha_v8_2").val(),cha_v24_1:$("#cha_v24_1").val(),cha_v24_2:$("#cha_v24_2").val(),cha_bfdw:$("#cha_bfdw").val(),cha_bfzrr:$("#cha_bfzrr").val(),year:$("#cha_year").val()
     	    	},
     	   
     	    beforeSend: function(){
@@ -393,7 +395,7 @@ $(function () {
     	    dataType: "json",
     	    data:{cha_qx:$("#cha_qx").val(),cha_smx:$("#cha_smx").val(),cha_gcc:$("#cha_gcc").val(),cha_sbbz:$("#cha_sbbz").val(),cha_pksx:$("#cha_pksx").val(),
     	    	cha_zpyy:$("#cha_zpyy").val(),cha_mz:$("#cha_mz").val(),cha_renkou:$("#cha_renkou").val(),cha_banqian:$("#cha_banqian").val(),cha_v6:$("#cha_v6").val(),
-    	    	cha_v8:$("#cha_v8").val(),cha_v8_1:$("#cha_v8_1").val(),cha_v8_2:$("#cha_v8_2").val(),cha_bfdw:$("#cha_bfdw").val(),cha_bfzrr:$("#cha_bfzrr").val(),year:$("#cha_year").val()
+    	    	cha_v8:$("#cha_v8").val(),cha_v8_1:$("#cha_v8_1").val(),cha_v8_2:$("#cha_v8_2").val(),cha_v24_1:$("#cha_v24_1").val(),cha_v24_2:$("#cha_v24_2").val(),cha_bfdw:$("#cha_bfdw").val(),cha_bfzrr:$("#cha_bfzrr").val(),year:$("#cha_year").val()
     	    	},
     	   
     	    beforeSend: function(){
@@ -443,7 +445,7 @@ $(function () {
     	    dataType: "json",
     	    data:{cha_qx:$("#cha_qx").val(),cha_smx:$("#cha_smx").val(),cha_gcc:$("#cha_gcc").val(),cha_sbbz:$("#cha_sbbz").val(),cha_pksx:$("#cha_pksx").val(),
     	    	cha_zpyy:$("#cha_zpyy").val(),cha_mz:$("#cha_mz").val(),cha_renkou:$("#cha_renkou").val(),cha_banqian:$("#cha_banqian").val(),cha_v6:$("#cha_v6").val(),
-    	    	cha_v8:$("#cha_v8").val(),cha_v8_1:$("#cha_v8_1").val(),cha_v8_2:$("#cha_v8_2").val(),cha_bfdw:$("#cha_bfdw").val(),cha_bfzrr:$("#cha_bfzrr").val(),year:$("#cha_year").val()
+    	    	cha_v8:$("#cha_v8").val(),cha_v8_1:$("#cha_v8_1").val(),cha_v8_2:$("#cha_v8_2").val(),cha_v24_1:$("#cha_v24_1").val(),cha_v24_2:$("#cha_v24_2").val(),cha_bfdw:$("#cha_bfdw").val(),cha_bfzrr:$("#cha_bfzrr").val(),year:$("#cha_year").val()
     	    	},
     	   
     	    beforeSend: function(){
@@ -493,7 +495,7 @@ $(function () {
     	    dataType: "json",
     	    data:{cha_qx:$("#cha_qx").val(),cha_smx:$("#cha_smx").val(),cha_gcc:$("#cha_gcc").val(),cha_sbbz:$("#cha_sbbz").val(),cha_pksx:$("#cha_pksx").val(),
     	    	cha_zpyy:$("#cha_zpyy").val(),cha_mz:$("#cha_mz").val(),cha_renkou:$("#cha_renkou").val(),cha_banqian:$("#cha_banqian").val(),cha_v6:$("#cha_v6").val(),
-    	    	cha_v8:$("#cha_v8").val(),cha_v8_1:$("#cha_v8_1").val(),cha_v8_2:$("#cha_v8_2").val(),cha_bfdw:$("#cha_bfdw").val(),cha_bfzrr:$("#cha_bfzrr").val(),year:$("#cha_year").val()
+    	    	cha_v8:$("#cha_v8").val(),cha_v8_1:$("#cha_v8_1").val(),cha_v8_2:$("#cha_v8_2").val(),cha_v24_1:$("#cha_v24_1").val(),cha_v24_2:$("#cha_v24_2").val(),cha_bfdw:$("#cha_bfdw").val(),cha_bfzrr:$("#cha_bfzrr").val(),year:$("#cha_year").val()
     	    	},
     	   
     	    beforeSend: function(){
@@ -541,7 +543,7 @@ $(function () {
     	    dataType: "json",
     	    data:{cha_qx:$("#cha_qx").val(),cha_smx:$("#cha_smx").val(),cha_gcc:$("#cha_gcc").val(),cha_sbbz:$("#cha_sbbz").val(),cha_pksx:$("#cha_pksx").val(),
     	    	cha_zpyy:$("#cha_zpyy").val(),cha_mz:$("#cha_mz").val(),cha_renkou:$("#cha_renkou").val(),cha_banqian:$("#cha_banqian").val(),cha_v6:$("#cha_v6").val(),
-    	    	cha_v8:$("#cha_v8").val(),cha_v8_1:$("#cha_v8_1").val(),cha_v8_2:$("#cha_v8_2").val(),cha_bfdw:$("#cha_bfdw").val(),cha_bfzrr:$("#cha_bfzrr").val(),year:$("#cha_year").val()
+    	    	cha_v8:$("#cha_v8").val(),cha_v8_1:$("#cha_v8_1").val(),cha_v8_2:$("#cha_v8_2").val(),cha_v24_1:$("#cha_v24_1").val(),cha_v24_2:$("#cha_v24_2").val(),cha_bfdw:$("#cha_bfdw").val(),cha_bfzrr:$("#cha_bfzrr").val(),year:$("#cha_year").val()
     	    	},
     	   
     	    beforeSend: function(){
@@ -589,7 +591,7 @@ $(function () {
     	    dataType: "json",
     	    data:{cha_qx:$("#cha_qx").val(),cha_smx:$("#cha_smx").val(),cha_gcc:$("#cha_gcc").val(),cha_sbbz:$("#cha_sbbz").val(),cha_pksx:$("#cha_pksx").val(),
     	    	cha_zpyy:$("#cha_zpyy").val(),cha_mz:$("#cha_mz").val(),cha_renkou:$("#cha_renkou").val(),cha_banqian:$("#cha_banqian").val(),cha_v6:$("#cha_v6").val(),
-    	    	cha_v8:$("#cha_v8").val(),cha_v8_1:$("#cha_v8_1").val(),cha_v8_2:$("#cha_v8_2").val(),cha_bfdw:$("#cha_bfdw").val(),cha_bfzrr:$("#cha_bfzrr").val(),year:$("#cha_year").val()
+    	    	cha_v8:$("#cha_v8").val(),cha_v8_1:$("#cha_v8_1").val(),cha_v8_2:$("#cha_v8_2").val(),cha_v24_1:$("#cha_v24_1").val(),cha_v24_2:$("#cha_v24_2").val(),cha_bfdw:$("#cha_bfdw").val(),cha_bfzrr:$("#cha_bfzrr").val(),year:$("#cha_year").val()
     	    	},
     	   
     	    beforeSend: function(){
@@ -638,7 +640,7 @@ $(function () {
     	    dataType: "json",
     	    data:{cha_qx:$("#cha_qx").val(),cha_smx:$("#cha_smx").val(),cha_gcc:$("#cha_gcc").val(),cha_sbbz:$("#cha_sbbz").val(),cha_pksx:$("#cha_pksx").val(),
     	    	cha_zpyy:$("#cha_zpyy").val(),cha_mz:$("#cha_mz").val(),cha_renkou:$("#cha_renkou").val(),cha_banqian:$("#cha_banqian").val(),cha_v6:$("#cha_v6").val(),
-    	    	cha_v8:$("#cha_v8").val(),cha_v8_1:$("#cha_v8_1").val(),cha_v8_2:$("#cha_v8_2").val(),cha_bfdw:$("#cha_bfdw").val(),cha_bfzrr:$("#cha_bfzrr").val(),year:$("#cha_year").val()
+    	    	cha_v8:$("#cha_v8").val(),cha_v8_1:$("#cha_v8_1").val(),cha_v8_2:$("#cha_v8_2").val(),cha_v24_1:$("#cha_v24_1").val(),cha_v24_2:$("#cha_v24_2").val(),cha_bfdw:$("#cha_bfdw").val(),cha_bfzrr:$("#cha_bfzrr").val(),year:$("#cha_year").val()
     	    	},
     	   
     	    beforeSend: function(){
@@ -697,6 +699,8 @@ $(function () {
     	$("#cha_v8").val();
     	$("#cha_v8_1").val("");
     	$("#cha_v8_2").val("");
+    	$("#cha_v24_1").val("");
+    	$("#cha_v24_2").val("");
     	$("#cha_banqian").val("请选择");
     	$("#cha_year").val("2017");
     	$('#chauxnshiousuo').click();
@@ -893,6 +897,8 @@ function queryParams_bxbxxb(params) {  //配置参数
     temp.cha_v8 = chaxun.cha_v8;
     temp.cha_v8_1 = chaxun.cha_v8_1;
     temp.cha_v8_2 = chaxun.cha_v8_2;
+    temp.cha_v24_1 = chaxun.cha_v24_1;
+    temp.cha_v24_2 = chaxun.cha_v24_2;
     temp.cha_year = chaxun.cha_year;
 	return temp;
 }
