@@ -291,7 +291,7 @@ public class Index_Controller extends MultiActionController{
 						Map Admin_st_map = sql_list.get(i);
 						for(int j = 0; j<Admin_st_map.size(); j++){
 							val.put("name", Admin_st_map.get("v3"));
-							val.put("value", Admin_st_map.get("count"));
+							val.put("value", Admin_st_map.get("count")==null?"0":Admin_st_map.get("count").toString());
 						}
 						jsa.add(val);
 					}
@@ -312,7 +312,7 @@ public class Index_Controller extends MultiActionController{
 							Map Admin_st_map = sql_list.get(i);
 							for(int j = 0; j<Admin_st_map.size(); j++){
 								val.put("name", Admin_st_map.get("v3"));
-								val.put("value", Admin_st_map.get("count"));
+								val.put("value",  Admin_st_map.get("count")==null?"0":Admin_st_map.get("count").toString());
 							}
 							jsa.add(val);
 						}
@@ -331,7 +331,7 @@ public class Index_Controller extends MultiActionController{
 							Map Admin_st_map = sql_list.get(i);
 							for(int j = 0; j<Admin_st_map.size(); j++){
 								val.put("name", Admin_st_map.get("v3"));
-								val.put("value", Admin_st_map.get("count"));
+								val.put("value",  Admin_st_map.get("count")==null?"0":Admin_st_map.get("count").toString());
 							}
 							jsa.add(val);
 						}
@@ -350,7 +350,7 @@ public class Index_Controller extends MultiActionController{
 							Map Admin_st_map = sql_list.get(i);
 							for(int j = 0; j<Admin_st_map.size(); j++){
 								val.put("name", Admin_st_map.get("v3"));
-								val.put("value", Admin_st_map.get("count"));
+								val.put("value",  Admin_st_map.get("count")==null?"0":Admin_st_map.get("count").toString());
 							}
 							jsa.add(val);
 						}
@@ -372,7 +372,7 @@ public class Index_Controller extends MultiActionController{
 					Map Admin_st_map = sql_list.get(i);
 					for(int j = 0; j<Admin_st_map.size(); j++){
 						val.put("name", Admin_st_map.get("v3"));
-						val.put("value", Admin_st_map.get("count"));
+						val.put("value",  Admin_st_map.get("count")==null?"0":Admin_st_map.get("count").toString());
 					}
 					jsa.add(val);
 				}
