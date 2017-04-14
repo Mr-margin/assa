@@ -3,30 +3,17 @@ package com.gistone.servlet;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileItemFactory;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -38,6 +25,7 @@ import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
 
 import com.gistone.mybatis.inter.GetBySqlMapper;
 import com.gistone.mybatis.model.SQLAdapter;
+import com.gistone.util.Tool;
 
 public class PoorMessageController extends MultiActionController{
 	@Autowired
@@ -69,6 +57,8 @@ public class PoorMessageController extends MultiActionController{
 		String cha_v8 = "";//身份证号
 		String cha_v8_1 = "";//年龄范围开始时间
 		String cha_v8_2 = "";//年龄范围截止时间
+		String cha_v24_1 = "";//年龄范围开始时间
+		String cha_v24_2 = "";//年龄范围截止时间
 		String cha_year = request.getParameter("cha_year");//查找的年份
 		
 		String hz_sql="";
@@ -115,6 +105,20 @@ public class PoorMessageController extends MultiActionController{
 			if(request.getParameter("cha_v8_2")!=null&&!request.getParameter("cha_v8_2").equals("")){
 				cha_v8_2 = request.getParameter("cha_v8_2").trim();
 				str += " LENGTH(a.v8)>=18 and TIMESTAMPDIFF(year,substring(a.v8, 7, 8),DATE(now()))<="+cha_v8_2+" and";
+			}
+		}
+		if(request.getParameter("cha_v24_1")!=null&&!request.getParameter("cha_v24_1").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_1").trim())){
+			cha_v24_1 = request.getParameter("cha_v24_1").trim();
+			if(request.getParameter("cha_v24_2")!=null&&!request.getParameter("cha_v24_2").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_2").trim())){
+				cha_v24_2 = request.getParameter("cha_v24_2").trim();
+				str += " ROUND(a.v24,2)>="+cha_v24_1+" and ROUND(a.v24,2)<"+cha_v24_2+" and";
+			}else{
+				str += "  ROUND(a.v24,2)>="+cha_v24_1+" and";
+			}
+		}else{
+			if(request.getParameter("cha_v24_2")!=null&&!request.getParameter("cha_v24_2").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_2").trim())){
+				cha_v24_2 = request.getParameter("cha_v24_2").trim();
+				str += " ROUND(a.v24,2)<"+cha_v24_2+" and";
 			}
 		}
 		if(request.getParameter("cha_qx")!=null&&!request.getParameter("cha_qx").equals("请选择")){
