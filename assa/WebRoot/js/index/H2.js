@@ -2395,7 +2395,7 @@ function savePoorMessage(pkid){
 	    	var bfhrj_hl=((parseFloat(aa)-parseFloat(bb))/(data.data1[0].v9)).toFixed(2);//帮扶后收入
 	    	var bfqrj_hl=((parseFloat(a)-parseFloat(b))/(data.data1[0].v9)).toFixed(2);//帮扶前收入
 	    	if ( bfqrj_hl == 0 || bfqrj_hl <0 ) {
-	    		$("#zz_bilv").text("数据错误");
+	    		$("#zz_bilv").text("支出超出收入");
 	    	} else {
 	    		$("#zz_bilv").text((((bfhrj_hl-bfqrj_hl)/bfqrj_hl).toFixed(2))*100+"%");
 	    	}

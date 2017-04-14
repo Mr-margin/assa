@@ -842,12 +842,55 @@ function jbqk_initialization(){
 }
 
 //户主保存
-function huzhu_save(){
-	
+function huzhu_save(){	
 	if($("#huzhu_Form #sys_standard").val()=='请选择'){
 		toastr["warning"]("warning", "识别标准必须选择");
 	}else if($("#huzhu_Form #v6").val()==''){
 		toastr["warning"]("warning", "户主姓名必须填写");
+	}else if($("#huzhu_pic_show")[0].src.indexOf("zw.jpg")>0){
+		toastr["warning"]("warning", "户主照片必须上传");
+	}else if($("#huzhu_Form #v7").val()=='请选择'){
+		toastr["warning"]("warning", "户主性别必须选择");	
+	}else if($("#huzhu_Form #v11").val()=='请选择'){
+		toastr["warning"]("warning", "户主民族必须选择");	
+	}else if($("#huzhu_Form #v25").val()==''){
+		toastr["warning"]("warning", "联系电话必须填写");	
+	}else if($("#huzhu_Form #v8").val()==''){
+		toastr["warning"]("warning", "户主身份证必须填写");	
+	}else if($("#huzhu_Form #v28").val()=='请选择'){
+		toastr["warning"]("warning", "政治面貌必须选择");	
+	}else if($("#huzhu_Form #hz_jtzz").val()==''){
+		toastr["warning"]("warning", "家庭地址必须填写");	
+	}else if($("#huzhu_Form #v22").val()=='请选择'){
+		toastr["warning"]("warning", "贫苦户属性必须选择");
+	}else if($("#huzhu_Form #v12").val()=='请选择'){
+		toastr["warning"]("warning", "文化程度必须选择");	
+	}else if($("#huzhu_Form #v13").val()=='请选择'){
+		toastr["warning"]("warning", "是否在校必须选择");	
+	}else if($("#huzhu_Form #v14").val()=='请选择'){
+		toastr["warning"]("warning", "健康状况必须选择");	
+	}else if($("#huzhu_Form #v15").val()=='请选择'){
+		toastr["warning"]("warning", "劳动力必须选择");	
+	}else if($("#huzhu_Form #v16").val()=='请选择'){
+		toastr["warning"]("warning", "务工情况必须选择");	
+	}else if($("#huzhu_Form #v17").val()==''){
+		toastr["warning"]("warning", "务工时间必须填写");	
+	}else if($('input:radio[name="v18"]:checked').val()==undefined){
+		toastr["warning"]("warning", "是否参加新农合必须选择");	
+	}else if($('input:radio[name="v19"]:checked').val()==undefined){
+		toastr["warning"]("warning", "是否参加养老保险必须选择");
+	}else if($('input:radio[name="v29"]:checked').val()==undefined){
+		toastr["warning"]("warning", "是否军烈属必须选择");	
+	}else if($('input:radio[name="v32"]:checked').val()==undefined){
+		toastr["warning"]("warning", "是否现役军人必须选择");	
+	}else if($('input:radio[name="v30"]:checked').val()==undefined){
+		toastr["warning"]("warning", "是否独生子女必须选择");	
+	}else if($('input:radio[name="v31"]:checked').val()==undefined){
+		toastr["warning"]("warning", "是否双女必须选择");	
+	}else if($('input:radio[name="v23"]:checked').val()==undefined){
+		toastr["warning"]("warning", "主要致贫原因必须选择");		
+	}else if($('input:checkbox[name="v33"]:checked').val()==undefined){
+		toastr["warning"]("warning", "其他致贫原因必须选择");	
 	}else{
 		var form_val = JSON.stringify(getFormJson("#huzhu_Form"));//表单数据字符串
 		$.ajax({  		       

@@ -434,17 +434,20 @@
 														<div class="col-sm-6 ">
 															<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;">户主姓名</label>
 															<div class="col-sm-8">
-																<input type="text" placeholder="户主姓名" class="form-control" id="v6" name="v6">
+																<input type="text" placeholder="户主姓名" class="form-control" id="v6" name="v6" >
+																 <span style="color: red;position: relative;left:250px;top:-23px;font-size:17px">*</span> 
 															</div>
+															
 														</div>
 														<div class="col-sm-6">
 															<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;">性别</label>
 															<div class="col-sm-8">
-																<select class="form-control" id="v7" name="v7">
+																<select class="form-control" id="v7" name="v7" >
 																	<option>请选择</option>
 																	<option>男</option>
 																	<option>女</option>
 																</select>
+																<span style="color: red;position: relative;left:250px;top:-23px;font-size:17px">*</span> 
 															</div>
 														</div>
 													</div>
@@ -454,12 +457,15 @@
 															<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;">所属民族</label>
 															<div class="col-sm-8">
 																<select class="form-control" id="v11" name="v11"></select>
+																<span style="color: red;position: relative;left:250px;top:-23px;font-size:17px">*</span> 
 															</div>
+															
 														</div>
 														<div class="col-sm-6">
 															<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;">联系电话</label> 
 															<div class="col-sm-8">
 																<input class="form-control" type="text" placeholder="联系电话" id="v25" name="v25">
+																<span style="color: red;position: relative;left:250px;top:-23px;font-size:17px">*</span> 
 															</div>
 														</div>
 													</div>
@@ -468,19 +474,21 @@
 														<div class="col-sm-6">
 															<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;">身份证号</label> 
 															<div class="col-sm-8">
-																<input class="form-control" type="text" placeholder="身份证号" id="v8" name="v8">
+																<input class="form-control" type="text" placeholder="身份证号" id="v8" name="v8" required="true">
+																<span style="color: red;position: relative;left:250px;top:-23px;font-size:17px">*</span> 
 															</div>
 														</div>
 														<div class="col-sm-6">
 															<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;">政治面貌</label>
 															<div class="col-sm-8">
-																<select class="form-control" id="v28" name="v28">
+																<select class="form-control" id="v28" name="v28" >
 																	<option>请选择</option>
 																	<option>中共党员</option>
 																	<option>共青团员</option>
 																	<option>群众</option>
 																	<option>民主党派成员</option>
 																</select>
+																<span style="color: red;position: relative;left:250px;top:-23px;font-size:17px">*</span> 
 															</div>
 														</div>
 													</div>	
@@ -489,11 +497,11 @@
 														<div class="col-sm-6">
 															<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;">开户银行</label> 
 															<div class="col-sm-8">
-																<input class="form-control" type="text" placeholder="开户银行（选填）" id="v26" name="v26">
+																<input class="form-control" type="text" placeholder="开户银行（选填）" id="v26" name="v26" required="true">
 															</div>
 														</div>
 														<div class="col-sm-6">
-															<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;">银行账号</label> 
+															<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;" >银行账号</label> 
 															<div class="col-sm-8">
 																<input class="form-control" type="text" placeholder="银行账号（选填）" id="v27" name="v27">
 															</div>
@@ -504,7 +512,8 @@
 														<div class="col-sm-12" style="padding-left:10px;">
 															<label class="col-sm-2 control-label" style="text-align:right;margin-top: 5px;">家庭住址</label>
 															<div class="col-sm-10">
-																<input class="form-control" type="text" placeholder="家庭住址" id="hz_jtzz" name="hz_jtzz">
+																<input class="form-control" type="text" placeholder="家庭住址" id="hz_jtzz" name="hz_jtzz" >
+																<span style="color: red;position: relative;left:685px;top:-23px;font-size:17px">*</span> 
 															</div>
 														</div>
 													</div>
@@ -518,12 +527,14 @@
 																	<option>国家级贫困人口</option>
 																	<option>市级低收入人口</option>
 																</select>
+																<span style="color: red;position: relative;left:250px;top:-23px;font-size:17px">*</span> 
 															</div>
 														</div>
 														<div class="col-sm-6">
 															<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;">贫困户属性</label> 
 															<div class="col-sm-8">
-																<select class="form-control" id="v22" name="v22"></select>
+																<select class="form-control" id="v22" name="v22" ></select>
+																<span style="color: red;position: relative;left:250px;top:-23px;font-size:17px">*</span> 
 															</div>
 														</div>
 													</div>	
@@ -534,12 +545,14 @@
 															<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;">文化程度</label>
 															<div class="col-sm-8">
 																<select class="form-control"  id="v12" name="v12"></select>
+																<span style="color: red;position: relative;left:250px;top:-23px;font-size:17px">*</span> 
 															</div>
 														</div>
 														<div class="col-sm-6">
 															<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;">是否在校</label>
 															<div class="col-sm-8">
 																<select class="form-control" id="v13" name="v13"></select>
+																<span style="color: red;position: relative;left:250px;top:-23px;font-size:17px">*</span> 
 															</div>
 														</div>
 													</div>
@@ -555,6 +568,7 @@
 																	<option>患有大病</option>
 																	<option>残疾</option>
 																</select>
+																<span style="color: red;position: relative;left:250px;top:-23px;font-size:17px">*</span> 
 															</div>
 														</div>
 														<div class="col-sm-6">
@@ -567,6 +581,7 @@
 																	<option>丧失劳动力</option>
 																	<option>无劳动力</option>
 																</select>
+																<span style="color: red;position: relative;left:250px;top:-23px;font-size:17px">*</span> 
 															</div>
 														</div>
 													</div>
@@ -583,12 +598,14 @@
 																	<option>省外务工</option>
 																	<option>其他</option>
 																</select>
+																<span style="color: red;position: relative;left:250px;top:-23px;font-size:17px">*</span> 
 															</div>
 														</div>
 														<div class="col-sm-6">
 															<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;">务工时间</label>
 															<div class="col-sm-8">
 																<input class="form-control" type="text" placeholder="务工时间" id="v17" name="v17">
+																<span style="color: red;position: relative;left:250px;top:-23px;font-size:17px">*</span> 
 															</div>
 														</div>
 													</div>	
@@ -599,6 +616,7 @@
 																<div class="radio i-checks" id="v18_div">
 																	<label><input type="radio" value="是" id="v18" name="v18"> <i></i>是</label> 
 																	<label><input type="radio" value="否" id="v18" name="v18"> <i></i>否</label>
+																	<span style="color: red;position: relative;left:7px;top:5px;font-size:17px">*</span> 
 																</div>
 															</div>
 														</div>
@@ -608,6 +626,7 @@
 																<div class="radio i-checks" id="v19_div">
 																	<label><input type="radio" value="是" id="v19" name="v19"> <i></i>是</label> 
 																	<label><input type="radio" value="否" id="v19" name="v19"> <i></i>否</label>
+																	<span style="color: red;position: relative;left:7px;top:5px;font-size:17px">*</span> 
 																</div>
 															</div>
 														</div>
@@ -619,6 +638,7 @@
 																<div class="radio i-checks" id="v29_div">
 																	<label><input type="radio" value="是" id="v29" name="v29"> <i></i>是</label> 
 																	<label><input type="radio" value="否" id="v29" name="v29"> <i></i>否</label>
+																	<span style="color: red;position: relative;left:7px;top:5px;font-size:17px">*</span> 
 																</div>
 															</div>
 														</div>
@@ -628,6 +648,7 @@
 																<div class="radio i-checks" id="v32_div">
 																	<label><input type="radio" value="是" id="v32" name="v32"> <i></i>是</label> 
 																	<label><input type="radio" value="否" id="v32" name="v32"> <i></i>否</label>
+																	<span style="color: red;position: relative;left:7px;top:5px;font-size:17px">*</span> 
 																</div>
 															</div>
 														</div>
@@ -639,6 +660,7 @@
 																<div class="radio i-checks" id="v30_div">
 																	<label><input type="radio" value="是" id="v30" name="v30"> <i></i>是</label> 
 																	<label><input type="radio" value="否" id="v30" name="v30"> <i></i>否</label>
+																	<span style="color: red;position: relative;left:7px;top:5px;font-size:17px">*</span> 
 																</div>
 															</div>
 														</div>
@@ -648,6 +670,7 @@
 																<div class="radio i-checks" id="v31_div">
 																	<label><input type="radio" value="是" id="v31" name="v31"> <i></i>是</label> 
 																	<label><input type="radio" value="否" id="v31" name="v31"> <i></i>否</label>
+																	<span style="color: red;position: relative;left:7px;top:5px;font-size:17px">*</span> 
 																</div>
 															</div>
 														</div>
@@ -673,6 +696,7 @@
 																		<label><input type="radio" id="v23" name="v23" value="交通条件落后"> <i></i>交通条件落后</label> 
 																		<label><input type="radio" id="v23" name="v23" value="自身发展动力不足"> <i></i>自身发展动力不足</label> 
 																		<label><input type="radio" id="v23" name="v23" value="其他"> <i></i>其他</label>
+																		<span style="color: red;position: relative;left:-15px;top:-26px;font-size:17px">*</span> 
 																	</div>
 																</div>
 															</div>
@@ -700,6 +724,7 @@
 																		<label><input type="checkbox" id="v33" name="v33" value="交通条件落后"> <i></i>交通条件落后</label> 
 																		<label><input type="checkbox" id="v33" name="v33" value="自身发展动力不足"> <i></i>自身发展动力不足</label> 
 																		<label><input type="checkbox" id="v33" name="v33" value="其他"> <i></i>其他</label>
+																		<span style="color: red;position: relative;left:-15px;top:-26px;font-size:17px">*</span> 
 																	</div>
 																</div>
 															</div>
