@@ -1,10 +1,7 @@
 package com.gistone.servlet;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -16,14 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import jxl.Cell;
-import jxl.NumberCell;
-import jxl.Sheet;
 import jxl.SheetSettings;
 import jxl.Workbook;
 import jxl.format.Alignment;
 import jxl.format.VerticalAlignment;
-import jxl.read.biff.BiffException;
 import jxl.write.Border;
 import jxl.write.BorderLineStyle;
 import jxl.write.Label;
@@ -35,8 +28,6 @@ import jxl.write.WritableWorkbook;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
@@ -44,6 +35,7 @@ import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
 import com.gistone.mybatis.inter.GetBySqlMapper;
 import com.gistone.mybatis.model.SQLAdapter;
 import com.gistone.util.ImageEncoderService;
+import com.gistone.util.Tool;
 
 public class StandingBookController extends MultiActionController{
 	@Autowired
@@ -501,6 +493,8 @@ public class StandingBookController extends MultiActionController{
 		String cha_v8 = "";//身份证号
 		String cha_v8_1 = "";//年龄范围开始时间
 		String cha_v8_2 = "";//年龄范围截止时间
+		String cha_v24_1 = "";//人均纯收入最小值
+		String cha_v24_2 = "";//人均存收入最大值
 		String year = request.getParameter("year");
 		if ( "2016".equals(year) ) {
 			year = "_2016";
@@ -518,7 +512,7 @@ public class StandingBookController extends MultiActionController{
 			cha_v8 = request.getParameter("cha_v8").trim();
 			str += " t1.v8 like '%"+cha_v8+"%' and";
 		}
-		if(request.getParameter("cha_v8_1")!=null&&!request.getParameter("cha_v8_1").equals("")){
+		if(request.getParameter("cha_v8_1")!=null&&!request.getParameter("cha_v8_1").equals("")&&Tool.isNumeric(request.getParameter("cha_v8_1").trim())){
 			cha_v8_1 = request.getParameter("cha_v8_1").trim();
 			if(request.getParameter("cha_v8_2")!=null&&!request.getParameter("cha_v8_2").equals("")){
 				cha_v8_2 = request.getParameter("cha_v8_2").trim();
@@ -527,12 +521,25 @@ public class StandingBookController extends MultiActionController{
 				str += " LENGTH(t1.v8)>=18 and TIMESTAMPDIFF(year,substring(t1.v8, 7, 8),DATE(now()))>="+cha_v8_1+" and";
 			}
 		}else{
-			if(request.getParameter("cha_v8_2")!=null&&!request.getParameter("cha_v8_2").equals("")){
+			if(request.getParameter("cha_v8_2")!=null&&!request.getParameter("cha_v8_2").equals("")&&Tool.isNumeric(request.getParameter("cha_v8_2").trim())){
 				cha_v8_2 = request.getParameter("cha_v8_2").trim();
 				str += " LENGTH(t1.v8)>=18 and TIMESTAMPDIFF(year,substring(t1.v8, 7, 8),DATE(now()))<="+cha_v8_2+" and";
 			}
 		}
-		
+		if(request.getParameter("cha_v24_1")!=null&&!request.getParameter("cha_v24_1").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_1").trim())){
+							cha_v24_1 = request.getParameter("cha_v24_1").trim();
+							if(request.getParameter("cha_v24_2")!=null&&!request.getParameter("cha_v24_2").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_2").trim())){
+								cha_v24_2 = request.getParameter("cha_v24_2").trim();
+								str += " ROUND(t1.v24,2)>="+cha_v24_1+" and ROUND(t1.v24,2)<"+cha_v24_2+" and";
+							}else{
+								str += "  ROUND(t1.v24,2)>="+cha_v24_1+" and";
+							}
+						}else{
+							if(request.getParameter("cha_v24_2")!=null&&!request.getParameter("cha_v24_2").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_2").trim())){
+								cha_v24_2 = request.getParameter("cha_v24_2").trim();
+								str += " ROUND(t1.v24,2)<"+cha_v24_2+" and";
+							}
+						}
 		if(request.getParameter("cha_qx")!=null&&!request.getParameter("cha_qx").equals("请选择")){
 			cha_qx = request.getParameter("cha_qx").trim();
 			str += " t1.v3 like '%"+cha_qx+"%' and";
@@ -782,6 +789,8 @@ public class StandingBookController extends MultiActionController{
 		String cha_v8 = "";//身份证号
 		String cha_v8_1 = "";//最小年龄范围
 		String cha_v8_2 = "";//最大年龄范围
+		String cha_v24_1 = "";//人均纯收入最小值
+		String cha_v24_2 = "";//人均存收入最大值
 		String year = request.getParameter("year");
 		if ( "2016".equals(year) ) {
 			year = "_2016";
@@ -812,7 +821,20 @@ public class StandingBookController extends MultiActionController{
 				str += " LENGTH(t1.v8)>=18 and TIMESTAMPDIFF(year,substring(t1.v8, 7, 8),DATE(now()))<="+cha_v8_2+" and";
 			}
 		}
-		
+		if(request.getParameter("cha_v24_1")!=null&&!request.getParameter("cha_v24_1").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_1").trim())){
+			cha_v24_1 = request.getParameter("cha_v24_1").trim();
+				if(request.getParameter("cha_v24_2")!=null&&!request.getParameter("cha_v24_2").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_2").trim())){
+							cha_v24_2 = request.getParameter("cha_v24_2").trim();
+							str += " ROUND(t1.v24,2)>="+cha_v24_1+" and ROUND(t1.v24,2)<"+cha_v24_2+" and";
+					}else{
+								str += "  ROUND(t1.v24,2)>="+cha_v24_1+" and";
+							}
+						}else{
+							if(request.getParameter("cha_v24_2")!=null&&!request.getParameter("cha_v24_2").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_2").trim())){
+								cha_v24_2 = request.getParameter("cha_v24_2").trim();
+								str += " ROUND(t1.v24,2)<"+cha_v24_2+" and";
+							}
+						}
 		if(request.getParameter("cha_qx")!=null&&!request.getParameter("cha_qx").equals("请选择")){
 			cha_qx = request.getParameter("cha_qx").trim();
 			str += " t1.v3 like '%"+cha_qx+"%' and";
@@ -1027,6 +1049,8 @@ public class StandingBookController extends MultiActionController{
 		String cha_v8 = "";//身份证号
 		String cha_v8_1 = "";//最小年龄范围
 		String cha_v8_2 = "";//最大年龄范围
+		String cha_v24_1 = "";//人均纯收入最小值
+		String cha_v24_2 = "";//人均存收入最大值
 		String year = request.getParameter("year");
 		if ( "2016".equals(year) ) {
 			year = "_2016";
@@ -1057,7 +1081,20 @@ public class StandingBookController extends MultiActionController{
 				str += " LENGTH(t1.v8)>=18 and TIMESTAMPDIFF(year,substring(t1.v8, 7, 8),DATE(now()))<="+cha_v8_2+" and";
 			}
 		}
-		
+		if(request.getParameter("cha_v24_1")!=null&&!request.getParameter("cha_v24_1").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_1").trim())){
+			cha_v24_1 = request.getParameter("cha_v24_1").trim();
+				if(request.getParameter("cha_v24_2")!=null&&!request.getParameter("cha_v24_2").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_2").trim())){
+							cha_v24_2 = request.getParameter("cha_v24_2").trim();
+							str += " ROUND(t1.v24,2)>="+cha_v24_1+" and ROUND(t1.v24,2)<"+cha_v24_2+" and";
+					}else{
+								str += "  ROUND(t1.v24,2)>="+cha_v24_1+" and";
+							}
+						}else{
+							if(request.getParameter("cha_v24_2")!=null&&!request.getParameter("cha_v24_2").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_2").trim())){
+								cha_v24_2 = request.getParameter("cha_v24_2").trim();
+								str += " ROUND(t1.v24,2)<"+cha_v24_2+" and";
+							}
+						}
 		if(request.getParameter("cha_qx")!=null&&!request.getParameter("cha_qx").equals("请选择")){
 			cha_qx = request.getParameter("cha_qx").trim();
 			str += " t1.v3 like '%"+cha_qx+"%' and";
@@ -1797,6 +1834,8 @@ public class StandingBookController extends MultiActionController{
 		String cha_v8 = "";//身份证号
 		String cha_v8_1 = "";//最小年龄范围
 		String cha_v8_2 = "";//最大年龄范围
+		String cha_v24_1 = "";//人均纯收入最小值
+		String cha_v24_2 = "";//人均存收入最大值
 		String year = request.getParameter("year");
 		if ( "2016".equals(year) ) {
 			year = "_2016";
@@ -1827,7 +1866,20 @@ public class StandingBookController extends MultiActionController{
 				str += " LENGTH(t1.v8)>=18 and TIMESTAMPDIFF(year,substring(t1.v8, 7, 8),DATE(now()))<="+cha_v8_2+" and";
 			}
 		}
-		
+		if(request.getParameter("cha_v24_1")!=null&&!request.getParameter("cha_v24_1").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_1").trim())){
+			cha_v24_1 = request.getParameter("cha_v24_1").trim();
+				if(request.getParameter("cha_v24_2")!=null&&!request.getParameter("cha_v24_2").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_2").trim())){
+							cha_v24_2 = request.getParameter("cha_v24_2").trim();
+							str += " ROUND(t1.v24,2)>="+cha_v24_1+" and ROUND(t1.v24,2)<"+cha_v24_2+" and";
+					}else{
+								str += "  ROUND(t1.v24,2)>="+cha_v24_1+" and";
+							}
+						}else{
+							if(request.getParameter("cha_v24_2")!=null&&!request.getParameter("cha_v24_2").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_2").trim())){
+								cha_v24_2 = request.getParameter("cha_v24_2").trim();
+								str += " ROUND(t1.v24,2)<"+cha_v24_2+" and";
+							}
+						}
 		if(request.getParameter("cha_qx")!=null&&!request.getParameter("cha_qx").equals("请选择")){
 			cha_qx = request.getParameter("cha_qx").trim();
 			str += " t1.v3 like '%"+cha_qx+"%' and";
@@ -2062,6 +2114,8 @@ public class StandingBookController extends MultiActionController{
 		String cha_v8 = "";//身份证号
 		String cha_v8_1 = "";//最小年龄范围
 		String cha_v8_2 = "";//最大年龄范围
+		String cha_v24_1 = "";//人均纯收入最小值
+		String cha_v24_2 = "";//人均存收入最大值
 		String year = request.getParameter("year");
 		if ( "2016".equals(year) ) {
 			year = "_2016";
@@ -2092,7 +2146,20 @@ public class StandingBookController extends MultiActionController{
 				str += " LENGTH(t1.v8)>=18 and TIMESTAMPDIFF(year,substring(t1.v8, 7, 8),DATE(now()))<="+cha_v8_2+" and";
 			}
 		}
-		
+		if(request.getParameter("cha_v24_1")!=null&&!request.getParameter("cha_v24_1").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_1").trim())){
+			cha_v24_1 = request.getParameter("cha_v24_1").trim();
+				if(request.getParameter("cha_v24_2")!=null&&!request.getParameter("cha_v24_2").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_2").trim())){
+							cha_v24_2 = request.getParameter("cha_v24_2").trim();
+							str += " ROUND(t1.v24,2)>="+cha_v24_1+" and ROUND(t1.v24,2)<"+cha_v24_2+" and";
+					}else{
+								str += "  ROUND(t1.v24,2)>="+cha_v24_1+" and";
+							}
+						}else{
+							if(request.getParameter("cha_v24_2")!=null&&!request.getParameter("cha_v24_2").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_2").trim())){
+								cha_v24_2 = request.getParameter("cha_v24_2").trim();
+								str += " ROUND(t1.v24,2)<"+cha_v24_2+" and";
+							}
+						}
 		if(request.getParameter("cha_qx")!=null&&!request.getParameter("cha_qx").equals("请选择")){
 			cha_qx = request.getParameter("cha_qx").trim();
 			str += " t1.v3 like '%"+cha_qx+"%' and";
@@ -2395,6 +2462,8 @@ public class StandingBookController extends MultiActionController{
 		String cha_v8 = "";//身份证号
 		String cha_v8_1 = "";//最小年龄范围
 		String cha_v8_2 = "";//最大年龄范围
+		String cha_v24_1 = "";//人均纯收入最小值
+		String cha_v24_2 = "";//人均存收入最大值
 		String year = request.getParameter("year");
 		if ( "2016".equals(year) ) {
 			year = "_2016";
@@ -2425,7 +2494,20 @@ public class StandingBookController extends MultiActionController{
 				str += " LENGTH(t1.v8)>=18 and TIMESTAMPDIFF(year,substring(t1.v8, 7, 8),DATE(now()))<="+cha_v8_2+" and";
 			}
 		}
-		
+		if(request.getParameter("cha_v24_1")!=null&&!request.getParameter("cha_v24_1").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_1").trim())){
+			cha_v24_1 = request.getParameter("cha_v24_1").trim();
+				if(request.getParameter("cha_v24_2")!=null&&!request.getParameter("cha_v24_2").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_2").trim())){
+							cha_v24_2 = request.getParameter("cha_v24_2").trim();
+							str += " ROUND(t1.v24,2)>="+cha_v24_1+" and ROUND(t1.v24,2)<"+cha_v24_2+" and";
+					}else{
+								str += "  ROUND(t1.v24,2)>="+cha_v24_1+" and";
+							}
+						}else{
+							if(request.getParameter("cha_v24_2")!=null&&!request.getParameter("cha_v24_2").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_2").trim())){
+								cha_v24_2 = request.getParameter("cha_v24_2").trim();
+								str += " ROUND(t1.v24,2)<"+cha_v24_2+" and";
+							}
+						}
 		if(request.getParameter("cha_qx")!=null&&!request.getParameter("cha_qx").equals("请选择")){
 			cha_qx = request.getParameter("cha_qx").trim();
 			str += " t1.v3 like '%"+cha_qx+"%' and";
@@ -2615,6 +2697,8 @@ public class StandingBookController extends MultiActionController{
 		String cha_v8 = "";//身份证号
 		String cha_v8_1 = "";//最小年龄范围
 		String cha_v8_2 = "";//最大年龄范围
+		String cha_v24_1 = "";//人均纯收入最小值
+		String cha_v24_2 = "";//人均存收入最大值
 		String year = request.getParameter("year");
 		if ( "2016".equals(year) ) {
 			year = "_2016";
@@ -2645,7 +2729,20 @@ public class StandingBookController extends MultiActionController{
 				str += " LENGTH(t1.v8)>=18 and TIMESTAMPDIFF(year,substring(t1.v8, 7, 8),DATE(now()))<="+cha_v8_2+" and";
 			}
 		}
-		
+		if(request.getParameter("cha_v24_1")!=null&&!request.getParameter("cha_v24_1").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_1").trim())){
+			cha_v24_1 = request.getParameter("cha_v24_1").trim();
+				if(request.getParameter("cha_v24_2")!=null&&!request.getParameter("cha_v24_2").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_2").trim())){
+							cha_v24_2 = request.getParameter("cha_v24_2").trim();
+							str += " ROUND(t1.v24,2)>="+cha_v24_1+" and ROUND(t1.v24,2)<"+cha_v24_2+" and";
+					}else{
+								str += "  ROUND(t1.v24,2)>="+cha_v24_1+" and";
+							}
+						}else{
+							if(request.getParameter("cha_v24_2")!=null&&!request.getParameter("cha_v24_2").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_2").trim())){
+								cha_v24_2 = request.getParameter("cha_v24_2").trim();
+								str += " ROUND(t1.v24,2)<"+cha_v24_2+" and";
+							}
+						}
 		if(request.getParameter("cha_qx")!=null&&!request.getParameter("cha_qx").equals("请选择")){
 			cha_qx = request.getParameter("cha_qx").trim();
 			str += " t1.v3 like '%"+cha_qx+"%' and";
@@ -3089,6 +3186,8 @@ public class StandingBookController extends MultiActionController{
 		String cha_v8 = "";//身份证号
 		String cha_v8_1 = "";//最小年龄范围
 		String cha_v8_2 = "";//最大年龄范围
+		String cha_v24_1 = "";//人均纯收入最小值
+		String cha_v24_2 = "";//人均存收入最大值
 		String year = request.getParameter("year");
 		if ( "2016".equals(year) ) {
 			year = "_2016";
@@ -3119,7 +3218,20 @@ public class StandingBookController extends MultiActionController{
 				str += " LENGTH(t1.v8)>=18 and TIMESTAMPDIFF(year,substring(t1.v8, 7, 8),DATE(now()))<="+cha_v8_2+" and";
 			}
 		}
-		
+		if(request.getParameter("cha_v24_1")!=null&&!request.getParameter("cha_v24_1").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_1").trim())){
+			cha_v24_1 = request.getParameter("cha_v24_1").trim();
+				if(request.getParameter("cha_v24_2")!=null&&!request.getParameter("cha_v24_2").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_2").trim())){
+							cha_v24_2 = request.getParameter("cha_v24_2").trim();
+							str += " ROUND(t1.v24,2)>="+cha_v24_1+" and ROUND(t1.v24,2)<"+cha_v24_2+" and";
+					}else{
+								str += "  ROUND(t1.v24,2)>="+cha_v24_1+" and";
+							}
+						}else{
+							if(request.getParameter("cha_v24_2")!=null&&!request.getParameter("cha_v24_2").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_2").trim())){
+								cha_v24_2 = request.getParameter("cha_v24_2").trim();
+								str += " ROUND(t1.v24,2)<"+cha_v24_2+" and";
+							}
+						}
 		if(request.getParameter("cha_qx")!=null&&!request.getParameter("cha_qx").equals("请选择")){
 			cha_qx = request.getParameter("cha_qx").trim();
 			str += " t1.v3 like '%"+cha_qx+"%' and";
@@ -7200,5 +7312,6 @@ public class StandingBookController extends MultiActionController{
 		}
 		return null;
 	}
-
+	
+	
 }
