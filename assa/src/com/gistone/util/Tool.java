@@ -3,6 +3,8 @@ package com.gistone.util;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 
@@ -70,8 +72,24 @@ public class Tool {
 //		System.out.println("加密:"+md5str);
 //		String jmstr=Tool.JM(md5str);
 //		System.out.println("解密："+jmstr);
+		System.out.println(isNumeric("111"));
 	}
 
+	/**
+	 * 判断字符串是否是数字
+	 * @param str
+	 * @return
+	 *	@author Liulifeng
+	 *  @date 2017年4月14日 下午2:41:55
+	 */
+	public static boolean isNumeric(String str){ 
+		   Pattern pattern = Pattern.compile("[0-9]*"); 
+		   Matcher isNum = pattern.matcher(str);
+		   if( !isNum.matches() ){
+		       return false; 
+		   } 
+		   return true; 
+		}
 	
 
 }
