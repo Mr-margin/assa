@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -493,8 +494,8 @@ public class StandingBookController extends MultiActionController{
 		String cha_v8 = "";//身份证号
 		String cha_v8_1 = "";//年龄范围开始时间
 		String cha_v8_2 = "";//年龄范围截止时间
-		String cha_v24_1 = "";//人均纯收入最小值
-		String cha_v24_2 = "";//人均存收入最大值
+		float cha_v24_1 = 0f;//人均纯收入最小值
+		float cha_v24_2 = 0f;//人均存收入最大值
 		String year = request.getParameter("year");
 		if ( "2016".equals(year) ) {
 			year = "_2016";
@@ -527,19 +528,11 @@ public class StandingBookController extends MultiActionController{
 			}
 		}
 		if(request.getParameter("cha_v24_1")!=null&&!request.getParameter("cha_v24_1").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_1").trim())){
-							cha_v24_1 = request.getParameter("cha_v24_1").trim();
-							if(request.getParameter("cha_v24_2")!=null&&!request.getParameter("cha_v24_2").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_2").trim())){
-								cha_v24_2 = request.getParameter("cha_v24_2").trim();
-								str += " ROUND(t1.v24,2)>="+cha_v24_1+" and ROUND(t1.v24,2)<"+cha_v24_2+" and";
-							}else{
-								str += "  ROUND(t1.v24,2)>="+cha_v24_1+" and";
-							}
-						}else{
-							if(request.getParameter("cha_v24_2")!=null&&!request.getParameter("cha_v24_2").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_2").trim())){
-								cha_v24_2 = request.getParameter("cha_v24_2").trim();
-								str += " ROUND(t1.v24,2)<"+cha_v24_2+" and";
-							}
-						}
+				cha_v24_1 = Float.parseFloat(request.getParameter("cha_v24_1").trim());
+		}
+		if(request.getParameter("cha_v24_2")!=null&&!request.getParameter("cha_v24_2").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_2").trim())){
+			cha_v24_2 = Float.parseFloat(request.getParameter("cha_v24_2").trim());
+		}
 		if(request.getParameter("cha_qx")!=null&&!request.getParameter("cha_qx").equals("请选择")){
 			cha_qx = request.getParameter("cha_qx").trim();
 			str += " t1.v3 like '%"+cha_qx+"%' and";
@@ -639,7 +632,64 @@ public class StandingBookController extends MultiActionController{
 				}
 				SQLAdapter s1_Adapter = new SQLAdapter(sql_1);
 				List<Map> s1_List = this.getBySqlMapper.findRecords(s1_Adapter);
+				List<Map> s1_List2=new ArrayList<Map>();
+				List<String> da_household_ids2=new ArrayList<String>();
+				//判断是否有人均收入的查询条件
+				if(s1_List.size()>0){
+				if(cha_v24_1!=0||cha_v24_2!=0){
 				
+				StringBuilder pkids=new StringBuilder();//贫苦户id
+				List<Integer> familysize_list=new ArrayList<Integer>();//一户的家庭人数
+				
+				for(int i = 0;i<s1_List.size();i++){
+					Map s1_map = s1_List.get(i);
+					if(i==s1_List.size()-1){
+						pkids.append(s1_map.get("pkid"));
+					}else{
+						pkids.append(s1_map.get("pkid")+",");
+					}
+					familysize_list.add((Integer) s1_map.get("v9"));
+				}
+				//帮扶后总收入
+				String dqsrh_sql2="SELECT da_household_id,v39 FROM da_helpback_income"+year+" where da_household_id in("+pkids+")";
+				SQLAdapter dqsrh_sqlAdapter2 =new SQLAdapter(dqsrh_sql2);
+				List<Map> dqsrh_list2=getBySqlMapper.findRecords(dqsrh_sqlAdapter2);
+				//帮扶后总支出
+				String dqzch_sql2="SELECT da_household_id,v31 FROM da_helpback_expenditure"+year+" where da_household_id in("+pkids+")";
+				SQLAdapter dqzch_sqlAdapter2 =new SQLAdapter(dqzch_sql2);
+				List<Map> dqzch_list2=getBySqlMapper.findRecords(dqzch_sqlAdapter2);
+				for(int y=0;y<dqzch_list2.size();y++){
+					int familysize=familysize_list.get(y);
+					Map dqsrh_map2=dqsrh_list2.get(y);
+					Map dqzch_map2=dqzch_list2.get(y);
+					float dqsrh2=(float) (dqsrh_map2.get("v39")==null?0.00:(Float)dqsrh_map2.get("v39"));
+					float dqzch2=(float) (dqzch_map2.get("v31")==null?0.00:(Float)dqzch_map2.get("v31"));
+					float year_income2=dqsrh2-dqzch2;//年纯收入
+					float per_capita_income2=year_income2/familysize;//人均纯收入
+					if(cha_v24_1!=0&&cha_v24_2==0){
+						if(per_capita_income2>=cha_v24_1){
+							da_household_ids2.add(dqsrh_map2.get("da_household_id").toString());
+						}
+					}else if(cha_v24_1!=0&&cha_v24_2!=0){
+						if(per_capita_income2>=cha_v24_1&&per_capita_income2<cha_v24_2){
+							da_household_ids2.add(dqsrh_map2.get("da_household_id").toString());
+						}
+					}else if(cha_v24_1==0&&cha_v24_2!=0){
+						if(per_capita_income2<cha_v24_2){
+							da_household_ids2.add(dqsrh_map2.get("da_household_id").toString());
+						}
+					}
+				}
+				for(int i = 0;i<s1_List.size();i++){
+					Map s1_map = s1_List.get(i);
+					String pkid=s1_map.get("pkid").toString().trim();
+					if(da_household_ids2.contains(pkid)){
+						s1_List2.add(s1_map);
+					}
+				}
+				s1_List=s1_List2;
+				}
+			}
 				WritableSheet sheet_1 = book.createSheet( "贫困户基本信息 " , 0);//生成第一页工作表，参数0表示这是第一页
 				
 				int[] headerArrHight_1 = {13,20,25,20,20,30,20,15,20,30,35,10,30,10,20,13,25,30,30};
@@ -789,8 +839,8 @@ public class StandingBookController extends MultiActionController{
 		String cha_v8 = "";//身份证号
 		String cha_v8_1 = "";//最小年龄范围
 		String cha_v8_2 = "";//最大年龄范围
-		String cha_v24_1 = "";//人均纯收入最小值
-		String cha_v24_2 = "";//人均存收入最大值
+		float cha_v24_1 = 0f;//人均纯收入最小值
+		float cha_v24_2 = 0f;//人均存收入最大值
 		String year = request.getParameter("year");
 		if ( "2016".equals(year) ) {
 			year = "_2016";
@@ -822,19 +872,11 @@ public class StandingBookController extends MultiActionController{
 			}
 		}
 		if(request.getParameter("cha_v24_1")!=null&&!request.getParameter("cha_v24_1").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_1").trim())){
-			cha_v24_1 = request.getParameter("cha_v24_1").trim();
-				if(request.getParameter("cha_v24_2")!=null&&!request.getParameter("cha_v24_2").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_2").trim())){
-							cha_v24_2 = request.getParameter("cha_v24_2").trim();
-							str += " ROUND(t1.v24,2)>="+cha_v24_1+" and ROUND(t1.v24,2)<"+cha_v24_2+" and";
-					}else{
-								str += "  ROUND(t1.v24,2)>="+cha_v24_1+" and";
-							}
-						}else{
-							if(request.getParameter("cha_v24_2")!=null&&!request.getParameter("cha_v24_2").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_2").trim())){
-								cha_v24_2 = request.getParameter("cha_v24_2").trim();
-								str += " ROUND(t1.v24,2)<"+cha_v24_2+" and";
-							}
-						}
+			cha_v24_1 = Float.parseFloat(request.getParameter("cha_v24_1").trim());
+		}
+		if(request.getParameter("cha_v24_2")!=null&&!request.getParameter("cha_v24_2").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_2").trim())){
+			cha_v24_2 = Float.parseFloat(request.getParameter("cha_v24_2").trim());
+		}
 		if(request.getParameter("cha_qx")!=null&&!request.getParameter("cha_qx").equals("请选择")){
 			cha_qx = request.getParameter("cha_qx").trim();
 			str += " t1.v3 like '%"+cha_qx+"%' and";
@@ -933,6 +975,65 @@ public class StandingBookController extends MultiActionController{
 				}
 				SQLAdapter s1_Adapter = new SQLAdapter(sql_1);
 				List<Map> s1_List = this.getBySqlMapper.findRecords(s1_Adapter);
+				List<Map> s1_List2 =new ArrayList<Map>();
+				List<String> da_household_ids2=new ArrayList<String>();
+				//判断是否有人均收入的查询条件
+				if(s1_List.size()>0){
+				if(cha_v24_1!=0||cha_v24_2!=0){
+				
+				StringBuilder pkids=new StringBuilder();//贫苦户id
+				List<Integer> familysize_list=new ArrayList<Integer>();//一户的家庭人数
+				
+				for(int i = 0;i<s1_List.size();i++){
+					Map s1_map = s1_List.get(i);
+					if(i==s1_List.size()-1){
+						pkids.append(s1_map.get("pkid"));
+					}else{
+						pkids.append(s1_map.get("pkid")+",");
+					}
+					familysize_list.add((Integer) s1_map.get("v9"));
+				}
+				//帮扶后总收入
+				String dqsrh_sql2="SELECT da_household_id,v39 FROM da_helpback_income"+year+" where da_household_id in("+pkids+")";
+				SQLAdapter dqsrh_sqlAdapter2 =new SQLAdapter(dqsrh_sql2);
+				List<Map> dqsrh_list2=getBySqlMapper.findRecords(dqsrh_sqlAdapter2);
+				//帮扶后总支出
+				String dqzch_sql2="SELECT da_household_id,v31 FROM da_helpback_expenditure"+year+" where da_household_id in("+pkids+")";
+				SQLAdapter dqzch_sqlAdapter2 =new SQLAdapter(dqzch_sql2);
+				List<Map> dqzch_list2=getBySqlMapper.findRecords(dqzch_sqlAdapter2);
+				for(int y=0;y<dqzch_list2.size();y++){
+					int familysize=familysize_list.get(y);
+					Map dqsrh_map2=dqsrh_list2.get(y);
+					Map dqzch_map2=dqzch_list2.get(y);
+					float dqsrh2=(float) (dqsrh_map2.get("v39")==null?0.00:(Float)dqsrh_map2.get("v39"));
+					float dqzch2=(float) (dqzch_map2.get("v31")==null?0.00:(Float)dqzch_map2.get("v31"));
+					float year_income2=dqsrh2-dqzch2;//年纯收入
+					float per_capita_income2=year_income2/familysize;//人均纯收入
+					if(cha_v24_1!=0&&cha_v24_2==0){
+						if(per_capita_income2>=cha_v24_1){
+							da_household_ids2.add(dqsrh_map2.get("da_household_id").toString());
+						}
+					}else if(cha_v24_1!=0&&cha_v24_2!=0){
+						if(per_capita_income2>=cha_v24_1&&per_capita_income2<cha_v24_2){
+							da_household_ids2.add(dqsrh_map2.get("da_household_id").toString());
+						}
+					}else if(cha_v24_1==0&&cha_v24_2!=0){
+						if(per_capita_income2<cha_v24_2){
+							da_household_ids2.add(dqsrh_map2.get("da_household_id").toString());
+						}
+					}
+				}
+				for(int i = 0;i<s1_List.size();i++){
+					Map s1_map = s1_List.get(i);
+					String pkid=s1_map.get("pkid").toString().trim();
+					if(da_household_ids2.contains(pkid)){
+						s1_List2.add(s1_map);
+					}
+				}
+				s1_List=s1_List2;
+				}
+			}
+				
 		        //家庭成员
 		        WritableSheet sheet_2 = book.createSheet( "家庭成员 " , 0);
 		        
@@ -1049,8 +1150,8 @@ public class StandingBookController extends MultiActionController{
 		String cha_v8 = "";//身份证号
 		String cha_v8_1 = "";//最小年龄范围
 		String cha_v8_2 = "";//最大年龄范围
-		String cha_v24_1 = "";//人均纯收入最小值
-		String cha_v24_2 = "";//人均存收入最大值
+		float cha_v24_1 = 0f;//人均纯收入最小值
+		float cha_v24_2 = 0f;//人均存收入最大值
 		String year = request.getParameter("year");
 		if ( "2016".equals(year) ) {
 			year = "_2016";
@@ -1082,19 +1183,11 @@ public class StandingBookController extends MultiActionController{
 			}
 		}
 		if(request.getParameter("cha_v24_1")!=null&&!request.getParameter("cha_v24_1").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_1").trim())){
-			cha_v24_1 = request.getParameter("cha_v24_1").trim();
-				if(request.getParameter("cha_v24_2")!=null&&!request.getParameter("cha_v24_2").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_2").trim())){
-							cha_v24_2 = request.getParameter("cha_v24_2").trim();
-							str += " ROUND(t1.v24,2)>="+cha_v24_1+" and ROUND(t1.v24,2)<"+cha_v24_2+" and";
-					}else{
-								str += "  ROUND(t1.v24,2)>="+cha_v24_1+" and";
-							}
-						}else{
-							if(request.getParameter("cha_v24_2")!=null&&!request.getParameter("cha_v24_2").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_2").trim())){
-								cha_v24_2 = request.getParameter("cha_v24_2").trim();
-								str += " ROUND(t1.v24,2)<"+cha_v24_2+" and";
-							}
-						}
+			cha_v24_1 = Float.parseFloat(request.getParameter("cha_v24_1").trim());
+		}
+		if(request.getParameter("cha_v24_2")!=null&&!request.getParameter("cha_v24_2").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_2").trim())){
+			cha_v24_2 = Float.parseFloat(request.getParameter("cha_v24_2").trim());
+		}
 		if(request.getParameter("cha_qx")!=null&&!request.getParameter("cha_qx").equals("请选择")){
 			cha_qx = request.getParameter("cha_qx").trim();
 			str += " t1.v3 like '%"+cha_qx+"%' and";
@@ -1196,6 +1289,65 @@ public class StandingBookController extends MultiActionController{
 				SQLAdapter s1_Adapter = new SQLAdapter(sql_1);
 				List<Map> s1_List = this.getBySqlMapper.findRecords(s1_Adapter);
 		        
+				List<Map> s1_List2 =new ArrayList<Map>();
+				List<String> da_household_ids2=new ArrayList<String>();
+						//判断是否有人均收入的查询条件
+						if(s1_List.size()>0){
+						if(cha_v24_1!=0||cha_v24_2!=0){
+						
+						StringBuilder pkids=new StringBuilder();//贫苦户id
+						List<Integer> familysize_list=new ArrayList<Integer>();//一户的家庭人数
+						
+						for(int i = 0;i<s1_List.size();i++){
+							Map s1_map = s1_List.get(i);
+							if(i==s1_List.size()-1){
+								pkids.append(s1_map.get("pkid"));
+							}else{
+								pkids.append(s1_map.get("pkid")+",");
+							}
+							familysize_list.add((Integer) s1_map.get("v9"));
+						}
+						//帮扶后总收入
+						String dqsrh_sql2="SELECT da_household_id,v39 FROM da_helpback_income"+year+" where da_household_id in("+pkids+")";
+						SQLAdapter dqsrh_sqlAdapter2 =new SQLAdapter(dqsrh_sql2);
+						List<Map> dqsrh_list2=getBySqlMapper.findRecords(dqsrh_sqlAdapter2);
+						//帮扶后总支出
+						String dqzch_sql2="SELECT da_household_id,v31 FROM da_helpback_expenditure"+year+" where da_household_id in("+pkids+")";
+						SQLAdapter dqzch_sqlAdapter2 =new SQLAdapter(dqzch_sql2);
+						List<Map> dqzch_list2=getBySqlMapper.findRecords(dqzch_sqlAdapter2);
+						for(int y=0;y<dqzch_list2.size();y++){
+							int familysize=familysize_list.get(y);
+							Map dqsrh_map2=dqsrh_list2.get(y);
+							Map dqzch_map2=dqzch_list2.get(y);
+							float dqsrh2=(float) (dqsrh_map2.get("v39")==null?0.00:(Float)dqsrh_map2.get("v39"));
+							float dqzch2=(float) (dqzch_map2.get("v31")==null?0.00:(Float)dqzch_map2.get("v31"));
+							float year_income2=dqsrh2-dqzch2;//年纯收入
+							float per_capita_income2=year_income2/familysize;//人均纯收入
+							if(cha_v24_1!=0&&cha_v24_2==0){
+								if(per_capita_income2>=cha_v24_1){
+									da_household_ids2.add(dqsrh_map2.get("da_household_id").toString());
+								}
+							}else if(cha_v24_1!=0&&cha_v24_2!=0){
+								if(per_capita_income2>=cha_v24_1&&per_capita_income2<cha_v24_2){
+									da_household_ids2.add(dqsrh_map2.get("da_household_id").toString());
+								}
+							}else if(cha_v24_1==0&&cha_v24_2!=0){
+								if(per_capita_income2<cha_v24_2){
+									da_household_ids2.add(dqsrh_map2.get("da_household_id").toString());
+								}
+							}
+						}
+						for(int i = 0;i<s1_List.size();i++){
+							Map s1_map = s1_List.get(i);
+							String pkid=s1_map.get("pkid").toString().trim();
+							if(da_household_ids2.contains(pkid)){
+								s1_List2.add(s1_map);
+							}
+						}
+						s1_List=s1_List2;
+						}
+					}
+				
 		        //当前收支分析
 		        WritableSheet sheet_4 = book.createSheet( "当前收支分析" , 0);
 		        
@@ -1834,8 +1986,8 @@ public class StandingBookController extends MultiActionController{
 		String cha_v8 = "";//身份证号
 		String cha_v8_1 = "";//最小年龄范围
 		String cha_v8_2 = "";//最大年龄范围
-		String cha_v24_1 = "";//人均纯收入最小值
-		String cha_v24_2 = "";//人均存收入最大值
+		float cha_v24_1 = 0f;//人均纯收入最小值
+		float cha_v24_2 = 0f;//人均存收入最大值
 		String year = request.getParameter("year");
 		if ( "2016".equals(year) ) {
 			year = "_2016";
@@ -1867,19 +2019,11 @@ public class StandingBookController extends MultiActionController{
 			}
 		}
 		if(request.getParameter("cha_v24_1")!=null&&!request.getParameter("cha_v24_1").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_1").trim())){
-			cha_v24_1 = request.getParameter("cha_v24_1").trim();
-				if(request.getParameter("cha_v24_2")!=null&&!request.getParameter("cha_v24_2").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_2").trim())){
-							cha_v24_2 = request.getParameter("cha_v24_2").trim();
-							str += " ROUND(t1.v24,2)>="+cha_v24_1+" and ROUND(t1.v24,2)<"+cha_v24_2+" and";
-					}else{
-								str += "  ROUND(t1.v24,2)>="+cha_v24_1+" and";
-							}
-						}else{
-							if(request.getParameter("cha_v24_2")!=null&&!request.getParameter("cha_v24_2").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_2").trim())){
-								cha_v24_2 = request.getParameter("cha_v24_2").trim();
-								str += " ROUND(t1.v24,2)<"+cha_v24_2+" and";
-							}
-						}
+			cha_v24_1 = Float.parseFloat(request.getParameter("cha_v24_1").trim());
+		}
+		if(request.getParameter("cha_v24_2")!=null&&!request.getParameter("cha_v24_2").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_2").trim())){
+			cha_v24_2 = Float.parseFloat(request.getParameter("cha_v24_2").trim());
+		}
 		if(request.getParameter("cha_qx")!=null&&!request.getParameter("cha_qx").equals("请选择")){
 			cha_qx = request.getParameter("cha_qx").trim();
 			str += " t1.v3 like '%"+cha_qx+"%' and";
@@ -1978,6 +2122,65 @@ public class StandingBookController extends MultiActionController{
 				}
 				SQLAdapter s1_Adapter = new SQLAdapter(sql_1);
 				List<Map> s1_List = this.getBySqlMapper.findRecords(s1_Adapter);
+				
+				List<Map> s1_List2 =new ArrayList<Map>();
+				List<String> da_household_ids2=new ArrayList<String>();
+						//判断是否有人均收入的查询条件
+						if(s1_List.size()>0){
+						if(cha_v24_1!=0||cha_v24_2!=0){
+						
+						StringBuilder pkids=new StringBuilder();//贫苦户id
+						List<Integer> familysize_list=new ArrayList<Integer>();//一户的家庭人数
+						
+						for(int i = 0;i<s1_List.size();i++){
+							Map s1_map = s1_List.get(i);
+							if(i==s1_List.size()-1){
+								pkids.append(s1_map.get("pkid"));
+							}else{
+								pkids.append(s1_map.get("pkid")+",");
+							}
+							familysize_list.add((Integer) s1_map.get("v9"));
+						}
+						//帮扶后总收入
+						String dqsrh_sql2="SELECT da_household_id,v39 FROM da_helpback_income"+year+" where da_household_id in("+pkids+")";
+						SQLAdapter dqsrh_sqlAdapter2 =new SQLAdapter(dqsrh_sql2);
+						List<Map> dqsrh_list2=getBySqlMapper.findRecords(dqsrh_sqlAdapter2);
+						//帮扶后总支出
+						String dqzch_sql2="SELECT da_household_id,v31 FROM da_helpback_expenditure"+year+" where da_household_id in("+pkids+")";
+						SQLAdapter dqzch_sqlAdapter2 =new SQLAdapter(dqzch_sql2);
+						List<Map> dqzch_list2=getBySqlMapper.findRecords(dqzch_sqlAdapter2);
+						for(int y=0;y<dqzch_list2.size();y++){
+							int familysize=familysize_list.get(y);
+							Map dqsrh_map2=dqsrh_list2.get(y);
+							Map dqzch_map2=dqzch_list2.get(y);
+							float dqsrh2=(float) (dqsrh_map2.get("v39")==null?0.00:(Float)dqsrh_map2.get("v39"));
+							float dqzch2=(float) (dqzch_map2.get("v31")==null?0.00:(Float)dqzch_map2.get("v31"));
+							float year_income2=dqsrh2-dqzch2;//年纯收入
+							float per_capita_income2=year_income2/familysize;//人均纯收入
+							if(cha_v24_1!=0&&cha_v24_2==0){
+								if(per_capita_income2>=cha_v24_1){
+									da_household_ids2.add(dqsrh_map2.get("da_household_id").toString());
+								}
+							}else if(cha_v24_1!=0&&cha_v24_2!=0){
+								if(per_capita_income2>=cha_v24_1&&per_capita_income2<cha_v24_2){
+									da_household_ids2.add(dqsrh_map2.get("da_household_id").toString());
+								}
+							}else if(cha_v24_1==0&&cha_v24_2!=0){
+								if(per_capita_income2<cha_v24_2){
+									da_household_ids2.add(dqsrh_map2.get("da_household_id").toString());
+								}
+							}
+						}
+						for(int i = 0;i<s1_List.size();i++){
+							Map s1_map = s1_List.get(i);
+							String pkid=s1_map.get("pkid").toString().trim();
+							if(da_household_ids2.contains(pkid)){
+								s1_List2.add(s1_map);
+							}
+						}
+						s1_List=s1_List2;
+						}
+					}
 				
 		        //帮扶单位和责任人
 		        WritableSheet sheet_5 = book.createSheet( "帮扶单位和责任人" , 0);
@@ -2114,8 +2317,8 @@ public class StandingBookController extends MultiActionController{
 		String cha_v8 = "";//身份证号
 		String cha_v8_1 = "";//最小年龄范围
 		String cha_v8_2 = "";//最大年龄范围
-		String cha_v24_1 = "";//人均纯收入最小值
-		String cha_v24_2 = "";//人均存收入最大值
+		float cha_v24_1 = 0f;//帮扶后人均纯收入最小值
+		float cha_v24_2 = 0f;//帮扶后人均存收入最大值
 		String year = request.getParameter("year");
 		if ( "2016".equals(year) ) {
 			year = "_2016";
@@ -2147,19 +2350,11 @@ public class StandingBookController extends MultiActionController{
 			}
 		}
 		if(request.getParameter("cha_v24_1")!=null&&!request.getParameter("cha_v24_1").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_1").trim())){
-			cha_v24_1 = request.getParameter("cha_v24_1").trim();
-				if(request.getParameter("cha_v24_2")!=null&&!request.getParameter("cha_v24_2").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_2").trim())){
-							cha_v24_2 = request.getParameter("cha_v24_2").trim();
-							str += " ROUND(t1.v24,2)>="+cha_v24_1+" and ROUND(t1.v24,2)<"+cha_v24_2+" and";
-					}else{
-								str += "  ROUND(t1.v24,2)>="+cha_v24_1+" and";
-							}
-						}else{
-							if(request.getParameter("cha_v24_2")!=null&&!request.getParameter("cha_v24_2").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_2").trim())){
-								cha_v24_2 = request.getParameter("cha_v24_2").trim();
-								str += " ROUND(t1.v24,2)<"+cha_v24_2+" and";
-							}
-						}
+			cha_v24_1 = Float.parseFloat(request.getParameter("cha_v24_1").trim());
+		}
+		if(request.getParameter("cha_v24_2")!=null&&!request.getParameter("cha_v24_2").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_2").trim())){
+			cha_v24_2 = Float.parseFloat(request.getParameter("cha_v24_2").trim());
+		}
 		if(request.getParameter("cha_qx")!=null&&!request.getParameter("cha_qx").equals("请选择")){
 			cha_qx = request.getParameter("cha_qx").trim();
 			str += " t1.v3 like '%"+cha_qx+"%' and";
@@ -2258,6 +2453,66 @@ public class StandingBookController extends MultiActionController{
 				}
 				SQLAdapter s1_Adapter = new SQLAdapter(sql_1);
 				List<Map> s1_List = this.getBySqlMapper.findRecords(s1_Adapter);
+				
+				List<Map> s1_List2 =new ArrayList<Map>();
+				List<String> da_household_ids2=new ArrayList<String>();
+						//判断是否有人均收入的查询条件
+						if(s1_List.size()>0){
+						if(cha_v24_1!=0||cha_v24_2!=0){
+						
+						StringBuilder pkids=new StringBuilder();//贫苦户id
+						List<Integer> familysize_list=new ArrayList<Integer>();//一户的家庭人数
+						
+						for(int i = 0;i<s1_List.size();i++){
+							Map s1_map = s1_List.get(i);
+							if(i==s1_List.size()-1){
+								pkids.append(s1_map.get("pkid"));
+							}else{
+								pkids.append(s1_map.get("pkid")+",");
+							}
+							familysize_list.add((Integer) s1_map.get("v9"));
+						}
+						//帮扶后总收入
+						String dqsrh_sql2="SELECT da_household_id,v39 FROM da_helpback_income"+year+" where da_household_id in("+pkids+")";
+						SQLAdapter dqsrh_sqlAdapter2 =new SQLAdapter(dqsrh_sql2);
+						List<Map> dqsrh_list2=getBySqlMapper.findRecords(dqsrh_sqlAdapter2);
+						//帮扶后总支出
+						String dqzch_sql2="SELECT da_household_id,v31 FROM da_helpback_expenditure"+year+" where da_household_id in("+pkids+")";
+						SQLAdapter dqzch_sqlAdapter2 =new SQLAdapter(dqzch_sql2);
+						List<Map> dqzch_list2=getBySqlMapper.findRecords(dqzch_sqlAdapter2);
+						for(int y=0;y<dqzch_list2.size();y++){
+							int familysize=familysize_list.get(y);
+							Map dqsrh_map2=dqsrh_list2.get(y);
+							Map dqzch_map2=dqzch_list2.get(y);
+							float dqsrh2=(float) (dqsrh_map2.get("v39")==null?0.00:(Float)dqsrh_map2.get("v39"));
+							float dqzch2=(float) (dqzch_map2.get("v31")==null?0.00:(Float)dqzch_map2.get("v31"));
+							float year_income2=dqsrh2-dqzch2;//年纯收入
+							float per_capita_income2=year_income2/familysize;//人均纯收入
+							if(cha_v24_1!=0&&cha_v24_2==0){
+								if(per_capita_income2>=cha_v24_1){
+									da_household_ids2.add(dqsrh_map2.get("da_household_id").toString());
+								}
+							}else if(cha_v24_1!=0&&cha_v24_2!=0){
+								if(per_capita_income2>=cha_v24_1&&per_capita_income2<cha_v24_2){
+									da_household_ids2.add(dqsrh_map2.get("da_household_id").toString());
+								}
+							}else if(cha_v24_1==0&&cha_v24_2!=0){
+								if(per_capita_income2<cha_v24_2){
+									da_household_ids2.add(dqsrh_map2.get("da_household_id").toString());
+								}
+							}
+						}
+						for(int i = 0;i<s1_List.size();i++){
+							Map s1_map = s1_List.get(i);
+							String pkid=s1_map.get("pkid").toString().trim();
+							if(da_household_ids2.contains(pkid)){
+								s1_List2.add(s1_map);
+							}
+						}
+						s1_List=s1_List2;
+						}
+					}
+				
 				
 		        //走访记录
 		        WritableSheet sheet_6 = book.createSheet( "帮扶人走访记录" , 0);
@@ -2462,8 +2717,8 @@ public class StandingBookController extends MultiActionController{
 		String cha_v8 = "";//身份证号
 		String cha_v8_1 = "";//最小年龄范围
 		String cha_v8_2 = "";//最大年龄范围
-		String cha_v24_1 = "";//人均纯收入最小值
-		String cha_v24_2 = "";//人均存收入最大值
+		float cha_v24_1 = 0f;//帮扶后人均纯收入最小值
+		float cha_v24_2 = 0f;//帮扶后人均存收入最大值
 		String year = request.getParameter("year");
 		if ( "2016".equals(year) ) {
 			year = "_2016";
@@ -2495,19 +2750,11 @@ public class StandingBookController extends MultiActionController{
 			}
 		}
 		if(request.getParameter("cha_v24_1")!=null&&!request.getParameter("cha_v24_1").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_1").trim())){
-			cha_v24_1 = request.getParameter("cha_v24_1").trim();
-				if(request.getParameter("cha_v24_2")!=null&&!request.getParameter("cha_v24_2").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_2").trim())){
-							cha_v24_2 = request.getParameter("cha_v24_2").trim();
-							str += " ROUND(t1.v24,2)>="+cha_v24_1+" and ROUND(t1.v24,2)<"+cha_v24_2+" and";
-					}else{
-								str += "  ROUND(t1.v24,2)>="+cha_v24_1+" and";
-							}
-						}else{
-							if(request.getParameter("cha_v24_2")!=null&&!request.getParameter("cha_v24_2").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_2").trim())){
-								cha_v24_2 = request.getParameter("cha_v24_2").trim();
-								str += " ROUND(t1.v24,2)<"+cha_v24_2+" and";
-							}
-						}
+			cha_v24_1 = Float.parseFloat(request.getParameter("cha_v24_1").trim());
+		}
+		if(request.getParameter("cha_v24_2")!=null&&!request.getParameter("cha_v24_2").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_2").trim())){
+			cha_v24_2 = Float.parseFloat(request.getParameter("cha_v24_2").trim());
+		}
 		if(request.getParameter("cha_qx")!=null&&!request.getParameter("cha_qx").equals("请选择")){
 			cha_qx = request.getParameter("cha_qx").trim();
 			str += " t1.v3 like '%"+cha_qx+"%' and";
@@ -2606,6 +2853,66 @@ public class StandingBookController extends MultiActionController{
 				}
 				SQLAdapter s1_Adapter = new SQLAdapter(sql_1);
 				List<Map> s1_List = this.getBySqlMapper.findRecords(s1_Adapter);
+				
+				List<Map> s1_List2 =new ArrayList<Map>();
+				List<String> da_household_ids2=new ArrayList<String>();
+						//判断是否有人均收入的查询条件
+						if(s1_List.size()>0){
+						if(cha_v24_1!=0||cha_v24_2!=0){
+						
+						StringBuilder pkids=new StringBuilder();//贫苦户id
+						List<Integer> familysize_list=new ArrayList<Integer>();//一户的家庭人数
+						
+						for(int i = 0;i<s1_List.size();i++){
+							Map s1_map = s1_List.get(i);
+							if(i==s1_List.size()-1){
+								pkids.append(s1_map.get("pkid"));
+							}else{
+								pkids.append(s1_map.get("pkid")+",");
+							}
+							familysize_list.add((Integer) s1_map.get("v9"));
+						}
+						//帮扶后总收入
+						String dqsrh_sql2="SELECT da_household_id,v39 FROM da_helpback_income"+year+" where da_household_id in("+pkids+")";
+						SQLAdapter dqsrh_sqlAdapter2 =new SQLAdapter(dqsrh_sql2);
+						List<Map> dqsrh_list2=getBySqlMapper.findRecords(dqsrh_sqlAdapter2);
+						//帮扶后总支出
+						String dqzch_sql2="SELECT da_household_id,v31 FROM da_helpback_expenditure"+year+" where da_household_id in("+pkids+")";
+						SQLAdapter dqzch_sqlAdapter2 =new SQLAdapter(dqzch_sql2);
+						List<Map> dqzch_list2=getBySqlMapper.findRecords(dqzch_sqlAdapter2);
+						for(int y=0;y<dqzch_list2.size();y++){
+							int familysize=familysize_list.get(y);
+							Map dqsrh_map2=dqsrh_list2.get(y);
+							Map dqzch_map2=dqzch_list2.get(y);
+							float dqsrh2=(float) (dqsrh_map2.get("v39")==null?0.00:(Float)dqsrh_map2.get("v39"));
+							float dqzch2=(float) (dqzch_map2.get("v31")==null?0.00:(Float)dqzch_map2.get("v31"));
+							float year_income2=dqsrh2-dqzch2;//年纯收入
+							float per_capita_income2=year_income2/familysize;//人均纯收入
+							if(cha_v24_1!=0&&cha_v24_2==0){
+								if(per_capita_income2>=cha_v24_1){
+									da_household_ids2.add(dqsrh_map2.get("da_household_id").toString());
+								}
+							}else if(cha_v24_1!=0&&cha_v24_2!=0){
+								if(per_capita_income2>=cha_v24_1&&per_capita_income2<cha_v24_2){
+									da_household_ids2.add(dqsrh_map2.get("da_household_id").toString());
+								}
+							}else if(cha_v24_1==0&&cha_v24_2!=0){
+								if(per_capita_income2<cha_v24_2){
+									da_household_ids2.add(dqsrh_map2.get("da_household_id").toString());
+								}
+							}
+						}
+						for(int i = 0;i<s1_List.size();i++){
+							Map s1_map = s1_List.get(i);
+							String pkid=s1_map.get("pkid").toString().trim();
+							if(da_household_ids2.contains(pkid)){
+								s1_List2.add(s1_map);
+							}
+						}
+						s1_List=s1_List2;
+						}
+					}
+				
 				//帮扶成效
 				WritableSheet sheet_9 = book.createSheet("帮扶成效", 0);
 				sheet_9.addCell(new Label(0, 0, "家庭编号", tsty));
@@ -2697,8 +3004,8 @@ public class StandingBookController extends MultiActionController{
 		String cha_v8 = "";//身份证号
 		String cha_v8_1 = "";//最小年龄范围
 		String cha_v8_2 = "";//最大年龄范围
-		String cha_v24_1 = "";//人均纯收入最小值
-		String cha_v24_2 = "";//人均存收入最大值
+		float cha_v24_1 = 0f;//帮扶后人均纯收入最小值
+		float cha_v24_2 = 0f;//帮扶后人均存收入最大值
 		String year = request.getParameter("year");
 		if ( "2016".equals(year) ) {
 			year = "_2016";
@@ -2730,19 +3037,11 @@ public class StandingBookController extends MultiActionController{
 			}
 		}
 		if(request.getParameter("cha_v24_1")!=null&&!request.getParameter("cha_v24_1").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_1").trim())){
-			cha_v24_1 = request.getParameter("cha_v24_1").trim();
-				if(request.getParameter("cha_v24_2")!=null&&!request.getParameter("cha_v24_2").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_2").trim())){
-							cha_v24_2 = request.getParameter("cha_v24_2").trim();
-							str += " ROUND(t1.v24,2)>="+cha_v24_1+" and ROUND(t1.v24,2)<"+cha_v24_2+" and";
-					}else{
-								str += "  ROUND(t1.v24,2)>="+cha_v24_1+" and";
-							}
-						}else{
-							if(request.getParameter("cha_v24_2")!=null&&!request.getParameter("cha_v24_2").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_2").trim())){
-								cha_v24_2 = request.getParameter("cha_v24_2").trim();
-								str += " ROUND(t1.v24,2)<"+cha_v24_2+" and";
-							}
-						}
+			cha_v24_1 = Float.parseFloat(request.getParameter("cha_v24_1").trim());
+		}
+		if(request.getParameter("cha_v24_2")!=null&&!request.getParameter("cha_v24_2").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_2").trim())){
+			cha_v24_2 = Float.parseFloat(request.getParameter("cha_v24_2").trim());
+		}
 		if(request.getParameter("cha_qx")!=null&&!request.getParameter("cha_qx").equals("请选择")){
 			cha_qx = request.getParameter("cha_qx").trim();
 			str += " t1.v3 like '%"+cha_qx+"%' and";
@@ -2843,6 +3142,66 @@ public class StandingBookController extends MultiActionController{
 				}
 				SQLAdapter s1_Adapter = new SQLAdapter(sql_1);
 				List<Map> s1_List = this.getBySqlMapper.findRecords(s1_Adapter);
+				
+				List<Map> s1_List2 =new ArrayList<Map>();
+				List<String> da_household_ids2=new ArrayList<String>();
+						//判断是否有人均收入的查询条件
+						if(s1_List.size()>0){
+						if(cha_v24_1!=0||cha_v24_2!=0){
+						
+						StringBuilder pkids=new StringBuilder();//贫苦户id
+						List<Integer> familysize_list=new ArrayList<Integer>();//一户的家庭人数
+						
+						for(int i = 0;i<s1_List.size();i++){
+							Map s1_map = s1_List.get(i);
+							if(i==s1_List.size()-1){
+								pkids.append(s1_map.get("pkid"));
+							}else{
+								pkids.append(s1_map.get("pkid")+",");
+							}
+							familysize_list.add((Integer) s1_map.get("v9"));
+						}
+						//帮扶后总收入
+						String dqsrh_sql2="SELECT da_household_id,v39 FROM da_helpback_income"+year+" where da_household_id in("+pkids+")";
+						SQLAdapter dqsrh_sqlAdapter2 =new SQLAdapter(dqsrh_sql2);
+						List<Map> dqsrh_list2=getBySqlMapper.findRecords(dqsrh_sqlAdapter2);
+						//帮扶后总支出
+						String dqzch_sql2="SELECT da_household_id,v31 FROM da_helpback_expenditure"+year+" where da_household_id in("+pkids+")";
+						SQLAdapter dqzch_sqlAdapter2 =new SQLAdapter(dqzch_sql2);
+						List<Map> dqzch_list2=getBySqlMapper.findRecords(dqzch_sqlAdapter2);
+						for(int y=0;y<dqzch_list2.size();y++){
+							int familysize=familysize_list.get(y);
+							Map dqsrh_map2=dqsrh_list2.get(y);
+							Map dqzch_map2=dqzch_list2.get(y);
+							float dqsrh2=(float) (dqsrh_map2.get("v39")==null?0.00:(Float)dqsrh_map2.get("v39"));
+							float dqzch2=(float) (dqzch_map2.get("v31")==null?0.00:(Float)dqzch_map2.get("v31"));
+							float year_income2=dqsrh2-dqzch2;//年纯收入
+							float per_capita_income2=year_income2/familysize;//人均纯收入
+							if(cha_v24_1!=0&&cha_v24_2==0){
+								if(per_capita_income2>=cha_v24_1){
+									da_household_ids2.add(dqsrh_map2.get("da_household_id").toString());
+								}
+							}else if(cha_v24_1!=0&&cha_v24_2!=0){
+								if(per_capita_income2>=cha_v24_1&&per_capita_income2<cha_v24_2){
+									da_household_ids2.add(dqsrh_map2.get("da_household_id").toString());
+								}
+							}else if(cha_v24_1==0&&cha_v24_2!=0){
+								if(per_capita_income2<cha_v24_2){
+									da_household_ids2.add(dqsrh_map2.get("da_household_id").toString());
+								}
+							}
+						}
+						for(int i = 0;i<s1_List.size();i++){
+							Map s1_map = s1_List.get(i);
+							String pkid=s1_map.get("pkid").toString().trim();
+							if(da_household_ids2.contains(pkid)){
+								s1_List2.add(s1_map);
+							}
+						}
+						s1_List=s1_List2;
+						}
+					}
+				
 				//帮扶后收支
 				WritableSheet sheet_8 = book.createSheet("帮扶后收支分析", 0);
 				sheet_8.mergeCells(0, 0, 0, 2);
@@ -3186,8 +3545,8 @@ public class StandingBookController extends MultiActionController{
 		String cha_v8 = "";//身份证号
 		String cha_v8_1 = "";//最小年龄范围
 		String cha_v8_2 = "";//最大年龄范围
-		String cha_v24_1 = "";//人均纯收入最小值
-		String cha_v24_2 = "";//人均存收入最大值
+		float cha_v24_1 = 0f;//帮扶后人均纯收入最小值
+		float cha_v24_2 = 0f;//帮扶后人均存收入最大值
 		String year = request.getParameter("year");
 		if ( "2016".equals(year) ) {
 			year = "_2016";
@@ -3219,19 +3578,11 @@ public class StandingBookController extends MultiActionController{
 			}
 		}
 		if(request.getParameter("cha_v24_1")!=null&&!request.getParameter("cha_v24_1").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_1").trim())){
-			cha_v24_1 = request.getParameter("cha_v24_1").trim();
-				if(request.getParameter("cha_v24_2")!=null&&!request.getParameter("cha_v24_2").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_2").trim())){
-							cha_v24_2 = request.getParameter("cha_v24_2").trim();
-							str += " ROUND(t1.v24,2)>="+cha_v24_1+" and ROUND(t1.v24,2)<"+cha_v24_2+" and";
-					}else{
-								str += "  ROUND(t1.v24,2)>="+cha_v24_1+" and";
-							}
-						}else{
-							if(request.getParameter("cha_v24_2")!=null&&!request.getParameter("cha_v24_2").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_2").trim())){
-								cha_v24_2 = request.getParameter("cha_v24_2").trim();
-								str += " ROUND(t1.v24,2)<"+cha_v24_2+" and";
-							}
-						}
+			cha_v24_1 = Float.parseFloat(request.getParameter("cha_v24_1").trim());
+		}
+		if(request.getParameter("cha_v24_2")!=null&&!request.getParameter("cha_v24_2").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_2").trim())){
+			cha_v24_2 = Float.parseFloat(request.getParameter("cha_v24_2").trim());
+		}
 		if(request.getParameter("cha_qx")!=null&&!request.getParameter("cha_qx").equals("请选择")){
 			cha_qx = request.getParameter("cha_qx").trim();
 			str += " t1.v3 like '%"+cha_qx+"%' and";
@@ -3332,6 +3683,66 @@ public class StandingBookController extends MultiActionController{
 				}
 				SQLAdapter s1_Adapter = new SQLAdapter(sql_1);
 				List<Map> s1_List = this.getBySqlMapper.findRecords(s1_Adapter);
+				
+				List<Map> s1_List2 =new ArrayList<Map>();
+				List<String> da_household_ids2=new ArrayList<String>();
+						//判断是否有人均收入的查询条件
+						if(s1_List.size()>0){
+						if(cha_v24_1!=0||cha_v24_2!=0){
+						
+						StringBuilder pkids=new StringBuilder();//贫苦户id
+						List<Integer> familysize_list=new ArrayList<Integer>();//一户的家庭人数
+						
+						for(int i = 0;i<s1_List.size();i++){
+							Map s1_map = s1_List.get(i);
+							if(i==s1_List.size()-1){
+								pkids.append(s1_map.get("pkid"));
+							}else{
+								pkids.append(s1_map.get("pkid")+",");
+							}
+							familysize_list.add((Integer) s1_map.get("v9"));
+						}
+						//帮扶后总收入
+						String dqsrh_sql2="SELECT da_household_id,v39 FROM da_helpback_income"+year+" where da_household_id in("+pkids+")";
+						SQLAdapter dqsrh_sqlAdapter2 =new SQLAdapter(dqsrh_sql2);
+						List<Map> dqsrh_list2=getBySqlMapper.findRecords(dqsrh_sqlAdapter2);
+						//帮扶后总支出
+						String dqzch_sql2="SELECT da_household_id,v31 FROM da_helpback_expenditure"+year+" where da_household_id in("+pkids+")";
+						SQLAdapter dqzch_sqlAdapter2 =new SQLAdapter(dqzch_sql2);
+						List<Map> dqzch_list2=getBySqlMapper.findRecords(dqzch_sqlAdapter2);
+						for(int y=0;y<dqzch_list2.size();y++){
+							int familysize=familysize_list.get(y);
+							Map dqsrh_map2=dqsrh_list2.get(y);
+							Map dqzch_map2=dqzch_list2.get(y);
+							float dqsrh2=(float) (dqsrh_map2.get("v39")==null?0.00:(Float)dqsrh_map2.get("v39"));
+							float dqzch2=(float) (dqzch_map2.get("v31")==null?0.00:(Float)dqzch_map2.get("v31"));
+							float year_income2=dqsrh2-dqzch2;//年纯收入
+							float per_capita_income2=year_income2/familysize;//人均纯收入
+							if(cha_v24_1!=0&&cha_v24_2==0){
+								if(per_capita_income2>=cha_v24_1){
+									da_household_ids2.add(dqsrh_map2.get("da_household_id").toString());
+								}
+							}else if(cha_v24_1!=0&&cha_v24_2!=0){
+								if(per_capita_income2>=cha_v24_1&&per_capita_income2<cha_v24_2){
+									da_household_ids2.add(dqsrh_map2.get("da_household_id").toString());
+								}
+							}else if(cha_v24_1==0&&cha_v24_2!=0){
+								if(per_capita_income2<cha_v24_2){
+									da_household_ids2.add(dqsrh_map2.get("da_household_id").toString());
+								}
+							}
+						}
+						for(int i = 0;i<s1_List.size();i++){
+							Map s1_map = s1_List.get(i);
+							String pkid=s1_map.get("pkid").toString().trim();
+							if(da_household_ids2.contains(pkid)){
+								s1_List2.add(s1_map);
+							}
+						}
+						s1_List=s1_List2;
+						}
+					}
+				
 				
 				WritableSheet sheet_1 = book.createSheet( "贫困户基本信息 " , 0);//生成第一页工作表，参数0表示这是第一页
 				

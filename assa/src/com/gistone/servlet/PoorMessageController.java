@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -57,8 +58,8 @@ public class PoorMessageController extends MultiActionController{
 		String cha_v8 = "";//身份证号
 		String cha_v8_1 = "";//年龄范围开始时间
 		String cha_v8_2 = "";//年龄范围截止时间
-		String cha_v24_1 = "";//年龄范围开始时间
-		String cha_v24_2 = "";//年龄范围截止时间
+		float cha_v24_1 = 0f;//年龄范围开始时间
+		float cha_v24_2 = 0f;//年龄范围截止时间
 		String cha_year = request.getParameter("cha_year");//查找的年份
 		
 		String hz_sql="";
@@ -108,19 +109,18 @@ public class PoorMessageController extends MultiActionController{
 			}
 		}
 		if(request.getParameter("cha_v24_1")!=null&&!request.getParameter("cha_v24_1").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_1").trim())){
-			cha_v24_1 = request.getParameter("cha_v24_1").trim();
-			if(request.getParameter("cha_v24_2")!=null&&!request.getParameter("cha_v24_2").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_2").trim())){
-				cha_v24_2 = request.getParameter("cha_v24_2").trim();
-				str += " ROUND(a.v24,2)>="+cha_v24_1+" and ROUND(a.v24,2)<"+cha_v24_2+" and";
-			}else{
-				str += "  ROUND(a.v24,2)>="+cha_v24_1+" and";
-			}
-		}else{
-			if(request.getParameter("cha_v24_2")!=null&&!request.getParameter("cha_v24_2").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_2").trim())){
-				cha_v24_2 = request.getParameter("cha_v24_2").trim();
-				str += " ROUND(a.v24,2)<"+cha_v24_2+" and";
-			}
+			cha_v24_1 = Float.parseFloat(request.getParameter("cha_v24_1").trim());
+//			if(request.getParameter("cha_v24_2")!=null&&!request.getParameter("cha_v24_2").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_2").trim())){
+//				cha_v24_2 = request.getParameter("cha_v24_2").trim();
+//				str += " ROUND(a.v24,2)>="+cha_v24_1+" and ROUND(a.v24,2)<"+cha_v24_2+" and";
+//			}else{
+//				str += "  ROUND(a.v24,2)>="+cha_v24_1+" and";
+//			}
 		}
+		if(request.getParameter("cha_v24_2")!=null&&!request.getParameter("cha_v24_2").equals("")&&Tool.isNumeric(request.getParameter("cha_v24_2").trim())){
+				cha_v24_2 = Float.parseFloat(request.getParameter("cha_v24_2").trim());
+				//str += " ROUND(a.v24,2)<"+cha_v24_2+" and";
+			}
 		if(request.getParameter("cha_qx")!=null&&!request.getParameter("cha_qx").equals("请选择")){
 			cha_qx = request.getParameter("cha_qx").trim();
 			str += " a.v3 like '%"+cha_qx+"%' and";
@@ -170,7 +170,7 @@ public class PoorMessageController extends MultiActionController{
 			str_table = "";
 		}
 		
-		String total_number_sql="select a.v9 from da_household"+str_table+" a ";//统计总人口数
+		String total_number_sql="select a.v9,a.pkid from da_household"+str_table+" a ";//统计总人口数
 		String count_st_sql = "select count(*) from (select a.pkid from da_household"+str_table+" a ";
 		String people_sql = "select a.pkid,a.v3,a.v4,a.v5,a.v6,a.v9,a.v21,a.v22,a.v23,a.v11,a.sys_standard from da_household"+str_table+" a ";
 		//如果帮扶人和帮扶单位条件被选择
@@ -206,19 +206,85 @@ public class PoorMessageController extends MultiActionController{
 			people_sql += " where "+str.substring(0, str.length()-3)+" GROUP BY a.pkid order by a.pkid limit "+number+","+size;
 		}
 		
-		SQLAdapter count_st_Adapter = new SQLAdapter(count_st_sql);
-		int total = this.getBySqlMapper.findrows(count_st_Adapter);
-		
-		SQLAdapter Patient_st_Adapter = new SQLAdapter(people_sql);
-		List<Map> Patient_st_List = this.getBySqlMapper.findRecords(Patient_st_Adapter);
-		
+		int total=0;
+		List<Map> Patient_st_List=new ArrayList<Map>();
 		SQLAdapter Patient_total_Adapter = new SQLAdapter(total_number_sql);
 		List<Map> Patient_total_List = this.getBySqlMapper.findRecords(Patient_total_Adapter);
+		
 		int v9=0;//家庭人口
-		if(Patient_st_List.size()>0){
+		if(Patient_total_List.size()>0){
+			List<String> da_household_ids2=new ArrayList<String>();
 			JSONArray jsa=new JSONArray();
+			//判断是否有人均收入的查询条件
+			if(cha_v24_1!=0||cha_v24_2!=0){
+			
+			StringBuilder pkids=new StringBuilder();//贫苦户id
+			List<Integer> familysize_list=new ArrayList<Integer>();//一户的家庭人数
+			for(int i = 0;i<Patient_total_List.size();i++){
+				Map Patient_total_map = Patient_total_List.get(i);
+				if(i==Patient_total_List.size()-1){
+					pkids.append(Patient_total_map.get("pkid"));
+				}else{
+					pkids.append(Patient_total_map.get("pkid")+",");
+				}
+				familysize_list.add((Integer) Patient_total_map.get("v9"));
+			}
+			//帮扶后总收入
+			String dqsrh_sql2="SELECT da_household_id,v39 FROM da_helpback_income"+str_table+" where da_household_id in("+pkids+")";
+			SQLAdapter dqsrh_sqlAdapter2 =new SQLAdapter(dqsrh_sql2);
+			List<Map> dqsrh_list2=getBySqlMapper.findRecords(dqsrh_sqlAdapter2);
+			//帮扶后总支出
+			String dqzch_sql2="SELECT da_household_id,v31 FROM da_helpback_expenditure"+str_table+" where da_household_id in("+pkids+")";
+			SQLAdapter dqzch_sqlAdapter2 =new SQLAdapter(dqzch_sql2);
+			List<Map> dqzch_list2=getBySqlMapper.findRecords(dqzch_sqlAdapter2);
+			StringBuilder pkids2=new StringBuilder();
+			for(int y=0;y<dqzch_list2.size();y++){
+				int familysize=familysize_list.get(y);
+				Map dqsrh_map2=dqsrh_list2.get(y);
+				Map dqzch_map2=dqzch_list2.get(y);
+				float dqsrh2=(float) (dqsrh_map2.get("v39")==null?0.00:(Float)dqsrh_map2.get("v39"));
+				float dqzch2=(float) (dqzch_map2.get("v31")==null?0.00:(Float)dqzch_map2.get("v31"));
+				float year_income2=dqsrh2-dqzch2;//年纯收入
+				float per_capita_income2=year_income2/familysize;//人均纯收入
+				if(cha_v24_1!=0&&cha_v24_2==0){
+					if(per_capita_income2>=cha_v24_1){
+						da_household_ids2.add(dqsrh_map2.get("da_household_id").toString());
+						pkids2.append(dqsrh_map2.get("da_household_id").toString()+",");
+					}
+				}else if(cha_v24_1!=0&&cha_v24_2!=0){
+					if(per_capita_income2>=cha_v24_1&&per_capita_income2<cha_v24_2){
+						da_household_ids2.add(dqsrh_map2.get("da_household_id").toString());
+						pkids2.append(dqsrh_map2.get("da_household_id").toString()+",");
+					}
+				}else if(cha_v24_1==0&&cha_v24_2!=0){
+					if(per_capita_income2<cha_v24_2){
+						da_household_ids2.add(dqsrh_map2.get("da_household_id").toString());
+						pkids2.append(dqsrh_map2.get("da_household_id").toString()+",");
+					}
+				}
+			}
+			String count_st_sql2="select count(*) from (select a.pkid from da_household"+str_table+" a where a.pkid in ("+pkids2.substring(0, pkids2.lastIndexOf(","))+ ") GROUP BY a.pkid) ww";
+			SQLAdapter count_st_Adapter2 = new SQLAdapter(count_st_sql2);
+			total= this.getBySqlMapper.findrows(count_st_Adapter2);
+			String people_sql2="select a.pkid,a.v3,a.v4,a.v5,a.v6,a.v9,a.v21,a.v22,a.v23,a.v11,a.sys_standard from da_household"+str_table+" a where a.pkid in ("+pkids2.substring(0, pkids2.lastIndexOf(","))+ ") GROUP BY a.pkid limit "+number+","+size;
+			SQLAdapter Patient_st_Adapter2 = new SQLAdapter(people_sql2);
+			Patient_st_List= this.getBySqlMapper.findRecords(Patient_st_Adapter2);
+			}else{
+				SQLAdapter Patient_st_Adapter = new SQLAdapter(people_sql);
+				Patient_st_List= this.getBySqlMapper.findRecords(Patient_st_Adapter);
+				
+				SQLAdapter count_st_Adapter = new SQLAdapter(count_st_sql);
+				total= this.getBySqlMapper.findrows(count_st_Adapter);
+				
+				for(int i = 0;i<Patient_total_List.size();i++){
+					Map Patient_total_map = Patient_total_List.get(i);
+					String pkid=Patient_total_map.get("pkid").toString().trim();
+					da_household_ids2.add(pkid);
+				}
+			}
 			for(int i = 0;i<Patient_st_List.size();i++){
 				Map Patient_st_map = Patient_st_List.get(i);
+				String pkid=Patient_st_map.get("pkid").toString().trim();
 				JSONObject val = new JSONObject();
 				for (Object key : Patient_st_map.keySet()) {
 					
@@ -241,8 +307,11 @@ public class PoorMessageController extends MultiActionController{
 			}
 			for(int i = 0;i<Patient_total_List.size();i++){
 				Map Patient_total_map = Patient_total_List.get(i);
+				String pkid2=Patient_total_map.get("pkid").toString().trim();
+				if(da_household_ids2.contains(pkid2)){
 				if(Patient_total_map.keySet().contains("v9")){
 					v9+=(Integer) Patient_total_map.get("v9");
+				}
 				}
 			}
 			JSONObject json = new JSONObject();
