@@ -36,6 +36,7 @@ $(function () {
 			com_name=jsondata.company.xiang;//名称
 			bg_bt="嘎查村";
 			bg_zj="全乡";
+			com_name2=jsondata.company.cun;//村名称
 		}
 	}
 	show_jiatingguimo();//默认显示家庭人口规模
@@ -48,7 +49,56 @@ $(function () {
 		qhxs();
 	});
 	
+	if(com_level!="3"&&com_level!="4"){
+    $('#tree2').treeview({
+//    	background-color:"#428bca",
+    	multiSelect: true,
+    	highlightSelected: true,
+    	data: show_tree(),
+    	selectedBackColor:'#428bca',
+    	selectedColor:'#FFFFFF',
+    	onNodeSelected: function(e, o) {
+//    		alert(this)
+//    		alert(2)
+//    		$(this).css("display",true);
+    		//$(this).css("background-color","#428bca");
+    		
+    		
+            click_tree(o);
+        }
+     });
+  }	
+	
 });
+//加载行政区划
+function show_tree(){
+	var treeData;
+	$.ajax({  		       
+	    url: "/assa/getincompleteTreeData2.do",
+	    type: "POST",
+	    async:false,
+	    dataType: "json",
+	    success: function (data) {
+	    	
+	    	if (typeof data != "undefined") {
+	    		treeData = data;
+	    	}else{
+	    		toastr["error"]("error", "服务器异常");
+	    	}
+	    },
+	    error: function () { 
+	    	toastr["error"]("error", "服务器异常");
+	    }  
+	});
+	return treeData;
+}
+var level;
+var json_name;//市名
+var json_level;//区等级
+function click_tree(val){
+	json_level=val.pkid;
+	json_name=val.text;
+}
 
 var zi_id="";
 var H3_2_tblx="jtgm";//图表类型
@@ -57,6 +107,7 @@ var H3_2_bzlx="国家级贫困人口";//标准类型
 var code;//行政编码
 var com_level;//层级
 var com_name;//名称
+var com_name2;//村名称
 var shujv;//数据 这是统一往后台传的参数
 var bg_bt="";//表格的表头
 var bg_zj="";//表格里的总计
@@ -345,6 +396,7 @@ function qingkong(){
 
 //致贫原因
 function show_zhipinyuanyin(){
+	$("#administrative_division").hide();
 	$("#html_zicaidan").html('<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="因病" onclick="zhipinyuanyin(this.value)">因病致贫</button>&nbsp;&nbsp;&nbsp;&nbsp;'
 			+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="缺劳动力"  onclick="zhipinyuanyin(this.value)">缺劳动力</button>'
 			+'<div>&nbsp;</div>'
@@ -372,41 +424,27 @@ function show_zhipinyuanyin(){
 
 //年龄分组
 function show_nianlingfenuz(){
-	if(com_level=="1"){
-		$("#html_zicaidan").html('<h5>按地区：</h5>'
-				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="康巴什新区" onclick="show_nianlingjiegou(this.value)">康巴什新区</button>'
-				+'&nbsp;&nbsp;'
-				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="准格尔旗"onclick="show_nianlingjiegou(this.value)">准格尔旗</button>'
-				+'<div>&nbsp;</div>'
-				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="鄂托克前旗" onclick="show_nianlingjiegou(this.value)">鄂托克前旗</button>'
-				+'&nbsp;&nbsp;'
-				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="鄂托克旗" onclick="show_nianlingjiegou(this.value)">鄂托克旗</button>'
-				+'<div>&nbsp;</div>'
-				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="伊金霍洛旗" onclick="show_nianlingjiegou(this.value)">伊金霍洛旗</button>'
-				+'&nbsp;&nbsp;'
-				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="达拉特旗" onclick="show_nianlingjiegou(this.value)">达拉特旗</button>'
-				+'<div>&nbsp;</div>'
-				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="杭锦旗" onclick="show_nianlingjiegou(this.value)">杭锦旗</button>'
-				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="乌审旗" onclick="show_nianlingjiegou(this.value)">乌审旗</button>'
-				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="东胜区" onclick="show_nianlingjiegou(this.value)">东胜区</button>'
-				+'<div>&nbsp;</div>'
-				+'<h5>按年龄段：</h5>'
-				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" id="1" value="10岁以下" onclick="show_nianlingjiegou(this.value,this.id)">10岁以下</button>'
-				+'&nbsp;&nbsp;'
-				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" id="1" value="10~20岁" onclick="show_nianlingjiegou(this.value,this.id)">10~20岁</button>'
-				+'<div>&nbsp;</div>'
-				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" id="1" value="20~30岁" onclick="show_nianlingjiegou(this.value,this.id)">20~30岁</button>'
-				+'&nbsp;&nbsp;'
-				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" id="1" value="30~40岁" onclick="show_nianlingjiegou(this.value,this.id)">30~40岁</button>'
-				+'<div>&nbsp;</div>'
-				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" id="1" value="40~50岁" onclick="show_nianlingjiegou(this.value,this.id)">40~50岁</button>'
-				+'&nbsp;'
-				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" id="1" value="50岁及以上" onclick="show_nianlingjiegou(this.value,this.id)">50~60岁</button>'
-				+'<div>&nbsp;</div>'
-				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" id="1" value="60岁及以上" onclick="show_nianlingjiegou(this.value,this.id)">60岁以上</button>');
-
-	}else{
+	if(com_level!="3"&&com_level!="4"){
+		$("#administrative_division").show();
+	}
 		$("#html_zicaidan").html(
+//				'<h5>按地区：</h5>'
+//				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="康巴什新区" onclick="show_nianlingjiegou(this.value)">康巴什新区</button>'
+//				+'&nbsp;&nbsp;'
+//				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="准格尔旗"onclick="show_nianlingjiegou(this.value)">准格尔旗</button>'
+//				+'<div>&nbsp;</div>'
+//				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="鄂托克前旗" onclick="show_nianlingjiegou(this.value)">鄂托克前旗</button>'
+//				+'&nbsp;&nbsp;'
+//				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="鄂托克旗" onclick="show_nianlingjiegou(this.value)">鄂托克旗</button>'
+//				+'<div>&nbsp;</div>'
+//				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="伊金霍洛旗" onclick="show_nianlingjiegou(this.value)">伊金霍洛旗</button>'
+//				+'&nbsp;&nbsp;'
+//				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="达拉特旗" onclick="show_nianlingjiegou(this.value)">达拉特旗</button>'
+//				+'<div>&nbsp;</div>'
+//				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="杭锦旗" onclick="show_nianlingjiegou(this.value)">杭锦旗</button>'
+//				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="乌审旗" onclick="show_nianlingjiegou(this.value)">乌审旗</button>'
+//				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="东胜区" onclick="show_nianlingjiegou(this.value)">东胜区</button>'
+//				+'<div>&nbsp;</div>'
 				'<h5>按年龄段：</h5>'
 				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" id="1" value="10岁以下" onclick="show_nianlingjiegou(this.value,this.id)">10岁以下</button>'
 				+'&nbsp;&nbsp;'
@@ -421,7 +459,25 @@ function show_nianlingfenuz(){
 				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" id="1" value="50岁及以上" onclick="show_nianlingjiegou(this.value,this.id)">50~60岁</button>'
 				+'<div>&nbsp;</div>'
 				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" id="1" value="60岁及以上" onclick="show_nianlingjiegou(this.value,this.id)">60岁以上</button>');
-	}
+
+//	}else{
+//		$("#administrative_division").hide();
+//		$("#html_zicaidan").html(
+//				'<h5>按年龄段：</h5>'
+//				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" id="1" value="10岁以下" onclick="show_nianlingjiegou(this.value,this.id)">10岁以下</button>'
+//				+'&nbsp;&nbsp;'
+//				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" id="1" value="10~20岁" onclick="show_nianlingjiegou(this.value,this.id)">10~20岁</button>'
+//				+'<div>&nbsp;</div>'
+//				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" id="1" value="20~30岁" onclick="show_nianlingjiegou(this.value,this.id)">20~30岁</button>'
+//				+'&nbsp;&nbsp;'
+//				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" id="1" value="30~40岁" onclick="show_nianlingjiegou(this.value,this.id)">30~40岁</button>'
+//				+'<div>&nbsp;</div>'
+//				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" id="1" value="40~50岁" onclick="show_nianlingjiegou(this.value,this.id)">40~50岁</button>'
+//				+'&nbsp;'
+//				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" id="1" value="50岁及以上" onclick="show_nianlingjiegou(this.value,this.id)">50~60岁</button>'
+//				+'<div>&nbsp;</div>'
+//				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" id="1" value="60岁及以上" onclick="show_nianlingjiegou(this.value,this.id)">60岁以上</button>');
+//	}
 	H3_2_tblx="nlfz";//赋值图标类型为 家庭规模
 	H3_2_tblx_2="";//清空图标类型子类型
 	shujv="level-1";//层级
@@ -431,6 +487,7 @@ function show_nianlingfenuz(){
 
 //文化程度
 function show_wenhuachegndu(){
+	$("#administrative_division").hide();
 	$("#html_zicaidan").html('<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;"value="" onclick="wenhuachengdu(this.value)">未知</button>'
 			+'&nbsp;&nbsp;'
 			+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;"value="学龄前儿童" onclick="wenhuachengdu(this.value)">学龄前儿童</button>'
@@ -452,6 +509,7 @@ function show_wenhuachegndu(){
 
 //健康状况
 function show_jiankangzhuangkuang(){
+	$("#administrative_division").hide();
 	$("#html_zicaidan").html('<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" onclick="show_jiankangzhuangkuang()">健康状况</button>');
 	H3_2_tblx="jkzk";//赋值图标类型为 健康状况
 	H3_2_tblx_2="";//清空图标类型子类型
@@ -460,25 +518,28 @@ function show_jiankangzhuangkuang(){
 
 //家庭规模
 function show_jiatingguimo(){
-	if(com_level=="1"){
-		$("#html_zicaidan").html('<h5>按地区：</h5>'
-				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="康巴什新区" onclick="renkouguimo(this.value)">康巴什新区</button>'
-				+'&nbsp;&nbsp;'
-				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="准格尔旗"onclick="renkouguimo(this.value)">准格尔旗</button>'
-				+'<div>&nbsp;</div>'
-				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="鄂托克前旗" onclick="renkouguimo(this.value)">鄂托克前旗</button>'
-				+'&nbsp;&nbsp;'
-				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="鄂托克旗" onclick="renkouguimo(this.value)">鄂托克旗</button>'
-				+'<div>&nbsp;</div>'
-				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="伊金霍洛旗" onclick="renkouguimo(this.value)">伊金霍洛旗</button>'
-				+'&nbsp;&nbsp;'
-				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="达拉特旗" onclick="renkouguimo(this.value)">达拉特旗</button>'
-				+'<div>&nbsp;</div>'
-				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="杭锦旗" onclick="renkouguimo(this.value)">杭锦旗</button>'
-				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="乌审旗" onclick="renkouguimo(this.value)">乌审旗</button>'
-				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="东胜区" onclick="renkouguimo(this.value)">东胜区</button>'
-				+'<div>&nbsp;</div>'
-				+'<h5>按每户人口：</h5>'
+	if(com_level!="3"&&com_level!="4"){
+		$("#administrative_division").show();
+	}
+		$("#html_zicaidan").html(
+//				'<h5>按地区：</h5>'
+//				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="康巴什新区" onclick="renkouguimo(this.value)">康巴什新区</button>'
+//				+'&nbsp;&nbsp;'
+//				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="准格尔旗"onclick="renkouguimo(this.value)">准格尔旗</button>'
+//				+'<div>&nbsp;</div>'
+//				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="鄂托克前旗" onclick="renkouguimo(this.value)">鄂托克前旗</button>'
+//				+'&nbsp;&nbsp;'
+//				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="鄂托克旗" onclick="renkouguimo(this.value)">鄂托克旗</button>'
+//				+'<div>&nbsp;</div>'
+//				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="伊金霍洛旗" onclick="renkouguimo(this.value)">伊金霍洛旗</button>'
+//				+'&nbsp;&nbsp;'
+//				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="达拉特旗" onclick="renkouguimo(this.value)">达拉特旗</button>'
+//				+'<div>&nbsp;</div>'
+//				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="杭锦旗" onclick="renkouguimo(this.value)">杭锦旗</button>'
+//				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="乌审旗" onclick="renkouguimo(this.value)">乌审旗</button>'
+//				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="东胜区" onclick="renkouguimo(this.value)">东胜区</button>'
+//				+'<div>&nbsp;</div>'
+				'<h5>按每户人口：</h5>'
 				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="3" onclick="renkouguimo(this.value)">3人</button>'
 				+'&nbsp;&nbsp;'
 				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="4" onclick="renkouguimo(this.value)">4人</button>'
@@ -506,15 +567,16 @@ function show_jiatingguimo(){
 //		+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="4" onclick="renkouguimo(this.value)">4人</button>'
 //		+'&nbsp;&nbsp;'
 //		+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="5" onclick="renkouguimo(this.value)">5人</button>');
-	}else{
-		$("#html_zicaidan").html(
-				'<h5>按每户人口：</h5>'
-				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="3" onclick="renkouguimo(this.value)">3人</button>'
-				+'&nbsp;&nbsp;'
-				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="4" onclick="renkouguimo(this.value)">4人</button>'
-				+'&nbsp;&nbsp;'
-				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="5" onclick="renkouguimo(this.value)">5人</button>');
-	}
+//	}else{
+//		$("#administrative_division").hide();
+//		$("#html_zicaidan").html(
+//				'<h5>按每户人口：</h5>'
+//				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="3" onclick="renkouguimo(this.value)">3人</button>'
+//				+'&nbsp;&nbsp;'
+//				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="4" onclick="renkouguimo(this.value)">4人</button>'
+//				+'&nbsp;&nbsp;'
+//				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="5" onclick="renkouguimo(this.value)">5人</button>');
+//	}
 	H3_2_tblx="jtgm";//赋值图标类型为 家庭规模
 	H3_2_tblx_2="";//清空图标类型子类型
 	shujv="level-1";
@@ -541,6 +603,7 @@ function show_luoshibangfucuoshi(){
 
 //帮扶责任人
 function showbffzr(){
+	$("#administrative_division").hide();
 	$("#html_zicaidan").html('<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" onclick="showbffzr()">帮扶责任人</button>');
 	H3_2_tblx="bffzr";//赋值图标类型为 帮扶责任人
 	H3_2_tblx_2="";//清空图标类型子类型
@@ -549,6 +612,7 @@ function showbffzr(){
 
 //驻村工作队
 function showzcgzd(){
+	$("#administrative_division").hide();
 	$("#html_zicaidan").html('<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" onclick="showzcgzd()">驻村工作队</button>');
 	H3_2_tblx="zcgzd";//赋值图标类型为 帮扶责任人
 	H3_2_tblx_2="";//清空图标类型子类型
@@ -557,7 +621,6 @@ function showzcgzd(){
 
 //加载体现致贫原因图
 function zhipinyuanyin(shujv){
-	
 	var mapdatajson;//定义地图JSON
 	var map_name;//定义地图名称
 	mokuai_name="zpyy"
@@ -662,18 +725,31 @@ function zhipinyuanyin(shujv){
 
 //加载年龄结构
 function show_nianlingjiegou(shujv,id){
+	var jsonlevel=JSON.stringify(json_level);
+	if(jsonlevel==null){
+		level=com_level;
+		
+	}
+	var jsonname=json_name;
+	if(jsonname==undefined){
+		if(com_level!="4"){
+		jsonname=com_name;
+		}else{
+			jsonname=com_name2;
+		}
+	}
 	H3_2_tblx="nlfz";
 	H3_2_tblx_2=shujv;
 	zi_id=id;
 	var mapdatajson;//定义地图JSON
 	var map_name;//定义地图名称
-	if(com_level=="1"){//如果层级为1，那么加载鄂尔多斯市地图
-		mapdatajson='mapData/eerduosi/ordos.json';//地图JSON
-		map_name='ordos';//地图名称
-	}else{//层级不为1，那么动态加载地图
-		mapdatajson='mapData/eerduosi/'+code+'.json';//地图JSON
-		map_name=code;//地图名称
-	}
+//	if(com_level=="1"){//如果层级为1，那么加载鄂尔多斯市地图
+//		mapdatajson='mapData/eerduosi/ordos.json';//地图JSON
+//		map_name='ordos';//地图名称
+//	}else{//层级不为1，那么动态加载地图
+//		mapdatajson='mapData/eerduosi/'+code+'.json';//地图JSON
+//		map_name=code;//地图名称
+//	}
 	mokuai_name="nljg";
 	var tables="";//对表格赋值的变量
 	var zongji=0;//表格总计
@@ -692,9 +768,13 @@ function show_nianlingjiegou(shujv,id){
 			shujv:shujv,
 			leixing:H3_2_bzlx,
 			mokuai_name : mokuai_name,
-			year:$('#anniu_2 input[name="v1"]:checked ').val()
+			year:$('#anniu_2 input[name="v1"]:checked ').val(),
+			jsonlevel:jsonlevel,
+			jsonname:jsonname,
+			level:level
 		},
 		success: function (data) {
+			
 			if (id!="1") {
 				if(data[0]==null){//没有数据
 					tables+='<table class="table table-hover margin bottom"><thead><tr><th style="width: 60%" class="text-center">类型</th><th style="width: 40%" class="text-center">人数</th>';
@@ -704,8 +784,8 @@ function show_nianlingjiegou(shujv,id){
 					if(com_name!="level-1"){
 						shujv=com_name;
 					}
-					option.title.text=''+com_name+'-贫困人口年龄结构---暂无数据'; //标题名称
-					option.series[0].name=''+shujv+''; //系列名称
+					option.title.text=''+jsonname+'-贫困人口年龄结构---暂无数据'; //标题名称
+					option.series[0].name=''+jsonname+''; //系列名称
 					option.series[0].data=[{value:0, name:'0-10岁'},{value:0, name:'10-20岁'},{value:0, name:'20-30岁'},{value:0, name:'30-40岁'},{value:0, name:'40-50岁'},{value:0, name:'50岁以上'},];//饼状图数据赋值
 					option.tooltip.formatte="{a} <br/>{b} : {c}人 ({d}%)";//数据格式化方法，a（系列名称），b（数据项名称），c（数值）, d（百分比）。
 					option.series[0].itemStyle.normal.label.formatter='{b} : {c}人 ({d}%)';//数据格式化方法，a（系列名称），b（数据项名称），c（数值）, d（百分比）。
@@ -722,16 +802,29 @@ function show_nianlingjiegou(shujv,id){
 					if(shujv=="level-1"){
 						shujv=com_name;
 					}
-					option.title.text=shujv+'-贫困人口年龄结构';//标题名称
-					option.series[0].name=shujv;//系列名称
+					option.title.text=jsonname+'-贫困人口年龄结构';//标题名称
+					option.series[0].name=jsonname;//系列名称
 					option.series[0].data=data;//数据赋值，从数据库取出的数据赋值
 					option.tooltip.formatte="{a} <br/>{b} : {c}人 ({d}%)";//数据格式化方法，a（系列名称），b（数据项名称），c（数值）, d（百分比）。
 					option.series[0].itemStyle.normal.label.formatter='{b} : {c}人 ({d}%)';//数据格式化方法，a（系列名称），b（数据项名称），c（数值）, d（百分比）。
 					myChart.setOption(option);
 				}
 			} else {
-				if(data=="0"){//如果没有数据
-					tables+='<table class="table table-hover margin bottom"><thead><tr><th style="width: 60%" class="text-center">'+地区+'</th><th style="width: 40%" class="text-center">人数</th>';
+				var com_level2=data[0].com_level;
+				var isValue=data[0].isvalue;//判读是否有数据
+				if(com_level2=="1"){//如果层级为1，那么加载鄂尔多斯市地图
+					mapdatajson='mapData/eerduosi/ordos.json';//地图JSON
+					map_name='ordos';//地图名称
+				}else if(com_level!="4"){//层级不为1，那么动态加载地图
+					var code2=data[0].com_code2
+					mapdatajson='mapData/eerduosi/'+code2+'.json';//地图JSON
+					map_name=code2;//地图名称
+				}else if(com_level=="4"){
+					mapdatajson='mapData/eerduosi/'+code+'.json';//地图JSON
+					map_name=code;//地图名称
+				}
+				if(isValue=="0"){//如果没有数据
+					tables+='<table class="table table-hover margin bottom"><thead><tr><th style="width: 60%" class="text-center">'+jsonname+'</th><th style="width: 40%" class="text-center">人数</th>';
 					tables+='<tr><td class="text-center">暂无数据</td><td class="text-center" ><span class="c_green">暂无数据</span></td></tr>';
 					tables+='<tbody></tbody></table>';
 					$("#tableChart").html(tables);
@@ -739,7 +832,7 @@ function show_nianlingjiegou(shujv,id){
 					$.getJSON(mapdatajson, function (geoJson) {//获取已经定义好的json
 						myChart.hideLoading();//隐藏加载动画
 						echarts.registerMap(map_name, geoJson);//注册可用的地图，必须在包括 geo 组件或者 map 图表类型的时候才能使用
-						option_map.title.text=com_name+'-'+shujv+'人数-暂无数据';
+						option_map.title.text=jsonname+'-'+shujv+'人数-暂无数据';
 						option_map.series[0].mapType=map_name;
 						option_map.series[0].data = data;
 						myChart.setOption(option_map);
@@ -757,7 +850,7 @@ function show_nianlingjiegou(shujv,id){
 					$.getJSON(mapdatajson, function (geoJson) {//获取已经定义好的json
 						myChart.hideLoading();//隐藏加载动画
 						echarts.registerMap(map_name, geoJson);//注册可用的地图，必须在包括 geo 组件或者 map 图表类型的时候才能使用
-						option_map.title.text=com_name+'-'+shujv+'人数';//标题名称
+						option_map.title.text=jsonname+'-'+shujv+'人数';//标题名称
 						option_map.series[0].name=shujv+'人数';
 						option_map.series[0].data=data;
 						option_map.series[0].mapType=map_name;
@@ -784,6 +877,8 @@ function show_nianlingjiegou(shujv,id){
 
 //加载健康状况图
 function jiankangzhuangk(){
+	$("#administrative_division").hide();
+	var jsonname=json_name;
 	H3_2_tblx_2=shujv;
 	var tables="";//对表格赋值的变量
 	var zongji=0;//健康
@@ -851,19 +946,25 @@ function jiankangzhuangk(){
 
 //家庭规模
 function renkouguimo(shujv){
+	var jsonlevel=JSON.stringify(json_level);
+	if(jsonlevel==null){
+		level=com_level;
+		
+	}
+	var jsonname=json_name;
+	if(jsonname==undefined){
+		if(com_level!="4"){
+		jsonname=com_name;
+		}else{
+			jsonname=com_name2;
+		}
+	}
 	H3_2_tblx_2=shujv;
 	var tables="";//对表格赋值的变量
 	var zongji=0;//表格总计
 	mokuai_name="jtgm"
 	var mapdatajson;//定义地图JSON
 	var map_name;//定义地图名称
-	if(com_level=="1"){//如果层级为1，那么加载鄂尔多斯市地图
-		mapdatajson='mapData/eerduosi/ordos.json';//地图JSON
-		map_name='ordos';//地图名称
-	}else{//层级不为1，那么动态加载地图
-		mapdatajson='mapData/eerduosi/'+code+'.json';//地图JSON
-		map_name=code;//地图名称
-	}
 	if(shujv=="3"||shujv=="4"||shujv=="5"){
 		map_url="/assa/H3_map_All.do";//按照级别来划分url，来判断是病状还是地图，1是地图。
 	}else{
@@ -879,47 +980,80 @@ function renkouguimo(shujv){
 			shujv:shujv,
 			leixing:H3_2_bzlx,
 			mokuai_name : mokuai_name,
-			year:$('#anniu_2 input[name="v1"]:checked ').val()
+			year:$('#anniu_2 input[name="v1"]:checked ').val(),
+			jsonlevel:jsonlevel,
+			jsonname:jsonname,
+			level:level
 		},
 		success: function (data) {
 			if(shujv=="3"||shujv=="4"||shujv=="5"){
-				tables+='<table class="table table-hover margin bottom"><thead><tr><th style="width: 60%" class="text-center">'+bg_bt+'</th><th style="width: 40%" class="text-center">户数</th>';
-				$.each(data, function(i,item) {
-					tables+='<tr><td class="text-center">'+item.name+'</td><td class="text-center" ><span class="c_green">'+item.value+'</span></td></tr>';
-					zongji=parseInt(item.value)+parseInt(zongji);
-				});
-				tables+='<tr><td class="text-center">'+bg_zj+'</td><td class="text-center" ><span class="c_green">'+zongji+'</span></td></tr>';
-				tables+='<tbody></tbody></table>';
-				$("#tableChart").html(tables);
-				myChart.showLoading();//此方法是显示加载动画效果
-				$.getJSON(mapdatajson, function (geoJson) {//获取已经定义好的json
-					myChart.hideLoading();//隐藏加载动画
-					echarts.registerMap(map_name, geoJson);//注册可用的地图，必须在包括 geo 组件或者 map 图表类型的时候才能使用
-					option_map.title.text=com_name+'-'+shujv+'人家庭数';//标题名称
-					option_map.series[0].name=shujv+'人数';
-					option_map.series[0].data=data;
-					option_map.series[0].mapType=map_name;
-					var min = 0,max = 0;
-		 	    	$.each(data, function(i,item) {
-		 	    		if(item.value>max){
-		 	    			max = item.value;
-		 	    		}
-		 	    		if(item.value<min){
-		 	    			min = item.value;
-		 	    		}
-		 	    	});
-		 	    	option_map.dataRange.max = max;
-		 	    	option_map.dataRange.min = min;
-					myChart.setOption(option_map);		
-				});
+				var com_level2=data[0].com_level;
+				var isValue=data[0].isvalue;//判读是否有数据
+				if(com_level2=="1"){//如果层级为1，那么加载鄂尔多斯市地图
+					mapdatajson='mapData/eerduosi/ordos.json';//地图JSON
+					map_name='ordos';//地图名称
+				}else if(com_level!="4"){//层级不为1，那么动态加载地图
+					var code2=data[0].com_code2
+					mapdatajson='mapData/eerduosi/'+code2+'.json';//地图JSON
+					map_name=code2;//地图名称
+				}else if(com_level=="4"){
+					mapdatajson='mapData/eerduosi/'+code+'.json';//地图JSON
+					map_name=code;//地图名称
+				}
+				if(isValue=="0"){//如果没有数据
+					tables+='<table class="table table-hover margin bottom"><thead><tr><th style="width: 60%" class="text-center">'+bg_bt+'</th><th style="width: 40%" class="text-center">户数</th>';
+					tables+='<tr><td class="text-center">暂无数据</td><td class="text-center" ><span class="c_green">暂无数据</span></td></tr>';
+					tables+='<tbody></tbody></table>';
+					$("#tableChart").html(tables);
+					myChart.showLoading();//此方法是显示加载动画效果
+					$.getJSON(mapdatajson, function (geoJson) {//获取已经定义好的json
+						myChart.hideLoading();//隐藏加载动画
+						echarts.registerMap(map_name, geoJson);//注册可用的地图，必须在包括 geo 组件或者 map 图表类型的时候才能使用
+						option_map.title.text=jsonname+'-'+shujv+'人家庭数-暂无数据';
+						option_map.series[0].mapType=map_name;
+						option_map.series[0].data = data;
+						myChart.setOption(option_map);
+					});
+				}else{
+					tables+='<table class="table table-hover margin bottom"><thead><tr><th style="width: 60%" class="text-center">'+bg_bt+'</th><th style="width: 40%" class="text-center">户数</th>';
+					$.each(data, function(i,item) {
+						tables+='<tr><td class="text-center">'+item.name+'</td><td class="text-center" ><span class="c_green">'+item.value+'</span></td></tr>';
+						zongji=parseInt(item.value)+parseInt(zongji);
+					});
+					tables+='<tr><td class="text-center">'+bg_zj+'</td><td class="text-center" ><span class="c_green">'+zongji+'</span></td></tr>';
+					tables+='<tbody></tbody></table>';
+					$("#tableChart").html(tables);
+					myChart.showLoading();//此方法是显示加载动画效果
+					$.getJSON(mapdatajson, function (geoJson) {//获取已经定义好的json
+						myChart.hideLoading();//隐藏加载动画
+						echarts.registerMap(map_name, geoJson);//注册可用的地图，必须在包括 geo 组件或者 map 图表类型的时候才能使用
+						option_map.title.text=jsonname+'-'+shujv+'人家庭数';//标题名称
+						option_map.series[0].name=shujv+'人数';
+						option_map.series[0].data=data;
+						option_map.series[0].mapType=map_name;
+						var min = 0,max = 0;
+			 	    	$.each(data, function(i,item) {
+			 	    		if(item.value>max){
+			 	    			max = item.value;
+			 	    		}
+			 	    		if(item.value<min){
+			 	    			min = item.value;
+			 	    		}
+			 	    	});
+			 	    	option_map.dataRange.max = max;
+			 	    	option_map.dataRange.min = min;
+						myChart.setOption(option_map);		
+					});
+				}
+				
 			}else{
 				if(data=="0"){
 					tables+='<table class="table table-hover margin bottom"><thead><tr><th style="width: 60%" class="text-center">类型</th><th style="width: 40%" class="text-center">户数</th>';
 					tables+='<tr><td class="text-center">暂无数据</td><td class="text-center" ><span class="c_green">暂无数据</span></td></tr>';
 					tables+='<tbody></tbody></table>';
 					$("#tableChart").html(tables);
-					option.title.text=shujv+'-贫困户的家庭规模-暂无数据'; //标题名称
-					option.series[0].name=shujv+'贫困户的家庭规模'; //系列名称
+					option.title.text=jsonname+'-贫困户的家庭规模-暂无数据'; //标题名称
+					option.series[0].name=jsonname+'贫困户的家庭规模'; //系列名称
 					option.series[0].data=data;//饼状图数据赋值
 					option.tooltip.formatte="{a} <br/>{b} : {c}人 ({d}%)";//数据格式化方法，a（系列名称），b（数据项名称），c（数值）, d（百分比）。
 					option.series[0].itemStyle.normal.label.formatter='{b} : {c}人 ({d}%)';//数据格式化方法，a（系列名称），b（数据项名称），c（数值）, d（百分比）。
@@ -936,8 +1070,8 @@ function renkouguimo(shujv){
 					if(shujv=="level-1"){
 						shujv=com_name;
 					}
-					option.title.text=shujv+'-贫困户的家庭规模';//标题名称
-					option.series[0].name=shujv+'-贫困户的家庭规模';//系列名称
+					option.title.text=jsonname+'-贫困户的家庭规模';//标题名称
+					option.series[0].name=jsonname+'-贫困户的家庭规模';//系列名称
 					option.series[0].data=data;//数据赋值，从数据库取出的数据赋值
 					option.tooltip.formatte="{a} <br/>{b} : {c}人 ({d}%)";//数据格式化方法，a（系列名称），b（数据项名称），c（数值）, d（百分比）。
 					option.series[0].itemStyle.normal.label.formatter='{b} : {c}人 ({d}%)';//数据格式化方法，a（系列名称），b（数据项名称），c（数值）, d（百分比）。
@@ -1204,35 +1338,39 @@ function zhucungzd(){
 
 //落实帮扶比例
 function showlsbfbl(){
-	if(com_level=="1"){
-		$("#html_zicaidan").html('<h5>按地区：</h5>'
-				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="康巴什新区" onclick="bangfubili(this.value)">康巴什新区</button>'
-				+'&nbsp;&nbsp;'
-				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="准格尔旗"onclick="bangfubili(this.value)">准格尔旗</button>'
-				+'<div>&nbsp;</div>'
-				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="鄂托克前旗" onclick="bangfubili(this.value)">鄂托克前旗</button>'
-				+'&nbsp;&nbsp;'
-				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="鄂托克旗" onclick="bangfubili(this.value)">鄂托克旗</button>'
-				+'<div>&nbsp;</div>'
-				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="伊金霍洛旗" onclick="bangfubili(this.value)">伊金霍洛旗</button>'
-				+'&nbsp;&nbsp;'
-				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="达拉特旗" onclick="bangfubili(this.value)">达拉特旗</button>'
-				+'<div>&nbsp;</div>'
-				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="杭锦旗" onclick="bangfubili(this.value)">杭锦旗</button>'
-				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="乌审旗" onclick="bangfubili(this.value)">乌审旗</button>'
-				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="东胜区" onclick="bangfubili(this.value)">东胜区</button>'
-				+'<div>&nbsp;</div>'
-				+'<h5>帮扶落实比例：</h5>'
-				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" id="1" value="落实完成" onclick="bangfubili(this.value,this.id)">落实完成</button>'
-				+'&nbsp;&nbsp;'
-				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" id="1" value="落实未完成" onclick="bangfubili(this.value,this.id)">落实未完成</button>');
-	}else{
+	if(com_level!="3"&&com_level!="4"){
+		$("#administrative_division").show();
+		}
 		$("#html_zicaidan").html(
+//				'<h5>按地区：</h5>'
+//				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="康巴什新区" onclick="bangfubili(this.value)">康巴什新区</button>'
+//				+'&nbsp;&nbsp;'
+//				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="准格尔旗"onclick="bangfubili(this.value)">准格尔旗</button>'
+//				+'<div>&nbsp;</div>'
+//				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="鄂托克前旗" onclick="bangfubili(this.value)">鄂托克前旗</button>'
+//				+'&nbsp;&nbsp;'
+//				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="鄂托克旗" onclick="bangfubili(this.value)">鄂托克旗</button>'
+//				+'<div>&nbsp;</div>'
+//				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="伊金霍洛旗" onclick="bangfubili(this.value)">伊金霍洛旗</button>'
+//				+'&nbsp;&nbsp;'
+//				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="达拉特旗" onclick="bangfubili(this.value)">达拉特旗</button>'
+//				+'<div>&nbsp;</div>'
+//				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="杭锦旗" onclick="bangfubili(this.value)">杭锦旗</button>'
+//				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="乌审旗" onclick="bangfubili(this.value)">乌审旗</button>'
+//				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="东胜区" onclick="bangfubili(this.value)">东胜区</button>'
+//				+'<div>&nbsp;</div>'
 				'<h5>帮扶落实比例：</h5>'
 				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" id="1" value="落实完成" onclick="bangfubili(this.value,this.id)">落实完成</button>'
 				+'&nbsp;&nbsp;'
-				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" id="1" value="落实未完成" onclick="bangfubili(this.value,this.id)">落实未完成</button>');	
-	}
+				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" id="1" value="落实未完成" onclick="bangfubili(this.value,this.id)">落实未完成</button>');
+//	}else{
+//		$("#administrative_division").hide();
+//		$("#html_zicaidan").html(
+//				'<h5>帮扶落实比例：</h5>'
+//				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" id="1" value="落实完成" onclick="bangfubili(this.value,this.id)">落实完成</button>'
+//				+'&nbsp;&nbsp;'
+//				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" id="1" value="落实未完成" onclick="bangfubili(this.value,this.id)">落实未完成</button>');	
+//	}
 
 	H3_2_tblx="lsbl";//赋值图标类型为 家庭规模
 	H3_2_tblx_2="";//清空图标类型子类型
@@ -1243,38 +1381,27 @@ function showlsbfbl(){
 
 //家庭收支
 function jiatingshouzhizu(){
-	if(com_level=="1"){
-		$("#html_zicaidan").html('<h5>按地区：</h5>'
-				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="康巴什新区" onclick="jiatingshouzhi(this.value)">康巴什新区</button>'
-				+'&nbsp;&nbsp;'
-				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="准格尔旗"onclick="jiatingshouzhi(this.value)">准格尔旗</button>'
-				+'<div>&nbsp;</div>'
-				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="鄂托克前旗" onclick="jiatingshouzhi(this.value)">鄂托克前旗</button>'
-				+'&nbsp;&nbsp;'
-				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="鄂托克旗" onclick="jiatingshouzhi(this.value)">鄂托克旗</button>'
-				+'<div>&nbsp;</div>'
-				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="伊金霍洛旗" onclick="jiatingshouzhi(this.value)">伊金霍洛旗</button>'
-				+'&nbsp;&nbsp;'
-				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="达拉特旗" onclick="jiatingshouzhi(this.value)">达拉特旗</button>'
-				+'<div>&nbsp;</div>'
-				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="杭锦旗" onclick="jiatingshouzhi(this.value)">杭锦旗</button>'
-				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="乌审旗" onclick="jiatingshouzhi(this.value)">乌审旗</button>'
-				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="东胜区" onclick="jiatingshouzhi(this.value)">东胜区</button>'
-				+'<div>&nbsp;</div>'
-				+'<h5>人年均纯收入：</h5>'
-				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" id="1" value="0-1000" onclick="jiatingshouzhi(this.value,this.id)">0~1000</button>'
-				+'&nbsp;&nbsp;'
-				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" id="1" value="1000-2000" onclick="jiatingshouzhi(this.value,this.id)">1000~2000</button>'
-				+'<div>&nbsp;</div>'
-				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" id="1" value="2000-3000" onclick="jiatingshouzhi(this.value,this.id)">2000~3000</button>'
-				+'&nbsp;&nbsp;'
-				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" id="1" value="3000-4000" onclick="jiatingshouzhi(this.value,this.id)">3000~4000</button>'
-				+'<div>&nbsp;</div>'
-				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" id="1" value="4000-5000" onclick="jiatingshouzhi(this.value,this.id)">4000~5000</button>'
-				+'&nbsp;'
-				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" id="1" value="5000及以上" onclick="jiatingshouzhi(this.value,this.id)">5000及以上</button>');
-	}else{
+	if(com_level!="3"&&com_level!="4"){
+		$("#administrative_division").show();
+	}
 		$("#html_zicaidan").html(
+//				'<h5>按地区：</h5>'
+//				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="康巴什新区" onclick="jiatingshouzhi(this.value)">康巴什新区</button>'
+//				+'&nbsp;&nbsp;'
+//				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="准格尔旗"onclick="jiatingshouzhi(this.value)">准格尔旗</button>'
+//				+'<div>&nbsp;</div>'
+//				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="鄂托克前旗" onclick="jiatingshouzhi(this.value)">鄂托克前旗</button>'
+//				+'&nbsp;&nbsp;'
+//				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="鄂托克旗" onclick="jiatingshouzhi(this.value)">鄂托克旗</button>'
+//				+'<div>&nbsp;</div>'
+//				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="伊金霍洛旗" onclick="jiatingshouzhi(this.value)">伊金霍洛旗</button>'
+//				+'&nbsp;&nbsp;'
+//				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="达拉特旗" onclick="jiatingshouzhi(this.value)">达拉特旗</button>'
+//				+'<div>&nbsp;</div>'
+//				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="杭锦旗" onclick="jiatingshouzhi(this.value)">杭锦旗</button>'
+//				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="乌审旗" onclick="jiatingshouzhi(this.value)">乌审旗</button>'
+//				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="东胜区" onclick="jiatingshouzhi(this.value)">东胜区</button>'
+//				+'<div>&nbsp;</div>'
 				'<h5>人年均纯收入：</h5>'
 				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" id="1" value="0-1000" onclick="jiatingshouzhi(this.value,this.id)">0~1000</button>'
 				+'&nbsp;&nbsp;'
@@ -1287,7 +1414,22 @@ function jiatingshouzhizu(){
 				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" id="1" value="4000-5000" onclick="jiatingshouzhi(this.value,this.id)">4000~5000</button>'
 				+'&nbsp;'
 				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" id="1" value="5000及以上" onclick="jiatingshouzhi(this.value,this.id)">5000及以上</button>');
-	}
+//	}else{
+//		$("#administrative_division").hide();
+//		$("#html_zicaidan").html(
+//				'<h5>人年均纯收入：</h5>'
+//				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" id="1" value="0-1000" onclick="jiatingshouzhi(this.value,this.id)">0~1000</button>'
+//				+'&nbsp;&nbsp;'
+//				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" id="1" value="1000-2000" onclick="jiatingshouzhi(this.value,this.id)">1000~2000</button>'
+//				+'<div>&nbsp;</div>'
+//				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" id="1" value="2000-3000" onclick="jiatingshouzhi(this.value,this.id)">2000~3000</button>'
+//				+'&nbsp;&nbsp;'
+//				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" id="1" value="3000-4000" onclick="jiatingshouzhi(this.value,this.id)">3000~4000</button>'
+//				+'<div>&nbsp;</div>'
+//				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" id="1" value="4000-5000" onclick="jiatingshouzhi(this.value,this.id)">4000~5000</button>'
+//				+'&nbsp;'
+//				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" id="1" value="5000及以上" onclick="jiatingshouzhi(this.value,this.id)">5000及以上</button>');
+//	}
 	H3_2_tblx="jtsz";//赋值图标类型为 家庭规模
 	H3_2_tblx_2="";//清空图标类型子类型
 	shujv="level-1";//层级
@@ -1297,6 +1439,19 @@ function jiatingshouzhizu(){
 
 //家庭收支-主条件
 function jiatingshouzhi(shujv,id){
+	var jsonlevel=JSON.stringify(json_level);
+	if(jsonlevel==null){
+		level=com_level;
+		
+	}
+	var jsonname=json_name;
+	if(jsonname==undefined){
+		if(com_level!="4"){
+		jsonname=com_name;
+		}else{
+			jsonname=com_name2;
+		}
+	}
 	H3_2_tblx_2=shujv;
 	zi_id=id;
 	mokuai_name="jiatingshouzhi";
@@ -1305,13 +1460,13 @@ function jiatingshouzhi(shujv,id){
 	var mapdatajson;//定义地图JSON
 	var map_name;//定义地图名称
 	var map_url;
-	if(com_level=="1"){//如果层级为1，那么加载鄂尔多斯市地图
-		mapdatajson='mapData/eerduosi/ordos.json';//地图JSON
-		map_name='ordos';//地图名称
-	}else{//层级不为1，那么动态加载地图
-		mapdatajson='mapData/eerduosi/'+code+'.json';//地图JSON
-		map_name=code;//地图名称
-	}
+//	if(com_level=="1"){//如果层级为1，那么加载鄂尔多斯市地图
+//		mapdatajson='mapData/eerduosi/ordos.json';//地图JSON
+//		map_name='ordos';//地图名称
+//	}else{//层级不为1，那么动态加载地图
+//		mapdatajson='mapData/eerduosi/'+code+'.json';//地图JSON
+//		map_name=code;//地图名称
+//	}
 	if(id!="1"){
 		map_url="/assa/H3_pie_All.do";//按照级别来划分url，来判断是病状还是直线
 	}else{
@@ -1327,7 +1482,10 @@ function jiatingshouzhi(shujv,id){
 			shujv:shujv,
 			leixing:H3_2_bzlx,
 			mokuai_name:mokuai_name,
-			year:$('#anniu_2 input[name="v1"]:checked ').val()
+			year:$('#anniu_2 input[name="v1"]:checked ').val(),
+			jsonlevel:jsonlevel,
+			jsonname:jsonname,
+			level:level
 		},
 		success: function (data) {
 			if (id!="1") {
@@ -1339,8 +1497,8 @@ function jiatingshouzhi(shujv,id){
 					if(shujv=="level-1"){
 						shujv=com_name;
 					}
-					option.title.text=''+shujv+'-贫困人口人均收入---暂无数据'; //标题名称
-					option.series[0].name=''+shujv+''; //系列名称
+					option.title.text=''+jsonname+'-贫困人口人均收入---暂无数据'; //标题名称
+					option.series[0].name=''+jsonname+''; //系列名称
 					option.series[0].data=[{value:0, name:'00-1000'},{value:0, name:'1000-2000'},{value:0, name:'2000-3000'},{value:0, name:'3000-4000'},{value:0, name:'4000-5000'},{value:0, name:'5000以上'},];//饼状图数据赋值
 					option.tooltip.formatter="{a} <br/>{b} : {c}人 ({d}%)";//数据格式化方法，a（系列名称），b（数据项名称），c（数值）, d（百分比）。
 					option.series[0].itemStyle.normal.label.formatter='{b} : {c}人 ({d}%)';//数据格式化方法，a（系列名称），b（数据项名称），c（数值）, d（百分比）。
@@ -1357,15 +1515,29 @@ function jiatingshouzhi(shujv,id){
 					if(shujv=="level-1"){
 						shujv=com_name;
 					}
-					option.title.text=shujv+'-贫困人口年人均收入';//标题名称
-					option.series[0].name=shujv;//系列名称
+					option.title.text=jsonname+'-贫困人口年人均收入';//标题名称
+					option.series[0].name=jsonname;//系列名称
 					option.series[0].data=data;//数据赋值，从数据库取出的数据赋值
 					option.tooltip.formatter="{a} <br/>{b} : {c}人 ({d}%)";//数据格式化方法，a（系列名称），b（数据项名称），c（数值）, d（百分比）。
 					option.series[0].itemStyle.normal.label.formatter='{b} : {c}人 ({d}%)';
 					myChart.setOption(option);
 				}
 			}else{
-				if(data=="0"){//如果没有数据
+				var com_level2=data[0].com_level;
+				var isValue=data[0].isvalue;//判读是否有数据
+				if(com_level2=="1"){//如果层级为1，那么加载鄂尔多斯市地图
+					mapdatajson='mapData/eerduosi/ordos.json';//地图JSON
+					map_name='ordos';//地图名称
+				}else if(com_level!="4"){//层级不为1，那么动态加载地图
+					
+					var code2=data[0].com_code2
+					mapdatajson='mapData/eerduosi/'+code2+'.json';//地图JSON
+					map_name=code2;//地图名称
+				}else if(com_level=="4"){
+					mapdatajson='mapData/eerduosi/'+code+'.json';//地图JSON
+					map_name=code;//地图名称
+				}
+				if(isValue=="0"){//如果没有数据
 					tables+='<table class="table table-hover margin bottom"><thead><tr><th style="width: 60%" class="text-center">'+bg_bt+'</th><th style="width: 40%" class="text-center">人数</th>';
 					tables+='<tr><td class="text-center">暂无数据</td><td class="text-center" ><span class="c_green">暂无数据</span></td></tr>';
 					tables+='<tbody></tbody></table>';
@@ -1374,7 +1546,7 @@ function jiatingshouzhi(shujv,id){
 					$.getJSON(mapdatajson, function (geoJson) {//获取已经定义好的json
 						myChart.hideLoading();//隐藏加载动画
 						echarts.registerMap(map_name, geoJson);//注册可用的地图，必须在包括 geo 组件或者 map 图表类型的时候才能使用
-						option_map.title.text=com_name+'-'+shujv+'人均年收入人数-暂无数据';
+						option_map.title.text=jsonname+'-'+shujv+'人均年收入人数-暂无数据';
 						option_map.series[0].mapType=map_name;
 						option_map.series[0].data = data;
 						myChart.setOption(option_map);
@@ -1392,7 +1564,7 @@ function jiatingshouzhi(shujv,id){
 					$.getJSON(mapdatajson, function (geoJson) {//获取已经定义好的json
 						myChart.hideLoading();//隐藏加载动画
 						echarts.registerMap(map_name, geoJson);//注册可用的地图，必须在包括 geo 组件或者 map 图表类型的时候才能使用
-						option_map.title.text=com_name+'-'+shujv+'人均年收入人数';//标题名称
+						option_map.title.text=jsonname+'-'+shujv+'人均年收入人数';//标题名称
 						option_map.series[0].name=shujv+'人数';
 						option_map.series[0].data=data;
 						option_map.series[0].mapType=map_name;
@@ -1420,6 +1592,18 @@ function jiatingshouzhi(shujv,id){
 
 //落实帮扶比例
 function bangfubili(shujv,id){
+	var jsonlevel=JSON.stringify(json_level);
+	if(jsonlevel==null){
+		level=com_level;
+	}
+	var jsonname=json_name;
+	if(jsonname==undefined){
+		if(com_level!="4"){
+		jsonname=com_name;
+		}else{
+			jsonname=com_name2;
+		}
+	}
 	H3_2_tblx_2=shujv;
 	zi_id=id;
 	mokuai_name="lsbfcs";
@@ -1427,13 +1611,13 @@ function bangfubili(shujv,id){
 	var zongji=0;//表格总计
 	var mapdatajson;//定义地图JSON
 	var map_name;//定义地图名称
-	if(com_level=="1"){//如果层级为1，那么加载鄂尔多斯市地图
-		mapdatajson='mapData/eerduosi/ordos.json';//地图JSON
-		map_name='ordos';//地图名称
-	}else{//层级不为1，那么动态加载地图
-		mapdatajson='mapData/eerduosi/'+code+'.json';//地图JSON
-		map_name=code;//地图名称
-	}
+//	if(com_level=="1"){//如果层级为1，那么加载鄂尔多斯市地图
+//		mapdatajson='mapData/eerduosi/ordos.json';//地图JSON
+//		map_name='ordos';//地图名称
+//	}else{//层级不为1，那么动态加载地图
+//		mapdatajson='mapData/eerduosi/'+code+'.json';//地图JSON
+//		map_name=code;//地图名称
+//	}
 	if(id!="1"){
 		map_url="/assa/H3_pie_All.do";//按照级别来划分url，来判断是病状还是直线
 	}else{
@@ -1450,7 +1634,10 @@ function bangfubili(shujv,id){
 			shujv:shujv,
 			leixing:H3_2_bzlx,
 			mokuai_name : mokuai_name,
-			year:$('#anniu_2 input[name="v1"]:checked ').val()
+			year:$('#anniu_2 input[name="v1"]:checked ').val(),
+			jsonlevel:jsonlevel,
+			jsonname:jsonname,
+			level:level
 		},
 		success: function (data) {
 			if(id!="1"){
@@ -1462,7 +1649,7 @@ function bangfubili(shujv,id){
 					if(shujv=="level-1"){
 						shujv=com_name;
 					}
-					option.title.text=''+shujv+'-落实帮扶比例---暂无数据'; //标题名称
+					option.title.text=''+jsonname+'-落实帮扶比例---暂无数据'; //标题名称
 					option.series[0].name=''+shujv+''; //系列名称
 					option.series[0].data=[{value:0, name:'落实帮扶完成'},{value:0, name:'落实帮扶未完成'}];//饼状图数据赋值
 					option.tooltip.formatte="{a} <br/>{b} : {c}人 ({d}%)";//数据格式化方法，a（系列名称），b（数据项名称），c（数值）, d（百分比）。
@@ -1480,15 +1667,28 @@ function bangfubili(shujv,id){
 					if(shujv=="level-1"){
 						shujv=com_name;
 					}
-					option.title.text=shujv+'-落实帮扶比例';//标题名称
-					option.series[0].name=shujv;//系列名称
+					option.title.text=jsonname+'-落实帮扶比例';//标题名称
+					option.series[0].name=jsonname;//系列名称
 					option.series[0].data=data;//数据赋值，从数据库取出的数据赋值
 					option.tooltip.formatte="{a} <br/>{b} : {c}人 ({d}%)";//数据格式化方法，a（系列名称），b（数据项名称），c（数值）, d（百分比）。
 					option.series[0].itemStyle.normal.label.formatter='{b} : {c}人 ({d}%)';//数据格式化方法，a（系列名称），b（数据项名称），c（数值）, d（百分比）。
 					myChart.setOption(option);
 					}
 				}else{
-					if(data=="0"){//如果没有数据
+					var com_level2=data[0].com_level;
+					var isValue=data[0].isvalue;//判读是否有数据
+					if(com_level2=="1"){//如果层级为1，那么加载鄂尔多斯市地图
+						mapdatajson='mapData/eerduosi/ordos.json';//地图JSON
+						map_name='ordos';//地图名称
+					}else if(com_level!="4"){//层级不为1，那么动态加载地图
+						var code2=data[0].com_code2
+						mapdatajson='mapData/eerduosi/'+code2+'.json';//地图JSON
+						map_name=code2;//地图名称
+					}else if(com_level=="4"){
+						mapdatajson='mapData/eerduosi/'+code+'.json';//地图JSON
+						map_name=code;//地图名称
+					}
+					if(isValue=="0"){//如果没有数据
 						tables+='<table class="table table-hover margin bottom"><thead><tr><th style="width: 60%" class="text-center">'+地区+'</th><th style="width: 40%" class="text-center">人数</th>';
 						tables+='<tr><td class="text-center">暂无数据</td><td class="text-center" ><span class="c_green">暂无数据</span></td></tr>';
 						tables+='<tbody></tbody></table>';
@@ -1497,7 +1697,7 @@ function bangfubili(shujv,id){
 						$.getJSON(mapdatajson, function (geoJson) {//获取已经定义好的json
 							myChart.hideLoading();//隐藏加载动画
 							echarts.registerMap(map_name, geoJson);//注册可用的地图，必须在包括 geo 组件或者 map 图表类型的时候才能使用
-							option_map.title.text=com_name+'-'+shujv+'人数-暂无数据';
+							option_map.title.text=jsonname+'-'+shujv+'人数-暂无数据';
 							option_map.series[0].mapType=map_name;
 							option_map.series[0].data = data;
 							myChart.setOption(option_map);
@@ -1515,8 +1715,8 @@ function bangfubili(shujv,id){
 						$.getJSON(mapdatajson, function (geoJson) {//获取已经定义好的json
 							myChart.hideLoading();//隐藏加载动画
 							echarts.registerMap(map_name, geoJson);//注册可用的地图，必须在包括 geo 组件或者 map 图表类型的时候才能使用
-							echarts.registerMap(map_name, geoJson);//注册可用的地图，必须在包括 geo 组件或者 map 图表类型的时候才能使用
-							option_map.title.text=com_name+'-'+shujv+'人数';//标题名称
+							//echarts.registerMap(map_name, geoJson);//注册可用的地图，必须在包括 geo 组件或者 map 图表类型的时候才能使用
+							option_map.title.text=jsonname+'-'+shujv+'人数';//标题名称
 							option_map.series[0].name=shujv+'人数';
 							option_map.series[0].data=data;
 							option_map.series[0].mapType=map_name;

@@ -38,7 +38,7 @@ public class SH3_Controller extends MultiActionController{
 	 * @throws Exception
 	 */
 	public  ModelAndView H3_pie_All(HttpServletRequest request,HttpServletResponse response) throws IOException{
-		request.setCharacterEncoding("UTF-8");
+ 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		String mokuai_name = request.getParameter("mokuai_name");//说明：模块名称。例如 jiatingshouzhi
 		String shujv = request.getParameter("shujv");//传输数据，例如：东胜区，家庭规模的人数
@@ -49,8 +49,6 @@ public class SH3_Controller extends MultiActionController{
 		} else {
 			year = "";
 		}
-		
-		
 		HttpSession session = request.getSession();
 		Map<String,String> company = (Map)session.getAttribute("company");//用户所属单位表，加前台显示时用的上下级关联名称
 		JSONObject company_json = new JSONObject();
@@ -60,6 +58,42 @@ public class SH3_Controller extends MultiActionController{
 		}
 		String com_name = company_json.get("com_name").toString();//获取用户名称
 		String com_level = company_json.get("com_level").toString();//获取用户层级
+		//加载行政区划
+		String level=request.getParameter("level");
+		String jsonname=request.getParameter("jsonname");
+		String json_level= request.getParameter("jsonlevel");
+		String shilevel_sql="";
+		int shilevel=0;
+		String shi_name="";
+		//判断哪些需要加载行政区划
+		if(mokuai_name.equals("jtgm")||mokuai_name.equals("nljg")||mokuai_name.equals("jiatingshouzhi")||mokuai_name.equals("lsbfcs")){
+			if (json_level==null) {
+				String shi_sql ="select * from sys_company c where c.com_level='"+ level +"'";
+				SQLAdapter shi_Adapter = new SQLAdapter(shi_sql);
+				List<Map> shi_listmap= this.getBySqlMapper.findRecords(shi_Adapter);
+				shilevel= (Integer) shi_listmap.get(0).get("com_level");
+				shi_name= jsonname;
+			}else{
+				String shi_sql ="select * from sys_company c where c.pkid='"+ json_level +"'";
+				SQLAdapter shi_Adapter = new SQLAdapter(shi_sql);
+				List<Map> shi_listmap= this.getBySqlMapper.findRecords(shi_Adapter);
+				shilevel= (Integer) shi_listmap.get(0).get("com_level");
+				shi_name= (String) shi_listmap.get(0).get("com_name");
+			}
+			
+			if (shilevel==1) {										//判断区级
+				shilevel_sql+=" and v2 like '%"+ shi_name +"%' ";
+			}else if (shilevel==2) {
+				shilevel_sql+=" and v3 like '%"+ shi_name +"%' ";
+			}else if (shilevel==3) {
+				shilevel_sql+=" and v4 like '%"+ shi_name +"%' ";
+			}
+			else if (shilevel==4) {
+				shilevel_sql+=" and v5 like '%"+ shi_name +"%' ";
+			}
+		}
+		
+		
 		if (mokuai_name.equals("jiatingshouzhi")) {	//根据模块名称来判断执行模块 家庭收支模块
 			int yiqian = 0; //0-1000元
 			int ydeqian = 0; //1000-2000元
@@ -67,28 +101,29 @@ public class SH3_Controller extends MultiActionController{
 			int sdsqian = 0; //3000-4000元
 			int sdwqian = 0; //4000-5000元
 			int wys = 0; //5000元以上
-			if (com_level.equals("1")) { //用户层级为1时
-				if (shujv.equals("level-1")) {
-					sql = "SELECT ROUND(v24,2) as num FROM da_household"+year+" where sys_standard='"+ leixing_name +"'";
-				}else {
-					sql = "SELECT ROUND(v24,2) as num FROM da_household"+year+" where v3='"+shujv+"' and sys_standard='"+ leixing_name +"'";
-				}
-			}else if (com_level.equals("2")) {	//层级为2的用户
-				if (shujv.equals("level-1")) {
-					sql = "SELECT ROUND(v24,2) as num FROM da_household"+year+" where v3='"+ com_name +"' and sys_standard='"+ leixing_name +"'";
-				}else {
-					sql = "SELECT ROUND(v24,2) as num FROM da_household"+year+" where v3='"+shujv+"' and sys_standard='"+ leixing_name +"'";
-				}
-			}else if (com_level.equals("3")) {	//层级为3的时候用户的名字
-				if (shujv.equals("level-1")) {
-					 sql = "SELECT ROUND(v24,2) as num FROM da_household"+year+" where v4='"+ com_name +"' and sys_standard='"+ leixing_name +"'";
-				}else {
-					sql = "SELECT ROUND(v24,2) as num FROM da_household"+year+" where v4='"+shujv+"' and sys_standard='"+ leixing_name +"'";
-				}
-			}else {		//获取上级名称
-				com_name=company_json.get("xiang").toString();	
-				sql = "SELECT ROUND(v24,2) as num FROM da_household"+year+" where v4='"+ com_name +"' and sys_standard='"+ leixing_name +"'";
-			}
+//			if (com_level.equals("1")) { //用户层级为1时
+//				if (shujv.equals("level-1")) {
+//					sql = "SELECT ROUND(v24,2) as num FROM da_household"+year+" where sys_standard='"+ leixing_name +"'";
+//				}else {
+//					sql = "SELECT ROUND(v24,2) as num FROM da_household"+year+" where v3='"+shujv+"' and sys_standard='"+ leixing_name +"'";
+//				}
+//			}else if (com_level.equals("2")) {	//层级为2的用户
+//				if (shujv.equals("level-1")) {
+//					sql = "SELECT ROUND(v24,2) as num FROM da_household"+year+" where v3='"+ com_name +"' and sys_standard='"+ leixing_name +"'";
+//				}else {
+//					sql = "SELECT ROUND(v24,2) as num FROM da_household"+year+" where v3='"+shujv+"' and sys_standard='"+ leixing_name +"'";
+//				}
+//			}else if (com_level.equals("3")) {	//层级为3的时候用户的名字
+//				if (shujv.equals("level-1")) {
+//					 sql = "SELECT ROUND(v24,2) as num FROM da_household"+year+" where v4='"+ com_name +"' and sys_standard='"+ leixing_name +"'";
+//				}else {
+//					sql = "SELECT ROUND(v24,2) as num FROM da_household"+year+" where v4='"+shujv+"' and sys_standard='"+ leixing_name +"'";
+//				}
+//			}else {		//获取上级名称
+//				com_name=company_json.get("xiang").toString();	
+//				sql = "SELECT ROUND(v24,2) as num FROM da_household"+year+" where v4='"+ com_name +"' and sys_standard='"+ leixing_name +"'";
+//			}
+			sql = "SELECT ROUND(v24,2) as num FROM da_household"+year+" where  sys_standard='"+ leixing_name +"'"+shilevel_sql+"";
 			SQLAdapter pkhAdapter = new SQLAdapter(sql);
 			List<Map> avgList = this.getBySqlMapper.findRecords(pkhAdapter);
 			JSONObject val = new JSONObject();
@@ -139,45 +174,63 @@ public class SH3_Controller extends MultiActionController{
 				response.getWriter().write("0");
 			}
 		}else if(mokuai_name.equals("lsbfcs")){ //根据模块名称来判断执行模块 落实帮扶比例模块 
-			if (com_level.equals("1")) {	//当用户层级为1时
-				if (shujv.equals("level-1")) {
-					sql="select SUM(b2) as b2,SUM(b12) as b12,(SUM(b2)-SUM(b12)) as b3 from sys_company t1"+  
-								  " left join (select v3,COUNT(*) as b2,sum(v9) as b3 from da_household"+year+" where sys_standard='"+ leixing_name +"'  group by v3) t2 on t1.com_name=t2.v3"+  
-								  " left join (select v3,COUNT(*) as b12 from b12_t"+year+""+year+" where sys_standard='"+ leixing_name +"'  group by v3) t12 on t1.com_name=t12.v3"+
-								  " where  com_f_pkid=4 and b2>0 order by b2 desc ";
-				}else {
-					sql="select SUM(b2) as b2,SUM(b12) as b12,(SUM(b2)-SUM(b12)) as b3 from sys_company t1"+  
-							  " left join (select v3,COUNT(*) as b2,sum(v9) as b3 from da_household"+year+" where sys_standard='"+ leixing_name +"'  group by v3) t2 on t1.com_name=t2.v3"+  
-							  " left join (select v3,COUNT(*) as b12 from b12_t"+year+" where sys_standard='"+ leixing_name +"'  group by v3) t12 on t1.com_name=t12.v3"+
-							  " where t1.com_name='"+ shujv +"' and com_f_pkid=4 and b2>0 order by b2 desc ";
-				}
-			}else if (com_level.equals("2")) {	//当层级为2时
-					sql="select SUM(b2) as b2,SUM(b12) as b12,(SUM(b2)-SUM(b12)) as b3,t2.v3 from sys_company t1"+ 
-							  " left join (select v3,v4,COUNT(*) as b2,sum(v9) as b3 from da_household"+year+" where sys_standard='"+ leixing_name +"'  group by v3) t2 on t1.com_name=t2.v3"+ 
-							  " left join (select v3,v4,COUNT(*) as b12 from b12_t"+year+" where sys_standard='"+ leixing_name +"'  group by v3) t12 on t1.com_name=t12.v3 "+
-							  " where t2.v3='"+ com_name +"' and com_f_pkid=4 and b2>0 order by b2 desc ";
-				
-			}else if (com_level.equals("3")) {	//当层级为3时
-					sql="select SUM(b2) as b2,SUM(b12) as b12,(SUM(b2)-SUM(b12)) as b3,t2.v4 from sys_company t1"+ 
-						  " left join (select v3,v4,COUNT(*) as b2,sum(v9) as b3 from da_household"+year+" where sys_standard='"+ leixing_name +"'  group by v4) t2 on t1.com_name=t2.v3"+ 
-						  " left join (select v3,v4,COUNT(*) as b12 from b12_t"+year+" where sys_standard='"+ leixing_name +"'  group by v4) t12 on t1.com_name=t12.v3 "+
-						  " where t2.v4='"+ com_name +"' and com_f_pkid=4 and b2>0 order by b2 desc ";
-			}else {	//当层级为4时
-				com_name = company_json.get("xiang").toString();
-				if (shujv.equals("level-1")) {
-					sql="select SUM(b2) as b2,SUM(b12) as b12,(SUM(b2)-SUM(b12)) as b3,t2.v4 from sys_company t1"+ 
-							  " left join (select v3,v4,COUNT(*) as b2,sum(v9) as b3 from da_household"+year+" where sys_standard='"+ leixing_name +"'  group by v4) t2 on t1.com_name=t2.v3"+ 
-							  " left join (select v3,v4,COUNT(*) as b12 from b12_t"+year+" where sys_standard='"+ leixing_name +"'  group by v4) t12 on t1.com_name=t12.v3 "+
-							  " where t2.v4='"+ com_name +"' and com_f_pkid=4 and b2>0 order by b2 desc ";
-				
-				}else {//当层级为4时
-					com_name=company_json.get("xiang").toString(); //获取上级用户
-					sql = "	select SUM(b2) as b2,SUM(b12) as b12,(SUM(b2)-SUM(b12)) as b3 from sys_company t1"+  
-							  	  " left join (select v3,COUNT(*) as b2,sum(v9) as b3 from da_household"+year+" where sys_standard='"+ leixing_name +"'  group by v3) t2 on t1.com_name=t2.v3"+  
-							  	  " left join (select v3,COUNT(*) as b12 from b12_t"+year+" where sys_standard='"+ leixing_name +"'  group by v3) t12 on t1.com_name=t12.v3"+
-							  	  " where t1.com_name='"+ shujv +"' and com_f_pkid=4 and b2>0 order by b2 desc ";
-				}
+//			if (com_level.equals("1")) {	//当用户层级为1时
+//				if (shujv.equals("level-1")) {
+//					sql="select SUM(b2) as b2,SUM(b12) as b12,(SUM(b2)-SUM(b12)) as b3 from sys_company t1"+  
+//								  " left join (select v3,COUNT(*) as b2,sum(v9) as b3 from da_household"+year+" where sys_standard='"+ leixing_name +"'  group by v3) t2 on t1.com_name=t2.v3"+  
+//								  " left join (select v3,COUNT(*) as b12 from b12_t"+year+""+year+" where sys_standard='"+ leixing_name +"'  group by v3) t12 on t1.com_name=t12.v3"+
+//								  " where  com_f_pkid=4 and b2>0 order by b2 desc ";
+//				}else {
+//					sql="select SUM(b2) as b2,SUM(b12) as b12,(SUM(b2)-SUM(b12)) as b3 from sys_company t1"+  
+//							  " left join (select v3,COUNT(*) as b2,sum(v9) as b3 from da_household"+year+" where sys_standard='"+ leixing_name +"'  group by v3) t2 on t1.com_name=t2.v3"+  
+//							  " left join (select v3,COUNT(*) as b12 from b12_t"+year+" where sys_standard='"+ leixing_name +"'  group by v3) t12 on t1.com_name=t12.v3"+
+//							  " where t1.com_name='"+ shujv +"' and com_f_pkid=4 and b2>0 order by b2 desc ";
+//				}
+//			}else if (com_level.equals("2")) {	//当层级为2时
+//					sql="select SUM(b2) as b2,SUM(b12) as b12,(SUM(b2)-SUM(b12)) as b3,t2.v3 from sys_company t1"+ 
+//							  " left join (select v3,v4,COUNT(*) as b2,sum(v9) as b3 from da_household"+year+" where sys_standard='"+ leixing_name +"'  group by v3) t2 on t1.com_name=t2.v3"+ 
+//							  " left join (select v3,v4,COUNT(*) as b12 from b12_t"+year+" where sys_standard='"+ leixing_name +"'  group by v3) t12 on t1.com_name=t12.v3 "+
+//							  " where t2.v3='"+ com_name +"' and com_f_pkid=4 and b2>0 order by b2 desc ";
+//				
+//			}else if (com_level.equals("3")) {	//当层级为3时
+//					sql="select SUM(b2) as b2,SUM(b12) as b12,(SUM(b2)-SUM(b12)) as b3,t2.v4 from sys_company t1"+ 
+//						  " left join (select v3,v4,COUNT(*) as b2,sum(v9) as b3 from da_household"+year+" where sys_standard='"+ leixing_name +"'  group by v4) t2 on t1.com_name=t2.v3"+ 
+//						  " left join (select v3,v4,COUNT(*) as b12 from b12_t"+year+" where sys_standard='"+ leixing_name +"'  group by v4) t12 on t1.com_name=t12.v3 "+
+//						  " where t2.v4='"+ com_name +"' and com_f_pkid=4 and b2>0 order by b2 desc ";
+//			}else {	//当层级为4时
+//				com_name = company_json.get("xiang").toString();
+//				if (shujv.equals("level-1")) {
+//					sql="select SUM(b2) as b2,SUM(b12) as b12,(SUM(b2)-SUM(b12)) as b3,t2.v4 from sys_company t1"+ 
+//							  " left join (select v3,v4,COUNT(*) as b2,sum(v9) as b3 from da_household"+year+" where sys_standard='"+ leixing_name +"'  group by v4) t2 on t1.com_name=t2.v3"+ 
+//							  " left join (select v3,v4,COUNT(*) as b12 from b12_t"+year+" where sys_standard='"+ leixing_name +"'  group by v4) t12 on t1.com_name=t12.v3 "+
+//							  " where t2.v4='"+ com_name +"' and com_f_pkid=4 and b2>0 order by b2 desc ";
+//				
+//				}else {//当层级为4时
+//					com_name=company_json.get("xiang").toString(); //获取上级用户
+//					sql = "	select SUM(b2) as b2,SUM(b12) as b12,(SUM(b2)-SUM(b12)) as b3 from sys_company t1"+  
+//							  	  " left join (select v3,COUNT(*) as b2,sum(v9) as b3 from da_household"+year+" where sys_standard='"+ leixing_name +"'  group by v3) t2 on t1.com_name=t2.v3"+  
+//							  	  " left join (select v3,COUNT(*) as b12 from b12_t"+year+" where sys_standard='"+ leixing_name +"'  group by v3) t12 on t1.com_name=t12.v3"+
+//							  	  " where t1.com_name='"+ shujv +"' and com_f_pkid=4 and b2>0 order by b2 desc ";
+//				}
+//			}
+			if (shilevel==1) {	//当层级为1时
+				sql="SELECT SUM(t2.b2) as b2,SUM(t12.b12) as b12,(SUM(t2.b2)-SUM(t12.b12)) as b3 from "+ 
+						  " (select v3,COUNT(*) as b2 from da_household"+year+" where sys_standard='"+ leixing_name +"'  group by v3 ORDER BY v3) t2 "+ 
+						  " left join (select v3,COUNT(*) as b12 from b12_t"+year+" where sys_standard='"+ leixing_name +"'  group by v3 ORDER BY v3) t12 on t2.v3=t12.v3 ";
+			}else if (shilevel==2) {	//当层级为2时
+				sql="SELECT SUM(t2.b2) as b2,SUM(t12.b12) as b12,(SUM(t2.b2)-SUM(t12.b12)) as b3 from "+ 
+						  " (select v4,COUNT(*) as b2 from da_household"+year+" where sys_standard='"+ leixing_name +"' and v3 like '%"+shi_name+"%'  group by v4 ORDER BY v4) t2 "+ 
+						  " left join (select v4,COUNT(*) as b12 from b12_t"+year+" where sys_standard='"+ leixing_name +"' and v3 like '%"+shi_name+"%' group by v4 ORDER BY v4) t12 on t2.v4=t12.v4 ";
+			}else if (shilevel==3) {	//当层级为3时
+				sql="SELECT SUM(t2.b2) as b2,SUM(t12.b12) as b12,(SUM(t2.b2)-SUM(t12.b12)) as b3 from "+ 
+						  " (select v5,COUNT(*) as b2 from da_household"+year+" where sys_standard='"+ leixing_name +"' and v4 like '%"+shi_name+"%'  group by v5 ORDER BY v5) t2 "+ 
+						  " left join (select v5,COUNT(*) as b12 from b12_t"+year+" where sys_standard='"+ leixing_name +"' and v4 like '%"+shi_name+"%' group by v5 ORDER BY v5) t12 on t2.v5=t12.v5 ";
+			}else if (shilevel==4) {	//当层级为3时
+				sql="SELECT SUM(t2.b2) as b2,SUM(t12.b12) as b12,(SUM(t2.b2)-SUM(t12.b12)) as b3 from "+ 
+						  " (select v5,COUNT(*) as b2 from da_household"+year+" where sys_standard='"+ leixing_name +"' and v5 like '%"+shi_name+"%'  group by v5 ORDER BY v5) t2 "+ 
+						  " left join (select v5,COUNT(*) as b12 from b12_t"+year+" where sys_standard='"+ leixing_name +"' and v5 like '%"+shi_name+"%' group by v5 ORDER BY v5) t12 on t2.v5=t12.v5 ";
 			}
+			
 			SQLAdapter quan_sql_Adapter = new SQLAdapter(sql);
 			List<Map> quanList = this.getBySqlMapper.findRecords(quan_sql_Adapter);
 			JSONObject val = new JSONObject();
@@ -186,10 +239,10 @@ public class SH3_Controller extends MultiActionController{
 				for (int i = 0; i < quanList.size(); i++) {
 					Map quanMap = quanList.get(i);
 					val.put("name","落实帮扶完成");
-					val.put("value", quanMap.get("b3"));
+					val.put("value", quanMap.get("b12"));
 					jsa.add(val);
 					val.put("name", "落实帮扶未完成");
-					val.put("value", quanMap.get("b12"));
+					val.put("value", quanMap.get("b3"));
 					jsa.add(val);
 				}
 				response.getWriter().write(jsa.toString());
@@ -257,32 +310,43 @@ public class SH3_Controller extends MultiActionController{
 			int int2;
 			int int3;
 			int int4;
-			if(com_level.equals("1")){
-				if(shujv.equals("level-1")){
-					sql="select nnum,count(*)as count from (select substring(v8,7,4) as nnum from da_household"+year+" where (CHAR_LENGTH(v8)=18 OR CHAR_LENGTH(v8)=20) AND sys_standard='"+leixing_name+"' UNION ALL select substring(y.v8,7,4) as nnum  from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' and (CHAR_LENGTH(y.v8)=18 OR CHAR_LENGTH(y.v8)=20) ) x group by nnum";
-				}else{
-					sql="select nnum,count(*)as count from (select substring(v8,7,4) as nnum from da_household"+year+" where (CHAR_LENGTH(v8)=18 OR CHAR_LENGTH(v8)=20)and v3='"+shujv+"'AND sys_standard='"+leixing_name+"'UNION ALL select substring(y.v8,7,4) as nnum  from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' and (CHAR_LENGTH(y.v8)=18 OR CHAR_LENGTH(y.v8)=20) AND  y.v3='"+shujv+"') x group by nnum";
-				}
-			}else if(com_level.equals("2")){//旗县级用户
-				if(shujv.equals("level-1")){
-					sql="select nnum,count(*)as count from (select substring(v8,7,4) as nnum from da_household"+year+" where (CHAR_LENGTH(v8)=18 OR CHAR_LENGTH(v8)=20) AND sys_standard='"+leixing_name+"' UNION ALL select substring(y.v8,7,4) as nnum  from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' and x.v3='"+com_name+"' and (CHAR_LENGTH(y.v8)=18 OR CHAR_LENGTH(y.v8)=20) ) x group by nnum";
-				}else{
-					sql="select nnum,count(*)as count from (select substring(v8,7,4) as nnum from da_household"+year+" where (CHAR_LENGTH(v8)=18 OR CHAR_LENGTH(v8)=20)and v3='"+shujv+"'AND sys_standard='"+leixing_name+"'UNION ALL select substring(y.v8,7,4) as nnum  from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' and (CHAR_LENGTH(y.v8)=18 OR CHAR_LENGTH(y.v8)=20) AND  y.v3='"+shujv+"') x group by nnum";
-				}
-			}else if(com_level.equals("3")){//苏木乡镇
-				if(shujv.equals("level-1")){
-					sql="select nnum,count(*)as count from (select substring(v8,7,4) as nnum from da_household"+year+" where (CHAR_LENGTH(v8)=18 OR CHAR_LENGTH(v8)=20) AND sys_standard='"+leixing_name+"' UNION ALL select substring(y.v8,7,4) as nnum  from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' and x.v4='"+com_name+"' and (CHAR_LENGTH(y.v8)=18 OR CHAR_LENGTH(y.v8)=20) ) x group by nnum";
-				}else{
-					sql="select nnum,count(*)as count from (select substring(v8,7,4) as nnum from da_household"+year+" where (CHAR_LENGTH(v8)=18 OR CHAR_LENGTH(v8)=20)and v4='"+shujv+"'AND sys_standard='"+leixing_name+"'UNION ALL select substring(y.v8,7,4) as nnum  from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' and (CHAR_LENGTH(y.v8)=18 OR CHAR_LENGTH(y.v8)=20) AND  y.v4='"+shujv+"') x group by nnum";
-				}
-			}else if(com_level.equals("4")){//嘎查村
-				com_name=company_json.get("xiang").toString();//获取上级用户名称
-				if(shujv.equals("level-1")){
-					sql="select nnum,count(*)as count from (select substring(v8,7,4) as nnum from da_household"+year+" where (CHAR_LENGTH(v8)=18 OR CHAR_LENGTH(v8)=20) AND sys_standard='"+leixing_name+"' UNION ALL select substring(y.v8,7,4) as nnum  from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' and x.v4='"+com_name+"' and (CHAR_LENGTH(y.v8)=18 OR CHAR_LENGTH(y.v8)=20) ) x group by nnum";
-				}else{
-					sql="select nnum,count(*)as count from (select substring(v8,7,4) as nnum from da_household"+year+" where (CHAR_LENGTH(v8)=18 OR CHAR_LENGTH(v8)=20)and v4='"+shujv+"'AND sys_standard='"+leixing_name+"'UNION ALL select substring(y.v8,7,4) as nnum  from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' and (CHAR_LENGTH(y.v8)=18 OR CHAR_LENGTH(y.v8)=20) AND  y.v4='"+shujv+"') x group by nnum";
-				}
+//			if(com_level.equals("1")){
+//				if(shujv.equals("level-1")){
+//					sql="select nnum,count(*)as count from (select substring(v8,7,4) as nnum from da_household"+year+" where (CHAR_LENGTH(v8)=18 OR CHAR_LENGTH(v8)=20) AND sys_standard='"+leixing_name+"' UNION ALL select substring(y.v8,7,4) as nnum  from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' and (CHAR_LENGTH(y.v8)=18 OR CHAR_LENGTH(y.v8)=20) ) x group by nnum";
+//				}else{
+//					sql="select nnum,count(*)as count from (select substring(v8,7,4) as nnum from da_household"+year+" where (CHAR_LENGTH(v8)=18 OR CHAR_LENGTH(v8)=20)and v3='"+shujv+"'AND sys_standard='"+leixing_name+"'UNION ALL select substring(y.v8,7,4) as nnum  from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' and (CHAR_LENGTH(y.v8)=18 OR CHAR_LENGTH(y.v8)=20) AND  y.v3='"+shujv+"') x group by nnum";
+//				}
+//			}else if(com_level.equals("2")){//旗县级用户
+//				if(shujv.equals("level-1")){
+//					sql="select nnum,count(*)as count from (select substring(v8,7,4) as nnum from da_household"+year+" where (CHAR_LENGTH(v8)=18 OR CHAR_LENGTH(v8)=20) AND sys_standard='"+leixing_name+"' UNION ALL select substring(y.v8,7,4) as nnum  from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' and x.v3='"+com_name+"' and (CHAR_LENGTH(y.v8)=18 OR CHAR_LENGTH(y.v8)=20) ) x group by nnum";
+//				}else{
+//					sql="select nnum,count(*)as count from (select substring(v8,7,4) as nnum from da_household"+year+" where (CHAR_LENGTH(v8)=18 OR CHAR_LENGTH(v8)=20)and v3='"+shujv+"'AND sys_standard='"+leixing_name+"'UNION ALL select substring(y.v8,7,4) as nnum  from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' and (CHAR_LENGTH(y.v8)=18 OR CHAR_LENGTH(y.v8)=20) AND  y.v3='"+shujv+"') x group by nnum";
+//				}
+//			}else if(com_level.equals("3")){//苏木乡镇
+//				if(shujv.equals("level-1")){
+//					sql="select nnum,count(*)as count from (select substring(v8,7,4) as nnum from da_household"+year+" where (CHAR_LENGTH(v8)=18 OR CHAR_LENGTH(v8)=20) AND sys_standard='"+leixing_name+"' UNION ALL select substring(y.v8,7,4) as nnum  from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' and x.v4='"+com_name+"' and (CHAR_LENGTH(y.v8)=18 OR CHAR_LENGTH(y.v8)=20) ) x group by nnum";
+//				}else{
+//					sql="select nnum,count(*)as count from (select substring(v8,7,4) as nnum from da_household"+year+" where (CHAR_LENGTH(v8)=18 OR CHAR_LENGTH(v8)=20)and v4='"+shujv+"'AND sys_standard='"+leixing_name+"'UNION ALL select substring(y.v8,7,4) as nnum  from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' and (CHAR_LENGTH(y.v8)=18 OR CHAR_LENGTH(y.v8)=20) AND  y.v4='"+shujv+"') x group by nnum";
+//				}
+//			}else if(com_level.equals("4")){//嘎查村
+//				com_name=company_json.get("xiang").toString();//获取上级用户名称
+//				if(shujv.equals("level-1")){
+//					sql="select nnum,count(*)as count from (select substring(v8,7,4) as nnum from da_household"+year+" where (CHAR_LENGTH(v8)=18 OR CHAR_LENGTH(v8)=20) AND sys_standard='"+leixing_name+"' UNION ALL select substring(y.v8,7,4) as nnum  from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' and x.v4='"+com_name+"' and (CHAR_LENGTH(y.v8)=18 OR CHAR_LENGTH(y.v8)=20) ) x group by nnum";
+//				}else{
+//					sql="select nnum,count(*)as count from (select substring(v8,7,4) as nnum from da_household"+year+" where (CHAR_LENGTH(v8)=18 OR CHAR_LENGTH(v8)=20)and v4='"+shujv+"'AND sys_standard='"+leixing_name+"'UNION ALL select substring(y.v8,7,4) as nnum  from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' and (CHAR_LENGTH(y.v8)=18 OR CHAR_LENGTH(y.v8)=20) AND  y.v4='"+shujv+"') x group by nnum";
+//				}
+//			}
+			String XZQH="";
+			if (shilevel==1) {										//判断区级
+				XZQH=" and y.v2 like '%"+ shi_name +"%' ";
+			}else if (shilevel==2) {
+				XZQH=" and y.v3 like '%"+ shi_name +"%' ";
+			}else if (shilevel==3) {
+				XZQH=" and y.v4 like '%"+ shi_name +"%' ";
+			}else if (shilevel==4) {
+				XZQH=" and y.v5 like '%"+ shi_name +"%' ";
 			}
+			sql="select nnum,count(*)as count from (select substring(v8,7,4) as nnum from da_household"+year+" where (CHAR_LENGTH(v8)=18 OR CHAR_LENGTH(v8)=20)"+shilevel_sql+"AND sys_standard='"+leixing_name+"'UNION ALL select substring(y.v8,7,4) as nnum  from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' and (CHAR_LENGTH(y.v8)=18 OR CHAR_LENGTH(y.v8)=20) "+XZQH+") x group by nnum";
 			SQLAdapter sqlAdapter =new SQLAdapter(sql);
 			List<Map> sql_list = this.getBySqlMapper.findRecords(sqlAdapter);
 			JSONObject val = new JSONObject();
@@ -290,7 +354,7 @@ public class SH3_Controller extends MultiActionController{
 				JSONArray jsa=new JSONArray();
 				for(int i = 0;i<sql_list.size();i++){
 					Map Admin_st_map = sql_list.get(i);
-					for (Object key : Admin_st_map.keySet()) {
+//					for (Object key : Admin_st_map.keySet()) {
 						int1=Integer.parseInt(String.valueOf(Admin_st_map.get("nnum"))); 
 						int2=cal.get(Calendar.YEAR); 
 						int3=int2-int1;
@@ -311,7 +375,7 @@ public class SH3_Controller extends MultiActionController{
 						}else if(int3>=0&&int3<=10){
 							shiyinei+=int4;
 						}
-					}
+//					}
 				}
 				val.put("name", "0-10岁");
 				val.put("value",shiyinei);
@@ -338,23 +402,22 @@ public class SH3_Controller extends MultiActionController{
 			}else{
 				response.getWriter().print("0");
 			}
-		}else if (mokuai_name.equals("jtgm")) {	//根据模块名称来判断执行模块 家庭规模模块
-			if (com_level.equals("1")) {
-				if(com_level.equals("1")==true){	//市级用户
-					if(shujv.equals("level-1")==true){
-						sql="SELECT v9,COUNT(v9) as count FROM da_household"+year+" where sys_standard='"+leixing_name+"'GROUP BY v9";
-					}else {
-						sql="SELECT v9,COUNT(v9) as count FROM da_household"+year+" WHERE v3='"+shujv+"' and sys_standard='"+leixing_name+"' GROUP BY v9";
-					}
-			}
-			}else if (com_level.equals("2")) {
-				sql="SELECT v9,COUNT(v9) as count FROM da_household"+year+" where v3='"+com_name+"' and sys_standard='"+leixing_name+"'GROUP BY v9";
-			}else if (com_level.equals("3")) {
-				sql="SELECT v9,COUNT(v9) as count FROM da_household"+year+" where sys_standard='"+leixing_name+"' and v4='"+com_name+"' GROUP BY v9";
-			}else {
-			com_name=company_json.get("xiang").toString();//获取上级用户名称
-				sql="SELECT v9,COUNT(v9) as count FROM da_household"+year+" where sys_standard='"+leixing_name+"' and v4='"+com_name+"' GROUP BY v9";
-			}
+		}else if (mokuai_name.equals("jtgm")) {
+//			if (shilevel==1) {
+//					if(shujv.equals("level-1")==true){
+//						sql="SELECT v9,COUNT(v9) as count FROM da_household"+year+" where sys_standard='"+leixing_name+"'GROUP BY v9";
+//					}else {
+//						sql="SELECT v9,COUNT(v9) as count FROM da_household"+year+" WHERE v3='"+shujv+"' and sys_standard='"+leixing_name+"' GROUP BY v9";
+//					}
+//			}else if (shilevel==2) {
+//				sql="SELECT v9,COUNT(v9) as count FROM da_household"+year+" where v3='"+com_name+"' and sys_standard='"+leixing_name+"'GROUP BY v9";
+//			}else if (shilevel==3) {
+//				sql="SELECT v9,COUNT(v9) as count FROM da_household"+year+" where sys_standard='"+leixing_name+"' and v4='"+com_name+"' GROUP BY v9";
+//			}else {
+//			com_name=company_json.get("xiang").toString();//获取上级用户名称
+//				sql="SELECT v9,COUNT(v9) as count FROM da_household"+year+" where sys_standard='"+leixing_name+"' and v4='"+com_name+"' GROUP BY v9";
+//			}
+			sql="SELECT v9,COUNT(v9) as count FROM da_household"+year+" where sys_standard='"+leixing_name+"'"+shilevel_sql+" GROUP BY v9";
 			SQLAdapter sqlAdapter =new SQLAdapter(sql);
 			List<Map> sql_list = this.getBySqlMapper.findRecords(sqlAdapter);
 			JSONObject val = new JSONObject();
@@ -367,6 +430,7 @@ public class SH3_Controller extends MultiActionController{
 						}
 						val.put("name", Admin_st_map.get("v9"));
 						val.put("value", Admin_st_map.get("count"));
+						val.put("col_name", shi_name);
 					}
 					jsa.add(val);
 				}
@@ -390,6 +454,8 @@ public class SH3_Controller extends MultiActionController{
 	public ModelAndView H3_map_All(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
+		
+		
 		String shujv = request.getParameter("shujv"); //获取筛选条件
 		String leixing_name = request.getParameter("leixing");// 获取国家级还是市级的贫困户
 		String year = request.getParameter("year");//年份
@@ -409,10 +475,36 @@ public class SH3_Controller extends MultiActionController{
 		String com_name=company_json.get("com_name").toString();//获取用户名称
 		String com_pkid = company_json.get("pkid").toString();//获取当前用户id
 		String com_level=company_json.get("com_level").toString();//获取用户层级
+		
+		String level=request.getParameter("level");
+		String jsonname=request.getParameter("jsonname");
+		String json_level= request.getParameter("jsonlevel");
+		String shilevel_sql="";
+		int shilevel=0;
+		String shi_name="";
+		String com_code2="";
+		if(mokuai_name.equals("jtgm")||mokuai_name.equals("nljg")||mokuai_name.equals("jiatingshouzhi")||mokuai_name.equals("lsbfcs")){
+		if (json_level==null) {
+			String shi_sql ="select * from sys_company c where c.com_level='"+ level +"' and c.com_name='"+jsonname+"'";
+			SQLAdapter shi_Adapter = new SQLAdapter(shi_sql);
+			List<Map> shi_listmap= this.getBySqlMapper.findRecords(shi_Adapter);
+			shilevel= (Integer) shi_listmap.get(0).get("com_level");
+			shi_name= jsonname;
+			com_code2=shi_listmap.get(0).get("com_code").toString();
+		}else{
+			String shi_sql ="select * from sys_company c where c.pkid='"+ json_level +"'";
+			SQLAdapter shi_Adapter = new SQLAdapter(shi_sql);
+			List<Map> shi_listmap= this.getBySqlMapper.findRecords(shi_Adapter);
+			shilevel= (Integer) shi_listmap.get(0).get("com_level");
+			shi_name= (String) shi_listmap.get(0).get("com_name");
+			com_code2=shi_listmap.get(0).get("com_code").toString();
+		}
+		
+		}
 		if (mokuai_name.equals("jiatingshouzhi")) {	//根据模块名称来判断执行模块 家庭收支模块
 			String tiaojian="";
 			if(shujv.equals("0-1000")==true){	//判断筛选金额
-				tiaojian="h.num >=0 and h.num <= 1000";
+				tiaojian="h.num >0 and h.num <= 1000";
 			}else if(shujv.equals("1000-2000")==true){
 				tiaojian="h.num > 1000 and h.num <= 2000";
 			}else if(shujv.equals("2000-3000")==true){
@@ -424,79 +516,127 @@ public class SH3_Controller extends MultiActionController{
 			}else if(shujv.equals("5000及以上")==true){
 				tiaojian="h.num > 5000 ";
 			}
-			if (com_level.equals("1")) {	//当用户层级为1时
-				sql="select v3,count(*) as count from (SELECT ROUND(v24,2) as num ,v3 FROM da_household"+year+" where  sys_standard='"+ leixing_name +"') h where "+tiaojian+" group by v3";
-			}else if (com_level.equals("2")) {	//当用户层级为2时
-				sql="select v3,count(*) as count from (SELECT ROUND(v24,2) as num , v4 as v3 FROM da_household"+year+" where v3='"+ com_name +"' and v3= sys_standard='"+ leixing_name +"') h where "+tiaojian+" group by v3";
-			}else if (com_level.equals("3")) {	//当用户层级为3时
-				sql="select v3,count(*) as count from (SELECT ROUND(v24,2) as num , v5 as v3 FROM da_household"+year+" where v4='"+ com_name +"' and v3= sys_standard='"+ leixing_name +"') h where "+tiaojian+" group by v3";
-			}else {	//当用户层级为4时
-				com_name=company_json.get("xiang").toString();	//获取上级用户
-				sql="select v3,count(*) as count from (SELECT ROUND(v24,2) as num , v5 as v3 FROM da_household"+year+" where v4='"+ com_name +"' and v3= sys_standard='"+ leixing_name +"') h where "+tiaojian+" group by v3";
+			
+			if (shilevel==1) {										//判断区级
+				sql="select v3,count(*) as count from (SELECT ROUND(v24,2) as num , v3 FROM da_household"+year+" where v2 like '%"+ shi_name +"%' and  sys_standard='"+ leixing_name +"') h where "+tiaojian+" group by v3";
+			}else if (shilevel==2) {
+				sql="select v3,count(*) as count from (SELECT ROUND(v24,2) as num , v4 as v3 FROM da_household"+year+" where v3 like '%"+ shi_name +"%' and  sys_standard='"+ leixing_name +"') h where "+tiaojian+" group by v3";
+			}else if (shilevel==3) {
+				sql="select v3,count(*) as count from (SELECT ROUND(v24,2) as num , v5 as v3 FROM da_household"+year+" where v4 like '%"+ shi_name +"%' and  sys_standard='"+ leixing_name +"') h where "+tiaojian+" group by v3";
+			}else if (shilevel==4) {
+				sql="select v3,count(*) as count from (SELECT ROUND(v24,2) as num , v5 as v3 FROM da_household"+year+" where v5 like '%"+ shi_name +"%' and  sys_standard='"+ leixing_name +"') h where "+tiaojian+" group by v3";
 			}
+			
+//			if (com_level.equals("1")) {	//当用户层级为1时
+//				sql="select v3,count(*) as count from (SELECT ROUND(v24,2) as num ,v3 FROM da_household"+year+" where  sys_standard='"+ leixing_name +"') h where "+tiaojian+" group by v3";
+//			}else if (com_level.equals("2")) {	//当用户层级为2时
+//				sql="select v3,count(*) as count from (SELECT ROUND(v24,2) as num , v4 as v3 FROM da_household"+year+" where v3='"+ com_name +"' and v3= sys_standard='"+ leixing_name +"') h where "+tiaojian+" group by v3";
+//			}else if (com_level.equals("3")) {	//当用户层级为3时
+//				sql="select v3,count(*) as count from (SELECT ROUND(v24,2) as num , v5 as v3 FROM da_household"+year+" where v4='"+ com_name +"' and v3= sys_standard='"+ leixing_name +"') h where "+tiaojian+" group by v3";
+//			}else {	//当用户层级为4时
+//				com_name=company_json.get("xiang").toString();	//获取上级用户
+//				sql="select v3,count(*) as count from (SELECT ROUND(v24,2) as num , v5 as v3 FROM da_household"+year+" where v4='"+ com_name +"' and v3= sys_standard='"+ leixing_name +"') h where "+tiaojian+" group by v3";
+//			}
 			SQLAdapter sqlAdapter =new SQLAdapter(sql);
 			List<Map> sql_list = this.getBySqlMapper.findRecords(sqlAdapter);
 			JSONObject val = new JSONObject();
+			JSONArray jsa=new JSONArray();
 			if(sql_list.size()>0){
-				JSONArray jsa=new JSONArray();
+				
 				for(int i = 0;i<sql_list.size();i++){
 					Map Admin_st_map = sql_list.get(i);
 					for (Object key : Admin_st_map.keySet()) {
 						val.put("name", Admin_st_map.get("v3"));
 						val.put("value", Admin_st_map.get("count"));
+						val.put("com_level", shilevel);
+						val.put("com_code2", com_code2);
 					}
 					jsa.add(val);
 				}
-				response.getWriter().write(jsa.toString());
 			}else{
-				response.getWriter().print("0");
+				val.put("com_level", shilevel);
+				val.put("com_code2", com_code2);
+				val.put("isvalue", "0");
+				jsa.add(val);
 			}
+			response.getWriter().print(jsa.toString());
 			return null;	
-		}else if(mokuai_name.equals("lsbfcs")) {  //根据模块名称来判断执行模块 落实帮扶比例模块
-			if (com_level.equals("1")) {	//当层级为1时
-				sql="select t1.com_name as b1,b2,b12,t12.v4,(b2-b12) as v3 from sys_company t1 "+ 
-						   " left join (select v3,COUNT(*) as b2,sum(v9) as b3 from da_household"+year+" where sys_standard='"+ leixing_name +"'  group by v3) t2 on t1.com_name=t2.v3 "+ 
-						   " left join (select v3,v4,COUNT(*) as b12 from b12_t"+year+" where sys_standard='"+ leixing_name +"' GROUP BY v3 ) t12 on t1.com_name=t12.v3 "+
-						   " where  com_f_pkid=4 and b2>0 order by b2 desc ";
-			}else if (com_level.equals("2")) {	//当层级为2时
-				sql="select b2,b12,t2.v4 as b1 ,(b2-b12) as v3 from sys_company t1  "+
-						   "left join (select v4,v3,COUNT(*) as b2,sum(v9) as b3 from da_household"+year+" where sys_standard='"+ leixing_name +"'  group by v4) t2 on t1.com_name=t2.v3 "+
-						   "left join (select v3,v4,COUNT(*) as b12 from b12_t"+year+" where sys_standard='"+ leixing_name +"'  GROUP BY v4  ) t12 on t1.com_name=t12.v3  "+
-						   "where t1.com_name='"+ com_name +"' and t2.v4=t12.v4  and com_f_pkid=4 ORDER BY t1.com_name";
-			}else if (com_level.equals("3")) {	//当层级为3时
-				sql="select b2,b12,t2.v5 as b1,(b2-b12) as v3 from sys_company t1  "+
-						   "left join (select  v4,v5,v3,COUNT(*) as b2,sum(v9) as b3 from da_household"+year+" where sys_standard='"+ leixing_name +"'  group by v5) t2 on t1.com_name=t2.v3  "+
-						   "left join (select v3,v4,v5,COUNT(*) as b12 from b12_t"+year+" where sys_standard='"+ leixing_name +"'  GROUP BY v5  ) t12 on t1.com_name=t12.v3  "+
-						   "where t2.v4='"+ com_name +"' and t2.v5=t12.v5  and com_f_pkid=4 ORDER BY t1.com_name";
-			}else { 	//当层级为4时
-				com_name=company_json.get("xiang").toString();	//获取上级用户
-				sql="select b2,b12,t2.v5 as b1,(b2-b12) as v3 from sys_company t1  "+
-						   "left join (select  v4,v5,v3,COUNT(*) as b2,sum(v9) as b3 from da_household"+year+" where sys_standard='"+ leixing_name +"'  group by v5) t2 on t1.com_name=t2.v3  "+
-						   "left join (select v3,v4,v5,COUNT(*) as b12 from b12_t"+year+" where sys_standard='"+ leixing_name +"'  GROUP BY v5  ) t12 on t1.com_name=t12.v3  "+
-						   "where t2.v4='"+ com_name +"' and t2.v5=t12.v5  and com_f_pkid=4 ORDER BY t1.com_name";
-			}
+		}else if(mokuai_name.equals("lsbfcs")) { 
+			//根据模块名称来判断执行模块 落实帮扶比例模块
+			if (shilevel==1) {	//当层级为1时
+//				sql="select b2,b12,t2.v3 as b1 ,(b2-b12) as v3 from sys_company t1  "+
+//						   "right join (select v3,COUNT(*) as b2,sum(v9) as b3 from da_household"+year+" where sys_standard='"+ leixing_name +"'  group by v3) t2 on t1.com_name=t2.v3 "+
+//						   "right join (select v3,COUNT(*) as b12 from b12_t"+year+" where sys_standard='"+ leixing_name +"'  GROUP BY v3  ) t12 on t1.com_name=t12.v3  "+
+//						   "where  t2.v3=t12.v3  ORDER BY t1.com_name";
+				sql="SELECT t2.v3 as b1,t2.b2 as b2,t12.b12 as b12,(t2.b2-t12.b12) as b3 from "+ 
+						  " (select v3,COUNT(*) as b2 from da_household"+year+" where sys_standard='"+ leixing_name +"'  group by v3 ORDER BY v3) t2 "+ 
+						  " left join (select v3,COUNT(*) as b12 from b12_t"+year+" where sys_standard='"+ leixing_name +"'  group by v3 ORDER BY v3) t12 on t2.v3=t12.v3 ";
+			}else if (shilevel==2) {	//当层级为2时
+//				sql="select b2,b12,t2.v4 as b1 ,(b2-b12) as v3 from sys_company t1  "+
+//						   "left join (select v4,v3,COUNT(*) as b2,sum(v9) as b3 from da_household"+year+" where sys_standard='"+ leixing_name +"'  group by v4) t2 on t1.com_name=t2.v3 "+
+//						   "left join (select v4,v3,COUNT(*) as b12 from b12_t"+year+" where sys_standard='"+ leixing_name +"'  GROUP BY v4  ) t12 on t1.com_name=t12.v3  "+
+//						   "where t2.v3 like '%"+ shi_name +"%' and t2.v3=t12.v3 and  com_f_pkid=4  ORDER BY t1.com_name";
+				sql="SELECT t2.v4 as b1,t2.b2 as b2,t12.b12 as b12,(t2.b2-t12.b12) as b3 from "+ 
+						  " (select v4,COUNT(*) as b2 from da_household"+year+" where sys_standard='"+ leixing_name +"' and v3 like '%"+shi_name+"%'  group by v4 ORDER BY v4) t2 "+ 
+						  " left join (select v4,COUNT(*) as b12 from b12_t"+year+" where sys_standard='"+ leixing_name +"' and v3 like '%"+shi_name+"%' group by v4 ORDER BY v4) t12 on t2.v4=t12.v4 ";
+			}else if (shilevel==3) {	//当层级为3时
+//				sql="select b2,b12,t2.v5 as b1,(b2-b12) as v3 from sys_company t1  "+
+//						   "left join (select  v5,v4,v3,v2,COUNT(*) as b2,sum(v9) as b3 from da_household"+year+" where sys_standard='"+ leixing_name +"'  group by v5) t2 on t1.com_name=t2.v4  "+
+//						   "left join (select v5,v3,v4,COUNT(*) as b12 from b12_t"+year+" where sys_standard='"+ leixing_name +"'  GROUP BY v5  ) t12 on t1.com_name=t12.v4  "+
+//						   "where t2.v4 like '%"+ shi_name +"%' and t2.v4=t12.v4    ORDER BY t1.com_name";
+				sql="SELECT t2.v5 as b1,t2.b2 as b2,t12.b12 as b12,(t2.b2-t12.b12) as b3 from "+ 
+						  " (select v5,COUNT(*) as b2 from da_household"+year+" where sys_standard='"+ leixing_name +"' and v4 like '%"+shi_name+"%'  group by v5 ORDER BY v5) t2 "+ 
+						  " left join (select v5,COUNT(*) as b12 from b12_t"+year+" where sys_standard='"+ leixing_name +"' and v4 like '%"+shi_name+"%' group by v5 ORDER BY v5) t12 on t2.v5=t12.v5 ";
+			}else if (shilevel==4) {	//当层级为3时
+				sql="SELECT t2.v5 as b1,t2.b2 as b2,t12.b12 as b12,(t2.b2-t12.b12) as b3 from "+ 
+				  " (select v5,COUNT(*) as b2 from da_household"+year+" where sys_standard='"+ leixing_name +"' and v5 like '%"+shi_name+"%'  group by v5 ORDER BY v5) t2 "+ 
+				  " left join (select v5,COUNT(*) as b12 from b12_t"+year+" where sys_standard='"+ leixing_name +"' and v5 like '%"+shi_name+"%' group by v5 ORDER BY v5) t12 on t2.v5=t12.v5 ";
+	}
 			SQLAdapter sqlAdapter =new SQLAdapter(sql);
 			List<Map> sql_list = this.getBySqlMapper.findRecords(sqlAdapter);
-			
+			JSONArray jsa=new JSONArray();
 			if(sql_list.size()>0){
-				JSONArray jsa=new JSONArray();
+				
 				for(int i = 0;i<sql_list.size();i++){
 					Map bangfu_st_map = sql_list.get(i);
 					JSONObject val = new JSONObject();
 					for (Object key : bangfu_st_map.keySet()) {
 						val.put("name", bangfu_st_map.get("b1"));
-						if (shujv.equals("落实完成")) {
-							val.put("value", bangfu_st_map.get("b12"));
-						}else {
-							val.put("value", bangfu_st_map.get("v3"));
+						int  LSWC=0;
+						if(bangfu_st_map.keySet().contains("b12")){
+							LSWC=Integer.parseInt( bangfu_st_map.get("b12").toString().trim());
 						}
+						int  LSWWC=0;
+						if(bangfu_st_map.keySet().contains("b3")){
+							LSWWC=Integer.parseInt( bangfu_st_map.get("b3").toString().trim());
+						}else{
+							LSWWC=Integer.parseInt( bangfu_st_map.get("b2").toString().trim());
+						}
+						if (shujv.equals("落实完成")) {
+							if(LSWC>0){
+								val.put("value", LSWC);
+							}
+							
+						}else {
+							if(LSWWC>0){
+								val.put("value", LSWWC);
+							}
+							
+						}
+						val.put("com_level", shilevel);
+						val.put("com_code2", com_code2);
 					}
 					jsa.add(val);
 				}
-				response.getWriter().write(jsa.toString());
+				
 			}else{
-				response.getWriter().print("0");
+				JSONObject val = new JSONObject();
+				val.put("com_level", shilevel);
+				val.put("com_code2", com_code2);
+				val.put("isvalue", "0");
+				jsa.add(val);
 			}
+			response.getWriter().write(jsa.toString());
 		}else if (mokuai_name.equals("zpyy")) {	//根据模块名称来判断执行模块 致贫原因模块
 			if (com_level.equals("1")==true) {
 				sql="SELECT v3,SUM(v9)AS count FROM da_household"+year+" WHERE sys_standard='"+leixing_name+"' AND v23 LIKE '%"+shujv+"%' GROUP BY v3";
@@ -562,75 +702,98 @@ public class SH3_Controller extends MultiActionController{
 			Calendar cal = Calendar.getInstance();
 			int time1=cal.get(Calendar.YEAR);
 			if(shujv.equals("10岁以下")==true){
-				ditu="((x.nnum>"+(time1-10)+")and(x.nnum<"+time1+"))";
+				ditu="((x.nnum>="+(time1-10)+")and(x.nnum<"+time1+"))";
 			}else if(shujv.equals("10~20岁")==true){
-				ditu="((x.nnum>"+(time1-20)+")and(x.nnum<"+(time1-10)+"))";
+				ditu="((x.nnum>="+(time1-20)+")and(x.nnum<"+(time1-10)+"))";
 			}else if(shujv.equals("20~30岁")==true){
-				ditu="((x.nnum>"+(time1-30)+")and(x.nnum<"+(time1-20)+"))";
+				ditu="((x.nnum>="+(time1-30)+")and(x.nnum<"+(time1-20)+"))";
 			}else if(shujv.equals("30~40岁")==true){
-				ditu="((x.nnum>"+(time1-40)+")and(x.nnum<"+(time1-30)+"))";
+				ditu="((x.nnum>="+(time1-40)+")and(x.nnum<"+(time1-30)+"))";
 			}else if(shujv.equals("40~50岁")==true){
-				ditu="((x.nnum>"+(time1-50)+")and(x.nnum<"+(time1-40)+"))";
+				ditu="((x.nnum>="+(time1-50)+")and(x.nnum<"+(time1-40)+"))";
 			}else if(shujv.equals("50岁及以上")==true){
-				ditu="((x.nnum>"+(time1-60)+")and(x.nnum<"+(time1-50)+"))";
+				ditu="((x.nnum>="+(time1-60)+")and(x.nnum<"+(time1-50)+"))";
 			}else if(shujv.equals("60岁及以上")==true){
 				ditu="(x.nnum<"+(time1-60)+")";
-			}			
-			if(com_level.equals("1")){//层级为1的用户
-				sql="select v3,count(*)as count from (select v3,substring(v8,7,4) as nnum from da_household"+year+" where (CHAR_LENGTH(v8)=18 OR CHAR_LENGTH(v8)=20) AND sys_standard='"+leixing_name+"'UNION ALL select y.v3,substring(y.v8,7,4) as nnum  from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' and (CHAR_LENGTH(y.v8)=18 OR CHAR_LENGTH(y.v8)=20)) x WHERE "+ditu+" group by v3";
-			}else if(com_level.equals("2")){//层级为2的用户
-				sql="select v3,count(*)as count from (select v4 as v3,substring(v8,7,4) as nnum from da_household"+year+" where (CHAR_LENGTH(v8)=18 OR CHAR_LENGTH(v8)=20) and v3='"+com_name+"' AND sys_standard='"+leixing_name+"' UNION ALL select y.v4 as v3,substring(y.v8,7,4) as nnum  from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' and x.v3='"+com_name+"' and (CHAR_LENGTH(y.v8)=18 OR CHAR_LENGTH(y.v8)=20)) x WHERE "+ditu+" group by v3";
-			}else if(com_level.equals("3")){//层级为3的用户
-				sql="select v3,count(*)as count from (select v5 as v3,substring(v8,7,4) as nnum from da_household"+year+" where (CHAR_LENGTH(v8)=18 OR CHAR_LENGTH(v8)=20) and v4='"+com_name+"' AND sys_standard='"+leixing_name+"' UNION ALL select y.v5 as v3,substring(y.v8,7,4) as nnum  from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' and x.v4='"+com_name+"' and (CHAR_LENGTH(y.v8)=18 OR CHAR_LENGTH(y.v8)=20)) x WHERE "+ditu+" group by v3";
-			}else if(com_level.equals("4")){//层级为4的用户
-				com_name=company_json.get("xiang").toString();//获取上级用户名称
-				sql="select v3,count(*)as count from (select v5 as v3,substring(v8,7,4) as nnum from da_household"+year+" where (CHAR_LENGTH(v8)=18 OR CHAR_LENGTH(v8)=20) and v4='"+com_name+"' AND sys_standard='"+leixing_name+"' UNION ALL select y.v5 as v3,substring(y.v8,7,4) as nnum  from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' and x.v4='"+com_name+"' and (CHAR_LENGTH(y.v8)=18 OR CHAR_LENGTH(y.v8)=20)) x WHERE "+ditu+" group by v3";
 			}
+			if (shilevel==1) {										//判断区级
+				sql="select v3,count(*)as count from (select v3 as v3,substring(v8,7,4) as nnum from da_household"+year+" where (CHAR_LENGTH(v8)=18 OR CHAR_LENGTH(v8)=20) and v2 like '%"+ shi_name +"%' AND sys_standard='"+leixing_name+"' UNION ALL select y.v3 as v3,substring(y.v8,7,4) as nnum  from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' and x.v2 like '%"+ shi_name +"%' and (CHAR_LENGTH(y.v8)=18 OR CHAR_LENGTH(y.v8)=20)) x WHERE "+ditu+" group by v3";
+			}else if (shilevel==2) {
+				sql="select v3,count(*)as count from (select v4 as v3,substring(v8,7,4) as nnum from da_household"+year+" where (CHAR_LENGTH(v8)=18 OR CHAR_LENGTH(v8)=20) and v3 like '%"+ shi_name +"%' AND sys_standard='"+leixing_name+"' UNION ALL select y.v4 as v3,substring(y.v8,7,4) as nnum  from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' and x.v3 like '%"+ shi_name +"%' and (CHAR_LENGTH(y.v8)=18 OR CHAR_LENGTH(y.v8)=20)) x WHERE "+ditu+" group by v3";
+			}else if (shilevel==3) {
+				sql="select v3,count(*)as count from (select v5 as v3,substring(v8,7,4) as nnum from da_household"+year+" where (CHAR_LENGTH(v8)=18 OR CHAR_LENGTH(v8)=20) and v4 like '%"+ shi_name +"%' AND sys_standard='"+leixing_name+"' UNION ALL select y.v5 as v3,substring(y.v8,7,4) as nnum  from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' and x.v4 like '%"+ shi_name +"%' and (CHAR_LENGTH(y.v8)=18 OR CHAR_LENGTH(y.v8)=20)) x WHERE "+ditu+" group by v3";
+			}
+			else if (shilevel==4) {
+				sql="select v3,count(*)as count from (select v5 as v3,substring(v8,7,4) as nnum from da_household"+year+" where (CHAR_LENGTH(v8)=18 OR CHAR_LENGTH(v8)=20) and v5 like '%"+ shi_name +"%' AND sys_standard='"+leixing_name+"' UNION ALL select y.v5 as v3,substring(y.v8,7,4) as nnum  from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' and x.v5 like '%"+ shi_name +"%' and (CHAR_LENGTH(y.v8)=18 OR CHAR_LENGTH(y.v8)=20)) x WHERE "+ditu+" group by v3";
+			}
+//			if(com_level.equals("1")){//层级为1的用户
+//				sql="select v3,count(*)as count from (select v3,substring(v8,7,4) as nnum from da_household"+year+" where (CHAR_LENGTH(v8)=18 OR CHAR_LENGTH(v8)=20) AND sys_standard='"+leixing_name+"'UNION ALL select y.v3,substring(y.v8,7,4) as nnum  from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' and (CHAR_LENGTH(y.v8)=18 OR CHAR_LENGTH(y.v8)=20)) x WHERE "+ditu+" group by v3";
+//			}else if(com_level.equals("2")){//层级为2的用户
+//				sql="select v3,count(*)as count from (select v4 as v3,substring(v8,7,4) as nnum from da_household"+year+" where (CHAR_LENGTH(v8)=18 OR CHAR_LENGTH(v8)=20) and v3='"+com_name+"' AND sys_standard='"+leixing_name+"' UNION ALL select y.v4 as v3,substring(y.v8,7,4) as nnum  from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' and x.v3='"+com_name+"' and (CHAR_LENGTH(y.v8)=18 OR CHAR_LENGTH(y.v8)=20)) x WHERE "+ditu+" group by v3";
+//			}else if(com_level.equals("3")){//层级为3的用户
+//				sql="select v3,count(*)as count from (select v5 as v3,substring(v8,7,4) as nnum from da_household"+year+" where (CHAR_LENGTH(v8)=18 OR CHAR_LENGTH(v8)=20) and v4='"+com_name+"' AND sys_standard='"+leixing_name+"' UNION ALL select y.v5 as v3,substring(y.v8,7,4) as nnum  from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' and x.v4='"+com_name+"' and (CHAR_LENGTH(y.v8)=18 OR CHAR_LENGTH(y.v8)=20)) x WHERE "+ditu+" group by v3";
+//			}else if(com_level.equals("4")){//层级为4的用户
+//				com_name=company_json.get("xiang").toString();//获取上级用户名称
+//				sql="select v3,count(*)as count from (select v5 as v3,substring(v8,7,4) as nnum from da_household"+year+" where (CHAR_LENGTH(v8)=18 OR CHAR_LENGTH(v8)=20) and v4='"+com_name+"' AND sys_standard='"+leixing_name+"' UNION ALL select y.v5 as v3,substring(y.v8,7,4) as nnum  from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' and x.v4='"+com_name+"' and (CHAR_LENGTH(y.v8)=18 OR CHAR_LENGTH(y.v8)=20)) x WHERE "+ditu+" group by v3";
+//			}
 			SQLAdapter sqlAdapter =new SQLAdapter(sql);
 			List<Map> sql_list = this.getBySqlMapper.findRecords(sqlAdapter);
 			JSONObject val = new JSONObject();
+			JSONArray jsa=new JSONArray();
 			if(sql_list.size()>0){
-				JSONArray jsa=new JSONArray();
+				
 				for(int i = 0;i<sql_list.size();i++){
 					Map Admin_st_map = sql_list.get(i);
 					for (Object key : Admin_st_map.keySet()) {
 						val.put("name", Admin_st_map.get("v3"));
 						val.put("value", Admin_st_map.get("count"));
+						val.put("com_level", shilevel);
+						val.put("com_code2", com_code2);
 					}
 					jsa.add(val);
 				}
-				response.getWriter().write(jsa.toString());
+				
 			}else{
-				response.getWriter().print("0");
+				val.put("com_level", shilevel);
+				val.put("com_code2", com_code2);
+				val.put("isvalue", "0");
+				jsa.add(val);
 			}
+			response.getWriter().write(jsa.toString());
 		}else if (mokuai_name.equals("jtgm")) { //根据模块名称来判断执行模块 家庭规模模块
-			if (com_level.equals("1")) {
+			if (shilevel==1) {
 				sql="SELECT v3,COUNT(v9) AS count FROM da_household"+year+" WHERE v9='"+shujv+"'and sys_standard='"+leixing_name+"' GROUP BY v3";
-			}else if (com_level.equals("2")) {
-				sql="SELECT v4 as v3,COUNT(v9) AS count FROM da_household"+year+" WHERE v9='"+shujv+"'and sys_standard='"+leixing_name+"' and v3='"+com_name+"' GROUP BY v4";	
-			}else if (com_level.equals("3")) {
-				sql="SELECT v5 as v3 ,COUNT(v9) AS count FROM da_household"+year+" WHERE v9='"+shujv+"'and sys_standard='"+leixing_name+"' and v4='"+com_name+"' GROUP BY v5";
-			}else {
-				com_name=company_json.get("xiang").toString();//获取上级用户名称
-				sql="SELECT v5 as v3 ,COUNT(v9) AS count FROM da_household"+year+" WHERE v9='"+shujv+"'and sys_standard='"+leixing_name+"' and v4='"+com_name+"' GROUP BY v5";
+			}else if (shilevel==2) {
+				sql="SELECT v4 as v3,COUNT(v9) AS count FROM da_household"+year+" WHERE v9='"+shujv+"'and sys_standard='"+leixing_name+"' and v3 like '%"+ shi_name +"%' GROUP BY v4";	
+			}else if (shilevel==3) {
+				sql="SELECT v5 as v3 ,COUNT(v9) AS count FROM da_household"+year+" WHERE v9='"+shujv+"'and sys_standard='"+leixing_name+"' and v4 like '%"+ shi_name +"%' GROUP BY v5";
+			}else if (shilevel==4) {
+				sql="SELECT v5 as v3 ,COUNT(v9) AS count FROM da_household"+year+" WHERE v9='"+shujv+"'and sys_standard='"+leixing_name+"' and v5 like '%"+ shi_name +"%' GROUP BY v5";
 			}
 			SQLAdapter sqlAdapter =new SQLAdapter(sql);
 			List<Map> sql_list = this.getBySqlMapper.findRecords(sqlAdapter);
 			JSONObject val = new JSONObject();
+			JSONArray jsa=new JSONArray();
 			if(sql_list.size()>0){
-				JSONArray jsa=new JSONArray();
+				
 				for(int i = 0;i<sql_list.size();i++){
 					Map Admin_st_map = sql_list.get(i);
 					for (Object key : Admin_st_map.keySet()) {
 						val.put("name", Admin_st_map.get("v3"));
 						val.put("value", Admin_st_map.get("count"));
+						val.put("com_level", shilevel);
+						val.put("com_code2", com_code2);
 					}
 					jsa.add(val);
 				}
-				response.getWriter().write(jsa.toString());
+				
 			}else{
-				response.getWriter().print("0");
+				val.put("com_level", shilevel);
+				val.put("com_code2", com_code2);
+				val.put("isvalue", "0");
+				jsa.add(val);
 			}
+			response.getWriter().write(jsa.toString());
 		}else if (mokuai_name.equals("bffzr")) { //根据模块名称来判断执行模块 帮扶负责人模块
 			if(com_level.equals("1")){//当层级为1的时候
 				sql="SELECT b2.v3,COUNT(*)as count FROM("
@@ -844,4 +1007,170 @@ public class SH3_Controller extends MultiActionController{
 		}
 		return null;
 	}
+	
+	
+	/**
+	 * 获取行政区划树节点
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws IOException
+	 */public ModelAndView getincompleteTreeData2(HttpServletRequest request,HttpServletResponse response) throws IOException{
+		
+		HttpSession session = request.getSession();//取session
+		Map<String,String> company = (Map)session.getAttribute("company");//用户所属单位表，加前台显示时用的上下级关联名称
+		JSONObject company_json = new JSONObject();
+		for(String key : company.keySet()){
+			company_json.put(key, company.get(key));
+		}
+		String com_name=company_json.get("com_name").toString();//获取用户名称
+		String com_level=company_json.get("com_level").toString();//获取用户层级
+		String com_code=company_json.get("com_code").toString();//获取用户code
+		
+		String sql="";//定义SQL语句的局部变量
+		String sql_code="";//定义SQL查询语句中的条件
+		
+		if(com_level.equals("1")){//市级用户
+			sql = "select * from sys_company";
+		}else if(com_level.equals("2")){//旗县用户
+			sql_code=com_code.substring(0,6);
+			sql = "SELECT *FROM sys_company WHERE pkid=4 UNION ALL SELECT * FROM sys_company WHERE com_code LIKE '%"+sql_code+"%'";
+		}else if(com_level.equals("3")){//旗县用户
+			sql_code=com_code.substring(0,9);
+			sql = "SELECT *FROM sys_company WHERE pkid=4 UNION ALL SELECT * FROM sys_company WHERE com_code LIKE '%"+sql_code+"%'";
+		}
+		
+		SQLAdapter tree_Adapter = new SQLAdapter(sql);
+		List<Map> tree_List = this.getBySqlMapper.findRecords(tree_Adapter);
+		
+		JSONObject val = new JSONObject();
+		JSONArray jsa = new JSONArray();
+		
+		if(tree_List.size()>0){
+			if (com_level.equals("1")) {
+				for(int i = 0;i<tree_List.size();i++){//第一遍循环，取市级单位
+					Map shi_map = tree_List.get(i);
+					if(shi_map.get("com_level").toString().equals("1")){
+						
+						JSONObject shi = new JSONObject();
+						shi.put("text", shi_map.get("com_name"));
+						shi.put("pkid", shi_map.get("pkid"));
+						JSONArray shi_jsa = new JSONArray();
+						
+						for(int j = 0;j<tree_List.size();j++){//第二遍循环，取县级单位
+							Map xian_map = tree_List.get(j);
+							if(xian_map.get("com_level").toString().equals("2")&&xian_map.get("com_f_pkid").toString().equals(shi_map.get("pkid").toString())){//第二级，同时父id等于上一级id
+								
+								JSONObject xian = new JSONObject();
+								xian.put("text", xian_map.get("com_name"));
+								xian.put("pkid", xian_map.get("pkid"));
+								JSONArray xian_jsa = new JSONArray();
+								
+								for(int p = 0;p<tree_List.size();p++){//第三遍循环，取乡单位
+									Map xiang_map = tree_List.get(p);
+									if(xiang_map.get("com_level").toString().equals("3")&&xiang_map.get("com_f_pkid").toString().equals(xian_map.get("pkid").toString())){//第三级，同时父id等于上一级id
+										
+										JSONObject xiang = new JSONObject();
+										xiang.put("text", xiang_map.get("com_name"));
+										xiang.put("pkid", xiang_map.get("pkid"));
+//										JSONArray xiang_jsa = new JSONArray();
+//										
+//										for(int k = 0;k<tree_List.size();k++){
+//											Map cun_map = tree_List.get(k);
+//											if(cun_map.get("com_level").toString().equals("4")&&cun_map.get("com_f_pkid").toString().equals(xiang_map.get("pkid").toString())){//第四级，同时父id等于上一级id
+//												JSONObject cun = new JSONObject();
+//												cun.put("text", cun_map.get("com_name"));
+//												cun.put("pkid", cun_map.get("pkid"));
+//												xiang_jsa.add(cun);
+//											}
+//										}
+										
+										//xiang.put("nodes", xiang_jsa);
+										xian_jsa.add(xiang);
+									}
+								}
+								
+								xian.put("nodes", xian_jsa);
+								shi_jsa.add(xian);
+							}
+						}
+						
+						shi.put("nodes", shi_jsa);
+						jsa.add(shi);//市级加到返回值中
+					}
+				}
+				response.getWriter().write(jsa.toString());
+			}else if (com_level.equals("2")) {
+				JSONArray xian_js = new JSONArray();
+				for(int j = 0;j<tree_List.size();j++){//第二遍循环，取县级单位
+					Map xian_map = tree_List.get(j);
+					if(xian_map.get("com_level").toString().equals("2")){//第二级，同时父id等于上一级id
+						
+						JSONObject xian = new JSONObject();
+						xian.put("text", xian_map.get("com_name"));
+						xian.put("pkid", xian_map.get("pkid"));
+						JSONArray xian_jsa = new JSONArray();
+						
+						for(int p = 0;p<tree_List.size();p++){//第三遍循环，取乡单位
+							Map xiang_map = tree_List.get(p);
+							if(xiang_map.get("com_level").toString().equals("3")&&xiang_map.get("com_f_pkid").toString().equals(xian_map.get("pkid").toString())){//第三级，同时父id等于上一级id
+								
+								JSONObject xiang = new JSONObject();
+								xiang.put("text", xiang_map.get("com_name"));
+								xiang.put("pkid", xiang_map.get("pkid"));
+								//JSONArray xiang_jsa = new JSONArray();
+								
+//								for(int k = 0;k<tree_List.size();k++){
+//									Map cun_map = tree_List.get(k);
+//									if(cun_map.get("com_level").toString().equals("4")&&cun_map.get("com_f_pkid").toString().equals(xiang_map.get("pkid").toString())){//第四级，同时父id等于上一级id
+//										JSONObject cun = new JSONObject();
+//										cun.put("text", cun_map.get("com_name"));
+//										cun.put("pkid", cun_map.get("pkid"));
+//										xiang_jsa.add(cun);
+//									}
+//								}
+								
+								//xiang.put("nodes", xiang_jsa);
+								xian_jsa.add(xiang);
+							}
+						}
+						
+						xian.put("nodes", xian_jsa);
+						xian_js.add(xian);
+					}
+				}
+				response.getWriter().write(xian_js.toString());
+			}else if (com_level.equals("3")) {
+				JSONArray xiang_js = new JSONArray();
+				for(int p = 0;p<tree_List.size();p++){//第三遍循环，取乡单位
+					Map xiang_map = tree_List.get(p);
+					if(xiang_map.get("com_level").toString().equals("3")){//第三级，同时父id等于上一级id
+						
+						JSONObject xiang = new JSONObject();
+						xiang.put("text", xiang_map.get("com_name"));
+						xiang.put("pkid", xiang_map.get("pkid"));
+						//JSONArray xiang_jsa = new JSONArray();
+						
+//						for(int k = 0;k<tree_List.size();k++){
+//							Map cun_map = tree_List.get(k);
+//							if(cun_map.get("com_level").toString().equals("4")&&cun_map.get("com_f_pkid").toString().equals(xiang_map.get("pkid").toString())){//第四级，同时父id等于上一级id
+//								JSONObject cun = new JSONObject();
+//								cun.put("text", cun_map.get("com_name"));
+//								cun.put("pkid", cun_map.get("pkid"));
+//								xiang_jsa.add(cun);
+//							}
+//						}
+						
+						//xiang.put("nodes", xiang_jsa);
+						xiang_js.add(xiang);
+					}
+				}
+				response.getWriter().write(xiang_js.toString());
+			}
+			//response.getWriter().write(jsa.toString());
+		}
+		
+		return null;
+	}
+	
 }
