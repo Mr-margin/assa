@@ -889,9 +889,11 @@ function huzhu_save(){
 		toastr["warning"]("warning", "旗县必须选择");
 	}else if($("#huzhu_Form #cha_smx2").val()=='请选择'){
 		toastr["warning"]("warning", "苏木乡必须选择");
-	}else if($("#huzhu_Form #cha_gcc2").val()=='请选择'){
-		toastr["warning"]("warning", "嘎查村必须选择");
-	}else if($("#huzhu_Form #v22").val()=='请选择'){
+	}
+//	else if($("#huzhu_Form #cha_gcc2").val()=='请选择'){
+//		toastr["warning"]("warning", "嘎查村必须选择");
+//	}
+	else if($("#huzhu_Form #v22").val()=='请选择'){
 		toastr["warning"]("warning", "贫苦户属性必须选择");
 	}else if($("#huzhu_Form #v12").val()=='请选择'){
 		toastr["warning"]("warning", "文化程度必须选择");	
