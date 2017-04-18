@@ -413,6 +413,7 @@ function show_zhipinyuanyin(){
 			+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="缺土地"  onclick="zhipinyuanyin(this.value)">缺土地</button>'
 			+'<div>&nbsp;</div>'
 			+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="交通条件落后"  onclick="zhipinyuanyin(this.value)">交通条件落后</button>'
+			+'<div>&nbsp;</div>'
 			+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="缺水"  onclick="zhipinyuanyin(this.value)">缺水</button>'
 			+'<div>&nbsp;</div>'
 			+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="自身发展动力不足" onclick="zhipinyuanyin(this.value)">自身发展动力不足</button>');
