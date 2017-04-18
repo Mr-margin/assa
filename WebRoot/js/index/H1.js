@@ -45,10 +45,14 @@ $(document).ready(function(){
 		var val = jsondata.company;
 		var qixian;
 		if(val.com_level == "1"){
+			getinfo_xiqian($('#cha_qx2'));
 			getinfo_xiqian($('#cha_qx'));
 			getinfo_xiqian($('#cha_qx_add'));
 		}else if(val.com_level == "2"){
 			$("#metTable_bxbxxb #v3").attr("data-visible","false");
+			
+			$('#cha_qx2').html('<option  value="'+jsondata.company.xian+'">'+jsondata.company.xian+'</option>');
+			getinfo_xiang(jsondata.company.xian,$('#cha_smx2'));
 			
 			$('#cha_qx').html('<option  value="'+jsondata.company.xian+'">'+jsondata.company.xian+'</option>');
 			getinfo_xiang(jsondata.company.xian,$('#cha_smx'));
@@ -60,6 +64,10 @@ $(document).ready(function(){
 		}else if(val.com_level == "3"){
 			$("#metTable_bxbxxb #v3").attr("data-visible","false");
 			$("#metTable_bxbxxb #v4").attr("data-visible","false");
+			
+			$('#cha_qx2').html('<option value="'+jsondata.company.xian+'">'+jsondata.company.xian+'</option>');
+			$("#cha_smx2").html('<option value="'+jsondata.company.xiang+'">'+jsondata.company.xiang+'</option>');
+			getinfo_cun(jsondata.company.xiang,$('#cha_gcc2'));
 			
 			$('#cha_qx').html('<option value="'+jsondata.company.xian+'">'+jsondata.company.xian+'</option>');
 			$("#cha_smx").html('<option value="'+jsondata.company.xiang+'">'+jsondata.company.xiang+'</option>');
@@ -76,6 +84,10 @@ $(document).ready(function(){
 			$("#metTable_bxbxxb #v4").attr("data-visible","false");
 			$("#metTable_bxbxxb #v5").attr("data-visible","false");
 			
+			$('#cha_qx2').html('<option  value="'+jsondata.company.xian+'">'+jsondata.company.xian+'</option>');
+			$("#cha_smx2").html('<option value="'+jsondata.company.xiang+'">'+jsondata.company.xiang+'</option>');
+			$("#cha_gcc2").html('<option value="'+jsondata.company.cun+'">'+jsondata.company.cun+'</option>');
+			
 			$('#cha_qx').html('<option  value="'+jsondata.company.xian+'">'+jsondata.company.xian+'</option>');
 			$("#cha_smx").html('<option value="'+jsondata.company.xiang+'">'+jsondata.company.xiang+'</option>');
 			$("#cha_gcc").html('<option value="'+jsondata.company.cun+'">'+jsondata.company.cun+'</option>');
@@ -89,6 +101,7 @@ $(document).ready(function(){
 			chaxun.cha_gcc = jsondata.company.cun;
 		}
 	}else if(jsondata.company_map.com_type=="管理员"){
+		getinfo_xiqian($('#cha_qx2'));
 		getinfo_xiqian($('#cha_qx'));
 		getinfo_xiqian($('#cha_qx_add'));
 	}else{
