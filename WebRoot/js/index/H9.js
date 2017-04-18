@@ -212,7 +212,12 @@ function shiding_initialization(){
 function queryParams_s(params) {  //配置参数
 	var temp = {};
 	temp.type = "市级低收入人口";
-	temp.sum_name=$("#sum_g option:selected").text();
+	if($("#sum_g option:selected").text()!=null&&$("#sum_g option:selected").text()!="请选择"){
+		temp.sum_name=$("#sum_g option:selected").text();
+	}else{
+		temp.sum_name=$("#sum_s option:selected").text();
+	}
+
     temp.qu_g = $("#qu_s").val();
     temp.sum_g = $("#sum_s").val();
     temp.order=params.order;

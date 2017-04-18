@@ -93,20 +93,21 @@ function getinfo_xiang(chongmingle,str){
 	    	$.each(data,function(i,item){
 	    		if(type=="单位"){
 	    			if(val.com_level == "1"){
-	    				xiang+='<option>'+item.com_name+'</option>';
+	    				// 2017 - 4 -18  value赋值 
+	    				xiang+='<option value='+item.com_name+'>'+item.com_name+'</option>';
 	    			}else if(val.com_level == "2"){
-	    				xiang+='<option>'+item.com_name+'</option>';
+	    				xiang+='<option value='+item.com_name+'>'+item.com_name+'</option>';
 	    			}else if(val.com_level == "3"){
 	    				if(val.xiang==item.com_name){
-	    					xiang='<option>'+item.com_name+'</option>';
+	    					xiang='<option value='+item.com_name+'>'+item.com_name+'</option>';
 	    				}
 	    			}else if(val.com_level == "4"){
 	    				if(val.xiang==item.com_name){
-	    					xiang='<option>'+item.com_name+'</option>';
+	    					xiang='<option value='+item.com_name+'>'+item.com_name+'</option>';
 	    				}
 	    			}
 	    		}else if(type=="管理员"){
-	    			xiang+='<option>'+item.com_name+'</option>';
+	    			xiang+='<option value='+item.com_name+'>'+item.com_name+'</option>';
 	    		}
 	    	});
 	    	str.html(xiang);

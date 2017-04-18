@@ -808,22 +808,22 @@ public class Index_Controller extends MultiActionController{
 		String pkid=company_json.get("pkid").toString();//获取用户名称
 		if(pkid.equals("4")){
 			if(str==""){
-				people_sql = "select a1.pkid,a3.com_name as quname,a1.v1,a1.v2,a1.v3,a1.v4,a2.com_name,a1.v5,a1.sys_company_id,a2.com_f_pkid from da_company"+year+" a1 "
+				people_sql = "select a1.pkid,a3.com_name as quname,a1.v1,a1.v2,a1.v3,a1.v4,a2.com_name,a1.v5,a1.sys_company_id,a2.com_f_pkid,(select d.com_f_pkid from sys_company d where pkid = a2.com_f_pkid) as f_pkid ,(select com_name from sys_company where pkid = a2.com_f_pkid) as xiang_com_name,(select com_name  from sys_company where pkid in (select d.com_f_pkid from sys_company d where pkid = a2.com_f_pkid))as qixian_com_name  from  da_company"+year+" a1 "
 						+ "LEFT JOIN sys_company a2 ON a1.v5=a2.pkid LEFT JOIN sys_company a3 ON a1.sys_company_id=a3.pkid  limit "+number+","+size;
 				count_st_sql = "select count(*) from da_company a1";
 			}else{
-				people_sql = "select a1.pkid,a3.com_name as quname,a1.v1,a1.v2,a1.v3,a1.v4,a2.com_name,a1.v5,a1.sys_company_id,a2.com_f_pkid from da_company"+year+" a1 "
+				people_sql = "select a1.pkid,a3.com_name as quname,a1.v1,a1.v2,a1.v3,a1.v4,a2.com_name,a1.v5,a1.sys_company_id,a2.com_f_pkid,(select d.com_f_pkid from sys_company d where pkid = a2.com_f_pkid) as f_pkid ,(select com_name from sys_company where pkid = a2.com_f_pkid) as xiang_com_name,(select com_name  from sys_company where pkid in (select d.com_f_pkid from sys_company d where pkid = a2.com_f_pkid))as qixian_com_name  from da_company"+year+" a1 "
 						+ "LEFT JOIN sys_company a2 ON a1.v5=a2.pkid LEFT JOIN sys_company a3 ON a1.sys_company_id=a3.pkid  where "+str.substring(0, str.length()-3)+" limit "+number+","+size;
 				count_st_sql = "select count(*) from da_company"+year+" a1 LEFT JOIN sys_company a2 ON a1.v5=a2.pkid where "+str.substring(0, str.length()-3);
 			}	
 		}else{
 			String xian_id=company_json.get("xian_id").toString();//获取用户名称
 			if(str==""){
-				people_sql = "select a1.pkid,a3.com_name as quname,a1.v1,a1.v2,a1.v3,a1.v4,a2.com_name,a1.v5,a1.sys_company_id,a2.com_f_pkid from da_company"+year+" a1 "
+				people_sql = "select a1.pkid,a3.com_name as quname,a1.v1,a1.v2,a1.v3,a1.v4,a2.com_name,a1.v5,a1.sys_company_id,a2.com_f_pkid,(select d.com_f_pkid from sys_company d where pkid = a2.com_f_pkid) as f_pkid ,(select com_name from sys_company where pkid = a2.com_f_pkid) as xiang_com_name,(select com_name  from sys_company where pkid in (select d.com_f_pkid from sys_company d where pkid = a2.com_f_pkid))as qixian_com_name  from da_company"+year+" a1 "
 						+ "LEFT JOIN sys_company a2 ON a1.v5=a2.pkid LEFT JOIN sys_company a3 ON a1.sys_company_id=a3.pkid  where sys_company_id="+xian_id+" limit "+number+","+size;
 				count_st_sql = "select count(*) from da_company"+year+" a1 where sys_company_id="+xian_id;
 			}else{
-				people_sql = "select a1.pkid,a3.com_name as quname,a1.v1,a1.v2,a1.v3,a1.v4,a2.com_name,a1.v5,a1.sys_company_id,a2.com_f_pkid from da_company"+year+" a1 "
+				people_sql = "select a1.pkid,a3.com_name as quname,a1.v1,a1.v2,a1.v3,a1.v4,a2.com_name,a1.v5,a1.sys_company_id,a2.com_f_pkid,(select d.com_f_pkid from sys_company d where pkid = a2.com_f_pkid) as f_pkid ,(select com_name from sys_company where pkid = a2.com_f_pkid) as xiang_com_name,(select com_name  from sys_company where pkid in (select d.com_f_pkid from sys_company d where pkid = a2.com_f_pkid))as qixian_com_name  from da_company"+year+" a1 "
 						+ "LEFT JOIN sys_company a2 ON a1.v5=a2.pkid LEFT JOIN sys_company a3 ON a1.sys_company_id=a3.pkid  where sys_company_id="+xian_id+" and "+str.substring(0, str.length()-3)+" limit "+number+","+size;
 				count_st_sql = "select count(*) from da_company"+year+" a1 LEFT JOIN sys_company a2 ON a1.v5=a2.pkid where sys_company_id="+xian_id+" and "+str.substring(0, str.length()-3);
 			}	
@@ -853,6 +853,7 @@ public class Index_Controller extends MultiActionController{
 							}	
 						}
 					}
+					
 					val.put(key, Admin_st_map.get(key));
 				}
 				//覆盖原来数据库中查询的一个村的错误数据

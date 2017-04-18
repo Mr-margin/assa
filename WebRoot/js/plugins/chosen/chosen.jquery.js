@@ -982,11 +982,11 @@
             if (this.result_highlight) {
                 high = this.result_highlight;
                 this.result_clear_highlight();
-                if (this.is_multiple && 3 <= this.choices_count()) {
+                if (this.is_multiple && 100 <= this.choices_count()) {
                     this.form_field_jq.trigger("chosen:maxselected", {
                         chosen: this
                     });
-                    toastr["info"]("info", "最多添加三个嘎查村");
+                  
                     return false;
                 }
                 if (this.is_multiple) {

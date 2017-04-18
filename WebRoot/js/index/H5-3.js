@@ -60,6 +60,7 @@ $(function(){
 		$("#cha_gcc_up").css("width","200px");
 		$("#cha_gcc_up_chosen").css("width","200px");
 		var row = getSelectedRow();//获取选中的行
+		shoubangfucun();
     	if (typeof row != "undefined") {
     		$("#add_bf").hide();
     		$("#up_bf").show();
@@ -67,11 +68,14 @@ $(function(){
     		$("#up_bfdw_ldxm").val(row.v3),
     		$("#up_bfdw_dz").val(row.v2),
     		$("#up_bfdw_lddh").val(row.v4)
-    		
     		var val = jsondata.company;
     		if(val.com_level == "1"){
     			$("#up_qixian").val(row.sys_company_id);
     		}
+    		//选定 将后台传过来的 乡村 旗县选中
+    		$("#cha_qx_up").find("option[value='"+row.qixian_com_name+"']").attr("selected",true);
+    		getinfo_xiang(row.qixian_com_name,$('#cha_smx_up'))
+    		$("#cha_smx_up").find("option[value='"+row.xiang_com_name+"']").attr("selected",true);
     		if (typeof row.com_name != "undefined") {
     			var ids = row.v5.split(",");
     			var com_names = row.com_name.split(",");
@@ -88,6 +92,8 @@ $(function(){
     				for(var i in ids){
     					$("#cha_gcc_up option[value='"+ids[i]+"']").attr("selected","selected");
     				}
+    				
+    				
     				//更新数据显示在前端
     				$(".chosen-select").trigger("chosen:updated");//多项选择器动态加载不出数据的问题
     			}else{
@@ -100,7 +106,7 @@ $(function(){
     		
     		 
     		xiugaiID=row.pkid;
-    		//shoubangfucun();
+    		
     		document.getElementById("up_bf").scrollIntoView();//定位到添加帮扶单位界面
     	}else{
     		toastr["info"]("info", "必须选择一条记录");
@@ -191,7 +197,7 @@ function shoubangfucun(){
 }
 
 //特殊处理的旗县加载下拉菜单
-function teshu_xiqian(str,str1,str2){
+function teshu_xiqian(str,str1,str2,str3){
 	var qixian;
 	var type = jsondata.company_map.com_type;
 	var val = jsondata.company;
