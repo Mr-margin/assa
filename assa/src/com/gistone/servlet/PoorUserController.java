@@ -514,6 +514,9 @@ public class PoorUserController extends MultiActionController{
 		for(Map val:list){
 			JSONObject obj=new JSONObject ();
 			obj.put("pkid",val.get("pkid")==null?"":val.get("pkid"));
+			obj.put("v3", val.get("v3")==null?"":val.get("v3"));//旗县
+			obj.put("v4",val.get("v4")==null?"":val.get("v4"));//苏木乡
+			obj.put("v5",val.get("v5")==null?"":val.get("v5"));//嘎查村
 			obj.put("v6", val.get("v6")==null?"":val.get("v6"));//姓名
 			obj.put("v7",val.get("v7")==null?"":val.get("v7"));//性别
 			obj.put("v8",val.get("v8")==null?"":val.get("v8"));//证件号码
@@ -686,6 +689,15 @@ public class PoorUserController extends MultiActionController{
 		
 		String where = "";
 		String jiatingwhere = "";
+		if(form_json.get("v3")!=null&&!form_json.get("v3").equals("")){//必填项，判断为空的时候不修改数据库
+			where += "v3='"+form_json.get("v3")+"',";
+		}
+		if(form_json.get("v4")!=null&&!form_json.get("v4").equals("")){//必填项，判断为空的时候不修改数据库
+			where += "v4='"+form_json.get("v4")+"',";
+		}
+		if(form_json.get("v5")!=null&&!form_json.get("v5").equals("")){//必填项，判断为空的时候不修改数据库
+			where += "v5='"+form_json.get("v5")+"',";
+		}
 		if(form_json.get("v6")!=null&&!form_json.get("v6").equals("")){//必填项，判断为空的时候不修改数据库
 			where += "v6='"+form_json.get("v6")+"',";
 		}
@@ -874,11 +886,11 @@ public class PoorUserController extends MultiActionController{
 		}else{
 			bas_where += "basic_explain='',";
 		}
-		if(form_json.get("hz_jtzz")!=null&&!form_json.get("hz_jtzz").equals("")){//可以为空，如果没有取到值，证明前台为空，数据库需要清空此列
-			bas_where += "basic_address='"+form_json.get("hz_jtzz")+"',";
-		}else{
-			bas_where += "basic_address='',";
-		}
+//		if(form_json.get("hz_jtzz")!=null&&!form_json.get("hz_jtzz").equals("")){//可以为空，如果没有取到值，证明前台为空，数据库需要清空此列
+//			bas_where += "basic_address='"+form_json.get("hz_jtzz")+"',";
+//		}else{
+//			bas_where += "basic_address='',";
+//		}
 		
 		if(where.length()>0){
 			where = where.substring(0, where.length()-1);
