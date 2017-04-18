@@ -494,29 +494,53 @@
 													</div>	
 													<br>
 													<div class="row">
-														<div class="col-sm-6">
-															<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;">开户银行</label> 
-															<div class="col-sm-8">
-																<input class="form-control" type="text" placeholder="开户银行（选填）" id="v26" name="v26" required="true">
-															</div>
-														</div>
-														<div class="col-sm-6">
-															<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;" >银行账号</label> 
-															<div class="col-sm-8">
-																<input class="form-control" type="text" placeholder="银行账号（选填）" id="v27" name="v27">
+														<div class="col-sm-12">
+															<label class="col-sm-2 control-label" style="text-align:right;margin-top: 5px;">开户银行</label> 
+															<div class="col-sm-10" style="height:59px;">
+																<input class="form-control" type="text" placeholder="开户银行（选填）" id="v26" name="v26" required="true" >
+<!-- 																<span style="color: red;position: relative;left:250px;top:-23px;font-size:17px">*</span> -->
 															</div>
 														</div>
 													</div>	
 													<br>
-													<div class="row">
-														<div class="col-sm-12" style="padding-left:10px;">
-															<label class="col-sm-2 control-label" style="text-align:right;margin-top: 5px;">家庭住址</label>
-															<div class="col-sm-10">
-																<input class="form-control" type="text" placeholder="家庭住址" id="hz_jtzz" name="hz_jtzz" >
-																<span style="color: red;position: relative;left:685px;top:-23px;font-size:17px">*</span> 
-															</div>
-														</div>
+													<div class="row" >
+															 <div class="col-sm-6">
+																<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;" >银行账号</label> 
+																<div class="col-sm-8">
+																	<input class="form-control" type="text" placeholder="银行账号（选填）" id="v27" name="v27">
+																</div>
+															 </div>
+															 <div class="col-sm-6">
+															 	<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;">旗县</label>
+																<div class="col-sm-8">
+																	<select class="form-control" id="cha_qx2" name="v3" onchange="getinfo_xiang(this.value,$('#cha_smx2'))">
+																	</select>
+																	<span style="color: red;position: relative;left:250px;top:-23px;font-size:17px">*</span> 
+																</div>
+															 </div>
 													</div>
+													<br>
+													<div class="row">
+														 <div class="col-sm-6">
+																<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;">苏木乡</label>
+																<div class="col-sm-8">
+																	<select class="form-control" id="cha_smx2" name="v4" onchange="getinfo_cun(this.value,$('#cha_gcc2'))">
+																		<option>请选择</option>
+																	</select>
+																	<span style="color: red;position: relative;left:250px;top:-23px;font-size:17px">*</span>
+																</div>
+															 </div>
+	
+															 <div class="col-sm-6">
+																<label class="col-sm-4 control-label" style="text-align:right;margin-top: 5px;">嘎查村</label>
+																<div class="col-sm-8">
+																	<select class="form-control" id="cha_gcc2" name="v5">
+																		<option>请选择</option>
+																	</select>
+																	<span style="color: red;position: relative;left:250px;top:-23px;font-size:17px">*</span>
+																</div>
+															</div>
+													</div>	
 													<br>
 													<div class="row">
 														<div class="col-sm-6">

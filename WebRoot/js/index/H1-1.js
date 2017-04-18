@@ -311,7 +311,29 @@ function jbqk(id){
 	    		$('#huzhu #sys_standard').val(data.huzhu.sys_standard);//识别标准
 	    	}
 	    	$('#huzhu #v8').val(data.huzhu.v8);//证件号码
-	    	$('#huzhu #hz_jtzz').val(data.huzhu.basic_address);//家庭住址
+	    	//$('#huzhu #hz_jtzz').val(data.huzhu.basic_address);//家庭住址
+	    	//家庭住址
+	    	//旗县
+	    	if(data.huzhu.v3==''){
+	    		$('#huzhu #cha_qx2').val("请选择");
+	    	}else{
+	    		$('#huzhu #cha_qx2').val(data.huzhu.v3);
+	    		
+	    	}
+	    	//苏木乡
+	    	if(data.huzhu.v4==''){
+	    		$('#huzhu #cha_smx2').val("请选择");
+	    	}else{
+	    		getinfo_xiang($('#huzhu #cha_qx2').val(),$('#cha_smx2'));
+	    		$('#huzhu #cha_smx2').val(data.huzhu.v4);
+	    	}
+	    	//嘎查村
+	    	if(data.huzhu.v5==''){
+	    		$('#huzhu #cha_gcc2').val("请选择");
+	    	}else{
+	    		getinfo_cun($('#huzhu #cha_smx2').val(),$('#cha_gcc2'));
+	    		$('#huzhu #cha_gcc2').val(data.huzhu.v5);
+	    	}
 	    	if(data.huzhu.v22==''){
 	    		$('#huzhu #v22').val("请选择");//贫困户属性
 	    	}else{
@@ -787,7 +809,7 @@ function jbqk_initialization(){
 	$('#huzhu #v17').val("");//务工时间
 	$('#huzhu #sys_standard').val("请选择");//识别标准
 	$('#huzhu #v8').val("");//证件号码
-	$('#huzhu #hz_jtzz').val("");//家庭住址
+	//$('#huzhu #hz_jtzz').val("");
 	$('#huzhu #v12').val("请选择");//文化程度
 	$('#huzhu #v13').val("请选择");//是否在校
 	$('#huzhu #v14').val("请选择");//健康状况
@@ -859,8 +881,16 @@ function huzhu_save(){
 		toastr["warning"]("warning", "户主身份证必须填写");	
 	}else if($("#huzhu_Form #v28").val()=='请选择'){
 		toastr["warning"]("warning", "政治面貌必须选择");	
-	}else if($("#huzhu_Form #hz_jtzz").val()==''){
-		toastr["warning"]("warning", "家庭地址必须填写");	
+	}
+//	else if($("#huzhu_Form #hz_jtzz").val()==''){
+//		toastr["warning"]("warning", "家庭地址必须填写");	
+//	}
+	else if($("#huzhu_Form #cha_qx2").val()=='请选择'){
+		toastr["warning"]("warning", "旗县必须选择");
+	}else if($("#huzhu_Form #cha_smx2").val()=='请选择'){
+		toastr["warning"]("warning", "苏木乡必须选择");
+	}else if($("#huzhu_Form #cha_gcc2").val()=='请选择'){
+		toastr["warning"]("warning", "嘎查村必须选择");
 	}else if($("#huzhu_Form #v22").val()=='请选择'){
 		toastr["warning"]("warning", "贫苦户属性必须选择");
 	}else if($("#huzhu_Form #v12").val()=='请选择'){
