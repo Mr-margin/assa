@@ -306,6 +306,7 @@ $("#treeview11").treeview({
 		text: "<a id='jtsz_tree' onclick='jiatingshouzhizu();'>家庭收支<a>",
 	},
 	],
+	selectedBackColor:'#DBDBDB',
 })
 $("#treeview22").treeview({
 	color: "#428bca",
@@ -313,6 +314,7 @@ $("#treeview22").treeview({
 		text: "<a id='zpyy_tree' onclick='show_zhipinyuanyin();'>致贫原因<a>",
 	},
 	],
+	selectedBackColor:'#DBDBDB',
 })
 $("#treeview33").treeview({
 	color: "#428bca",
@@ -326,6 +328,7 @@ $("#treeview33").treeview({
 		text: "<a id='bffzr_tree' onclick='showbffzr();'>帮扶责任人<a>",
 	},
 	],
+	selectedBackColor:'#DBDBDB',
 })
 //没有数据的暂时清空
 function qingkong(){
@@ -1032,6 +1035,7 @@ function renkouguimo(shujv){
 						option_map.series[0].name=shujv+'人数';
 						option_map.series[0].data=data;
 						option_map.series[0].mapType=map_name;
+//						option_map.tooltip.formatter=shujv+'人数<br/>{b}: {c}(户)';
 						var min = 0,max = 0;
 			 	    	$.each(data, function(i,item) {
 			 	    		if(item.value>max){
