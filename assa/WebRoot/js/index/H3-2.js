@@ -307,6 +307,7 @@ $("#treeview11").treeview({
 	},
 	],
 	selectedBackColor:'#DBDBDB',
+	selectedColor:'#FFFFFF',
 })
 $("#treeview22").treeview({
 	color: "#428bca",
@@ -315,6 +316,7 @@ $("#treeview22").treeview({
 	},
 	],
 	selectedBackColor:'#DBDBDB',
+	selectedColor:'#FFFFFF',
 })
 $("#treeview33").treeview({
 	color: "#428bca",
@@ -329,6 +331,7 @@ $("#treeview33").treeview({
 	},
 	],
 	selectedBackColor:'#DBDBDB',
+	selectedColor:'#FFFFFF',
 })
 //没有数据的暂时清空
 function qingkong(){
