@@ -216,8 +216,7 @@ function getbangfuren_xiqian(){
 }
 
 //帮扶单位和责任人
-function bfdwr(id){
-	
+function bfdwr(id,cunId){
 	$("#tab_jbqk").hide();//基本情况
 	$("#tab_dqszh").hide();//当前收支
 	$("#tab_bfdwyzrr").show();//帮扶单位与责任人
@@ -225,12 +224,11 @@ function bfdwr(id){
 	$("#tab_zfqk").hide();//走访情况
 	$("#tab_bfcx").hide();//帮扶成效
 	$("#tab_bfgshzhfx").hide();//帮扶后收支分析
-
 	document.getElementById('tab_bfdwyzrr').scrollIntoView();
 	getbangfuren_xiqian();
-	
+/*	alert(cunId);*/
 	var bsSuggest = $("#bangfuren #add_bangfuren_test").bsSuggest({
-		url: "/assa/getPersonal.do?sys_company_id="+$("#bangfuren #sys_company_id").val()+"&huid="+id,//请求数据的 URL 地址
+		url: "/assa/getPersonal.do?sys_company_id="+$("#bangfuren #sys_company_id").val()+"&huid="+id+"&cunId="+cunId,//请求数据的 URL 地址
 		idField: 'pkid',//每组数据的哪个字段作为 data-id，优先级高于 indexId 设置（推荐）
 		keyField: 'col_name',//每组数据的哪个字段作为输入框内容，优先级高于 indexKey 设置（推荐）
 		effectiveFields: ['col_name','com_name','col_post','telephone'],//有效显示于列表中的字段，非有效字段都会过滤，默认全部，对自定义getData方法无效
@@ -432,6 +430,11 @@ function data_jiazai_bangfu(id){
 	    }  
 	
 	});
+}
+//获取选中行数据
+function getSelectedRow(form) {
+    var index = form.find('tr.success').data('index');
+    return form.bootstrapTable('getData')[index];
 }
 
 ////数据初始化
