@@ -696,7 +696,12 @@ public class PoorUserController extends MultiActionController{
 			where += "v4='"+form_json.get("v4")+"',";
 		}
 		if(form_json.get("v5")!=null&&!form_json.get("v5").equals("")){//必填项，判断为空的时候不修改数据库
-			where += "v5='"+form_json.get("v5")+"',";
+			if(form_json.get("v5").equals("请选择")){
+				where += "v5='',";
+			}else{
+				where += "v5='"+form_json.get("v5")+"',";
+			}
+			
 		}
 		if(form_json.get("v6")!=null&&!form_json.get("v6").equals("")){//必填项，判断为空的时候不修改数据库
 			where += "v6='"+form_json.get("v6")+"',";
