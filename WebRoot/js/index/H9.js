@@ -112,10 +112,12 @@ function time(){
 /**
  * 校验别人是否在进行点击刷新操作
  */
+
 function isOperation(){
 	var data = ajax_async_t("/assa/isOperation.do", {}, "text");
 	return data;
 }
+
 function H5_6sxanniu(){
 	var data=isOperation();
 	if(data=="1"){
