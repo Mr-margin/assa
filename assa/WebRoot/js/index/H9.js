@@ -104,40 +104,55 @@ function get_tj_xiang(chongmingle,str){
  */
 function time(){
 	var data = ajax_async_t("/assa/time_data.do", {}, "text");
-	var time = data;
-	$(".time").html(time);
+	if(data!="0"){
+		var time = data;
+		$(".time").html(time);
+	}
+}
+/**
+ * 校验别人是否在进行点击刷新操作
+ */
+function isOperation(){
+	var data = ajax_async_t("/assa/isOperation.do", {}, "text");
+	return data;
 }
 function H5_6sxanniu(){
-	$('#shuaxin_time').hide();
-	$('#exportExcel_all_dengdai').show();
-	$('#shuaxin_time1').hide();
-	$('#exportExcel_all_dengdai1').show();
-	$.ajax({  		       
-		url: "/assa/updata_xinbiao.do",
-		type: "POST",
-		async:true,
-		dataType: "text",
-		success: function (data) {
-			if(data==1){
-				metTable_g.bootstrapTable('destroy');//销毁现有表格数据
-				guoding_initialization();//重新初始化数据
-				metTable_s.bootstrapTable('destroy');//销毁现有表格数据
-				shiding_initialization();//重新初始化数据
-				time();
-				$('#shuaxin_time').show();
-				$('#exportExcel_all_dengdai').hide();
-				$('#shuaxin_time1').show();
-				$('#exportExcel_all_dengdai1').hide();
-			}else if(data==3){
-				toastr["info"]("", "刷新正在被操作，请稍后再点击刷新！");
-			}else{
-				
-			}
-		},
-		error: function () { 
-			toastr["error"]("error", "服务器异常");
-		}  
-	});
+	var data=isOperation();
+	if(data=="1"){
+		$('#shuaxin_time').hide();
+		$('#exportExcel_all_dengdai').show();
+		$('#shuaxin_time1').hide();
+		$('#exportExcel_all_dengdai1').show();
+		$.ajax({  		       
+			url: "/assa/updata_xinbiao.do",
+			type: "POST",
+			async:true,
+			dataType: "text",
+			success: function (data) {
+				if(data==1){
+					metTable_g.bootstrapTable('destroy');//销毁现有表格数据
+					guoding_initialization();//重新初始化数据
+					metTable_s.bootstrapTable('destroy');//销毁现有表格数据
+					shiding_initialization();//重新初始化数据
+					time();
+					$('#shuaxin_time').show();
+					$('#exportExcel_all_dengdai').hide();
+					$('#shuaxin_time1').show();
+					$('#exportExcel_all_dengdai1').hide();
+				}else if(data==3){
+					toastr["info"]("", "刷新正在被操作，请稍后再点击刷新！");
+				}else{
+					
+				}
+			},
+			error: function () { 
+				toastr["error"]("error", "服务器异常");
+			}  
+		});
+	}else if(data=="0"){
+		toastr["info"]("", "刷新正在被操作，请稍后再点击刷新！");
+	}
+
 }
 
 //国定标准
