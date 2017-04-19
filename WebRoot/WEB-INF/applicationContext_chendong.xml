@@ -199,6 +199,14 @@
 				<!-- 日志首页 -->
 				<prop key="getRecordController.do">recordCOntroller</prop>
 				
+				<!-- 二维码 -->
+				<prop key="getQRCode.do">createQRCode</prop>
+				
+				<!-- 二维码 -->
+				<prop key="anGetPk.do">anUserController</prop>
+				
+				
+				
 			</props>
 		</property>
 	 </bean>
@@ -213,4 +221,6 @@
 	 <bean id="standingBookController" class="com.gistone.servlet.StandingBookController" />
 	 <bean id="recordCOntroller" class="com.gistone.servlet.RecordController" />
 	 <bean id="signOutController" class="com.gistone.servlet.SignOutController" />
+	 <bean id="createQRCode" class="com.gistone.servlet.CreateQRCode" />
+	 <bean id="anUserController" class="com.gistone.servlet.AnUserController" />
 </beans>
