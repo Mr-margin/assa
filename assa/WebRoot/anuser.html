@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>鄂尔多斯精准扶贫大数据平台</title>
+	
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/animate.min.css" rel="stylesheet">
+    <link href="css/style.min.css" rel="stylesheet">
+	<base target="_blank">
+	
+	<style>
+		.show-grid-hui [class^=col-] {
+			padding-top:10px;
+			padding-bottom:10px;
+			border:1px solid #ddd;
+			background-color:#eee!important
+		}
+		.show-grid-hui {
+			margin:15px 0
+		}
+		.show-grid-white [class^=val-] {
+			padding-top:10px;
+			padding-bottom:10px;
+			border:1px solid #ddd;
+		}
+		.val-xs-6 {
+			position: relative;
+			min-height: 1px;
+			padding-right: 15px;
+			padding-left: 15px;
+			float: left;
+			width: 50%;
+		}
+		.val-md-1 {
+			position: relative;
+			min-height: 1px;
+			padding-right: 15px;
+			padding-left: 15px;
+			margin:0 auto;
+		}
+		p {
+    		word-wrap: break-word;	
+    		word-break: break-all;
+		}
+	</style>
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content">
+	
+	
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-title">
+                        <h5>贫困户基本情况</h5>
+                        <div class="ibox-tools"></div>
+                    </div>
+                    
+                    <div class="ibox-content">
+                    	
+                    	<div class="row show-grid-hui show-grid-white">
+                    		<!-- <div class="col-xs-6">家庭住址</div>
+                            <div class="val-xs-6"><p><strong id="show_hz_address"></strong></p></div> -->
+                            <div class="col-xs-6">盟市</div>
+                            <div class="val-xs-6"><code id="show_hz_v2"></code></div>
+                            <div class="col-xs-6">旗县</div>
+                            <div class="val-xs-6"><code id="show_hz_v3"></code></div>
+                            <div class="col-xs-6">苏木乡</div>
+                            <div class="val-xs-6"><code id="show_hz_v4"></code></div>
+                            <div class="col-xs-6">嘎查村</div>
+                            <div class="val-xs-6"><code id="show_hz_v5"></code></div>
+                            <div class="col-xs-6">户主姓名</div>
+                            <div class="val-xs-6"><strong id="show_hz_v6"></strong></div>
+                    	</div>
+                    	
+                    	<div class="row show-grid-hui show-grid-white">
+                    		<div class="col-xs-6">识别标准</div>
+                            <div class="val-xs-6"><code id="show_hz_sbbz"></code></div>
+                            <div class="col-xs-6">贫困户属性</div>
+                            <div class="val-xs-6"><code id="show_hz_pkgsx"></code></div>
+                            <div class="col-xs-6">家庭人口</div>
+                            <div class="val-xs-6"><code id="show_hz_rk"></code></div>
+                            <div class="col-xs-6">是否军烈属</div>
+                            <div class="val-xs-6"><code id="show_hz_sfjls"></code></div>
+                    	</div>
+                    	
+                    	<div class="row show-grid-hui show-grid-white">
+                    		<div class="col-xs-6">主要致贫原因</div>
+                            <div class="val-xs-6"><code id="show_hz_zpyy"></code></div>
+                            <div class="col-xs-6">其他致贫原因</div>
+                            <div class="val-xs-6"><code id="show_hz_qtzpyy"></code></div>
+                    	</div>
+						
+						
+                    </div>
+                    
+				</div>
+			</div>
+		</div>
+		
+		
+		
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-title">
+                        <h5 id="show_hz_xm"></h5>
+                        <div class="ibox-tools"></div>
+                    </div>
+                    <div class="ibox-content">
+                    	<div class="row" id="hz_pic"></div>
+                    	<div class="row show-grid-hui show-grid-white">
+                    		<div class="col-xs-6">性别</div>
+                            <div class="val-xs-6"><code id="shiw_hz_sex"></code></div>
+                            <div class="col-xs-6">民族</div>
+                            <div class="val-xs-6"><code id="show_hz_mz"></code></div>
+                    	</div>
+                    	<div class="row show-grid-hui show-grid-white">
+                    		<div class="col-xs-6">文化程度</div>
+                            <div class="val-xs-6"><code id="show_hz_whcd"></code></div>
+                            <div class="col-xs-6">是否在校</div>
+                            <div class="val-xs-6"><code id="show_hz_sfzx"></code></div>
+                    	</div>
+                    	<div class="row show-grid-hui show-grid-white">
+                    		<div class="col-xs-6">健康状况</div>
+                            <div class="val-xs-6"><code id="show_hz_jkzk"></code></div>
+                            <div class="col-xs-6">劳动力</div>
+                            <div class="val-xs-6"><code id="show_hz_ldl"></code></div>
+                            <div class="col-xs-6">务工情况</div>
+                            <div class="val-xs-6"><code id="show_hz_wgqk"></code></div>
+                            <div class="col-xs-6">务工时间</div>
+                            <div class="val-xs-6"><code id="show_hz_wgsj"></code></div>
+                    	</div>
+                    	<div class="row show-grid-hui show-grid-white">
+                    		<div class="col-xs-6">新农合</div>
+                            <div class="val-xs-6"><code id="show_hz_cjxnh"></code></div>
+                            <div class="col-xs-6">养老保险</div>
+                            <div class="val-xs-6"><code id="show_hz_ylbx"></code></div>
+                    	</div>
+                    </div>
+				</div>
+			</div>
+		</div>
+		<div id="jiatingchengyuan"></div>
+		
+		<div class="row" id="zoufang">
+			<div class="col-sm-12">
+				<div class="panel panel-default">
+                    <div class="panel-heading"><img src='img/bfrj.png' style="margin:0;vertical-align:baseline;width:150px;height:29px;"></div>
+                    <div class="panel-body">
+                   		<div class="row" id="zoufangqingkuang"></div>
+                    </div>
+                </div>
+			</div>
+		</div>
+		
+	</div>
+	
+	<script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.peity.min.js"></script>
+    <script src="js/content.min.js"></script>
+    <script src="js/index/anuser/an.js"></script>
+</body>
+
+</html>
