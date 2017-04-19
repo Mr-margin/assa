@@ -128,7 +128,10 @@ function H5_6sxanniu(){
 				$('#exportExcel_all_dengdai').hide();
 				$('#shuaxin_time1').show();
 				$('#exportExcel_all_dengdai1').hide();
+			}else if(data==2){
+				toastr["info"]("", "刷新正在被操作，请稍后再点击刷新！");
 			}else{
+				
 			}
 		},
 		error: function () { 
