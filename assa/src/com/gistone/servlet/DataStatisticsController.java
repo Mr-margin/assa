@@ -233,7 +233,7 @@ public class DataStatisticsController  extends MultiActionController{
 				this.getBySqlMapper.findRecords(del_sqlAdapter);
 				sfcg="1";//清除成功为1
 			}else{
-				sfcg="2";//清除失败表为空
+				sfcg="3";//清除失败表为空
 			}
 			
 		} catch (Exception e) {
@@ -267,8 +267,8 @@ public class DataStatisticsController  extends MultiActionController{
 			} catch (Exception e) {
 				response.getWriter().write("0");//插入失败，返回0
 			}
-		}else if(sfcg.equals("2")){
-			response.getWriter().write("2");//插入失败，返回0
+		}else if(sfcg.equals("3")){
+			response.getWriter().write("3");//插入失败，返回0
 		}else{
 			response.getWriter().write("0");//插入失败，返回0
 		}
