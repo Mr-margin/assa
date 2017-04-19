@@ -278,10 +278,31 @@ public class DataStatisticsController  extends MultiActionController{
 		String sql = "select b15 from da_statistics where pkid=1";
 		SQLAdapter sql_time = new SQLAdapter(sql);
 		List<Map> time_list = this.getBySqlMapper.findRecords(sql_time);
-		String time= time_list.get(0).get("b15").toString();
-		JSONObject json_time= new JSONObject();
-		json_time.put("b15", time);
+		String time="0";
+		if(time_list.size()>0){
+			time=time_list.get(0).get("b15").toString();
+		}
+//		JSONObject json_time= new JSONObject();
+//		json_time.put("b15", time);
 		response.getWriter().write(time);
+	}
+	/**
+	 * 校验别人是否在进行点击刷新操作
+	 * @param request
+	 * @param response
+	 * @throws IOException
+	 *	@author Liulifeng
+	 *  @date 2017年4月19日 下午2:54:34
+	 */
+	public void isOperation(HttpServletRequest request,HttpServletResponse response) throws IOException{
+		String isNullTable="select count(*) from da_statistics";
+		SQLAdapter isOperation_sql = new SQLAdapter(isNullTable);
+		int count=this.getBySqlMapper.findrows(isOperation_sql);
+		if(count>0){
+			response.getWriter().write("1");
+		}else{
+			response.getWriter().write("0");
+		}
 	}
 	
 	/**

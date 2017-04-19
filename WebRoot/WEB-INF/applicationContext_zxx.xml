@@ -33,6 +33,7 @@
 				
 				<prop key="time_data.do">DataStatisticsController</prop>
 				<prop key="updata_xinbiao.do">DataStatisticsController</prop>
+				<prop key="isOperation.do">DataStatisticsController</prop>
 				
 				
 			</props>
