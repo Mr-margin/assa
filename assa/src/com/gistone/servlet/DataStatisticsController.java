@@ -253,13 +253,22 @@ public class DataStatisticsController  extends MultiActionController{
 				String uptime_sql="UPDATE da_statistics SET b15 ='"+time+"'";//插入da_statistics的b15为当前系统时间
 				SQLAdapter uptime_sqlAdapter = new SQLAdapter(uptime_sql);
 				this.getBySqlMapper.updateSelective(uptime_sqlAdapter);
+				String uptime_sql2="UPDATE da_click_refresh SET updateTime ='"+time+"',isOperation=0";//插入da_statistics的b15为当前系统时间
+				SQLAdapter uptime_sqlAdapter2 = new SQLAdapter(uptime_sql2);
+				this.getBySqlMapper.updateSelective(uptime_sqlAdapter2);
 				response.getWriter().write("1");
 				
 				
 			} catch (Exception e) {
+				String uptime_sql2="UPDATE da_click_refresh SET updateTime ='"+time+"',isOperation=0";//插入da_statistics的b15为当前系统时间
+				SQLAdapter uptime_sqlAdapter2 = new SQLAdapter(uptime_sql2);
+				this.getBySqlMapper.updateSelective(uptime_sqlAdapter2);
 				response.getWriter().write("0");//插入失败，返回0
 			}
 		}else{
+			String uptime_sql2="UPDATE da_click_refresh SET updateTime ='"+time+"',isOperation=0";//插入da_statistics的b15为当前系统时间
+			SQLAdapter uptime_sqlAdapter2 = new SQLAdapter(uptime_sql2);
+			this.getBySqlMapper.updateSelective(uptime_sqlAdapter2);
 			response.getWriter().write("0");//插入失败，返回0
 		}
 	}
@@ -285,14 +294,33 @@ public class DataStatisticsController  extends MultiActionController{
 	 *  @date 2017年4月19日 下午2:54:34
 	 */
 	public void isOperation(HttpServletRequest request,HttpServletResponse response) throws IOException{
-		String isNullTable="select count(*) from da_statistics";
-		SQLAdapter isOperation_sql = new SQLAdapter(isNullTable);
-		int count=this.getBySqlMapper.findrows(isOperation_sql);
-		if(count>0){
-			response.getWriter().write("1");
-		}else{
-			response.getWriter().write("0");
+		String isOperation_sql="select * from da_click_refresh";
+		SQLAdapter sql_adapter = new SQLAdapter(isOperation_sql);
+		try {
+			List<Map> isOperation_list = this.getBySqlMapper.findRecords(sql_adapter);
+			if(isOperation_list.size()>0){
+				for(Map val:isOperation_list){
+					int isOperation=Integer.parseInt(val.get("isOperation").toString());
+					String updateTime=val.get("updateTime").toString();
+					SimpleDateFormat dfs = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+					Date begin = dfs.parse(updateTime);
+					Date end = new Date();
+					long between=(end.getTime()-begin.getTime())/1000;//除以1000是为了转换成秒
+					long minute2=between/60;
+					if(isOperation==0||minute2>=30){
+						String uptime_sql2="UPDATE da_click_refresh SET isOperation=1";//插入da_statistics的b15为当前系统时间
+						SQLAdapter uptime_sqlAdapter2 = new SQLAdapter(uptime_sql2);
+						this.getBySqlMapper.updateSelective(uptime_sqlAdapter2);
+						response.getWriter().write("1");
+					}else{
+						response.getWriter().write("0");
+					}
+				}
+			}
+		} catch (Exception e) {
+			response.getWriter().write("2");
 		}
+		
 	}
 	
 	/**
