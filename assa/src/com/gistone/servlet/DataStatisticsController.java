@@ -223,12 +223,17 @@ public class DataStatisticsController  extends MultiActionController{
 		Date now= new Date();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		String time = dateFormat.format( now );//获取时间
-		
+		String isNullTable="select count(*) from da_statistics";
 		String del_sql="truncate table da_statistics;";//清空表da_statistics
 		try {
-			SQLAdapter del_sqlAdapter = new SQLAdapter(del_sql);
-			this.getBySqlMapper.findRecords(del_sqlAdapter);
-			sfcg="1";//清除成功为1
+			SQLAdapter del_sqlAdapter2 = new SQLAdapter(isNullTable);
+			int count=this.getBySqlMapper.findrows(del_sqlAdapter2);
+			if(count>0){
+				SQLAdapter del_sqlAdapter = new SQLAdapter(del_sql);
+				this.getBySqlMapper.findRecords(del_sqlAdapter);
+				sfcg="1";//清除成功为1
+			}
+			
 		} catch (Exception e) {
 			sfcg="0";//清除失败为0
 		}
