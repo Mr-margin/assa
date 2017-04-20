@@ -120,6 +120,7 @@ function isOperation(){
 
 function H5_6sxanniu(){
 	var data=isOperation();
+	var year_g=$("#year_g").val();
 	if(data=="1"){
 		$('#shuaxin_time').hide();
 		$('#exportExcel_all_dengdai').show();
@@ -130,6 +131,7 @@ function H5_6sxanniu(){
 			type: "POST",
 			async:true,
 			dataType: "text",
+			data:{year:year_g},
 			success: function (data) {
 				if(data==1){
 					metTable_g.bootstrapTable('destroy');//销毁现有表格数据
