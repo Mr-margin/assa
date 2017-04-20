@@ -306,6 +306,15 @@
 														</div>
 													</div>
 													<div class="form-group" style="margin-bottom: 0px">
+													<div class="col-sm-4" id="data_contoller">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 3px;">数据年份</label>
+															<div class="col-sm-7">
+																<select class="form-control m-b" id="data_year" name="data_year">
+																	<option>2017</option>
+																	<option>2016</option>
+																</select>
+															</div>
+														</div>
 														<div class="col-sm-4" style="float:right;">
 															<div class="col-sm-3"></div>
 															<div class="col-sm-9">
@@ -350,7 +359,8 @@
 															<th data-field="zfqk" data-halign="center" data-align="center">走访情况</th>
 															<th data-field="bfcx" data-halign="center" data-align="center">帮扶成效</th>
 															<th data-field="bfhsz" data-halign="center" data-align="center">帮扶后收支分析</th>
-															<th data-field="entry_year" data-halign="center" data-align="center">贫困户添加年份</th>
+															<th  data-field="entry_year" data-halign="center"  data-align="center" >贫困户添加年份</th>
+	
 														</tr>
 													</thead>
 												</table>
@@ -3109,12 +3119,29 @@
 												<div class="panel-body">
 													<h5>帮扶后支出总计</h5>
 													<div class="ibox-content">
-													
-														<div class="row">
+														<div class="row" id="is_2017">
 															<div class="col-sm-12">
-																<label class="col-sm-3 control-label" style="text-align:right;">总计:</label>
+																<label class="col-sm-3 control-label" style="text-align:right;">总计</label>
 																<div class="col-sm-9 form-inline">
 									                                <input type="text" placeholder="帮扶后支出总计" id="helpback_total_expenditure" name="helpback_total_expenditure" class="form-control" style="width:250px;" readonly="readonly">
+																</div>
+															</div>
+															
+														</div>
+														<div class="row" id="is_2016">
+															<div class="col-sm-6">
+																<label class="col-sm-4 control-label" style="text-align:right;">总计</label>
+																<div class="col-sm-8 form-inline">
+									                                <input type="text" placeholder="帮扶后支出总计" id="helpback_total_expenditure" name="helpback_total_expenditure" class="form-control" style="width:250px;" readonly="readonly">
+																</div>
+															</div>
+															<div class="col-sm-6" >
+															<label class="col-sm-4 control-label" style="text-align:right;">是否脱贫</label>
+																<div class="col-sm-8 form-inline">
+																	<div class="radio i-checks" id="is_pinkun_div">
+																		<label><input type="radio" value="1"  name="is_pinkun" > <i></i>是</label> 
+																		<label><input type="radio" value="0"  name="is_pinkun" > <i></i>否</label>
+																	</div>
 																</div>
 															</div>
 														</div>

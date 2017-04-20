@@ -138,6 +138,7 @@ $(function () {
     	chaxun.cha_v8 = $("#cha_v8").val();
     	chaxun.cha_v8_1 = $("#cha_v8_1").val();
     	chaxun.cha_year = $("#cha_year").val();//年份
+    	chaxun.data_year = $("#data_year").val();//年份
     	$("#tab_jbqk").hide();//基本情况
     	$("#tab_dqszh").hide();//当前收支
     	$("#tab_bfdwyzrr").hide();//帮扶单位与责任人
@@ -177,6 +178,7 @@ $(function () {
     	$("#cha_v8_1").val("请选择");
     	$("#cha_banqian").val("请选择");
     	$("#cha_year").val("2017");
+    	$("#data_year").val("2017");
     	$('#chauxnshiousuo').click();
     	chaxun = {};
     	
@@ -291,7 +293,26 @@ function add_hu(qx,xaing,cun,huname){
 
 //帮扶人初始化
 function gachacun_initialization(){
-
+	if($('#data_year').val()=='2016'){
+		$('#fpsc_update_tools').hide();
+		$("#huzhu #save").hide();
+		$("#add_new_jiatingchngyuan").hide();
+		$("#is_2016").show();
+		$("#is_2017").hide();
+	/*	$("th[data-field=entry_year]").hide();*/
+	}else{
+		$('#fpsc_update_tools').show();
+		$("#huzhu #save").show();
+		$("#add_new_jiatingchngyuan").show();
+		$("#is_2017").show();
+		$("#is_2016").hide();
+		
+	}
+	if(jsondata.company.com_level=="1"||jsondata.company.com_level=="2"){
+		$("#data_contoller").show();
+	}else{
+		$("#data_contoller").hide();
+	}
 	metTable_bxbxxb.bootstrapTable({
 		method: 'POST',
 		height: "597",
@@ -329,6 +350,7 @@ function gachacun_initialization(){
 			$($element).addClass('success');
 		}
 	});
+	
 }
 
 function queryParams_bxbxxb(params) {  //配置参数
@@ -353,5 +375,6 @@ function queryParams_bxbxxb(params) {  //配置参数
     temp.cha_v8 = chaxun.cha_v8;
     temp.cha_v8_1 = chaxun.cha_v8_1;
     temp.cha_year = chaxun.cha_year;
+    temp.data_year = chaxun.data_year;
     return temp;
 }

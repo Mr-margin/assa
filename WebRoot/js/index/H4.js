@@ -496,6 +496,8 @@ function gp_tuchu (str,type) {
 				}
 			} else if ( data == "1" ){
 				toastr["warning"]("提示", "退出失败");
+			}else{
+				toastr["warning"]("提示", "2016年已退出贫困户");
 			}
 			
 		},
