@@ -218,12 +218,18 @@ public class DataStatisticsController  extends MultiActionController{
 	public void updata_xinbiao(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
+		String year=request.getParameter("year");
 		
+		if(year.equals("2016")){
+			year="_2016";
+		}
 		String sfcg="0";//作为是否成功清除表da_statistics的判断依据
 		Date now= new Date();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		String time = dateFormat.format( now );//获取时间
-		String del_sql="truncate table da_statistics;";//清空表da_statistics
+		SimpleDateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String time2 = dateFormat2.format( now );//获取时间
+		String del_sql="truncate table da_statistics"+year;//清空表da_statistics
 		try {
 				SQLAdapter del_sqlAdapter = new SQLAdapter(del_sql);
 				this.getBySqlMapper.findRecords(del_sqlAdapter);
@@ -232,41 +238,41 @@ public class DataStatisticsController  extends MultiActionController{
 			sfcg="0";//清除失败为0
 		}
 		if(sfcg.equals("1")){//如果清除成功，执行插入数据语句
-			String insert_sql="INSERT INTO da_statistics(v1,v2,v3,b2,b3,b4,b6,b7,b8,b9,b10,b11,b12,b13,b14,b15,b16,b17) "
+			String insert_sql="INSERT INTO da_statistics"+year+" (v1,v2,v3,b2,b3,b4,b6,b7,b8,b9,b10,b11,b12,b13,b14,b15,b16,b17) "
 					+ " select t1.v3 v1,t1.v4 v2,t1.v5 v3,b2,b3,b4,b6,b7,b8,b9,b10,b11,b12,b13,t1.sys_standard b14,'up_time' b15,b16,b17 from("
-					+ "select v3,v4,v5,COUNT(*) as b2,sum(v9) as b3,sys_standard from da_household where v21!='已脱贫' group by v3,v4,v5,sys_standard) t1 "
-					+ " left join (select v3,v4,v5,COUNT(*) as b4 ,sys_standard from b4_t group by v3,v4,v5,sys_standard) t4 on t1.v3=t4.v3 and t1.v4=t4.v4 and t1.v5=t4.v5 and t1.sys_standard=t4.sys_standard "
-					+ " left join (select v3,v4,v5,COUNT(*) as b6 ,sys_standard from b6_t group by v3,v4,v5,sys_standard) t6 on t1.v3=t6.v3 and t1.v4=t6.v4 and t1.v5=t6.v5 and t1.sys_standard=t6.sys_standard "
-					+ " left join (select v3,v4,v5,COUNT(*) as b7 ,sys_standard from b7_t group by v3,v4,v5,sys_standard) t7 on t1.v3=t7.v3 and t1.v4=t7.v4 and t1.v5=t7.v5 and t1.sys_standard=t7.sys_standard "
-					+ " left join (select v3,v4,v5,COUNT(*) as b8 ,sys_standard from b8_t group by v3,v4,v5,sys_standard) t8 on t1.v3=t8.v3 and t1.v4=t8.v4 and t1.v5=t8.v5 and t1.sys_standard=t8.sys_standard "
-					+ " left join (select v3,v4,v5,COUNT(*) as b9 ,sys_standard from b9_t group by v3,v4,v5,sys_standard) t9 on t1.v3=t9.v3 and t1.v4=t9.v4 and t1.v5=t9.v5  and t1.sys_standard=t9.sys_standard "
-					+ " left join (select v3,v4,v5,COUNT(*) as b10 ,sys_standard from b10_t group by v3,v4,v5,sys_standard) t10 on t1.v3=t10.v3 and t1.v4=t10.v4 and t1.v5=t10.v5 and t1.sys_standard=t10.sys_standard "
-					+ " left join (select v3,v4,v5,COUNT(*) as b11 ,sys_standard from b11_t group by v3,v4,v5,sys_standard) t11 on t1.v3=t11.v3 and t1.v4=t11.v4 and t1.v5=t11.v5 and t1.sys_standard=t11.sys_standard "
-					+ " left join (select v3,v4,v5,COUNT(*) as b12 ,sys_standard from b12_t group by v3,v4,v5,sys_standard) t12 on t1.v3=t12.v3 and t1.v4=t12.v4 and t1.v5=t12.v5 and t1.sys_standard=t12.sys_standard "
-					+ " left join (select v3,v4,v5,COUNT(*) as b13 ,sys_standard from b13_t group by v3,v4,v5,sys_standard) t13 on t1.v3=t13.v3 and t1.v4=t13.v4 and t1.v5=t13.v5 and t1.sys_standard=t13.sys_standard"
-					+ " left join (select v3,v4,v5,COUNT(*) as b16 ,sys_standard from b14_t group by v3,v4,v5,sys_standard) t14 on t1.v3=t14.v3 and t1.v4=t14.v4 and t1.v5=t14.v5 and t1.sys_standard=t14.sys_standard "
-					+ " left join (select v3,v4,v5,COUNT(*) as b17 ,sys_standard from b15_t group by v3,v4,v5,sys_standard) t15 on t1.v3=t15.v3 and t1.v4=t15.v4 and t1.v5=t15.v5 and t1.sys_standard=t15.sys_standard";
+					+ "select v3,v4,v5,COUNT(*) as b2,sum(v9) as b3,sys_standard from da_household"+year+" where v21!='已脱贫' group by v3,v4,v5,sys_standard) t1 "
+					+ " left join (select v3,v4,v5,COUNT(*) as b4 ,sys_standard from b4_t"+year+" group by v3,v4,v5,sys_standard) t4 on t1.v3=t4.v3 and t1.v4=t4.v4 and t1.v5=t4.v5 and t1.sys_standard=t4.sys_standard "
+					+ " left join (select v3,v4,v5,COUNT(*) as b6 ,sys_standard from b6_t"+year+" group by v3,v4,v5,sys_standard) t6 on t1.v3=t6.v3 and t1.v4=t6.v4 and t1.v5=t6.v5 and t1.sys_standard=t6.sys_standard "
+					+ " left join (select v3,v4,v5,COUNT(*) as b7 ,sys_standard from b7_t"+year+" group by v3,v4,v5,sys_standard) t7 on t1.v3=t7.v3 and t1.v4=t7.v4 and t1.v5=t7.v5 and t1.sys_standard=t7.sys_standard "
+					+ " left join (select v3,v4,v5,COUNT(*) as b8 ,sys_standard from b8_t"+year+" group by v3,v4,v5,sys_standard) t8 on t1.v3=t8.v3 and t1.v4=t8.v4 and t1.v5=t8.v5 and t1.sys_standard=t8.sys_standard "
+					+ " left join (select v3,v4,v5,COUNT(*) as b9 ,sys_standard from b9_t"+year+" group by v3,v4,v5,sys_standard) t9 on t1.v3=t9.v3 and t1.v4=t9.v4 and t1.v5=t9.v5  and t1.sys_standard=t9.sys_standard "
+					+ " left join (select v3,v4,v5,COUNT(*) as b10 ,sys_standard from b10_t"+year+" group by v3,v4,v5,sys_standard) t10 on t1.v3=t10.v3 and t1.v4=t10.v4 and t1.v5=t10.v5 and t1.sys_standard=t10.sys_standard "
+					+ " left join (select v3,v4,v5,COUNT(*) as b11 ,sys_standard from b11_t"+year+" group by v3,v4,v5,sys_standard) t11 on t1.v3=t11.v3 and t1.v4=t11.v4 and t1.v5=t11.v5 and t1.sys_standard=t11.sys_standard "
+					+ " left join (select v3,v4,v5,COUNT(*) as b12 ,sys_standard from b12_t"+year+" group by v3,v4,v5,sys_standard) t12 on t1.v3=t12.v3 and t1.v4=t12.v4 and t1.v5=t12.v5 and t1.sys_standard=t12.sys_standard "
+					+ " left join (select v3,v4,v5,COUNT(*) as b13 ,sys_standard from b13_t"+year+" group by v3,v4,v5,sys_standard) t13 on t1.v3=t13.v3 and t1.v4=t13.v4 and t1.v5=t13.v5 and t1.sys_standard=t13.sys_standard"
+					+ " left join (select v3,v4,v5,COUNT(*) as b16 ,sys_standard from b14_t"+year+" group by v3,v4,v5,sys_standard) t14 on t1.v3=t14.v3 and t1.v4=t14.v4 and t1.v5=t14.v5 and t1.sys_standard=t14.sys_standard "
+					+ " left join (select v3,v4,v5,COUNT(*) as b17 ,sys_standard from b15_t"+year+" group by v3,v4,v5,sys_standard) t15 on t1.v3=t15.v3 and t1.v4=t15.v4 and t1.v5=t15.v5 and t1.sys_standard=t15.sys_standard";
 			try {
 				SQLAdapter insert_sqlAdapter = new SQLAdapter(insert_sql);
 				this.getBySqlMapper.findRecords(insert_sqlAdapter);
 				sfcg="2";//插入数据成功
-				String uptime_sql="UPDATE da_statistics SET b15 ='"+time+"'";//插入da_statistics的b15为当前系统时间
+				String uptime_sql="UPDATE da_statistics"+year+" SET b15 ='"+time+"'";//插入da_statistics的b15为当前系统时间
 				SQLAdapter uptime_sqlAdapter = new SQLAdapter(uptime_sql);
 				this.getBySqlMapper.updateSelective(uptime_sqlAdapter);
-				String uptime_sql2="UPDATE da_click_refresh SET updateTime ='"+time+"',isOperation=0";//插入da_statistics的b15为当前系统时间
+				String uptime_sql2="UPDATE da_click_refresh SET updateTime ='"+time2+"',isOperation=0";//插入da_statistics的b15为当前系统时间
 				SQLAdapter uptime_sqlAdapter2 = new SQLAdapter(uptime_sql2);
 				this.getBySqlMapper.updateSelective(uptime_sqlAdapter2);
 				response.getWriter().write("1");
 				
 				
 			} catch (Exception e) {
-				String uptime_sql2="UPDATE da_click_refresh SET updateTime ='"+time+"',isOperation=0";//插入da_statistics的b15为当前系统时间
+				String uptime_sql2="UPDATE da_click_refresh SET updateTime ='"+time2+"',isOperation=0";//插入da_statistics的b15为当前系统时间
 				SQLAdapter uptime_sqlAdapter2 = new SQLAdapter(uptime_sql2);
 				this.getBySqlMapper.updateSelective(uptime_sqlAdapter2);
 				response.getWriter().write("0");//插入失败，返回0
 			}
 		}else{
-			String uptime_sql2="UPDATE da_click_refresh SET updateTime ='"+time+"',isOperation=0";//插入da_statistics的b15为当前系统时间
+			String uptime_sql2="UPDATE da_click_refresh SET updateTime ='"+time2+"',isOperation=0";//插入da_statistics的b15为当前系统时间
 			SQLAdapter uptime_sqlAdapter2 = new SQLAdapter(uptime_sql2);
 			this.getBySqlMapper.updateSelective(uptime_sqlAdapter2);
 			response.getWriter().write("0");//插入失败，返回0
