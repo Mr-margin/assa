@@ -299,9 +299,14 @@ public class PoorUserController extends MultiActionController{
 		String cha_v8 = "";//身份证号
 		String cha_v8_1 = "";//年龄范围
 		String cha_year = "";//查找的年份
+		String data_year = "";//数据年份 根据这个年份查询 16年表或者17年数据库表
 
 		String str = "";
-		
+		if(request.getParameter("data_year")!=null&&!request.getParameter("data_year").equals("")){
+			data_year = request.getParameter("data_year").trim();
+		}else{
+			data_year = "2017";
+		}
 		if(request.getParameter("cha_year")!=null&&!request.getParameter("cha_year").equals("")){
 			cha_year = request.getParameter("cha_year").trim();
 			str += " a.entry_year= "+cha_year+" and";
@@ -371,124 +376,241 @@ public class PoorUserController extends MultiActionController{
 //					count_st_sql += " LEFT JOIN da_life d on a.pkid=d.da_household_id ";
 //					people_sql += " LEFT JOIN da_life d on a.pkid=d.da_household_id ";
 		}
-		
-		
-		String count_st_sql = "select count(*) from (select a.pkid from da_household a ";
-		String people_sql = "select a.pkid,a.v3,a.v4,a.v5,a.v6,a.v9,a.v22,a.v23,a.v11,a.sys_standard,a.entry_year from da_household a ";
-		
-		//如果帮扶人和帮扶单位条件被选择
-		if((request.getParameter("cha_bfdw")!=null&&!request.getParameter("cha_bfdw").equals(""))||(request.getParameter("cha_bfzrr")!=null&&!request.getParameter("cha_bfzrr").equals(""))){
-			if(request.getParameter("cha_bfdw")!=null&&!request.getParameter("cha_bfdw").equals("")){
-				cha_bfdw = request.getParameter("cha_bfdw").trim();
-				str += " t2.v1 like '%"+cha_bfdw+"%' and";
-			}
-			if(request.getParameter("cha_bfzrr")!=null&&!request.getParameter("cha_bfzrr").equals("")){
-				cha_bfzrr = request.getParameter("cha_bfzrr").trim();
-				str += " c.col_name like '%"+cha_bfzrr+"%' and";
-			}
-			count_st_sql += " LEFT JOIN sys_personal_household_many x on x.da_household_id=a.pkid LEFT JOIN sys_personal c on x.sys_personal_id = c.pkid join da_company t2 on c.da_company_id=t2.pkid ";
-			people_sql += " LEFT JOIN sys_personal_household_many x on x.da_household_id=a.pkid LEFT JOIN sys_personal c on x.sys_personal_id = c.pkid join da_company t2 on c.da_company_id=t2.pkid ";
-		}
-		
-		
-		int size = Integer.parseInt(pageSize);
-		int number = Integer.parseInt(pageNumber);
-		int page = number == 0 ? 1 : (number/size)+1;
-		
-		//两个条件为空，按照全部查询select * from sys_village_responsibility a  LEFT JOIN sys_company b  ON a.sys_company_id=b.pkid LEFT JOIN sys_user c ON a.pkid=c.sys_personal_id
-
-		if(str.equals("")){
-			count_st_sql += " GROUP BY a.pkid) ww";
-			people_sql += " GROUP BY a.pkid order by a.v2,a.pkid limit "+number+","+size;
-		}else{
-			//带条件，按照条件查询
-			count_st_sql += " where "+str.substring(0, str.length()-3)+" GROUP BY a.pkid) ww";
-			people_sql += " where "+str.substring(0, str.length()-3)+" GROUP BY a.pkid order by a.v2,a.pkid limit "+number+","+size;
-		}
-		
-//		System.out.println(people_sql);
-		//System.out.println(count_st_sql);
-		
-		SQLAdapter count_st_Adapter = new SQLAdapter(count_st_sql);
-		int total = this.getBySqlMapper.findrows(count_st_Adapter);
-		
-		SQLAdapter Patient_st_Adapter = new SQLAdapter(people_sql);
-		List<Map> Patient_st_List = this.getBySqlMapper.findRecords(Patient_st_Adapter);
-		if(Patient_st_List.size()>0){
-			JSONArray jsa=new JSONArray();
-			for(int i = 0;i<Patient_st_List.size();i++){
-				Map Patient_st_map = Patient_st_List.get(i);
-				JSONObject val = new JSONObject();
-				for (Object key : Patient_st_map.keySet()) {
-					if(!Patient_st_map.keySet().contains("entry_year")){
-						val.put("entry_year", "2016");
-					}
-					val.put(key, Patient_st_map.get(key));
-					
-					if(key.toString().equals("sys_standard")){
-						if(Patient_st_map.get(key)!=null&&!Patient_st_map.get(key).equals("")){
-							val.put(key, Patient_st_map.get(key).toString().substring(0, 2));
-						}
-					}
-					
-					if(key.toString().equals("pkid")){
-						HttpSession session = request.getSession();
-//						JSONObject json = new JSONObject();
-						String functionMap="";
-						JSONArray jsonArry=new JSONArray();
-						
-						val.put("jbqk","");
-						val.put("bfdwr","");
-						val.put("bfcs","");
-						val.put("zfqk","");
-						val.put("bfcx","");
-						val.put("bfhsz","");
-						val.put("dqsz","");
-						if (session.getAttribute("function_map")!=null){
-							Map function_map=(Map) session.getAttribute("function_map");
-							Map weihu_map=(Map) session.getAttribute("weihu_map");
-							Object ss[] = weihu_map.keySet().toArray();
-							Object s[] = function_map.keySet().toArray();
-							for (int k=0;k<weihu_map.size();k++){
-								if(weihu_map.get(ss[k]).toString().equals("1")){
-									
-									if(function_map.get(s[k]).toString().equals("jbqk")){
-										 val.put("jbqk", "<button  type=\"button\" class=\"btn btn-primary btn-xs jbqk\" onclick=\"jbqk("+Patient_st_map.get(key)+");\"><i class=\"fa fa-pencil\"></i> 编辑 </button>");
-									}
-									if(function_map.get(s[k]).toString().equals("bfdwr")){
-										val.put("bfdwr", "<button  type=\"button\" class=\"btn btn-primary btn-xs bfdwr\" onclick=\"bfdwr("+Patient_st_map.get(key)+");\"><i class=\"fa fa-pencil\"></i> 编辑 </button>");
-									}
-									if(function_map.get(s[k]).toString().equals("bfcs")){
-										val.put("bfcs", "<button  type=\"button\" class=\"btn btn-primary btn-xs bfcs\" onclick=\"bfcs("+Patient_st_map.get(key)+");\"><i class=\"fa fa-pencil\"></i> 编辑 </button>");
-									}
-									if(function_map.get(s[k]).toString().equals("zfqk")){
-										val.put("zfqk", "<button type=\"button\" class=\"btn btn-primary btn-xs zfqk\" onclick=\"zfqk("+Patient_st_map.get(key)+");\"><i class=\"fa fa-pencil\"></i> 编辑 </button>");
-									}
-									if(function_map.get(s[k]).toString().equals("bfcx")){
-										val.put("bfcx", "<button type=\"button\" class=\"btn btn-primary btn-xs bfcx\" onclick=\"bfcx("+Patient_st_map.get(key)+");\"><i class=\"fa fa-pencil\"></i> 编辑 </button>");
-									}
-									if(function_map.get(s[k]).toString().equals("bfhsz")){
-										val.put("bfhsz", "<button  type=\"button\" class=\"btn btn-primary btn-xs bfhsz\" onclick=\"bfhsz("+Patient_st_map.get(key)+");\"><i class=\"fa fa-pencil\"></i> 编辑 </button>");
-									}
-									if(function_map.get(s[k]).toString().equals("dqsz")){
-										val.put("dqsz", "<button  type=\"button\" class=\"btn btn-primary btn-xs dqsz\" onclick=\"dqsz("+Patient_st_map.get(key)+");\"><i class=\"fa fa-pencil\"></i> 编辑 </button>");
-									}
-									
-								}
-							}
-						
-						}
-					}
+		if(data_year.equals("2017")){
+			String count_st_sql = "select count(*) from (select a.pkid from da_household a ";
+			String people_sql = "select a.pkid,a.v3,a.v4,a.v5,a.v6,a.v9,a.v22,a.v23,a.v11,a.sys_standard,a.entry_year from da_household a ";
+			
+			//如果帮扶人和帮扶单位条件被选择
+			if((request.getParameter("cha_bfdw")!=null&&!request.getParameter("cha_bfdw").equals(""))||(request.getParameter("cha_bfzrr")!=null&&!request.getParameter("cha_bfzrr").equals(""))){
+				if(request.getParameter("cha_bfdw")!=null&&!request.getParameter("cha_bfdw").equals("")){
+					cha_bfdw = request.getParameter("cha_bfdw").trim();
+					str += " t2.v1 like '%"+cha_bfdw+"%' and";
 				}
-				jsa.add(val);
+				if(request.getParameter("cha_bfzrr")!=null&&!request.getParameter("cha_bfzrr").equals("")){
+					cha_bfzrr = request.getParameter("cha_bfzrr").trim();
+					str += " c.col_name like '%"+cha_bfzrr+"%' and";
+				}
+				count_st_sql += " LEFT JOIN sys_personal_household_many x on x.da_household_id=a.pkid LEFT JOIN sys_personal c on x.sys_personal_id = c.pkid join da_company t2 on c.da_company_id=t2.pkid ";
+				people_sql += " LEFT JOIN sys_personal_household_many x on x.da_household_id=a.pkid LEFT JOIN sys_personal c on x.sys_personal_id = c.pkid join da_company t2 on c.da_company_id=t2.pkid ";
 			}
 			
-			JSONObject json = new JSONObject();
-			json.put("page", page);
-			json.put("total", total);
-			json.put("rows", jsa); //这里的 rows 和total 的key 是固定的 
-			response.getWriter().write(json.toString());
-		}
+			
+			int size = Integer.parseInt(pageSize);
+			int number = Integer.parseInt(pageNumber);
+			int page = number == 0 ? 1 : (number/size)+1;
+			
+			//两个条件为空，按照全部查询select * from sys_village_responsibility a  LEFT JOIN sys_company b  ON a.sys_company_id=b.pkid LEFT JOIN sys_user c ON a.pkid=c.sys_personal_id
+	
+			if(str.equals("")){
+				count_st_sql += " GROUP BY a.pkid) ww";
+				people_sql += " GROUP BY a.pkid order by a.v2,a.pkid limit "+number+","+size;
+			}else{
+				//带条件，按照条件查询
+				count_st_sql += " where "+str.substring(0, str.length()-3)+" GROUP BY a.pkid) ww";
+				people_sql += " where "+str.substring(0, str.length()-3)+" GROUP BY a.pkid order by a.v2,a.pkid limit "+number+","+size;
+			}
+			
+	//		System.out.println(people_sql);
+			//System.out.println(count_st_sql);
+			
+			SQLAdapter count_st_Adapter = new SQLAdapter(count_st_sql);
+			int total = this.getBySqlMapper.findrows(count_st_Adapter);
+			
+			SQLAdapter Patient_st_Adapter = new SQLAdapter(people_sql);
+			List<Map> Patient_st_List = this.getBySqlMapper.findRecords(Patient_st_Adapter);
+			if(Patient_st_List.size()>0){
+				JSONArray jsa=new JSONArray();
+				for(int i = 0;i<Patient_st_List.size();i++){
+					Map Patient_st_map = Patient_st_List.get(i);
+					JSONObject val = new JSONObject();
+					for (Object key : Patient_st_map.keySet()) {
+						if(!Patient_st_map.keySet().contains("entry_year")){
+							val.put("entry_year", "2016");
+						}
+						val.put(key, Patient_st_map.get(key));
+						
+						if(key.toString().equals("sys_standard")){
+							if(Patient_st_map.get(key)!=null&&!Patient_st_map.get(key).equals("")){
+								val.put(key, Patient_st_map.get(key).toString().substring(0, 2));
+							}
+						}
+						
+						if(key.toString().equals("pkid")){
+							HttpSession session = request.getSession();
+	//						JSONObject json = new JSONObject();
+							String functionMap="";
+							JSONArray jsonArry=new JSONArray();
+							
+							val.put("jbqk","");
+							val.put("bfdwr","");
+							val.put("bfcs","");
+							val.put("zfqk","");
+							val.put("bfcx","");
+							val.put("bfhsz","");
+							val.put("dqsz","");
+							if (session.getAttribute("function_map")!=null){
+								Map function_map=(Map) session.getAttribute("function_map");
+								Map weihu_map=(Map) session.getAttribute("weihu_map");
+								Object ss[] = weihu_map.keySet().toArray();
+								Object s[] = function_map.keySet().toArray();
+								for (int k=0;k<weihu_map.size();k++){
+									if(weihu_map.get(ss[k]).toString().equals("1")){
+										
+										if(function_map.get(s[k]).toString().equals("jbqk")){
+											 val.put("jbqk", "<button  type=\"button\" class=\"btn btn-primary btn-xs jbqk\" onclick=\"jbqk("+Patient_st_map.get(key)+");\"><i class=\"fa fa-pencil\"></i> 编辑 </button>");
+										}
+										if(function_map.get(s[k]).toString().equals("bfdwr")){
+											val.put("bfdwr", "<button  type=\"button\" class=\"btn btn-primary btn-xs bfdwr\" onclick=\"bfdwr("+Patient_st_map.get(key)+");\"><i class=\"fa fa-pencil\"></i> 编辑 </button>");
+										}
+										if(function_map.get(s[k]).toString().equals("bfcs")){
+											val.put("bfcs", "<button  type=\"button\" class=\"btn btn-primary btn-xs bfcs\" onclick=\"bfcs("+Patient_st_map.get(key)+");\"><i class=\"fa fa-pencil\"></i> 编辑 </button>");
+										}
+										if(function_map.get(s[k]).toString().equals("zfqk")){
+											val.put("zfqk", "<button type=\"button\" class=\"btn btn-primary btn-xs zfqk\" onclick=\"zfqk("+Patient_st_map.get(key)+");\"><i class=\"fa fa-pencil\"></i> 编辑 </button>");
+										}
+										if(function_map.get(s[k]).toString().equals("bfcx")){
+											val.put("bfcx", "<button type=\"button\" class=\"btn btn-primary btn-xs bfcx\" onclick=\"bfcx("+Patient_st_map.get(key)+");\"><i class=\"fa fa-pencil\"></i> 编辑 </button>");
+										}
+										if(function_map.get(s[k]).toString().equals("bfhsz")){
+											val.put("bfhsz", "<button  type=\"button\" class=\"btn btn-primary btn-xs bfhsz\" onclick=\"bfhsz("+Patient_st_map.get(key)+");\"><i class=\"fa fa-pencil\"></i> 编辑 </button>");
+										}
+										if(function_map.get(s[k]).toString().equals("dqsz")){
+											val.put("dqsz", "<button  type=\"button\" class=\"btn btn-primary btn-xs dqsz\" onclick=\"dqsz("+Patient_st_map.get(key)+");\"><i class=\"fa fa-pencil\"></i> 编辑 </button>");
+										}
+										
+									}
+								}
+							
+							}
+						}
+					}
+					jsa.add(val);
+				}
+				
+				JSONObject json = new JSONObject();
+				json.put("page", page);
+				json.put("total", total);
+				json.put("rows", jsa); //这里的 rows 和total 的key 是固定的 
+				response.getWriter().write(json.toString());
+			}
+			}else{    //----------2016年数据表查询-----------
+				String count_st_sql = "select count(*) from (select a.pkid from da_household_2016 a ";
+				String people_sql = "select a.pkid,a.v3,a.v4,a.v5,a.v6,a.v9,a.v22,a.v23,a.v11,a.sys_standard,entry_year from da_household_2016 a ";
+				
+				//如果帮扶人和帮扶单位条件被选择
+				if((request.getParameter("cha_bfdw")!=null&&!request.getParameter("cha_bfdw").equals(""))||(request.getParameter("cha_bfzrr")!=null&&!request.getParameter("cha_bfzrr").equals(""))){
+					if(request.getParameter("cha_bfdw")!=null&&!request.getParameter("cha_bfdw").equals("")){
+						cha_bfdw = request.getParameter("cha_bfdw").trim();
+						str += " t2.v1 like '%"+cha_bfdw+"%' and";
+					}
+					if(request.getParameter("cha_bfzrr")!=null&&!request.getParameter("cha_bfzrr").equals("")){
+						cha_bfzrr = request.getParameter("cha_bfzrr").trim();
+						str += " c.col_name like '%"+cha_bfzrr+"%' and";
+					}
+					count_st_sql += " LEFT JOIN sys_personal_household_many_2016 x on x.da_household_id=a.pkid LEFT JOIN sys_personal_2016 c on x.sys_personal_id = c.pkid join da_company t2 on c.da_company_id=t2.pkid ";
+					people_sql += " LEFT JOIN sys_personal_household_many_2016 x on x.da_household_id=a.pkid LEFT JOIN sys_personal_2016 c on x.sys_personal_id = c.pkid join da_company t2 on c.da_company_id=t2.pkid ";
+				}
+				
+				
+				int size = Integer.parseInt(pageSize);
+				int number = Integer.parseInt(pageNumber);
+				int page = number == 0 ? 1 : (number/size)+1;
+				
+				//两个条件为空，按照全部查询select * from sys_village_responsibility a  LEFT JOIN sys_company b  ON a.sys_company_id=b.pkid LEFT JOIN sys_user c ON a.pkid=c.sys_personal_id
+
+				if(str.equals("")){
+					count_st_sql += " GROUP BY a.pkid) ww";
+					people_sql += " GROUP BY a.pkid order by a.v2,a.pkid limit "+number+","+size;
+				}else{
+					//带条件，按照条件查询
+					count_st_sql += " where "+str.substring(0, str.length()-3)+" GROUP BY a.pkid) ww";
+					people_sql += " where "+str.substring(0, str.length()-3)+" GROUP BY a.pkid order by a.v2,a.pkid limit "+number+","+size;
+				}
+				
+//				System.out.println(people_sql);
+				//System.out.println(count_st_sql);
+				
+				SQLAdapter count_st_Adapter = new SQLAdapter(count_st_sql);
+				int total = this.getBySqlMapper.findrows(count_st_Adapter);
+				
+				SQLAdapter Patient_st_Adapter = new SQLAdapter(people_sql);
+				List<Map> Patient_st_List = this.getBySqlMapper.findRecords(Patient_st_Adapter);
+				if(Patient_st_List.size()>0){
+					JSONArray jsa=new JSONArray();
+					for(int i = 0;i<Patient_st_List.size();i++){
+						Map Patient_st_map = Patient_st_List.get(i);
+						JSONObject val = new JSONObject();
+						for (Object key : Patient_st_map.keySet()) {
+							if(!Patient_st_map.keySet().contains("entry_year")){
+								val.put("entry_year", "2016");
+							}
+							val.put(key, Patient_st_map.get(key));
+							
+							if(key.toString().equals("sys_standard")){
+								if(Patient_st_map.get(key)!=null&&!Patient_st_map.get(key).equals("")){
+									val.put(key, Patient_st_map.get(key).toString().substring(0, 2));
+								}
+							}
+							
+							if(key.toString().equals("pkid")){
+								HttpSession session = request.getSession();
+//								JSONObject json = new JSONObject();
+								String functionMap="";
+								JSONArray jsonArry=new JSONArray();
+								
+								val.put("jbqk","");
+								val.put("bfdwr","");
+								val.put("bfcs","");
+								val.put("zfqk","");
+								val.put("bfcx","");
+								val.put("bfhsz","");
+								val.put("dqsz","");
+								if (session.getAttribute("function_map")!=null){
+									Map function_map=(Map) session.getAttribute("function_map");
+									Map weihu_map=(Map) session.getAttribute("weihu_map");
+									Object ss[] = weihu_map.keySet().toArray();
+									Object s[] = function_map.keySet().toArray();
+									for (int k=0;k<weihu_map.size();k++){
+										if(weihu_map.get(ss[k]).toString().equals("1")){
+											
+											if(function_map.get(s[k]).toString().equals("jbqk")){
+												 val.put("jbqk", "<button  type=\"button\" class=\"btn btn-primary btn-xs jbqk\" onclick=\"jbqk("+Patient_st_map.get(key)+");\"><i class=\"fa fa-pencil\"></i> 编辑 </button>");
+											}
+											/*if(function_map.get(s[k]).toString().equals("bfdwr")){
+												val.put("bfdwr", "<button  type=\"button\" class=\"btn btn-primary btn-xs bfdwr\" onclick=\"bfdwr("+Patient_st_map.get(key)+");\"><i class=\"fa fa-pencil\"></i> 编辑 </button>");
+											}
+											if(function_map.get(s[k]).toString().equals("bfcs")){
+												val.put("bfcs", "<button  type=\"button\" class=\"btn btn-primary btn-xs bfcs\" onclick=\"bfcs("+Patient_st_map.get(key)+");\"><i class=\"fa fa-pencil\"></i> 编辑 </button>");
+											}
+											if(function_map.get(s[k]).toString().equals("zfqk")){
+												val.put("zfqk", "<button type=\"button\" class=\"btn btn-primary btn-xs zfqk\" onclick=\"zfqk("+Patient_st_map.get(key)+");\"><i class=\"fa fa-pencil\"></i> 编辑 </button>");
+											}
+											if(function_map.get(s[k]).toString().equals("bfcx")){
+												val.put("bfcx", "<button type=\"button\" class=\"btn btn-primary btn-xs bfcx\" onclick=\"bfcx("+Patient_st_map.get(key)+");\"><i class=\"fa fa-pencil\"></i> 编辑 </button>");
+											}*/
+											if(function_map.get(s[k]).toString().equals("bfhsz")){
+												val.put("bfhsz", "<button  type=\"button\" class=\"btn btn-primary btn-xs bfhsz\" onclick=\"bfhsz("+Patient_st_map.get(key)+");\"><i class=\"fa fa-pencil\"></i> 编辑 </button>");
+											}
+											if(function_map.get(s[k]).toString().equals("dqsz")){
+												val.put("dqsz", "<button  type=\"button\" class=\"btn btn-primary btn-xs dqsz\" onclick=\"dqsz("+Patient_st_map.get(key)+");\"><i class=\"fa fa-pencil\"></i> 编辑 </button>");
+											}
+											
+										}
+									}
+								
+								}
+							}
+						}
+						jsa.add(val);
+					}
+					
+					JSONObject json = new JSONObject();
+					json.put("page", page);
+					json.put("total", total);
+					json.put("rows", jsa); //这里的 rows 和total 的key 是固定的 
+					response.getWriter().write(json.toString());
+				}
+			}
 		return null;
 	}
 	
@@ -504,8 +626,25 @@ public class PoorUserController extends MultiActionController{
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		String pkid=request.getParameter("pkid");
-		
+		String data_year = request.getParameter("data_year");
+		String count_st_sql = "select * from da_pic where pic_type=4 and pic_pkid="+pkid;
 		String sql="select * from da_household a left join da_household_basic b on a.pkid=b.da_household_id where a.pkid="+pkid;
+		//家庭成员
+		String xian_sql="select * from da_member where da_household_id="+pkid;
+		//生产条件
+		String sc_sql="select * FROM da_production where da_household_id="+pkid;
+		//生活条件
+		String sh_sql="SELECT * FROM da_life where da_household_id="+pkid;
+		//易地扶贫搬迁
+		String yidi_sql="SELECT * FROM da_household_move where da_household_id="+pkid;
+		if(data_year.equals("2016")){
+			sql="select * from da_household_2016 a left join da_household_basic_2016 b on a.pkid=b.da_household_id where a.pkid="+pkid;
+			 count_st_sql = "select * from da_pic_2016 where pic_type=4 and pic_pkid="+pkid;
+			 xian_sql="select * from da_member_2016 where da_household_id="+pkid;
+			 sc_sql="select * FROM da_production_2016 where da_household_id="+pkid;
+			 sh_sql="SELECT * FROM da_life_2016 where da_household_id="+pkid;
+			 yidi_sql="SELECT * FROM da_household_move_2016 where da_household_id="+pkid;
+		}
 		SQLAdapter sqlAdapter =new SQLAdapter(sql);
 		List<Map> list=getBySqlMapper.findRecords(sqlAdapter);
 		
@@ -549,7 +688,7 @@ public class PoorUserController extends MultiActionController{
 			zong.put("huzhu", obj);
 		}
 		
-		String count_st_sql = "select * from da_pic where pic_type=4 and pic_pkid="+pkid;
+		
 		SQLAdapter count_st_Adapter = new SQLAdapter(count_st_sql);
 		List<Map> list_pic = getBySqlMapper.findRecords(count_st_Adapter);
 		if(list_pic.size()>0){
@@ -557,8 +696,7 @@ public class PoorUserController extends MultiActionController{
 			zong.put("huzhu_pic", st_map.get("pic_path")==null?"":st_map.get("pic_path"));
 		}
 		
-		//家庭成员
-		String xian_sql="select * from da_member where da_household_id="+pkid;
+		
 		SQLAdapter xian_sqlAdapter =new SQLAdapter(xian_sql);
 		List<Map> xian_list=getBySqlMapper.findRecords(xian_sqlAdapter);
 		if(xian_list.size()>0){
@@ -584,8 +722,10 @@ public class PoorUserController extends MultiActionController{
 				xian_obj.put("v21",val.get("v21")==null?"":val.get("v21"));//脱贫属性
 				xian_obj.put("v28",val.get("v28")==null?"":val.get("v28"));//政治面貌
 				xian_obj.put("v32",val.get("v32")==null?"":val.get("v32"));//是否现役军人
-				
 				String jtcy_st_sql = "select * from da_pic where pic_type=5 and pic_pkid="+val.get("pkid");
+				if(data_year.equals("2016")){
+					jtcy_st_sql = "select * from da_pic_2016 where pic_type=5 and pic_pkid="+val.get("pkid");
+				}
 //				System.out.println(jtcy_st_sql);
 				SQLAdapter jtcy_st_Adapter = new SQLAdapter(jtcy_st_sql);
 				List<Map> jtcy_pic = getBySqlMapper.findRecords(jtcy_st_Adapter);
@@ -599,8 +739,7 @@ public class PoorUserController extends MultiActionController{
 			zong.put("jaiting", jsonArray);
 		}
 		
-		//生产条件
-		String sc_sql="select * FROM da_production where da_household_id="+pkid;
+		
 		SQLAdapter sc_sqlAdapter =new SQLAdapter(sc_sql);
 		List<Map> sc_list=getBySqlMapper.findRecords(sc_sqlAdapter);
 		for(Map val:sc_list){
@@ -625,7 +764,6 @@ public class PoorUserController extends MultiActionController{
 		}
 		
 		//生活条件
-		String sh_sql="SELECT * FROM da_life where da_household_id="+pkid;
 		SQLAdapter sh_sqlAdapter =new SQLAdapter(sh_sql);
 		List<Map> sh_list=getBySqlMapper.findRecords(sh_sqlAdapter);
 		for(Map val:sh_list){
@@ -648,8 +786,6 @@ public class PoorUserController extends MultiActionController{
 		}
 		
 		
-		//易地扶贫搬迁
-		String yidi_sql="SELECT * FROM da_household_move where da_household_id="+pkid;
 		SQLAdapter yidi_sqlAdapter =new SQLAdapter(yidi_sql);
 		List<Map> yidi_list=getBySqlMapper.findRecords(yidi_sqlAdapter);
 		for(Map val:yidi_list){
@@ -1171,6 +1307,7 @@ public class PoorUserController extends MultiActionController{
 	public ModelAndView getSaveshengchan(HttpServletRequest request,HttpServletResponse response) throws IOException{
 		
 		String pkid = request.getParameter("pkid");
+		String data_year = request.getParameter("data_year");
 		String form_val = request.getParameter("form_val");
 		JSONObject form_json = JSONObject.fromObject(form_val);//表单数据
 		
@@ -1261,8 +1398,11 @@ public class PoorUserController extends MultiActionController{
 		if(where.length()>0){
 			where = where.substring(0, where.length()-1);
 		}
-		
 		String hu_sql = "update da_production set "+where+" where da_household_id="+pkid;
+		if(data_year.equals("2016")){
+			hu_sql = "update da_production_2016 set "+where+" where da_household_id="+pkid;
+		}
+		
 		
 		//System.out.println(hu_sql);
 		
@@ -1277,6 +1417,10 @@ public class PoorUserController extends MultiActionController{
 				SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd");
 				String hql1="insert into da_record(record_table,record_pkid,record_type,record_p_t,record_phone,record_name,record_time,record_mou_1,record_mou_2)"+
 						" VALUES ('da_household',"+pkid+",'修改',2,'','"+Login_map.get("col_account")+"','"+simpleDate.format(new Date())+"','基本情况','生产条件')";
+				if(data_year.equals("2016")){
+					hql1="insert into da_record_2016(record_table,record_pkid,record_type,record_p_t,record_phone,record_name,record_time,record_mou_1,record_mou_2)"+
+							" VALUES ('da_household_2016',"+pkid+",'修改',2,'','"+Login_map.get("col_account")+"','"+simpleDate.format(new Date())+"','基本情况','生产条件')";
+				}
 				SQLAdapter hqlAdapter1 =new SQLAdapter(hql1);
 				this.getBySqlMapper.findRecords(hqlAdapter1);
 			}
@@ -1297,7 +1441,7 @@ public class PoorUserController extends MultiActionController{
 	 * @throws IOException
 	 */
 	public ModelAndView getSaveshenghuo(HttpServletRequest request,HttpServletResponse response) throws IOException{
-		
+		String data_year = request.getParameter("data_year");
 		String pkid = request.getParameter("pkid");
 		String form_val = request.getParameter("form_val");
 		JSONObject form_json = JSONObject.fromObject(form_val);//表单数据
@@ -1401,8 +1545,11 @@ public class PoorUserController extends MultiActionController{
 		if(where.length()>0){
 			where = where.substring(0, where.length()-1);
 		}
-		
 		String hu_sql = "update da_life set "+where+" where da_household_id="+pkid;
+		if(data_year.equals("2016")){
+			hu_sql = "update da_life_2016 set "+where+" where da_household_id="+pkid;
+		}
+		
 		
 		//System.out.println(hu_sql);
 		
@@ -1417,6 +1564,10 @@ public class PoorUserController extends MultiActionController{
 				SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd");
 				String hql1="insert into da_record(record_table,record_pkid,record_type,record_p_t,record_phone,record_name,record_time,record_mou_1,record_mou_2)"+
 						" VALUES ('da_household',"+pkid+",'修改',2,'','"+Login_map.get("col_account")+"','"+simpleDate.format(new Date())+"','基本情况','生活条件')";
+				if(data_year.equals("2016")){
+					hql1="insert into da_record_2016(record_table,record_pkid,record_type,record_p_t,record_phone,record_name,record_time,record_mou_1,record_mou_2)"+
+							" VALUES ('da_household_2016',"+pkid+",'修改',2,'','"+Login_map.get("col_account")+"','"+simpleDate.format(new Date())+"','基本情况','生活条件')";
+				}
 				SQLAdapter hqlAdapter1 =new SQLAdapter(hql1);
 				this.getBySqlMapper.findRecords(hqlAdapter1);
 			}
@@ -1464,9 +1615,9 @@ public class PoorUserController extends MultiActionController{
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		String pkid=request.getParameter("pkid");
+		String data_year = request.getParameter("data_year");
 		String type = request.getParameter("type").trim();
 		JSONObject zong = new JSONObject ();
-		
 		//收入
 		String sql = "";
 		//支出
@@ -1478,10 +1629,21 @@ public class PoorUserController extends MultiActionController{
 			sql="select * from da_helpback_income where da_household_id="+pkid;
 			xian_sql="select * from da_helpback_expenditure where da_household_id="+pkid;
 		}
+		if(data_year.equals("2016")){
+			if(type.equals("1")){//当前
+				sql="select * from da_current_income_2016 where da_household_id="+pkid;
+				xian_sql="select * from da_current_expenditure_2016 where da_household_id="+pkid;
+			}else if(type.equals("2")){//帮扶后
+				sql="select * from da_helpback_income_2016 where da_household_id="+pkid;
+				xian_sql="select * from da_helpback_expenditure_2016 where da_household_id="+pkid;
+			} 
+		}
 		
+	
 		
 		SQLAdapter sqlAdapter =new SQLAdapter(sql);
 		List<Map> list=getBySqlMapper.findRecords(sqlAdapter);
+		
 		Float total_income=(float) 0;//收入总额
 		for(Map val:list){
 			JSONObject obj=new JSONObject ();
@@ -1529,11 +1691,19 @@ public class PoorUserController extends MultiActionController{
 			if(val.get("v39")!=null){
 				total_income+=Float.parseFloat(val.get("v39").toString());
 			}
+			
 			zong.put("shouru", obj);
 			zong.put("total_income", total_income);
 		}
 		
 		
+		//判断是否达到脱贫标准
+		String tuopin_sql = "select pkid,v3,v4,v5,v6,v9, round(((v39-v31)/v9),2) hrj,round((ABS((d39-d31))/v9),2) drj,round(((((v39-v31)/v9)-(ABS((d39-d31)/v9)))/ (ABS((d39-d31)/v9)))*100,2) jisuan from "
+				+ " ( select pkid,v3,v4,v5,v6,v9,init_flag from da_household_2016 where  (init_flag='市级低收入人口' or  init_flag='国家级贫困人口') and v21!='已脱贫' and pkid='"+pkid+"'  ) a LEFT JOIN (select da_household_id,v2 from da_life_2016  where v2 ='否')b "
+				+ " ON a.pkid=b.da_household_id LEFT JOIN (select da_household_id,v39 from da_helpback_income_2016 where v39 is not null ) q1 on a.pkid=q1.da_household_id LEFT JOIN(select da_household_id,v31 from "
+				+ " da_helpback_expenditure_2016 where v31 is not null)q2 on a.pkid = q2.da_household_id LEFT JOIN (select da_household_id,v39 d39 from da_current_income_2016 where v39 is not null ) q3 on a.pkid=q3.da_household_id"
+				+ " LEFT JOIN (select da_household_id ,v31 d31 from da_current_expenditure where v31 is not null) q4 on a.pkid=q4.da_household_id   "
+				+ "where b.v2='否' and ((((v39-v31)/v9)-(ABS((d39-d31)/v9)))/ (ABS((d39-d31)/v9)))*100>20  and ((v39-v31)/v9)>10000 group by pkid ";
 		SQLAdapter xian_sqlAdapter =new SQLAdapter(xian_sql);
 		List<Map> xian_list=getBySqlMapper.findRecords(xian_sqlAdapter);
 		Float total_expenditure=(float) 0;
@@ -1574,6 +1744,20 @@ public class PoorUserController extends MultiActionController{
 				total_expenditure+=Float.parseFloat(val.get("v31").toString());
 			}
 			
+			String is_tuopin_sql = "select v21 from da_household_2016 where pkid = "+pkid;
+			List<Map> is_tuopin_list = this.getBySqlMapper.findRecords(new SQLAdapter(is_tuopin_sql));
+			String is_tuopin = is_tuopin_list.get(0).get("v21").toString();
+			//如果达到脱贫要求 即市级脱贫标准的用户  则添加一个可以脱贫的标志  0 1都是未脱贫 1是达到脱贫要求的贫困户  2是已脱贫 不可修改的贫困户
+ 			if(is_tuopin.equals("未脱贫")){
+				if(this.getBySqlMapper.findRecords(new SQLAdapter(tuopin_sql)).size()>0){
+					obj.put("tuopin_flag", "1");
+				}else{
+					obj.put("tuopin_flag", "0");
+				}
+			}else{
+				obj.put("tuopin_flag", "2");
+			}
+			
 			zong.put("zhichu", obj);
 			zong.put("total_expenditure", total_expenditure);
 		}
@@ -1596,6 +1780,7 @@ public class PoorUserController extends MultiActionController{
 		String pkid = request.getParameter("pkid");
 		String form_val = request.getParameter("form_val");
 		String type = request.getParameter("type").trim();
+		String data_year = request.getParameter("data_year");
 		JSONObject form_json = JSONObject.fromObject(form_val);//表单数据
 		
 		String where = "";
@@ -1826,7 +2011,13 @@ public class PoorUserController extends MultiActionController{
 		}else if(type.equals("2")){//帮扶后
 			hu_sql = "update da_helpback_income set "+where+" where da_household_id="+pkid;
 		}
-		
+		if(data_year.equals("2016")){
+			if(type.equals("1")){//当前
+				hu_sql = "update da_current_income_2016 set "+where+" where da_household_id="+pkid;
+			}else if(type.equals("2")){//帮扶后
+				hu_sql = "update da_helpback_income_2016 set "+where+" where da_household_id="+pkid;
+			}
+		}
 		//System.out.println(hu_sql);
 		JSONObject jsonObject=new JSONObject();
 		SQLAdapter Metadata_table_Adapter = new SQLAdapter(hu_sql);
@@ -1838,18 +2029,32 @@ public class PoorUserController extends MultiActionController{
 			if(session.getAttribute("Login_map")!=null){//验证session不为空
 				Map<String,String> Login_map = (Map)session.getAttribute("Login_map");//用户的user表内容
 				SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd");
-				
-				if(type.equals("1")){//当前
-					String hql1="insert into da_record(record_table,record_pkid,record_type,record_p_t,record_phone,record_name,record_time,record_mou_1,record_mou_2)"+
-							" VALUES ('da_household',"+pkid+",'修改',2,'','"+Login_map.get("col_account")+"','"+simpleDate.format(new Date())+"','当前收支','当前收入情况')";
-					SQLAdapter hqlAdapter1 =new SQLAdapter(hql1);
-					this.getBySqlMapper.findRecords(hqlAdapter1);
-				}else if(type.equals("2")){//帮扶后
-					String hql1="insert into da_record(record_table,record_pkid,record_type,record_p_t,record_phone,record_name,record_time,record_mou_1,record_mou_2)"+
-							" VALUES ('da_household',"+pkid+",'修改',2,'','"+Login_map.get("col_account")+"','"+simpleDate.format(new Date())+"','帮扶后收支分析','帮扶后收入情况')";
-					SQLAdapter hqlAdapter1 =new SQLAdapter(hql1);
-					this.getBySqlMapper.findRecords(hqlAdapter1);
+				if(data_year.equals("2016")){
+					if(type.equals("1")){//当前
+						String hql1="insert into da_record_2016(record_table,record_pkid,record_type,record_p_t,record_phone,record_name,record_time,record_mou_1,record_mou_2)"+
+								" VALUES ('da_household_2016',"+pkid+",'修改',2,'','"+Login_map.get("col_account")+"','"+simpleDate.format(new Date())+"','当前收支','当前收入情况')";
+						SQLAdapter hqlAdapter1 =new SQLAdapter(hql1);
+						this.getBySqlMapper.findRecords(hqlAdapter1);
+					}else if(type.equals("2")){//帮扶后
+						String hql1="insert into da_record_2016(record_table,record_pkid,record_type,record_p_t,record_phone,record_name,record_time,record_mou_1,record_mou_2)"+
+								" VALUES ('da_household_2016',"+pkid+",'修改',2,'','"+Login_map.get("col_account")+"','"+simpleDate.format(new Date())+"','帮扶后收支分析','帮扶后收入情况')";
+						SQLAdapter hqlAdapter1 =new SQLAdapter(hql1);
+						this.getBySqlMapper.findRecords(hqlAdapter1);
+					}
+				}else{
+					if(type.equals("1")){//当前
+						String hql1="insert into da_record(record_table,record_pkid,record_type,record_p_t,record_phone,record_name,record_time,record_mou_1,record_mou_2)"+
+								" VALUES ('da_household',"+pkid+",'修改',2,'','"+Login_map.get("col_account")+"','"+simpleDate.format(new Date())+"','当前收支','当前收入情况')";
+						SQLAdapter hqlAdapter1 =new SQLAdapter(hql1);
+						this.getBySqlMapper.findRecords(hqlAdapter1);
+					}else if(type.equals("2")){//帮扶后
+						String hql1="insert into da_record(record_table,record_pkid,record_type,record_p_t,record_phone,record_name,record_time,record_mou_1,record_mou_2)"+
+								" VALUES ('da_household',"+pkid+",'修改',2,'','"+Login_map.get("col_account")+"','"+simpleDate.format(new Date())+"','帮扶后收支分析','帮扶后收入情况')";
+						SQLAdapter hqlAdapter1 =new SQLAdapter(hql1);
+						this.getBySqlMapper.findRecords(hqlAdapter1);
+					}
 				}
+				
 			}
 			
 			jsonObject.put("isSuccess", "1");
@@ -1874,6 +2079,8 @@ public class PoorUserController extends MultiActionController{
 		String pkid = request.getParameter("pkid");
 		String form_val = request.getParameter("form_val");
 		String type = request.getParameter("type").trim();
+		String data_year = request.getParameter("data_year");
+		String is_pinkun = request.getParameter("is_pinkun");
 		JSONObject form_json = JSONObject.fromObject(form_val);//表单数据
 		
 		float zong = 0;
@@ -2055,10 +2262,20 @@ public class PoorUserController extends MultiActionController{
 		}else if(type.equals("2")){//帮扶后
 			hu_sql = "update da_helpback_expenditure set "+where+" where da_household_id="+pkid;
 		}
+		if(data_year.equals("2016")){
+			if(type.equals("1")){//当前
+				hu_sql = "update da_current_expenditure_2016 set "+where+" where da_household_id="+pkid;
+			}else if(type.equals("2")){//帮扶后
+				hu_sql = "update da_helpback_expenditure_2016 set "+where+" where da_household_id="+pkid;
+				//说明贫困户已满足脱贫要求并且脱贫  或者 已脱贫
+				
+			}
+		}	
 		
 		//System.out.println(hu_sql);
 		JSONObject jsonObject=new JSONObject();
 		SQLAdapter Metadata_table_Adapter = new SQLAdapter(hu_sql);
+		
 		try{
 			this.getBySqlMapper.insertSelective(Metadata_table_Adapter);
 			
@@ -2067,21 +2284,56 @@ public class PoorUserController extends MultiActionController{
 			if(session.getAttribute("Login_map")!=null){//验证session不为空
 				Map<String,String> Login_map = (Map)session.getAttribute("Login_map");//用户的user表内容
 				SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd");
-				
-				if(type.equals("1")){//当前
-					String hql1="insert into da_record(record_table,record_pkid,record_type,record_p_t,record_phone,record_name,record_time,record_mou_1,record_mou_2)"+
-							" VALUES ('da_household',"+pkid+",'修改',2,'','"+Login_map.get("col_account")+"','"+simpleDate.format(new Date())+"','当前收支','当前支出情况')";
-					SQLAdapter hqlAdapter1 =new SQLAdapter(hql1);
-					this.getBySqlMapper.findRecords(hqlAdapter1);
-				}else if(type.equals("2")){//帮扶后
-					String hql1="insert into da_record(record_table,record_pkid,record_type,record_p_t,record_phone,record_name,record_time,record_mou_1,record_mou_2)"+
-							" VALUES ('da_household',"+pkid+",'修改',2,'','"+Login_map.get("col_account")+"','"+simpleDate.format(new Date())+"','帮扶后收支分析','帮扶后支出情况')";
-					SQLAdapter hqlAdapter1 =new SQLAdapter(hql1);
-					this.getBySqlMapper.findRecords(hqlAdapter1);
+				if(data_year.equals("2016")){
+					if(type.equals("1")){//当前
+						String hql1="insert into da_record_2016(record_table,record_pkid,record_type,record_p_t,record_phone,record_name,record_time,record_mou_1,record_mou_2)"+
+								" VALUES ('da_household_2016',"+pkid+",'修改',2,'','"+Login_map.get("col_account")+"','"+simpleDate.format(new Date())+"','当前收支','当前支出情况')";
+						SQLAdapter hqlAdapter1 =new SQLAdapter(hql1);
+						this.getBySqlMapper.findRecords(hqlAdapter1);
+					}else if(type.equals("2")){//帮扶后
+						String hql1="insert into da_record_2016(record_table,record_pkid,record_type,record_p_t,record_phone,record_name,record_time,record_mou_1,record_mou_2)"+
+								" VALUES ('da_household_2016',"+pkid+",'修改',2,'','"+Login_map.get("col_account")+"','"+simpleDate.format(new Date())+"','帮扶后收支分析','帮扶后支出情况')";
+						SQLAdapter hqlAdapter1 =new SQLAdapter(hql1);
+						this.getBySqlMapper.findRecords(hqlAdapter1);
+					}
+					
+					if(is_pinkun.equals("1")){
+						//查询2017年数据库中 2016年的贫困户是否在2017年已脱贫  如果已脱贫则直接不更新 返回状态
+						String pinkun_2017_sql = "select * from da_household where pkid ="+pkid+" and  v21 != '已脱贫'";
+						String update_pinkun_sql = "update da_household_2016 set v21 ='已脱贫'  where v21!='已脱贫' and pkid = "+pkid ;
+						
+						if(this.getBySqlMapper.findRecords(new SQLAdapter(pinkun_2017_sql)).size()>0){
+							this.getBySqlMapper.updateSelective(new SQLAdapter(update_pinkun_sql));
+							jsonObject.put("isSuccess", "1");
+						}else{
+							jsonObject.put("isSuccess", "2");
+						}
+						jsonObject.put("total_expenditure", total_expenditure);
+					}else{//如果是否
+						jsonObject.put("isSuccess", "1");
+						jsonObject.put("total_expenditure", total_expenditure);
+					}
+					
+					
+				}else{
+					if(type.equals("1")){//当前
+						String hql1="insert into da_record(record_table,record_pkid,record_type,record_p_t,record_phone,record_name,record_time,record_mou_1,record_mou_2)"+
+								" VALUES ('da_household',"+pkid+",'修改',2,'','"+Login_map.get("col_account")+"','"+simpleDate.format(new Date())+"','当前收支','当前支出情况')";
+						SQLAdapter hqlAdapter1 =new SQLAdapter(hql1);
+						this.getBySqlMapper.findRecords(hqlAdapter1);
+					}else if(type.equals("2")){//帮扶后
+						String hql1="insert into da_record(record_table,record_pkid,record_type,record_p_t,record_phone,record_name,record_time,record_mou_1,record_mou_2)"+
+								" VALUES ('da_household',"+pkid+",'修改',2,'','"+Login_map.get("col_account")+"','"+simpleDate.format(new Date())+"','帮扶后收支分析','帮扶后支出情况')";
+						SQLAdapter hqlAdapter1 =new SQLAdapter(hql1);
+						this.getBySqlMapper.findRecords(hqlAdapter1);
+					}
+					jsonObject.put("isSuccess", "1");
+					jsonObject.put("total_expenditure", total_expenditure);
 				}
+				
+				
 			}
-			jsonObject.put("isSuccess", "1");
-			jsonObject.put("total_expenditure", total_expenditure);
+			
 			
 		}catch (Exception e){
 			jsonObject.put("isSuccess", "0");

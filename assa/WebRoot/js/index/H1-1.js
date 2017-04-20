@@ -268,6 +268,7 @@ function jbqk(id){
 	    async:false,
 	    dataType:"json",
 	    data:{
+	    	data_year:$("#data_year").val(),
 	    	pkid:id,
         },
 	    success: function (data) {
@@ -1053,6 +1054,7 @@ function shengchan_save(){
 	    async:false,
 	    dataType: "text",
 	    data:{
+	    	data_year:$("#data_year").val(),
 	    	pkid: $("#shang_yi #hu_pkid").val(),
 	    	form_val: form_val
         },
@@ -1078,6 +1080,7 @@ function shenghuo_save(){
 	    async:false,
 	    dataType: "text",
 	    data:{
+	    	data_year:$("#data_year").val(),
 	    	pkid: $("#shang_yi #hu_pkid").val(),
 	    	form_val: form_val
         },

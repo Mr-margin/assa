@@ -35,13 +35,14 @@ $(function () {
 
 //帮扶后收支分析
 function bfhsz(id){
-	bangfuhouRefresh_actual();
+	bangfuhouRefresh_actual(); 
 	$.ajax({
 	    url: "/assa/getCurrent_info.do",
 	    type: "POST",
 	    async:false,
 	    dataType:"json",
 	    data:{
+	    	data_year:$("#data_year").val(),
 	    	pkid:id,
 	    	type:2
         },
@@ -125,9 +126,30 @@ function bfhsz(id){
 	    	$('#bangfuhouzhichu #v29').val(data.zhichu.v29);
 	    	$('#bangfuhouzhichu #v30').val(data.zhichu.v30);
 	    	$("#bangfuhouzhichu #helpback_total_expenditure").val(data.total_expenditure);
+	    	//1的时候 是达到脱贫要求 但是还未脱贫  可以修改为脱贫状态    0的时候是未达到脱贫要求   radio 不可选中  2的时候是已脱贫不可修改
+	    	/*alert(data.zhichu.tuopin_flag)*/
+	    	if(data.zhichu.tuopin_flag=='1'){
+	    		$('input:radio[name=is_pinkun][value="1"]').attr("disabled",false);
+	    		$('input:radio[name=is_pinkun][value="0"]').attr("disabled",false);
+	    		$('input:radio[name=is_pinkun][value="1"]').parent(".iradio_square-green").removeClass("checked");
+	    		$('input:radio[name=is_pinkun][value="0"]').prop("checked",true);
+		    	$('input:radio[name=is_pinkun][value="0"]').parent(".iradio_square-green").addClass("checked");
+	    	}else if(data.zhichu.tuopin_flag=='0'){
+	    		$('input:radio[name=is_pinkun][value="1"]').parent(".iradio_square-green").removeClass("checked");
+	    		$('input:radio[name=is_pinkun][value="0"]').prop("checked",true);
+		    	$('input:radio[name=is_pinkun][value="0"]').parent(".iradio_square-green").addClass("checked");
+		    	$('input:radio[name=is_pinkun][value="1"]').attr("disabled",true);
+	    	}else{
+	    		$('input:radio[name=is_pinkun][value="0"]').parent(".iradio_square-green").removeClass("checked");
+	    		$('input:radio[name=is_pinkun][value="1"]').prop("checked",true);
+		    	$('input:radio[name=is_pinkun][value="1"]').parent(".iradio_square-green").addClass("checked");
+		    	$('input:radio[name=is_pinkun][value="0"]').attr("disabled",true);
+	    	}
+	    	
+	    	/*if(data.zhichu.tuopin_flag)*/
 	    },
 	    error: function () { 
-	    	toastr["error"]("error", "服务器异常");
+	    	toastr["error"](" error", "服务器异常");
 	    }  
 	
 	});
@@ -144,6 +166,7 @@ function bangfuhoushouru_save(){
 	    async:false,
 	    dataType: "text",
 	    data:{
+	    	data_year:$("#data_year").val(),
 	    	pkid: $("#shang_yi #hu_pkid").val(),
 	    	form_val: form_val,
 	    	type:2
@@ -173,6 +196,8 @@ function bangfuhouzhichu_save(){
 	    dataType: "text",
 	    data:{
 	    	pkid: $("#shang_yi #hu_pkid").val(),
+	    	data_year:$("#data_year").val(),
+	    	is_pinkun:$("input[name=is_pinkun]:checked").val(),
 	    	form_val: form_val,
 	    	type:2
         },
@@ -181,6 +206,8 @@ function bangfuhouzhichu_save(){
 	    	if (JsonData.isSuccess=="1" ) {
 	    		toastr["success"]("success", "帮扶后支出");
 	    		$("#bangfuhouzhichu #helpback_total_expenditure").val(JsonData.total_expenditure);
+	    	}else if(JsonData.isSuccess=="2" ){
+	    		toastr["warning"]("warning", "该贫困户在2017年已脱贫");
 	    	}else{
 	    		toastr["warning"]("warning", "修改失败，检查数据后重试");
 	    	}

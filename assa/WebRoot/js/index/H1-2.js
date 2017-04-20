@@ -41,6 +41,7 @@ function dqsz(id){
 	    async:false,
 	    dataType:"json",
 	    data:{
+	    	data_year:$("#data_year").val(),
 	    	pkid:id,
 	    	type:1
         },
@@ -147,6 +148,7 @@ function shouru_save(){
 	    async:false,
 	    dataType: "text",
 	    data:{
+	    	data_year:$("#data_year").val(),
 	    	pkid: $("#shang_yi #hu_pkid").val(),
 	    	form_val: form_val,
 	    	type:1
@@ -175,6 +177,7 @@ function zhichu_save(){
 	    async:false,
 	    dataType: "text",
 	    data:{
+	    	data_year:$("#data_year").val(),
 	    	pkid: $("#shang_yi #hu_pkid").val(),
 	    	form_val: form_val,
 	    	type:1

@@ -241,26 +241,40 @@ public class SignOutController extends MultiActionController{
 				for ( int i = 0 ; i < pkid.length ; i ++ ) {
 					if( "0".equals(type) ) {
 						String sql = "update da_household set init_flag='市级低收入人口' where pkid = "+pkid[i];
-						SQLAdapter sqlAdapter = new SQLAdapter (sql);
-						this.getBySqlMapper.updateSelective(sqlAdapter);
-						
-						String hql1="insert into da_record(record_table,record_pkid,record_type,record_p_t,record_phone,record_name,record_time,record_mou_1,record_mou_2)"+
-								" VALUES ('da_household',"+pkid[i]+",'退出',2,'','"+Login_map.get("col_account")+"','"+simpleDate.format(new Date())+"','识别与退出','转市贫')";
-						SQLAdapter hqlAdapter1 =new SQLAdapter(hql1);
-						this.getBySqlMapper.findRecords(hqlAdapter1);
+						String tui_sql = "select v21 from da_household_2016 where pkid="+pkid[i];
+						List<Map> tui_list =  this.getBySqlMapper.findRecords(new SQLAdapter(tui_sql));
+						if(tui_list.get(0).get("v21").equals("已脱贫")){
+							response.getWriter().write("2");
+						}else{
+							SQLAdapter sqlAdapter = new SQLAdapter (sql);
+							this.getBySqlMapper.updateSelective(sqlAdapter);
+							
+							String hql1="insert into da_record(record_table,record_pkid,record_type,record_p_t,record_phone,record_name,record_time,record_mou_1,record_mou_2)"+
+									" VALUES ('da_household',"+pkid[i]+",'退出',2,'','"+Login_map.get("col_account")+"','"+simpleDate.format(new Date())+"','识别与退出','转市贫')";
+							SQLAdapter hqlAdapter1 =new SQLAdapter(hql1);
+							this.getBySqlMapper.findRecords(hqlAdapter1);
+							response.getWriter().write("0");
+						}
 						
 					}else if ( "1".equals(type) ) {
 						String sql = "update da_household set v21='已脱贫' where pkid = "+pkid[i];
-						SQLAdapter sqlAdapter = new SQLAdapter (sql);
-						this.getBySqlMapper.updateSelective(sqlAdapter);
+						String tui_sql = "select v21 from da_household_2016 where pkid="+pkid[i];
+						List<Map> tui_list =  this.getBySqlMapper.findRecords(new SQLAdapter(tui_sql));
+						if(tui_list.get(0).get("v21").equals("已脱贫")){
+							response.getWriter().write("2");
+						}else{
+							SQLAdapter sqlAdapter = new SQLAdapter (sql);
+							this.getBySqlMapper.updateSelective(sqlAdapter);
+							String hql1="insert into da_record(record_table,record_pkid,record_type,record_p_t,record_phone,record_name,record_time,record_mou_1,record_mou_2)"+
+									" VALUES ('da_household',"+pkid[i]+",'退出',2,'','"+Login_map.get("col_account")+"','"+simpleDate.format(new Date())+"','识别与退出','退贫')";
+							SQLAdapter hqlAdapter1 =new SQLAdapter(hql1);
+							this.getBySqlMapper.findRecords(hqlAdapter1);
+							response.getWriter().write("0");
+						}
 						
-						String hql1="insert into da_record(record_table,record_pkid,record_type,record_p_t,record_phone,record_name,record_time,record_mou_1,record_mou_2)"+
-								" VALUES ('da_household',"+pkid[i]+",'退出',2,'','"+Login_map.get("col_account")+"','"+simpleDate.format(new Date())+"','识别与退出','退贫')";
-						SQLAdapter hqlAdapter1 =new SQLAdapter(hql1);
-						this.getBySqlMapper.findRecords(hqlAdapter1);
 					}
 				}
-				response.getWriter().write("0");
+				
 			} catch (Exception e) {
 				response.getWriter().write("1");
 			}
