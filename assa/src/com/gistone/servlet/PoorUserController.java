@@ -2298,7 +2298,7 @@ public class PoorUserController extends MultiActionController{
 						this.getBySqlMapper.findRecords(hqlAdapter1);
 					}
 					
-					if(is_pinkun.equals("1")){
+					if(is_pinkun!=null&&!is_pinkun.equals("")&&is_pinkun.equals("1")){
 						//查询2017年数据库中 2016年的贫困户是否在2017年已脱贫  如果已脱贫则直接不更新 返回状态
 						String pinkun_2017_sql = "select * from da_household where pkid ="+pkid+" and  v21 != '已脱贫'";
 						String update_pinkun_sql = "update da_household_2016 set v21 ='已脱贫'  where v21!='已脱贫' and pkid = "+pkid ;
