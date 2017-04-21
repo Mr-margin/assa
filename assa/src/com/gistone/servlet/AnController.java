@@ -495,7 +495,7 @@ public class AnController extends MultiActionController{
 		response.setCharacterEncoding("UTF-8");
 		String pkid=request.getParameter("pid");
 		try {
-			String sql="SELECT basic_address,v3,v4,v5,v26,v27,v23,v33,sys_standard,v29,v30,v31,V6,pkid,v25,v8,v22,v11,v7,pic_path, ROUND((dqsz-dqzc)/v9,2) bfq,ROUND((dqszh-dqzch)/v9,2) bfh FROM  da_household a LEFT JOIN  "+
+			String sql="SELECT basic_address,v3,v4,v5,v26,v27,v23,v33,sys_standard,v29,v30,v31,V6,pkid,v25,v8,v22,v11,v7,entry_year,pic_path, ROUND((dqsz-dqzc)/v9,2) bfq,ROUND((dqszh-dqzch)/v9,2) bfh FROM  da_household a LEFT JOIN  "+
 					"(select pic_path,pic_pkid from da_pic WHERE pic_type='4' )c ON a.pkid=c.pic_pkid LEFT JOIN  "+
 					"(select v39 dqsz,da_household_id FROM da_current_income)d ON a.pkid=d.da_household_id LEFT JOIN  "+
 					"(select v31 dqzc,da_household_id FROM da_current_expenditure ) e ON a.pkid=e.da_household_id LEFT JOIN"+
@@ -514,7 +514,11 @@ public class AnController extends MultiActionController{
 //		}
 		
 		obj.put("v1", "内蒙古自治区 "+"鄂尔多斯市 "+ list.get(0).get("v3")+" "+ list.get(0).get("v4")+" "+ list.get(0).get("v5")+"");
-		
+		if("".equals(list.get(0).get("entry_year"))||list.get(0).get("entry_year")==null){
+			obj.put("pyear", "2017");//贫困户年份
+		}else{
+			obj.put("pyear",list.get(0).get("entry_year"));//贫困户年份
+		}
 		if("".equals(list.get(0).get("v25"))||list.get(0).get("v25")==null){
 			obj.put("v25", "");//联系电话
 		}else{

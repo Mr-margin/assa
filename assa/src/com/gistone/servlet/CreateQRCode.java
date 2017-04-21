@@ -48,7 +48,7 @@ public class CreateQRCode extends MultiActionController {
 		String type = request.getParameter("type");
 		
 		String text = "http://110.18.60.194:10303/assa/anuser.html?pkid="; //原路径
-		//String text = "http://192.168.1.35:8080/assa/anuser.html?pkid="; //localhost 改成本机的测试
+//		String text = "http://192.168.1.29:8080/assa/anuser.html?pkid="; //localhost 改成本机的测试
 		// 文件保存目录路径  
         String savePath =""; //   需要改成/7/下面的路径 request.getServletContext().getRealPath("/")+ "attached/7/"
         // 文件保存目录URL  
@@ -96,11 +96,13 @@ public class CreateQRCode extends MultiActionController {
 				}
 				QRCodeUtil.encode(text+Patient_st_map.get("pkid"), "c:/11.jpg", savePath, PKID+"_"+V6+".jpg", true);//生成二维码方法
 				
-				String sql_i ="INSERT INTO da_pic_code(da_household_id,HOUSEHOLD_NAME,HOUSEHOLD_CARD,PIC_PATH) VALUES"+
-						"('"+PKID+"','"+V6+"','"+V8+"','"+saveUrl+PKID+"_"+V6+".jpg"+"')";  //saveURL中要加个参数 路径或者名称
 				
-				SQLAdapter Adapter_2 = new SQLAdapter(sql_i);
-				this.getBySqlMapper.insertSelective(Adapter_2);   //插入数据用的
+				System.out.println("正在生成第"+(i+1)+"张二维码图片！");
+//				String sql_i ="INSERT INTO da_pic_code(da_household_id,HOUSEHOLD_NAME,HOUSEHOLD_CARD,PIC_PATH) VALUES"+
+//						"('"+PKID+"','"+V6+"','"+V8+"','"+saveUrl+PKID+"_"+V6+".jpg"+"')";  //saveURL中要加个参数 路径或者名称
+				
+//				SQLAdapter Adapter_2 = new SQLAdapter(sql_i);
+//				this.getBySqlMapper.insertSelective(Adapter_2);   //插入数据用的
 			}
 		}
 		
