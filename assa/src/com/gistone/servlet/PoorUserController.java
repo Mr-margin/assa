@@ -109,12 +109,12 @@ public class PoorUserController extends MultiActionController{
         Date date=new Date();
         int entry_year=Integer.parseInt(df2.format(date));
         try{
-        	String add_sql = "insert into da_household(v1,v2,v3,v4,v5,v6,v9,v21,entry_year,create_time) values('内蒙古自治区','"+newFileName+"','"+qx+"','"+xaing+"','"+cun+"','"+huname+"','1','未脱贫','"+entry_year+"','"+create_time+"')";
+        	String add_sql = "insert into da_household(v1,v2,v3,v4,v5,v6,v9,v21,entry_year,create_time) values('内蒙古自治区','鄂尔多斯市','"+qx+"','"+xaing+"','"+cun+"','"+huname+"','1','未脱贫','"+entry_year+"','"+create_time+"')";
     		SQLAdapter Metadata_table_Adapter = new SQLAdapter(add_sql);
     		this.getBySqlMapper.insertSelective(Metadata_table_Adapter);//户主信息
     		
     		//取得户主的ID
-    		String hou_sql = "select pkid from da_household where v2='"+newFileName+"'";
+    		String hou_sql = "select pkid from da_household where create_time='"+create_time+"'";
     		SQLAdapter hou_Adapter = new SQLAdapter(hou_sql);
     		da_household_id = this.getBySqlMapper.findrows(hou_Adapter);
     		
