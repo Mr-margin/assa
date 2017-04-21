@@ -247,17 +247,17 @@ public class PoorMessageController extends MultiActionController{
 				float year_income2=dqsrh2-dqzch2;//年纯收入
 				float per_capita_income2=year_income2/familysize;//人均纯收入
 				if(cha_v24_1!=0&&cha_v24_2==0){
-					if(per_capita_income2>=cha_v24_1){
+					if(per_capita_income2>cha_v24_1){
 						da_household_ids2.add(dqsrh_map2.get("da_household_id").toString());
 						pkids2.append(dqsrh_map2.get("da_household_id").toString()+",");
 					}
 				}else if(cha_v24_1!=0&&cha_v24_2!=0){
-					if(per_capita_income2>=cha_v24_1&&per_capita_income2<cha_v24_2){
+					if(per_capita_income2>cha_v24_1&&per_capita_income2<=cha_v24_2){
 						da_household_ids2.add(dqsrh_map2.get("da_household_id").toString());
 						pkids2.append(dqsrh_map2.get("da_household_id").toString()+",");
 					}
 				}else if(cha_v24_1==0&&cha_v24_2!=0){
-					if(per_capita_income2<cha_v24_2){
+					if(per_capita_income2<=cha_v24_2){
 						da_household_ids2.add(dqsrh_map2.get("da_household_id").toString());
 						pkids2.append(dqsrh_map2.get("da_household_id").toString()+",");
 					}

@@ -2,6 +2,7 @@ package com.gistone.servlet;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
@@ -66,7 +67,6 @@ public class SH3_Controller extends MultiActionController{
 		int shilevel=0;
 		String shi_name="";
 		//判断哪些需要加载行政区划
-		if(mokuai_name.equals("jtgm")||mokuai_name.equals("nljg")||mokuai_name.equals("jiatingshouzhi")||mokuai_name.equals("lsbfcs")){
 			if (json_level==null) {
 				String shi_sql ="select * from sys_company c where c.com_level='"+ level +"'";
 				SQLAdapter shi_Adapter = new SQLAdapter(shi_sql);
@@ -91,7 +91,6 @@ public class SH3_Controller extends MultiActionController{
 			else if (shilevel==4) {
 				shilevel_sql+=" and v5 like '%"+ shi_name +"%' ";
 			}
-		}
 		
 		
 		if (mokuai_name.equals("jiatingshouzhi")) {	//根据模块名称来判断执行模块 家庭收支模块
@@ -101,55 +100,52 @@ public class SH3_Controller extends MultiActionController{
 			int sdsqian = 0; //3000-4000元
 			int sdwqian = 0; //4000-5000元
 			int wys = 0; //5000元以上
-//			if (com_level.equals("1")) { //用户层级为1时
-//				if (shujv.equals("level-1")) {
-//					sql = "SELECT ROUND(v24,2) as num FROM da_household"+year+" where sys_standard='"+ leixing_name +"'";
-//				}else {
-//					sql = "SELECT ROUND(v24,2) as num FROM da_household"+year+" where v3='"+shujv+"' and sys_standard='"+ leixing_name +"'";
-//				}
-//			}else if (com_level.equals("2")) {	//层级为2的用户
-//				if (shujv.equals("level-1")) {
-//					sql = "SELECT ROUND(v24,2) as num FROM da_household"+year+" where v3='"+ com_name +"' and sys_standard='"+ leixing_name +"'";
-//				}else {
-//					sql = "SELECT ROUND(v24,2) as num FROM da_household"+year+" where v3='"+shujv+"' and sys_standard='"+ leixing_name +"'";
-//				}
-//			}else if (com_level.equals("3")) {	//层级为3的时候用户的名字
-//				if (shujv.equals("level-1")) {
-//					 sql = "SELECT ROUND(v24,2) as num FROM da_household"+year+" where v4='"+ com_name +"' and sys_standard='"+ leixing_name +"'";
-//				}else {
-//					sql = "SELECT ROUND(v24,2) as num FROM da_household"+year+" where v4='"+shujv+"' and sys_standard='"+ leixing_name +"'";
-//				}
-//			}else {		//获取上级名称
-//				com_name=company_json.get("xiang").toString();	
-//				sql = "SELECT ROUND(v24,2) as num FROM da_household"+year+" where v4='"+ com_name +"' and sys_standard='"+ leixing_name +"'";
-//			}
-			sql = "SELECT ROUND(v24,2) as num FROM da_household"+year+" where  sys_standard='"+ leixing_name +"'"+shilevel_sql+"";
-			SQLAdapter pkhAdapter = new SQLAdapter(sql);
-			List<Map> avgList = this.getBySqlMapper.findRecords(pkhAdapter);
-			JSONObject val = new JSONObject();
-			if (avgList.size()>0) {
-				JSONArray jsa = new JSONArray();
-				for (int i = 0; i < avgList.size(); i++) {
-					if (avgList.get(i)!=null) {
-						Map avgMap = avgList.get(i);
-						for ( Object key : avgMap.keySet()) {
-							String str=avgMap.get("num").toString();
-							double avg =  (Double) avgMap.get("num");
-							if (avg>0 && avg<=1000) {
-								yiqian += 1;
-							} else if (avg>1000 && avg<=2000) {
-								ydeqian += 1;
-							}else if (avg>2000 && avg<=3000) {
-								edsqian += 1;
-							}else if (avg>3000 && avg<=4000) {
-								sdsqian += 1;
-							}else if (avg>4000 && avg<=5000) {
-								sdwqian += 1;
-							}else if (avg>5000) {
-								wys += 1;
-							}	
-						}
+			String pkid_sql = "SELECT pkid,v9 FROM da_household"+year+" where  sys_standard='"+ leixing_name +"'"+shilevel_sql+"";
+			SQLAdapter pkidAdapter = new SQLAdapter(pkid_sql);
+			List<Map> pkidList = this.getBySqlMapper.findRecords(pkidAdapter);
+			StringBuilder pkids=new StringBuilder();
+			List<Integer> familysize_list=new ArrayList<Integer>();//一户的家庭人数
+			if(pkidList.size()>0){
+				for(int i=0;i<pkidList.size();i++){
+					if(i==pkidList.size()-1){
+						pkids.append(pkidList.get(i).get("pkid").toString());
+					}else{
+						pkids.append(pkidList.get(i).get("pkid").toString()+",");
 					}
+					familysize_list.add((Integer) pkidList.get(i).get("v9"));
+				}
+				//帮扶后总收入
+				String dqsrh_sql2="SELECT da_household_id,v39 FROM da_helpback_income"+year+" where da_household_id in("+pkids+")";
+				SQLAdapter dqsrh_sqlAdapter2 =new SQLAdapter(dqsrh_sql2);
+				List<Map> dqsrh_list2=getBySqlMapper.findRecords(dqsrh_sqlAdapter2);
+				//帮扶后总支出
+				String dqzch_sql2="SELECT da_household_id,v31 FROM da_helpback_expenditure"+year+" where da_household_id in("+pkids+")";
+				SQLAdapter dqzch_sqlAdapter2 =new SQLAdapter(dqzch_sql2);
+				List<Map> dqzch_list2=getBySqlMapper.findRecords(dqzch_sqlAdapter2);
+				JSONObject val = new JSONObject();
+				JSONArray jsa = new JSONArray();
+				for(int y=0;y<dqzch_list2.size();y++){
+					int familysize=familysize_list.get(y);
+					Map dqsrh_map2=dqsrh_list2.get(y);
+					Map dqzch_map2=dqzch_list2.get(y);
+					float dqsrh2=(float) (dqsrh_map2.get("v39")==null?0.00:(Float)dqsrh_map2.get("v39"));
+					float dqzch2=(float) (dqzch_map2.get("v31")==null?0.00:(Float)dqzch_map2.get("v31"));
+					float year_income2=dqsrh2-dqzch2;//年纯收入
+					float per_capita_income2=year_income2/familysize;//人均纯收入
+					if (per_capita_income2>0 && per_capita_income2<=1000) {
+						yiqian += 1;
+					} else if (per_capita_income2>1000 && per_capita_income2<=2000) {
+						ydeqian += 1;
+					}else if (per_capita_income2>2000 && per_capita_income2<=3000) {
+						edsqian += 1;
+					}else if (per_capita_income2>3000 && per_capita_income2<=4000) {
+						sdsqian += 1;
+					}else if (per_capita_income2>4000 && per_capita_income2<=5000) {
+						sdwqian += 1;
+					}else if (per_capita_income2>5000) {
+						wys += 1;
+					}
+					
 				}
 				val.put("name", "0-1000");
 				val.put("value",yiqian);
@@ -173,6 +169,29 @@ public class SH3_Controller extends MultiActionController{
 			}else {
 				response.getWriter().write("0");
 			}
+			
+//			if (com_level.equals("1")) { //用户层级为1时
+//				if (shujv.equals("level-1")) {
+//					sql = "SELECT ROUND(v24,2) as num FROM da_household"+year+" where sys_standard='"+ leixing_name +"'";
+//				}else {
+//					sql = "SELECT ROUND(v24,2) as num FROM da_household"+year+" where v3='"+shujv+"' and sys_standard='"+ leixing_name +"'";
+//				}
+//			}else if (com_level.equals("2")) {	//层级为2的用户
+//				if (shujv.equals("level-1")) {
+//					sql = "SELECT ROUND(v24,2) as num FROM da_household"+year+" where v3='"+ com_name +"' and sys_standard='"+ leixing_name +"'";
+//				}else {
+//					sql = "SELECT ROUND(v24,2) as num FROM da_household"+year+" where v3='"+shujv+"' and sys_standard='"+ leixing_name +"'";
+//				}
+//			}else if (com_level.equals("3")) {	//层级为3的时候用户的名字
+//				if (shujv.equals("level-1")) {
+//					 sql = "SELECT ROUND(v24,2) as num FROM da_household"+year+" where v4='"+ com_name +"' and sys_standard='"+ leixing_name +"'";
+//				}else {
+//					sql = "SELECT ROUND(v24,2) as num FROM da_household"+year+" where v4='"+shujv+"' and sys_standard='"+ leixing_name +"'";
+//				}
+//			}else {		//获取上级名称
+//				com_name=company_json.get("xiang").toString();	
+//				sql = "SELECT ROUND(v24,2) as num FROM da_household"+year+" where v4='"+ com_name +"' and sys_standard='"+ leixing_name +"'";
+//			}
 		}else if(mokuai_name.equals("lsbfcs")){ //根据模块名称来判断执行模块 落实帮扶比例模块 
 //			if (com_level.equals("1")) {	//当用户层级为1时
 //				if (shujv.equals("level-1")) {
@@ -250,7 +269,23 @@ public class SH3_Controller extends MultiActionController{
 				response.getWriter().write("0");
 			}
 		}else if(mokuai_name.equals("zpyy")){	//根据模块名称来判断执行模块 致贫原因模块 
-			sql = "SELECT SUM(v9)as count,v23 as v3 FROM da_household"+year+" WHERE sys_standard='"+leixing_name+"' GROUP BY v23";
+			String region="";
+			String region2="";
+			if(shilevel==1){
+				region=" and v2='"+shi_name+"' ";
+				region2=" and y.v2='"+shi_name+"' ";
+			}else if(shilevel==2){
+				region=" and v3='"+shi_name+"' ";
+				region2=" and y.v3='"+shi_name+"' ";
+			}else if(shilevel==3){
+				region=" and v4='"+shi_name+"' ";
+				region2=" and y.v4='"+shi_name+"' ";
+			}else if(shilevel==4){
+				region=" and v5='"+shi_name+"' ";
+				region2=" and y.v5='"+shi_name+"' ";
+			}
+			sql = "select t1.huv23 AS v3,(t1.hu+t2.jia) as count from(select v23 as huv23,count(*) as hu from da_household"+year+" WHERE sys_standard='"+leixing_name+"' "+region+" group by v23) t1 join (select y.v23 as jiav23,count(*) as jia from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' "+region2+" group by y.v23)t2 on t1.huv23=t2.jiav23 ";
+			//sql = "SELECT count(v9)as count,v23 as v3 FROM da_household"+year+" WHERE sys_standard='"+leixing_name+"' "+region+" GROUP BY v23";
 			SQLAdapter sqlAdapter =new SQLAdapter(sql);
 			List<Map> sql_list = this.getBySqlMapper.findRecords(sqlAdapter);
 			JSONObject val = new JSONObject();
@@ -274,7 +309,22 @@ public class SH3_Controller extends MultiActionController{
 				response.getWriter().print("0");
 			}
 		}else if (mokuai_name.equals("whcd")) { //根据模块名称来判断执行模块  文化程度模块 
-			sql = "select t1.huv12 AS v12,(t1.hu+t2.jia) as count from(select v12 as huv12,count(*) as hu from da_household"+year+" WHERE sys_standard='"+leixing_name+"' group by v12) t1 join (select y.v12 as jiav12,count(*) as jia from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' group by y.v12)t2 on t1.huv12=t2.jiav12 ";
+			String region="";
+			String region2="";
+			if(shilevel==1){
+				region=" and v2 like'%"+shi_name+"%' ";
+				region2=" and x.v2 like '%"+shi_name+"%' ";
+			}else if(shilevel==2){
+				region=" and v3 like '%"+shi_name+"%' ";
+				region2=" and x.v3 like '%"+shi_name+"%' ";
+			}else if(shilevel==3){
+				region=" and v4 like '%"+shi_name+"%' ";
+				region2=" and x.v4 like '%"+shi_name+"%' ";
+			}else if(shilevel==4){
+				region=" and v5 like '%"+shi_name+"%' ";
+				region2=" and x.v5 like '%"+shi_name+"%' ";
+			}
+			sql = "select t1.huv12 AS v12,(if(isnull(t1.hu),0,t1.hu)+if(isnull(t2.jia),0,t2.jia)) as count from(select v12 as huv12,count(*) as hu from da_household"+year+" WHERE sys_standard='"+leixing_name+"' "+region+" group by v12) t1 join (select y.v12 as jiav12,count(*) as jia from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' "+region2+" group by y.v12)t2 on t1.huv12=t2.jiav12 ";
 			SQLAdapter sqlAdapter = new SQLAdapter(sql);
 			List<Map> sql_list = this.getBySqlMapper.findRecords(sqlAdapter);
 			JSONObject val = new JSONObject();
@@ -483,7 +533,8 @@ public class SH3_Controller extends MultiActionController{
 		int shilevel=0;
 		String shi_name="";
 		String com_code2="";
-		if(mokuai_name.equals("jtgm")||mokuai_name.equals("nljg")||mokuai_name.equals("jiatingshouzhi")||mokuai_name.equals("lsbfcs")){
+		String com_code3="";
+		int com_f_pkid=0;//上级行政区划id
 		if (json_level==null) {
 			String shi_sql ="select * from sys_company c where c.com_level='"+ level +"' and c.com_name='"+jsonname+"'";
 			SQLAdapter shi_Adapter = new SQLAdapter(shi_sql);
@@ -491,6 +542,18 @@ public class SH3_Controller extends MultiActionController{
 			shilevel= (Integer) shi_listmap.get(0).get("com_level");
 			shi_name= jsonname;
 			com_code2=shi_listmap.get(0).get("com_code").toString();
+			if(shilevel!=1){
+				com_f_pkid=Integer.parseInt(shi_listmap.get(0).get("com_f_pkid").toString());
+			}
+			if(shilevel==4){
+			
+			String shi_sql2 ="select c.com_code from sys_company c where c.pkid="+com_f_pkid+"";
+			SQLAdapter shi_Adapter2 = new SQLAdapter(shi_sql2);
+			List<Map> com_codeList= this.getBySqlMapper.findRecords(shi_Adapter2);
+			if(com_codeList.size()>0){
+				com_code3=com_codeList.get(0).get("com_code").toString();
+			}
+			}
 		}else{
 			String shi_sql ="select * from sys_company c where c.pkid='"+ json_level +"'";
 			SQLAdapter shi_Adapter = new SQLAdapter(shi_sql);
@@ -498,33 +561,55 @@ public class SH3_Controller extends MultiActionController{
 			shilevel= (Integer) shi_listmap.get(0).get("com_level");
 			shi_name= (String) shi_listmap.get(0).get("com_name");
 			com_code2=shi_listmap.get(0).get("com_code").toString();
+			if(shilevel!=1){
+				com_f_pkid=Integer.parseInt(shi_listmap.get(0).get("com_f_pkid").toString());
+			}
+			if(shilevel==4){
+				String shi_sql2 ="select c.com_code from sys_company c where c.pkid="+com_f_pkid+"";
+				SQLAdapter shi_Adapter2 = new SQLAdapter(shi_sql2);
+				List<Map> com_codeList= this.getBySqlMapper.findRecords(shi_Adapter2);
+				if(com_codeList.size()>0){
+					com_code3=com_codeList.get(0).get("com_code").toString();
+				}
+				}
 		}
 		
-		}
+		
+		
 		if (mokuai_name.equals("jiatingshouzhi")) {	//根据模块名称来判断执行模块 家庭收支模块
-			String tiaojian="";
-			if(shujv.equals("0-1000")==true){	//判断筛选金额
-				tiaojian="h.num >0 and h.num <= 1000";
-			}else if(shujv.equals("1000-2000")==true){
-				tiaojian="h.num > 1000 and h.num <= 2000";
-			}else if(shujv.equals("2000-3000")==true){
-				tiaojian="h.num > 2000 and h.num <= 3000";
-			}else if(shujv.equals("3000-4000")==true){
-				tiaojian="h.num > 3000 and h.num <= 4000";
-			}else if(shujv.equals("4000-5000")==true){
-				tiaojian="h.num > 4000 and h.num <= 5000";
-			}else if(shujv.equals("5000及以上")==true){
-				tiaojian="h.num > 5000 ";
-			}
+//			String tiaojian="";
+//			if(shujv.equals("0-1000")==true){	//判断筛选金额
+//				tiaojian="h.num >0 and h.num <= 1000";
+//			}else if(shujv.equals("1000-2000")==true){
+//				tiaojian="h.num > 1000 and h.num <= 2000";
+//			}else if(shujv.equals("2000-3000")==true){
+//				tiaojian="h.num > 2000 and h.num <= 3000";
+//			}else if(shujv.equals("3000-4000")==true){
+//				tiaojian="h.num > 3000 and h.num <= 4000";
+//			}else if(shujv.equals("4000-5000")==true){
+//				tiaojian="h.num > 4000 and h.num <= 5000";
+//			}else if(shujv.equals("5000及以上")==true){
+//				tiaojian="h.num > 5000 ";
+//			}
+			
+//			if (shilevel==1) {										//判断区级
+//				sql="select v3,count(*) as count from (SELECT ROUND(v24,2) as num , v3 FROM da_household"+year+" where v2 like '%"+ shi_name +"%' and  sys_standard='"+ leixing_name +"') h where "+tiaojian+" group by v3";
+//			}else if (shilevel==2) {
+//				sql="select v3,count(*) as count from (SELECT ROUND(v24,2) as num , v4 as v3 FROM da_household"+year+" where v3 like '%"+ shi_name +"%' and  sys_standard='"+ leixing_name +"') h where "+tiaojian+" group by v3";
+//			}else if (shilevel==3) {
+//				sql="select v3,count(*) as count from (SELECT ROUND(v24,2) as num , v5 as v3 FROM da_household"+year+" where v4 like '%"+ shi_name +"%' and  sys_standard='"+ leixing_name +"') h where "+tiaojian+" group by v3";
+//			}else if (shilevel==4) {
+//				sql="select v3,count(*) as count from (SELECT ROUND(v24,2) as num , v5 as v3 FROM da_household"+year+" where v5 like '%"+ shi_name +"%' and  sys_standard='"+ leixing_name +"') h where "+tiaojian+" group by v3";
+//			}
 			
 			if (shilevel==1) {										//判断区级
-				sql="select v3,count(*) as count from (SELECT ROUND(v24,2) as num , v3 FROM da_household"+year+" where v2 like '%"+ shi_name +"%' and  sys_standard='"+ leixing_name +"') h where "+tiaojian+" group by v3";
+				sql="SELECT pkid,v9 FROM da_household"+year+" where v2 like '%"+ shi_name +"%' and  sys_standard='"+ leixing_name +"' group by pkid";
 			}else if (shilevel==2) {
-				sql="select v3,count(*) as count from (SELECT ROUND(v24,2) as num , v4 as v3 FROM da_household"+year+" where v3 like '%"+ shi_name +"%' and  sys_standard='"+ leixing_name +"') h where "+tiaojian+" group by v3";
+				sql="SELECT pkid,v9 FROM da_household"+year+" where v3 like '%"+ shi_name +"%' and  sys_standard='"+ leixing_name +"' group by pkid";
 			}else if (shilevel==3) {
-				sql="select v3,count(*) as count from (SELECT ROUND(v24,2) as num , v5 as v3 FROM da_household"+year+" where v4 like '%"+ shi_name +"%' and  sys_standard='"+ leixing_name +"') h where "+tiaojian+" group by v3";
+				sql="SELECT pkid,v9 FROM da_household"+year+" where v4 like '%"+ shi_name +"%' and  sys_standard='"+ leixing_name +"' group by pkid";
 			}else if (shilevel==4) {
-				sql="select v3,count(*) as count from (SELECT ROUND(v24,2) as num , v5 as v3 FROM da_household"+year+" where v5 like '%"+ shi_name +"%' and  sys_standard='"+ leixing_name +"') h where "+tiaojian+" group by v3";
+				sql="SELECT pkid,v9 FROM da_household"+year+" where v5 like '%"+ shi_name +"%' and  sys_standard='"+ leixing_name +"' group by pkid";
 			}
 			
 //			if (com_level.equals("1")) {	//当用户层级为1时
@@ -539,23 +624,102 @@ public class SH3_Controller extends MultiActionController{
 //			}
 			SQLAdapter sqlAdapter =new SQLAdapter(sql);
 			List<Map> sql_list = this.getBySqlMapper.findRecords(sqlAdapter);
-			JSONObject val = new JSONObject();
+			StringBuilder pkids=new StringBuilder();
+			List<Integer> familysize_list=new ArrayList<Integer>();//一户的家庭人数
 			JSONArray jsa=new JSONArray();
 			if(sql_list.size()>0){
-				
-				for(int i = 0;i<sql_list.size();i++){
-					Map Admin_st_map = sql_list.get(i);
+				for(int i=0;i<sql_list.size();i++){
+					if(i==sql_list.size()-1){
+						pkids.append(sql_list.get(i).get("pkid").toString());
+					}else{
+						pkids.append(sql_list.get(i).get("pkid").toString()+",");
+					}
+					familysize_list.add((Integer) sql_list.get(i).get("v9"));
+				}
+				//帮扶后总收入
+				String dqsrh_sql2="SELECT da_household_id,v39 FROM da_helpback_income"+year+" where da_household_id in("+pkids+")";
+				SQLAdapter dqsrh_sqlAdapter2 =new SQLAdapter(dqsrh_sql2);
+				List<Map> dqsrh_list2=getBySqlMapper.findRecords(dqsrh_sqlAdapter2);
+				//帮扶后总支出
+				String dqzch_sql2="SELECT da_household_id,v31 FROM da_helpback_expenditure"+year+" where da_household_id in("+pkids+")";
+				SQLAdapter dqzch_sqlAdapter2 =new SQLAdapter(dqzch_sql2);
+				List<Map> dqzch_list2=getBySqlMapper.findRecords(dqzch_sqlAdapter2);
+				StringBuilder pkids2=new StringBuilder();
+				for(int y=0;y<dqzch_list2.size();y++){
+					int familysize=familysize_list.get(y);
+					Map dqsrh_map2=dqsrh_list2.get(y);
+					Map dqzch_map2=dqzch_list2.get(y);
+					float dqsrh2=(float) (dqsrh_map2.get("v39")==null?0.00:(Float)dqsrh_map2.get("v39"));
+					float dqzch2=(float) (dqzch_map2.get("v31")==null?0.00:(Float)dqzch_map2.get("v31"));
+					float year_income2=dqsrh2-dqzch2;//年纯收入
+					float per_capita_income2=year_income2/familysize;//人均纯收入
+				if(shujv.equals("0-1000")==true){	//判断筛选金额
+					if (per_capita_income2>0 && per_capita_income2<=1000) {
+						pkids2.append(dqsrh_map2.get("da_household_id").toString()+",");
+					}
+				}else if(shujv.equals("1000-2000")==true){
+					if (per_capita_income2>1000 && per_capita_income2<=2000) {
+						pkids2.append(dqsrh_map2.get("da_household_id").toString()+",");
+					}
+				}else if(shujv.equals("2000-3000")==true){
+					if (per_capita_income2>2000 && per_capita_income2<=3000) {
+						pkids2.append(dqsrh_map2.get("da_household_id").toString()+",");
+					}
+				}else if(shujv.equals("3000-4000")==true){
+					if (per_capita_income2>3000 && per_capita_income2<=4000) {
+						pkids2.append(dqsrh_map2.get("da_household_id").toString()+",");
+					}
+				}else if(shujv.equals("4000-5000")==true){
+					if (per_capita_income2>4000 && per_capita_income2<=5000) {
+						pkids2.append(dqsrh_map2.get("da_household_id").toString()+",");
+					}
+				}else if(shujv.equals("5000及以上")==true){
+					if (per_capita_income2>5000 ) {
+						pkids2.append(dqsrh_map2.get("da_household_id").toString()+",");
+					}
+				}
+					
+				}
+				if(pkids.toString().length()>0){
+				String sql2="";
+				if (shilevel==1) {										//判断区级
+					sql2="select v3,count(*) as count from (SELECT  v3 FROM da_household"+year+" where pkid in ("+pkids2.substring(0, pkids2.lastIndexOf(","))+ ") ) h  group by v3";
+				}else if (shilevel==2) {
+					sql2="select v3,count(*) as count from (SELECT  v4 as v3 FROM da_household"+year+" where pkid in ("+pkids2.substring(0, pkids2.lastIndexOf(","))+ ") ) h  group by v3";
+				}else if (shilevel==3) {
+					sql2="select v3,count(*) as count from (SELECT v5 as v3 FROM da_household"+year+" where pkid in ("+pkids2.substring(0, pkids2.lastIndexOf(","))+ ") ) h  group by v3";
+				}else if (shilevel==4) {
+					sql2="select v3,count(*) as count from (SELECT v5 as v3 FROM da_household"+year+" where pkid in ("+pkids2.substring(0, pkids2.lastIndexOf(","))+ ") ) h  group by v3";
+				}
+				SQLAdapter sqlAdapter2 =new SQLAdapter(sql2);
+				List<Map> sql_list2 = this.getBySqlMapper.findRecords(sqlAdapter2);
+				for(int i = 0;i<sql_list2.size();i++){
+					JSONObject val = new JSONObject();
+					Map Admin_st_map = sql_list2.get(i);
 					for (Object key : Admin_st_map.keySet()) {
 						val.put("name", Admin_st_map.get("v3"));
 						val.put("value", Admin_st_map.get("count"));
 						val.put("com_level", shilevel);
 						val.put("com_code2", com_code2);
+						if(shilevel==4){
+							val.put("com_code3", com_code3);
+						}
 					}
 					jsa.add(val);
 				}
+				}else{
+					JSONObject val = new JSONObject();
+					val.put("com_level", shilevel);
+					val.put("com_code2", com_code2);
+					val.put("com_code3", com_code3);
+					val.put("isvalue", "0");
+					jsa.add(val);
+				}
 			}else{
+				JSONObject val = new JSONObject();
 				val.put("com_level", shilevel);
 				val.put("com_code2", com_code2);
+				val.put("com_code3", com_code3);
 				val.put("isvalue", "0");
 				jsa.add(val);
 			}
@@ -625,6 +789,9 @@ public class SH3_Controller extends MultiActionController{
 						}
 						val.put("com_level", shilevel);
 						val.put("com_code2", com_code2);
+						if(shilevel==4){
+							val.put("com_code3", com_code3);
+						}
 					}
 					jsa.add(val);
 				}
@@ -633,70 +800,104 @@ public class SH3_Controller extends MultiActionController{
 				JSONObject val = new JSONObject();
 				val.put("com_level", shilevel);
 				val.put("com_code2", com_code2);
+				val.put("com_code3", com_code3);
 				val.put("isvalue", "0");
 				jsa.add(val);
 			}
 			response.getWriter().write(jsa.toString());
 		}else if (mokuai_name.equals("zpyy")) {	//根据模块名称来判断执行模块 致贫原因模块
-			if (com_level.equals("1")==true) {
-				sql="SELECT v3,SUM(v9)AS count FROM da_household"+year+" WHERE sys_standard='"+leixing_name+"' AND v23 LIKE '%"+shujv+"%' GROUP BY v3";
-			}else if (com_level.equals("2")==true) {
-				sql="SELECT v4 as v3,SUM(v9)AS count FROM da_household"+year+" WHERE sys_standard='"+leixing_name+"' AND v23 LIKE '%"+shujv+"%' and v3='"+com_name+"' GROUP BY v4";
-			}else if (com_level.equals("3")==true) {
-				sql="SELECT v5 as v3,SUM(v9)AS count FROM da_household"+year+" WHERE sys_standard='"+leixing_name+"' AND v23 LIKE '%"+shujv+"%' and v4='"+com_name+"' GROUP BY v5";
-			}else {
-				com_name=company_json.get("xiang").toString();	//获取上级用户
-				sql="SELECT v5 as v3,SUM(v9)AS count FROM da_household"+year+" WHERE sys_standard='"+leixing_name+"' AND v23 LIKE '%"+shujv+"%' and v4='"+com_name+"' GROUP BY v5";
-			}
-			SQLAdapter sqlAdapter =new SQLAdapter(sql);
-			List<Map> sql_list = this.getBySqlMapper.findRecords(sqlAdapter);
-			JSONObject val = new JSONObject();
-			if(sql_list.size()>0){
-				JSONArray jsa=new JSONArray();
-				for(int i = 0;i<sql_list.size();i++){
-					Map Admin_st_map = sql_list.get(i);
-					for (Object key : Admin_st_map.keySet()) {
-						val.put("name", Admin_st_map.get("v3"));
-						val.put("value", Admin_st_map.get("count"));
-					}
-					jsa.add(val);
-				}
-				response.getWriter().write(jsa.toString());
-			}else{
-				response.getWriter().print("0");
-			}
-		}else if (mokuai_name.equals("whcd")) {	//根据模块名称来判断执行模块 文化程度模块
-			if (com_level.equals("1")) {
+			if (shilevel==1) {
 				if(shujv==""){//文化程度为空
-					sql="select t1.huv3 AS v3,(t1.hu+t2.jia) as count from(select v3 as huv3,count(*) as hu from da_household"+year+" WHERE sys_standard='"+leixing_name+"' AND v12 = '"+shujv+"' group by v3) t1 join (select y.v3 as jiav3,count(*) as jia from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' AND y.v12 = '"+shujv+"' group by y.v3)t2 on t1.huv3=t2.jiav3 ";
+					sql="select t1.huv3 AS v3,(t1.hu+t2.jia) as count from(select v3 as huv3,count(*) as hu from da_household"+year+" WHERE sys_standard='"+leixing_name+"' AND v23 = '"+shujv+"' AND v2='鄂尔多斯市' group by v3) t1 join (select y.v3 as jiav3,count(*) as jia from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' AND y.v23 = '"+shujv+"' AND y.v2='鄂尔多斯市' group by y.v3)t2 on t1.huv3=t2.jiav3 ";
 				}else{
-					sql="select t1.huv3 AS v3,(t1.hu+t2.jia) as count from(select y1.com_name as huv3 ,IFNULL((ling+hu),0) as hu from (select com_name,'0' as ling from sys_company where com_level=2 group by com_name) y1 left join (select v3 as huv3,count(*) as hu  from da_household"+year+" WHERE sys_standard='"+leixing_name+"' and v12 LIKE '%"+shujv+"%'  group by v3) y2 on y1.com_name=y2.huv3) t1 join (select y1.com_name as jiav3,IFNULL((ling+jia),0) as jia from (select com_name,'0' as ling from sys_company where com_level=2 group by com_name) y1 left join (select y.v3 as jiav3,count(*) as jia  from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' and y.v12 LIKE '%"+shujv+"%' group by y.v3) y2 on y1.com_name=y2.jiav3)t2 on t1.huv3=t2.jiav3 ";
+					sql="select t1.huv3 AS v3,(t1.hu+t2.jia) as count from(select y1.com_name as huv3 ,IFNULL((ling+hu),0) as hu from (select com_name,'0' as ling from sys_company where com_level=2 group by com_name) y1 left join (select v3 as huv3,count(*) as hu  from da_household"+year+" WHERE sys_standard='"+leixing_name+"' and v23 LIKE '%"+shujv+"%' AND v2='鄂尔多斯市' group by v3) y2 on y1.com_name=y2.huv3) t1 join (select y1.com_name as jiav3,IFNULL((ling+jia),0) as jia from (select com_name,'0' as ling from sys_company where com_level=2 group by com_name) y1 left join (select y.v3 as jiav3,count(*) as jia  from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' and y.v23 LIKE '%"+shujv+"%' AND y.v2='鄂尔多斯市' group by y.v3) y2 on y1.com_name=y2.jiav3)t2 on t1.huv3=t2.jiav3 ";
 				}
-			}else if (com_level.equals("2")) {
-					sql="SELECT a1.v3,ifnull((a1.hu+a2.hu),0)AS count FROM(SELECT b1.v3 as v3,b2.hu as hu FROM(SELECT v4 AS v3,0 FROM da_household"+year+" WHERE v3='"+com_name+"' GROUP BY v4)b1 LEFT JOIN (select v4 as v3,count(*) as hu  from da_household"+year+" WHERE sys_standard='"+leixing_name+"' and v3='"+com_name+"' and v12 ='"+shujv+"'  group by v4)b2 ON b1.v3=b2.v3 )a1 JOIN(select y.v4 as v3,count(*) as hu  from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' and x.v3='"+com_name+"' and y.v12 = '"+shujv+"' group by y.v4)a2 on a1.v3=a2.v3";
-			}else if (com_level.equals("3")) {
-					sql="SELECT a1.v3,ifnull((a1.hu+a2.hu),0)AS count FROM(SELECT b1.v3 as v3,b2.hu as hu FROM(SELECT v5 AS v3,0 FROM da_household"+year+" WHERE v4='"+com_name+"' GROUP BY v5)b1 LEFT JOIN (select v5 as v3,count(*) as hu  from da_household"+year+" WHERE sys_standard='"+leixing_name+"' and v4='"+com_name+"' and v12 ='"+shujv+"' group by v5)b2 ON b1.v3=b2.v3 )a1  LEFT JOIN(select y.v5 as v3,count(*) as hu  from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' and x.v4='"+com_name+"' and y.v12 ='"+shujv+"' group by y.v5)a2 on a1.v3=a2.v3";
+				//sql="SELECT v3,count(v9)AS count FROM da_household"+year+" WHERE sys_standard='"+leixing_name+"' AND v23 LIKE '%"+shujv+"%' and v2='鄂尔多斯市' GROUP BY v3";
+			}else if (shilevel==2) {
+				sql="SELECT a1.v3 AS v3,ifnull((a1.hu+a2.hu),0)AS count FROM(SELECT b1.v3 as v3,b2.hu as hu FROM(SELECT v4 AS v3,0 FROM da_household"+year+" WHERE v3='"+shi_name+"' GROUP BY v4)b1 LEFT JOIN (select v4 as v3,count(*) as hu  from da_household"+year+" WHERE sys_standard='"+leixing_name+"' and v3='"+shi_name+"' and v23  like '%"+shujv+"%'  group by v4)b2 ON b1.v3=b2.v3 )a1 JOIN(select y.v4 as v3,count(*) as hu  from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' and x.v3='"+shi_name+"' and y.v23 like '%"+shujv+"%' group by y.v4)a2 on a1.v3=a2.v3";
+				//sql="SELECT v4 as v3,count(v9)AS count FROM da_household"+year+" WHERE sys_standard='"+leixing_name+"' AND v23 LIKE '%"+shujv+"%' and v3='"+shi_name+"' GROUP BY v4";
+			}else if (shilevel==3) {
+				sql="SELECT a1.v3 AS v3,ifnull((a1.hu+a2.hu),0)AS count FROM(SELECT b1.v3 as v3,b2.hu as hu FROM(SELECT v5 AS v3,0 FROM da_household"+year+" WHERE v4='"+shi_name+"' GROUP BY v5)b1 LEFT JOIN (select v5 as v3,count(*) as hu  from da_household"+year+" WHERE sys_standard='"+leixing_name+"' and v4='"+shi_name+"' and v23  like '%"+shujv+"%'  group by v5)b2 ON b1.v3=b2.v3 )a1 JOIN(select y.v5 as v3,count(*) as hu  from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' and x.v4='"+shi_name+"' and y.v23 like '%"+shujv+"%' group by y.v5)a2 on a1.v3=a2.v3";
+				//sql="SELECT v5 as v3,count(v9)AS count FROM da_household"+year+" WHERE sys_standard='"+leixing_name+"' AND v23 LIKE '%"+shujv+"%' and v4='"+shi_name+"' GROUP BY v5";
 			}else {
-					com_name=company_json.get("xiang").toString();
-					sql=sql="SELECT a1.v3,ifnull((a1.hu+a2.hu),0)AS count FROM(SELECT b1.v3 as v3,b2.hu as hu FROM(SELECT v5 AS v3,0 FROM da_household"+year+" WHERE v4='"+com_name+"' GROUP BY v5)b1 LEFT JOIN (select v5 as v3,count(*) as hu  from da_household"+year+" WHERE sys_standard='"+leixing_name+"' and v4='"+com_name+"' and v12 ='"+shujv+"' group by v5)b2 ON b1.v3=b2.v3 )a1  LEFT JOIN(select y.v5 as v3,count(*) as hu  from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' and x.v4='"+com_name+"' and y.v12 ='"+shujv+"' group by y.v5)a2 on a1.v3=a2.v3";
+				sql="SELECT a1.v3 AS v3,ifnull((a1.hu+a2.hu),0)AS count FROM(SELECT b1.v3 as v3,b2.hu as hu FROM(SELECT v5 AS v3,0 FROM da_household"+year+" WHERE v5='"+shi_name+"' GROUP BY v5)b1 LEFT JOIN (select v5 as v3,count(*) as hu  from da_household"+year+" WHERE sys_standard='"+leixing_name+"' and v5='"+shi_name+"' and v23  like '%"+shujv+"%'  group by v5)b2 ON b1.v3=b2.v3 )a1 JOIN(select y.v5 as v3,count(*) as hu  from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' and x.v5='"+shi_name+"' and y.v23 like '%"+shujv+"%' group by y.v5)a2 on a1.v3=a2.v3";
+				//com_name=company_json.get("xiang").toString();	//获取上级用户
+				//sql="SELECT v5 as v3,count(v9)AS count FROM da_household"+year+" WHERE sys_standard='"+leixing_name+"' AND v23 LIKE '%"+shujv+"%' and v5='"+shi_name+"' GROUP BY v5";
 			}
 			SQLAdapter sqlAdapter =new SQLAdapter(sql);
 			List<Map> sql_list = this.getBySqlMapper.findRecords(sqlAdapter);
-			JSONObject val = new JSONObject();
+			
+			JSONArray jsa=new JSONArray();
 			if(sql_list.size()>0){
-				JSONArray jsa=new JSONArray();
 				for(int i = 0;i<sql_list.size();i++){
+					JSONObject val = new JSONObject();
 					Map Admin_st_map = sql_list.get(i);
 					for (Object key : Admin_st_map.keySet()) {
 						val.put("name", Admin_st_map.get("v3"));
 						val.put("value", Admin_st_map.get("count"));
+						val.put("com_level", shilevel);
+						val.put("com_code2", com_code2);
+						if(shilevel==4){
+							val.put("com_code3", com_code3);
+						}
 					}
 					jsa.add(val);
 				}
-				response.getWriter().write(jsa.toString());
+				
 			}else{
-				response.getWriter().print("0");
+				JSONObject val = new JSONObject();
+				val.put("com_level", shilevel);
+				val.put("com_code2", com_code2);
+				val.put("com_code3", com_code3);
+				val.put("isvalue", "0");
+				jsa.add(val);
 			}
+			response.getWriter().write(jsa.toString());
+		}else if (mokuai_name.equals("whcd")) {	//根据模块名称来判断执行模块 文化程度模块
+			if (shilevel==1) {
+				if(shujv==""){//文化程度为空
+					sql="select t1.huv3 AS v3,(if(isnull(t1.hu),0,t1.hu)+if(isnull(t2.jia),0,t2.jia)) as count from(select v3 as huv3,count(*) as hu from da_household"+year+" WHERE sys_standard='"+leixing_name+"' AND v12 = '"+shujv+"' AND v2='鄂尔多斯市' group by v3) t1 join (select y.v3 as jiav3,count(*) as jia from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' AND y.v12 = '"+shujv+"' AND y.v2='鄂尔多斯市' group by y.v3)t2 on t1.huv3=t2.jiav3 ";
+				}else{
+					sql="select t1.huv3 AS v3,(if(isnull(t1.hu),0,t1.hu)+if(isnull(t2.jia),0,t2.jia)) as count from(select y1.com_name as huv3 ,IFNULL((ling+hu),0) as hu from (select com_name,'0' as ling from sys_company where com_level=2 group by com_name) y1 left join (select v3 as huv3,count(*) as hu  from da_household"+year+" WHERE sys_standard='"+leixing_name+"' and v12 LIKE '%"+shujv+"%' AND v2='鄂尔多斯市' group by v3) y2 on y1.com_name=y2.huv3) t1 join (select y1.com_name as jiav3,IFNULL((ling+jia),0) as jia from (select com_name,'0' as ling from sys_company where com_level=2 group by com_name) y1 left join (select y.v3 as jiav3,count(*) as jia  from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' and y.v12 LIKE '%"+shujv+"%' AND y.v2='鄂尔多斯市' group by y.v3) y2 on y1.com_name=y2.jiav3)t2 on t1.huv3=t2.jiav3 ";
+				}
+			}else if (shilevel==2) {
+					sql="SELECT a1.v3,(if(isnull(a1.hu),0,a1.hu)+if(isnull(a2.hu),0,a2.hu)) AS count FROM(SELECT b1.v3 as v3,b2.hu as hu FROM(SELECT v4 AS v3,0 FROM da_household"+year+" WHERE v3 like '%"+shi_name+"%' GROUP BY v4)b1 LEFT JOIN (select v4 as v3,count(*) as hu  from da_household"+year+" WHERE sys_standard='"+leixing_name+"' and v3 like '%"+shi_name+"%' and v12 ='"+shujv+"'  group by v4)b2 ON b1.v3=b2.v3 )a1 JOIN(select y.v4 as v3,count(*) as hu  from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' and x.v3 like '%"+shi_name+"%' and y.v12 = '"+shujv+"' group by y.v4)a2 on a1.v3=a2.v3";
+			}else if (shilevel==3) {
+					sql="SELECT a1.v3,(if(isnull(a1.hu),0,a1.hu)+if(isnull(a2.hu),0,a2.hu)) AS count FROM(SELECT b1.v3 as v3,b2.hu as hu FROM(SELECT v5 AS v3,0 FROM da_household"+year+" WHERE v4 like '%"+shi_name+"%' GROUP BY v5)b1 LEFT JOIN (select v5 as v3,count(*) as hu  from da_household"+year+" WHERE sys_standard='"+leixing_name+"' and v4 like '%"+shi_name+"%' and v12 ='"+shujv+"' group by v5)b2 ON b1.v3=b2.v3 )a1  LEFT JOIN(select y.v5 as v3,count(*) as hu  from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' and x.v4 like '%"+shi_name+"%' and y.v12 ='"+shujv+"' group by y.v5)a2 on a1.v3=a2.v3";
+			}else {
+					//com_name=company_json.get("xiang").toString();
+					sql="SELECT a1.v3,(if(isnull(a1.hu),0,a1.hu)+if(isnull(a2.hu),0,a2.hu)) AS count FROM(SELECT b1.v3 as v3,b2.hu as hu FROM(SELECT v5 AS v3,0 FROM da_household"+year+" WHERE v5 like '%"+shi_name+"%' GROUP BY v5)b1 LEFT JOIN (select v5 as v3,count(*) as hu  from da_household"+year+" WHERE sys_standard='"+leixing_name+"' and v5 like '%"+shi_name+"%' and v12 ='"+shujv+"' group by v5)b2 ON b1.v3=b2.v3 )a1  LEFT JOIN(select y.v5 as v3,count(*) as hu  from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' and x.v5 like '%"+shi_name+"%' and y.v12 ='"+shujv+"' group by y.v5)a2 on a1.v3=a2.v3";
+			}
+			SQLAdapter sqlAdapter =new SQLAdapter(sql);
+			List<Map> sql_list = this.getBySqlMapper.findRecords(sqlAdapter);
+			
+			JSONArray jsa=new JSONArray();
+			if(sql_list.size()>0){
+				
+				for(int i = 0;i<sql_list.size();i++){
+					Map Admin_st_map = sql_list.get(i);
+					JSONObject val = new JSONObject();
+					for (Object key : Admin_st_map.keySet()) {
+						val.put("name", Admin_st_map.get("v3"));
+						val.put("value", Admin_st_map.get("count"));
+						val.put("com_level", shilevel);
+						val.put("com_code2", com_code2);
+						if(shilevel==4){
+							val.put("com_code3", com_code3);
+						}
+					}
+					jsa.add(val);
+				}
+				
+			}else{
+				JSONObject val = new JSONObject();
+				val.put("com_level", shilevel);
+				val.put("com_code2", com_code2);
+				val.put("com_code3", com_code3);
+				val.put("isvalue", "0");
+				jsa.add(val);
+			}
+			response.getWriter().write(jsa.toString());
 		}else if (mokuai_name.equals("nljg")) {	//根据模块名称来判断执行模块 年龄结构模块
 			String ditu=null;
 			Calendar cal = Calendar.getInstance();
@@ -717,14 +918,14 @@ public class SH3_Controller extends MultiActionController{
 				ditu="(x.nnum<"+(time1-60)+")";
 			}
 			if (shilevel==1) {										//判断区级
-				sql="select v3,count(*)as count from (select v3 as v3,substring(v8,7,4) as nnum from da_household"+year+" where (CHAR_LENGTH(v8)=18 OR CHAR_LENGTH(v8)=20) and v2 like '%"+ shi_name +"%' AND sys_standard='"+leixing_name+"' UNION ALL select y.v3 as v3,substring(y.v8,7,4) as nnum  from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' and x.v2 like '%"+ shi_name +"%' and (CHAR_LENGTH(y.v8)=18 OR CHAR_LENGTH(y.v8)=20)) x WHERE "+ditu+" group by v3";
+				sql="select v3,count(*)as count from (select v3 as v3,substring(v8,7,4) as nnum from da_household"+year+" where (CHAR_LENGTH(v8)=18 OR CHAR_LENGTH(v8)=20) and v2 like '%"+ shi_name +"%' AND sys_standard='"+leixing_name+"' UNION ALL select y.v3 as v3,substring(y.v8,7,4) as nnum  from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' and y.v2 like '%"+ shi_name +"%' and (CHAR_LENGTH(y.v8)=18 OR CHAR_LENGTH(y.v8)=20)) x WHERE "+ditu+" group by v3";
 			}else if (shilevel==2) {
-				sql="select v3,count(*)as count from (select v4 as v3,substring(v8,7,4) as nnum from da_household"+year+" where (CHAR_LENGTH(v8)=18 OR CHAR_LENGTH(v8)=20) and v3 like '%"+ shi_name +"%' AND sys_standard='"+leixing_name+"' UNION ALL select y.v4 as v3,substring(y.v8,7,4) as nnum  from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' and x.v3 like '%"+ shi_name +"%' and (CHAR_LENGTH(y.v8)=18 OR CHAR_LENGTH(y.v8)=20)) x WHERE "+ditu+" group by v3";
+				sql="select v3,count(*)as count from (select v4 as v3,substring(v8,7,4) as nnum from da_household"+year+" where (CHAR_LENGTH(v8)=18 OR CHAR_LENGTH(v8)=20) and v3 like '%"+ shi_name +"%' AND sys_standard='"+leixing_name+"' UNION ALL select y.v4 as v3,substring(y.v8,7,4) as nnum  from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' and y.v3 like '%"+ shi_name +"%' and (CHAR_LENGTH(y.v8)=18 OR CHAR_LENGTH(y.v8)=20)) x WHERE "+ditu+" group by v3";
 			}else if (shilevel==3) {
-				sql="select v3,count(*)as count from (select v5 as v3,substring(v8,7,4) as nnum from da_household"+year+" where (CHAR_LENGTH(v8)=18 OR CHAR_LENGTH(v8)=20) and v4 like '%"+ shi_name +"%' AND sys_standard='"+leixing_name+"' UNION ALL select y.v5 as v3,substring(y.v8,7,4) as nnum  from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' and x.v4 like '%"+ shi_name +"%' and (CHAR_LENGTH(y.v8)=18 OR CHAR_LENGTH(y.v8)=20)) x WHERE "+ditu+" group by v3";
+				sql="select v3,count(*)as count from (select v5 as v3,substring(v8,7,4) as nnum from da_household"+year+" where (CHAR_LENGTH(v8)=18 OR CHAR_LENGTH(v8)=20) and v4 like '%"+ shi_name +"%' AND sys_standard='"+leixing_name+"' UNION ALL select y.v5 as v3,substring(y.v8,7,4) as nnum  from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' and y.v4 like '%"+ shi_name +"%' and (CHAR_LENGTH(y.v8)=18 OR CHAR_LENGTH(y.v8)=20)) x WHERE "+ditu+" group by v3";
 			}
 			else if (shilevel==4) {
-				sql="select v3,count(*)as count from (select v5 as v3,substring(v8,7,4) as nnum from da_household"+year+" where (CHAR_LENGTH(v8)=18 OR CHAR_LENGTH(v8)=20) and v5 like '%"+ shi_name +"%' AND sys_standard='"+leixing_name+"' UNION ALL select y.v5 as v3,substring(y.v8,7,4) as nnum  from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' and x.v5 like '%"+ shi_name +"%' and (CHAR_LENGTH(y.v8)=18 OR CHAR_LENGTH(y.v8)=20)) x WHERE "+ditu+" group by v3";
+				sql="select v3,count(*)as count from (select v5 as v3,substring(v8,7,4) as nnum from da_household"+year+" where (CHAR_LENGTH(v8)=18 OR CHAR_LENGTH(v8)=20) and v5 like '%"+ shi_name +"%' AND sys_standard='"+leixing_name+"' UNION ALL select y.v5 as v3,substring(y.v8,7,4) as nnum  from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' and y.v5 like '%"+ shi_name +"%' and (CHAR_LENGTH(y.v8)=18 OR CHAR_LENGTH(y.v8)=20)) x WHERE "+ditu+" group by v3";
 			}
 //			if(com_level.equals("1")){//层级为1的用户
 //				sql="select v3,count(*)as count from (select v3,substring(v8,7,4) as nnum from da_household"+year+" where (CHAR_LENGTH(v8)=18 OR CHAR_LENGTH(v8)=20) AND sys_standard='"+leixing_name+"'UNION ALL select y.v3,substring(y.v8,7,4) as nnum  from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' and (CHAR_LENGTH(y.v8)=18 OR CHAR_LENGTH(y.v8)=20)) x WHERE "+ditu+" group by v3";
@@ -749,6 +950,9 @@ public class SH3_Controller extends MultiActionController{
 						val.put("value", Admin_st_map.get("count"));
 						val.put("com_level", shilevel);
 						val.put("com_code2", com_code2);
+						if(shilevel==4){
+							val.put("com_code3", com_code3);
+						}
 					}
 					jsa.add(val);
 				}
@@ -756,13 +960,14 @@ public class SH3_Controller extends MultiActionController{
 			}else{
 				val.put("com_level", shilevel);
 				val.put("com_code2", com_code2);
+				val.put("com_code3", com_code3);
 				val.put("isvalue", "0");
 				jsa.add(val);
 			}
 			response.getWriter().write(jsa.toString());
 		}else if (mokuai_name.equals("jtgm")) { //根据模块名称来判断执行模块 家庭规模模块
 			if (shilevel==1) {
-				sql="SELECT v3,COUNT(v9) AS count FROM da_household"+year+" WHERE v9='"+shujv+"'and sys_standard='"+leixing_name+"' GROUP BY v3";
+				sql="SELECT v3,COUNT(v9) AS count FROM da_household"+year+" WHERE v9='"+shujv+"'and sys_standard='"+leixing_name+"' and v2 like '%"+shi_name+"%' GROUP BY v3";
 			}else if (shilevel==2) {
 				sql="SELECT v4 as v3,COUNT(v9) AS count FROM da_household"+year+" WHERE v9='"+shujv+"'and sys_standard='"+leixing_name+"' and v3 like '%"+ shi_name +"%' GROUP BY v4";	
 			}else if (shilevel==3) {
@@ -772,99 +977,116 @@ public class SH3_Controller extends MultiActionController{
 			}
 			SQLAdapter sqlAdapter =new SQLAdapter(sql);
 			List<Map> sql_list = this.getBySqlMapper.findRecords(sqlAdapter);
-			JSONObject val = new JSONObject();
+			
 			JSONArray jsa=new JSONArray();
 			if(sql_list.size()>0){
 				
 				for(int i = 0;i<sql_list.size();i++){
+					JSONObject val = new JSONObject();
 					Map Admin_st_map = sql_list.get(i);
 					for (Object key : Admin_st_map.keySet()) {
 						val.put("name", Admin_st_map.get("v3"));
 						val.put("value", Admin_st_map.get("count"));
 						val.put("com_level", shilevel);
 						val.put("com_code2", com_code2);
+						if(shilevel==4){
+							val.put("com_code3", com_code3);
+						}
 					}
 					jsa.add(val);
 				}
 				
 			}else{
+				JSONObject val = new JSONObject();
 				val.put("com_level", shilevel);
 				val.put("com_code2", com_code2);
+				val.put("com_code3", com_code3);
 				val.put("isvalue", "0");
 				jsa.add(val);
 			}
 			response.getWriter().write(jsa.toString());
 		}else if (mokuai_name.equals("bffzr")) { //根据模块名称来判断执行模块 帮扶负责人模块
-			if(com_level.equals("1")){//当层级为1的时候
+			
+			if(shilevel==1){//当层级为1的时候
 				sql="SELECT b2.v3,COUNT(*)as count FROM("
 						+ "SELECT a2.* FROM sys_personal"+year+" a1 INNER JOIN sys_personal_household_many"+year+" a2 ON  a1.pkid=a2.sys_personal_id "
-						+ ")b1 INNER JOIN da_household"+year+" b2 ON b1.da_household_id = b2.pkid WHERE b2.sys_standard='"+leixing_name+"' GROUP BY b2.v3";
-			}else if(com_level.equals("2")){//当层级为2的时候
+						+ ")b1 INNER JOIN da_household"+year+" b2 ON b1.da_household_id = b2.pkid WHERE b2.sys_standard='"+leixing_name+"' and b2.v2='鄂尔多斯市' GROUP BY b2.v3";
+			}else if(shilevel==2){//当层级为2的时候
 				sql="SELECT b2.v4 as v3,COUNT(*)as count FROM("
 						+ "SELECT a2.* FROM sys_personal"+year+" a1 INNER JOIN sys_personal_household_many"+year+" a2 ON  a1.pkid=a2.sys_personal_id "
-						+ ")b1 INNER JOIN da_household"+year+" b2 ON b1.da_household_id = b2.pkid  WHERE b2.sys_standard='"+leixing_name+"' AND b2.v3='"+com_name+"' GROUP BY b2.v4";
-			}else if(com_level.equals("3")){//当层级为3的时候
+						+ ")b1 INNER JOIN da_household"+year+" b2 ON b1.da_household_id = b2.pkid  WHERE b2.sys_standard='"+leixing_name+"' AND b2.v3='"+shi_name+"' GROUP BY b2.v4";
+			}else if(shilevel==3){//当层级为3的时候
 				sql="SELECT b2.v5 as v3,COUNT(*)as count FROM("
 						+ "SELECT a2.* FROM sys_personal"+year+" a1 INNER JOIN sys_personal_household_many"+year+" a2 ON  a1.pkid=a2.sys_personal_id "
-						+ ")b1 INNER JOIN da_household"+year+" b2 ON b1.da_household_id = b2.pkid  WHERE b2.sys_standard='"+leixing_name+"' AND b2.v4='"+com_name+"' GROUP BY b2.v5";
-			}else if(com_level.equals("4")){//当层级为4的时候
-				com_name=company_json.get("xiang").toString();//获取上级用户名称
+						+ ")b1 INNER JOIN da_household"+year+" b2 ON b1.da_household_id = b2.pkid  WHERE b2.sys_standard='"+leixing_name+"' AND b2.v4='"+shi_name+"' GROUP BY b2.v5";
+			}else if(shilevel==4){//当层级为4的时候
 				sql="SELECT b2.v5 as v3,COUNT(*)as count FROM("
 						+ "SELECT a2.* FROM sys_personal"+year+" a1 INNER JOIN sys_personal_household_many"+year+" a2 ON  a1.pkid=a2.sys_personal_id "
-						+ ")b1 INNER JOIN da_household"+year+" b2 ON b1.da_household_id = b2.pkid  WHERE b2.sys_standard='"+leixing_name+"' AND b2.v4='"+com_name+"' GROUP BY b2.v5";
+						+ ")b1 INNER JOIN da_household"+year+" b2 ON b1.da_household_id = b2.pkid  WHERE b2.sys_standard='"+leixing_name+"' AND b2.v5='"+shi_name+"' GROUP BY b2.v5";
 			}
 			SQLAdapter sqlAdapter =new SQLAdapter(sql);
 			List<Map> sql_list = this.getBySqlMapper.findRecords(sqlAdapter);
-			JSONObject val = new JSONObject();
+			JSONArray jsa=new JSONArray();
 			if(sql_list.size()>0){
-				JSONArray jsa=new JSONArray();
 				for(int i = 0;i<sql_list.size();i++){
+					JSONObject val = new JSONObject();
 					Map Admin_st_map = sql_list.get(i);
 					for (Object key : Admin_st_map.keySet()) {
 						val.put("name", Admin_st_map.get("v3"));
 						val.put("value", Admin_st_map.get("count"));
+						val.put("com_level", shilevel);
+						val.put("com_code2", com_code2);
+						if(shilevel==4){
+							val.put("com_code3", com_code3);
+						}
 					}
 					jsa.add(val);
 				}
-				response.getWriter().write(jsa.toString());
+				
 			}else{
-				response.getWriter().print("0");
+				JSONObject val = new JSONObject();
+				val.put("com_level", shilevel);
+				val.put("com_code2", com_code2);
+				val.put("com_code3", com_code3);
+				val.put("isvalue", "0");
+				jsa.add(val);
 			}
+			response.getWriter().write(jsa.toString());
 		}else if (mokuai_name.equals("zcgzd")) {
-			if(com_level.equals("1")){//当层级为1的时候
+			if(shilevel==1){//当层级为1的时候
 				sql="SELECT d1.count,d2.com_name FROM ("
 						+ "SELECT c1.sys_company_id,COUNT(*) count FROM ("
 						+ "SELECT * FROM (SELECT v5,sys_company_id from  da_company"+year+" WHERE v5 IS NOT NULL"
 						+ ")a1 INNER JOIN sys_company a2 ON (a1.v5=a2.pkid)OR(a1.v5=a2.com_name) GROUP BY a2.com_name"
 						+ ")c1 GROUP BY c1.sys_company_id "
 						+ ")d1 LEFT JOIN sys_company d2 ON d1.sys_company_id=d2.pkid";
-			}else if(com_level.equals("2")){//当层级为2的时候
+			}else if(shilevel==2){//当层级为2的时候
 				sql="SELECT d2.com_name,d1.count FROM ("
 						+ "SELECT c1.com_f_pkid,COUNT(*) count FROM ("
 						+ "SELECT * FROM ("
 						+ "SELECT v5 from  da_company"+year+" WHERE v5 IS NOT NULL"
 						+ ")a1 INNER JOIN sys_company a2 ON (a1.v5=a2.pkid)OR(a1.v5=a2.com_name) WHERE a2.com_f_pkid IN("
-						+ "SELECT pkid FROM sys_company WHERE com_f_pkid='"+com_pkid+"') GROUP BY a2.com_name"
+						+ "SELECT pkid FROM sys_company WHERE com_f_pkid='"+com_f_pkid+"') GROUP BY a2.com_name"
 						+ ")c1 GROUP BY c1.com_f_pkid"
 						+ ")d1 LEFT JOIN sys_company d2 ON d1.com_f_pkid=d2.pkid";
-			}else if(com_level.equals("3")){//当层级为3的时候
+			}else if(shilevel==3){//当层级为3的时候
 				sql="SELECT * FROM ("
 						+ "SELECT v5 from  da_company"+year+" WHERE v5 IS NOT NULL)a1 INNER JOIN sys_company a2 ON (a1.v5=a2.pkid)OR(a1.v5=a2.com_name) "
-						+ "WHERE a2.com_f_pkid ='"+com_pkid+"' GROUP BY a2.com_name ";
-			}else if(com_level.equals("4")){//当层级为4的时候
+						+ "WHERE a2.com_f_pkid ='"+com_f_pkid+"' GROUP BY a2.com_name ";
+			}else if(shilevel==4){//当层级为4的时候
 				com_name=company_json.get("xiang").toString();//获取上级用户名称
 				com_pkid = company_json.get("xiang_id").toString();//获取上级用户id
 				sql="SELECT * FROM ("
 						+ "SELECT v5 from  da_company"+year+" WHERE v5 IS NOT NULL)a1 INNER JOIN sys_company a2 ON (a1.v5=a2.pkid)OR(a1.v5=a2.com_name) "
-						+ "WHERE a2.com_f_pkid ='"+com_pkid+"' GROUP BY a2.com_name ";
+						+ "WHERE a2.com_f_pkid ='"+com_f_pkid+"' GROUP BY a2.com_name ";
 			}
-			if(com_level.equals("1")||com_level.equals("2")){
+			if(shilevel==1||shilevel==2){
 				SQLAdapter sqlAdapter =new SQLAdapter(sql);
 				List<Map> sql_list = this.getBySqlMapper.findRecords(sqlAdapter);
-				JSONObject val = new JSONObject();
+				JSONArray jsa=new JSONArray();
 				if(sql_list.size()>0){
-					JSONArray jsa=new JSONArray();
 					for(int i = 0;i<sql_list.size();i++){//由于其中有存在鄂尔多斯的数据
+						JSONObject val = new JSONObject();
 						Map Admin_st_map = sql_list.get(i);
 						if(Admin_st_map.get("com_name").toString().equals("level-1")){
 
@@ -872,33 +1094,57 @@ public class SH3_Controller extends MultiActionController{
 							for (Object key : Admin_st_map.keySet()) {
 								val.put("name", Admin_st_map.get("com_name"));
 								val.put("value", Admin_st_map.get("count"));
+								val.put("com_level", shilevel);
+								val.put("com_code2", com_code2);
+								if(shilevel==4){
+									val.put("com_code3", com_code3);
+								}
 							}
 							jsa.add(val);
 						}
 					}
-					response.getWriter().write(jsa.toString());
+					
 				}else{
-					response.getWriter().print("0");
+					JSONObject val = new JSONObject();
+					val.put("com_level", shilevel);
+					val.put("com_code2", com_code2);
+					val.put("com_code3", com_code3);
+					val.put("isvalue", "0");
+					jsa.add(val);
 				}
+				response.getWriter().write(jsa.toString());
 			}
-			if(com_level.equals("3")||com_level.equals("4")){
+			if(shilevel==3||shilevel==4){
 				SQLAdapter sqlAdapter =new SQLAdapter(sql);
 				List<Map> sql_list = this.getBySqlMapper.findRecords(sqlAdapter);
-				JSONObject val = new JSONObject();
+				
+				JSONArray jsa=new JSONArray();
 				if(sql_list.size()>0){
-					JSONArray jsa=new JSONArray();
+					
 					for(int i = 0;i<sql_list.size();i++){
+						JSONObject val = new JSONObject();
 						Map Admin_st_map = sql_list.get(i);
 						for (Object key : Admin_st_map.keySet()) {
 							val.put("name", Admin_st_map.get("com_name"));
 							val.put("value", 1);
+							val.put("com_level", shilevel);
+							val.put("com_code2", com_code2);
+							if(shilevel==4){
+								val.put("com_code3", com_code3);
+							}
 						}
 						jsa.add(val);
 					}
-					response.getWriter().write(jsa.toString());
+					
 				}else{
-					response.getWriter().print("0");
+					JSONObject val = new JSONObject();
+					val.put("com_level", shilevel);
+					val.put("com_code2", com_code2);
+					val.put("com_code3", com_code3);
+					val.put("isvalue", "0");
+					jsa.add(val);
 				}
+				response.getWriter().write(jsa.toString());
 			}
 		}
 		return null;
@@ -916,6 +1162,26 @@ public class SH3_Controller extends MultiActionController{
 	public ModelAndView getPicture_Line(HttpServletRequest request,HttpServletResponse response) throws IOException{
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
+		
+		String level=request.getParameter("level");
+		String jsonname=request.getParameter("jsonname");
+		String json_level= request.getParameter("jsonlevel");
+		int shilevel=0;
+		String shi_name="";
+		if (json_level==null) {
+			String shi_sql ="select * from sys_company c where c.com_level='"+ level +"' and c.com_name='"+jsonname+"'";
+			SQLAdapter shi_Adapter = new SQLAdapter(shi_sql);
+			List<Map> shi_listmap= this.getBySqlMapper.findRecords(shi_Adapter);
+			shilevel= (Integer) shi_listmap.get(0).get("com_level");
+			shi_name= jsonname;
+		}else{
+			String shi_sql ="select * from sys_company c where c.pkid='"+ json_level +"'";
+			SQLAdapter shi_Adapter = new SQLAdapter(shi_sql);
+			List<Map> shi_listmap= this.getBySqlMapper.findRecords(shi_Adapter);
+			shilevel= (Integer) shi_listmap.get(0).get("com_level");
+			shi_name= (String) shi_listmap.get(0).get("com_name");
+		}
+		
 		String leixing_name = request.getParameter("leixing");//获取国家级还是市级的贫困户
 		String year = request.getParameter("year");
 		if ( "2016".equals(year) ) {
@@ -924,68 +1190,60 @@ public class SH3_Controller extends MultiActionController{
 			year = "" ;
 		}
 		String sql="";
-		HttpSession session = request.getSession();//取session
-		Map<String,String> company = (Map)session.getAttribute("company");//用户所属单位表，加前台显示时用的上下级关联名称
-		JSONObject company_json = new JSONObject();
-		for(String key : company.keySet()){
-			company_json.put(key, company.get(key));
-		}
-		String com_name=company_json.get("com_name").toString();//获取用户名称
-		String com_level=company_json.get("com_level").toString();//获取用户层级
 		JSONArray json= new JSONArray();
-		if(com_level.equals("1")==true){//市级用户
-			sql="SELECT c1.v3 as v3,IFNULL(c2.jk,0)AS jk,IFNULL(c2.jb ,0)AS jb FROM(SELECT v3,0 FROM da_household"+year+"  GROUP BY v3)c1 LEFT JOIN(SELECT a1.v3 as v3,IFNULL(a1.count,0) as jb,IFNULL(a2.count2,0) as jk FROM (select x1.huv3 AS v3,(x1.hu+x2.jia) as count from(select v3 as huv3,count(*) as hu from da_household"+year+" WHERE sys_standard='"+leixing_name+"' AND v14 !='健康' group by v3) x1 join (select y.v3 as jiav3,count(*) as jia from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' AND y.v14 !='健康' group by y.v3)x2 on x1.huv3=x2.jiav3) a1 LEFT JOIN (select x1.huv3 AS v32,(x1.hu+x2.jia) as count2 from(select v3 as huv3,count(*) as hu from da_household"+year+" WHERE sys_standard='"+leixing_name+"' AND v14 ='健康' group by v3) x1 join (select y.v3 as jiav3,count(*) as jia from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' AND y.v14 ='健康' group by y.v3)x2 on x1.huv3=x2.jiav3) a2 ON a1.v3 = a2.v32)c2 on c1.v3=c2.v3";
-		}else if(com_level.equals("2")==true){//旗县用户
+		if(shilevel==1){//市级用户
+			sql="SELECT c1.v3 as v3,IFNULL(c2.jk,0)AS jk,IFNULL(c2.jb ,0)AS jb FROM(SELECT v3,0 FROM da_household"+year+"  GROUP BY v3)c1 LEFT JOIN(SELECT a1.v3 as v3,IFNULL(a1.count,0) as jb,IFNULL(a2.count2,0) as jk FROM (select x1.huv3 AS v3,(x1.hu+x2.jia) as count from(select v3 as huv3,count(*) as hu from da_household"+year+" WHERE sys_standard='"+leixing_name+"' AND v14 !='健康' and v2 like '%"+shi_name+"%' group by v3) x1 join (select y.v3 as jiav3,count(*) as jia from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' AND y.v14 !='健康' and y.v2 like '%"+shi_name+"%' group by y.v3)x2 on x1.huv3=x2.jiav3) a1 LEFT JOIN (select x1.huv3 AS v32,(x1.hu+x2.jia) as count2 from(select v3 as huv3,count(*) as hu from da_household"+year+" WHERE sys_standard='"+leixing_name+"' AND v14 ='健康' and v2 like '%"+shi_name+"%' group by v3) x1 join (select y.v3 as jiav3,count(*) as jia from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' AND y.v14 ='健康' and y.v2 like '%"+shi_name+"%' group by y.v3)x2 on x1.huv3=x2.jiav3) a2 ON a1.v3 = a2.v32)c2 on c1.v3=c2.v3";
+		}else if(shilevel==2){//旗县用户
 			
-			String sql1 = "select count(*) jk,b.v4 from (select * from da_household"+year+" where v3='"+com_name+"' and sys_standard='"+leixing_name+"') a left JOIN "+
-						" (select * from da_member"+year+" where  v3='"+com_name+"') b on a.pkid=b.da_household_id where b.v14='健康' group by b.v4 ";
-			String sql2 = " select count(*) jk,v4 from da_household"+year+" where v3='"+com_name+"' and sys_standard='"+leixing_name+"' and v14='健康' GROUP BY v4 ";
-			String sql3 = "select count(*) jb,b.v4 from (select * from da_household"+year+" where v3='东胜区' and sys_standard='"+leixing_name+"') a left JOIN "+
-						" (select * from da_member"+year+" where  v3='"+com_name+"') b on a.pkid=b.da_household_id where b.v14!='健康' group by b.v4 ";
-			String sql4 = " select count(*) jb,v4 from da_household"+year+" where  v3='"+com_name+"' and sys_standard='"+leixing_name+"' and v14!='健康' GROUP BY v4";
-			SQLAdapter sqlAdapter1 = new SQLAdapter(sql1);
-			SQLAdapter sqlAdapter2 = new SQLAdapter(sql2);
-			SQLAdapter sqlAdapter3 = new SQLAdapter(sql3);
-			SQLAdapter sqlAdapter4 = new SQLAdapter(sql4);
-			List<Map> list1 = this.getBySqlMapper.findRecords(sqlAdapter1);
-			List<Map> list2 = this.getBySqlMapper.findRecords(sqlAdapter2);
-			List<Map> list3 = this.getBySqlMapper.findRecords(sqlAdapter3);
-			List<Map> list4= this.getBySqlMapper.findRecords(sqlAdapter4);
-			for ( int  i = 0 ; i<list1.size(); i++ ) {
-				JSONObject obj = new JSONObject();
-				obj.put("name",list1.get(i).get("v4"));
-				String str ="";
-				if(list2.size()>i){
-					str = list2.get(i).get("jk").toString();
-				}else {
-					str="0";
-				}
-				int jk= Integer.parseInt(str)+Integer.parseInt(list1.get(i).get("jk").toString());
-				obj.put("jk",jk);
-				String str4 ="";
-				String str3="";
-				if(list4.size()>i){
-					str4= list4.get(i).get("jb").toString();
-				}else{
-					str4="0";
-				}
-				if(list3.size()>i){
-					str3= list3.get(i).get("jb").toString();
-				}else{
-					str3="0";
-				}
-				int jb= Integer.parseInt(str3)+Integer.parseInt(str4);
-				obj.put("jb",jb);
-				json.add(obj);
-			}
-			
-			response.getWriter().write(json.toString());
-			return  null;
-		}else if(com_level.equals("3")==true){//乡级用户
-			sql="SELECT c1.v3 as v3,IFNULL(c2.jk,0)AS jk,IFNULL(c2.jb ,0)AS jb FROM(SELECT v5 as v3,0 FROM da_household"+year+" WHERE v4='"+com_name+"' GROUP BY v5)c1 LEFT JOIN(SELECT a1.v3 as v3,IFNULL(a1.count,0) as jb,IFNULL(a2.count2,0) as jk FROM (select x1.huv3 AS v3,(x1.hu+x2.jia) as count from(select v5 as huv3,count(*) as hu from da_household"+year+" WHERE sys_standard='"+leixing_name+"' AND v4='"+com_name+"' AND v14 !='健康' group by v5) x1 join (select y.v5 as jiav3,count(*) as jia from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' AND x.v4='"+com_name+"' AND y.v14 !='健康' group by y.v5)x2 on x1.huv3=x2.jiav3) a1 LEFT JOIN (select x1.huv3 AS v32,(x1.hu+x2.jia) as count2 from(select v5 as huv3,count(*) as hu from da_household"+year+" WHERE sys_standard='"+leixing_name+"' AND v4='"+com_name+"' AND v14 ='健康' group by v5) x1 join (select y.v5 as jiav3,count(*) as jia from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' AND x.v4='"+com_name+"' AND y.v14 ='健康' group by y.v5)x2 on x1.huv3=x2.jiav3) a2 ON a1.v3 = a2.v32)c2 on c1.v3=c2.v3";
-		}else if(com_level.equals("4")==true){//村级用户
-			com_name=company_json.get("xiang").toString();//获取上级用户名称
-			sql="SELECT c1.v3 as v3,IFNULL(c2.jk,0)AS jk,IFNULL(c2.jb ,0)AS jb FROM(SELECT v5 as v3,0 FROM da_household"+year+" WHERE v4='"+com_name+"' GROUP BY v5)c1 LEFT JOIN(SELECT a1.v3 as v3,IFNULL(a1.count,0) as jb,IFNULL(a2.count2,0) as jk FROM (select x1.huv3 AS v3,(x1.hu+x2.jia) as count from(select v5 as huv3,count(*) as hu from da_household"+year+" WHERE sys_standard='"+leixing_name+"' AND v4='"+com_name+"' AND v14 !='健康' group by v5) x1 join (select y.v5 as jiav3,count(*) as jia from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' AND x.v4='"+com_name+"' AND y.v14 !='健康' group by y.v5)x2 on x1.huv3=x2.jiav3) a1 LEFT JOIN (select x1.huv3 AS v32,(x1.hu+x2.jia) as count2 from(select v5 as huv3,count(*) as hu from da_household"+year+" WHERE sys_standard='"+leixing_name+"' AND v4='"+com_name+"' AND v14 ='健康' group by v5) x1 join (select y.v5 as jiav3,count(*) as jia from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' AND x.v4='"+com_name+"' AND y.v14 ='健康' group by y.v5)x2 on x1.huv3=x2.jiav3) a2 ON a1.v3 = a2.v32)c2 on c1.v3=c2.v3";
+//			String sql1 = "select count(*) jk,b.v4 from (select * from da_household"+year+" where v3 like '%"+shi_name+"%' and sys_standard='"+leixing_name+"') a left JOIN "+
+//						" (select * from da_member"+year+" where  v3 like '%"+shi_name+"%') b on a.pkid=b.da_household_id where b.v14='健康' group by b.v4 ";
+//			String sql2 = " select count(*) jk,v4 from da_household"+year+" where v3 like '%"+shi_name+"%' and sys_standard='"+leixing_name+"' and v14='健康' GROUP BY v4 ";
+//			String sql3 = "select count(*) jb,b.v4 from (select * from da_household"+year+" where v3 like '%"+shi_name+"%' and sys_standard='"+leixing_name+"') a left JOIN "+
+//						" (select * from da_member"+year+" where  v3 like'%"+shi_name+"%') b on a.pkid=b.da_household_id where b.v14!='健康' group by b.v4 ";
+//			String sql4 = " select count(*) jb,v4 from da_household"+year+" where  v3 like'%"+shi_name+"%' and sys_standard='"+leixing_name+"' and v14!='健康' GROUP BY v4";
+//			SQLAdapter sqlAdapter1 = new SQLAdapter(sql1);
+//			SQLAdapter sqlAdapter2 = new SQLAdapter(sql2);
+//			SQLAdapter sqlAdapter3 = new SQLAdapter(sql3);
+//			SQLAdapter sqlAdapter4 = new SQLAdapter(sql4);
+//			List<Map> list1 = this.getBySqlMapper.findRecords(sqlAdapter1);
+//			List<Map> list2 = this.getBySqlMapper.findRecords(sqlAdapter2);
+//			List<Map> list3 = this.getBySqlMapper.findRecords(sqlAdapter3);
+//			List<Map> list4= this.getBySqlMapper.findRecords(sqlAdapter4);
+//			for ( int  i = 0 ; i<list1.size(); i++ ) {
+//				JSONObject obj = new JSONObject();
+//				obj.put("name",list1.get(i).get("v4"));
+//				String str ="";
+//				if(list2.size()>i){
+//					str = list2.get(i).get("jk").toString();
+//				}else {
+//					str="0";
+//				}
+//				int jk= Integer.parseInt(str)+Integer.parseInt(list1.get(i).get("jk").toString());
+//				obj.put("jk",jk);
+//				String str4 ="";
+//				String str3="";
+//				if(list4.size()>i){
+//					str4= list4.get(i).get("jb").toString();
+//				}else{
+//					str4="0";
+//				}
+//				if(list3.size()>i){
+//					str3= list3.get(i).get("jb").toString();
+//				}else{
+//					str3="0";
+//				}
+//				int jb= Integer.parseInt(str3)+Integer.parseInt(str4);
+//				obj.put("jb",jb);
+//				json.add(obj);
+//			}
+//			
+//			response.getWriter().write(json.toString());
+//			return  null;
+			sql="SELECT c1.v3 as v3,IFNULL(c2.jk,0)AS jk,IFNULL(c2.jb ,0)AS jb FROM(SELECT v4 as v3,0 FROM da_household"+year+" WHERE v3 like '%"+shi_name+"%' GROUP BY v4)c1 LEFT JOIN(SELECT a1.v3 as v3,IFNULL(a1.count,0) as jb,IFNULL(a2.count2,0) as jk FROM (select x1.huv3 AS v3,(x1.hu+x2.jia) as count from(select v4 as huv3,count(*) as hu from da_household"+year+" WHERE sys_standard='"+leixing_name+"' AND v3 like '%"+shi_name+"%' AND v14 !='健康' group by v4) x1 join (select y.v4 as jiav3,count(*) as jia from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' AND x.v3  like '%"+shi_name+"%' AND y.v14 !='健康' group by y.v4)x2 on x1.huv3=x2.jiav3) a1 LEFT JOIN (select x1.huv3 AS v32,(x1.hu+x2.jia) as count2 from(select v4 as huv3,count(*) as hu from da_household"+year+" WHERE sys_standard='"+leixing_name+"' AND v3 like '%"+shi_name+"%' AND v14 ='健康' group by v4) x1 join (select y.v4 as jiav3,count(*) as jia from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' AND x.v3 like '%"+shi_name+"%' AND y.v14 ='健康' group by y.v4)x2 on x1.huv3=x2.jiav3) a2 ON a1.v3 = a2.v32)c2 on c1.v3=c2.v3";
+		}else if(shilevel==3){//乡级用户
+			sql="SELECT c1.v3 as v3,IFNULL(c2.jk,0)AS jk,IFNULL(c2.jb ,0)AS jb FROM(SELECT v5 as v3,0 FROM da_household"+year+" WHERE v4 like '%"+shi_name+"%' GROUP BY v5)c1 LEFT JOIN(SELECT a1.v3 as v3,IFNULL(a1.count,0) as jb,IFNULL(a2.count2,0) as jk FROM (select x1.huv3 AS v3,(x1.hu+x2.jia) as count from(select v5 as huv3,count(*) as hu from da_household"+year+" WHERE sys_standard='"+leixing_name+"' AND v4  like '%"+shi_name+"%' AND v14 !='健康' group by v5) x1 join (select y.v5 as jiav3,count(*) as jia from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' AND x.v4 like '%"+shi_name+"%' AND y.v14 !='健康' group by y.v5)x2 on x1.huv3=x2.jiav3) a1 LEFT JOIN (select x1.huv3 AS v32,(x1.hu+x2.jia) as count2 from(select v5 as huv3,count(*) as hu from da_household"+year+" WHERE sys_standard='"+leixing_name+"' AND v4 like '%"+shi_name+"%' AND v14 ='健康' group by v5) x1 join (select y.v5 as jiav3,count(*) as jia from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' AND x.v4 like '%"+shi_name+"%' AND y.v14 ='健康' group by y.v5)x2 on x1.huv3=x2.jiav3) a2 ON a1.v3 = a2.v32)c2 on c1.v3=c2.v3";
+		}else if(shilevel==4){//村级用户
+			sql="SELECT c1.v3 as v3,IFNULL(c2.jk,0)AS jk,IFNULL(c2.jb ,0)AS jb FROM(SELECT v5 as v3,0 FROM da_household"+year+" WHERE v5 like '%"+shi_name+"%' GROUP BY v5)c1 LEFT JOIN(SELECT a1.v3 as v3,IFNULL(a1.count,0) as jb,IFNULL(a2.count2,0) as jk FROM (select x1.huv3 AS v3,(x1.hu+x2.jia) as count from(select v5 as huv3,count(*) as hu from da_household"+year+" WHERE sys_standard='"+leixing_name+"' AND v5 like  '%"+shi_name+"%' AND v14 !='健康' group by v5) x1 join (select y.v5 as jiav3,count(*) as jia from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' AND x.v5 like '%"+shi_name+"%' AND y.v14 !='健康' group by y.v5)x2 on x1.huv3=x2.jiav3) a1 LEFT JOIN (select x1.huv3 AS v32,(x1.hu+x2.jia) as count2 from(select v5 as huv3,count(*) as hu from da_household"+year+" WHERE sys_standard='"+leixing_name+"' AND v5 like '%"+shi_name+"%' AND v14 ='健康' group by v5) x1 join (select y.v5 as jiav3,count(*) as jia from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' AND x.v5 like '%"+shi_name+"%' AND y.v14 ='健康' group by y.v5)x2 on x1.huv3=x2.jiav3) a2 ON a1.v3 = a2.v32)c2 on c1.v3=c2.v3";
 		}
 		SQLAdapter sqlAdapter =new SQLAdapter(sql);
 		List<Map> sql_list = this.getBySqlMapper.findRecords(sqlAdapter);
