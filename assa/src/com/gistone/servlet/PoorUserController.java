@@ -508,8 +508,8 @@ public class PoorUserController extends MultiActionController{
 						cha_bfzrr = request.getParameter("cha_bfzrr").trim();
 						str += " c.col_name like '%"+cha_bfzrr+"%' and";
 					}
-					count_st_sql += " LEFT JOIN sys_personal_household_many_2016 x on x.da_household_id=a.pkid LEFT JOIN sys_personal_2016 c on x.sys_personal_id = c.pkid join da_company t2 on c.da_company_id=t2.pkid ";
-					people_sql += " LEFT JOIN sys_personal_household_many_2016 x on x.da_household_id=a.pkid LEFT JOIN sys_personal_2016 c on x.sys_personal_id = c.pkid join da_company t2 on c.da_company_id=t2.pkid ";
+					count_st_sql += " LEFT JOIN sys_personal_household_many_2016 x on x.da_household_id=a.pkid LEFT JOIN sys_personal_2016 c on x.sys_personal_id = c.pkid join da_company_2016 t2 on c.da_company_id=t2.pkid ";
+					people_sql += " LEFT JOIN sys_personal_household_many_2016 x on x.da_household_id=a.pkid LEFT JOIN sys_personal_2016 c on x.sys_personal_id = c.pkid join da_company_2016 t2 on c.da_company_id=t2.pkid ";
 				}
 				
 				
