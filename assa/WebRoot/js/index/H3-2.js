@@ -49,7 +49,7 @@ $(function () {
 		qhxs();
 	});
 	
-	if(com_level!="3"&&com_level!="4"){
+	if(com_level!="4"){
     $('#tree2').treeview({
 //    	background-color:"#428bca",
     	multiSelect: true,
@@ -74,7 +74,7 @@ $(function () {
 function show_tree(){
 	var treeData;
 	$.ajax({  		       
-	    url: "/assa/getincompleteTreeData2.do",
+	    url: "/assa/getincompleteTreeData.do",
 	    type: "POST",
 	    async:false,
 	    dataType: "json",
@@ -402,7 +402,13 @@ function qingkong(){
 
 //致贫原因
 function show_zhipinyuanyin(){
-	$("#administrative_division").hide();
+	$("#treeview11 li").css("background-color", "#FFFFFF");
+	$("#treeview11 li i").css("color", "#428bca");
+	$("#treeview33 li").css("background-color", "#FFFFFF");
+	$("#treeview33 li i").css("color", "#428bca");
+	if(com_level!="4"){
+		$("#administrative_division").show();
+	}
 	$("#html_zicaidan").html('<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="因病" onclick="zhipinyuanyin(this.value)">因病致贫</button>&nbsp;&nbsp;&nbsp;&nbsp;'
 			+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="缺劳动力"  onclick="zhipinyuanyin(this.value)">缺劳动力</button>'
 			+'<div>&nbsp;</div>'
@@ -431,7 +437,11 @@ function show_zhipinyuanyin(){
 
 //年龄分组
 function show_nianlingfenuz(){
-	if(com_level!="3"&&com_level!="4"){
+	$("#treeview22 li").css("background-color", "#FFFFFF");
+	$("#treeview22 li i").css("color", "#428bca");
+	$("#treeview33 li").css("background-color", "#FFFFFF");
+	$("#treeview33 li i").css("color", "#428bca");
+	if(com_level!="4"){
 		$("#administrative_division").show();
 	}
 		$("#html_zicaidan").html(
@@ -494,19 +504,26 @@ function show_nianlingfenuz(){
 
 //文化程度
 function show_wenhuachegndu(){
-	$("#administrative_division").hide();
+	//$("#administrative_division").hide();
+	$("#treeview22 li").css("background-color", "#FFFFFF");
+	$("#treeview22 li i").css("color", "#428bca");
+	$("#treeview33 li").css("background-color", "#FFFFFF");
+	$("#treeview33 li i").css("color", "#428bca");
+	if(com_level!="4"){
+		$("#administrative_division").show();
+	}
 	$("#html_zicaidan").html('<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;"value="" onclick="wenhuachengdu(this.value)">未知</button>'
-			+'&nbsp;&nbsp;'
+			+'<div>&nbsp;</div>'
 			+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;"value="学龄前儿童" onclick="wenhuachengdu(this.value)">学龄前儿童</button>'
 			+'<div>&nbsp;</div>'
 			+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;"value="小学" onclick="wenhuachengdu(this.value)">小学</button>'
-			+'&nbsp;'
+			+'<div>&nbsp;</div>'
 			+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;"value="初中" onclick="wenhuachengdu(this.value)">初中</button>'
-			+'&nbsp;'
+			+'<div>&nbsp;</div>'
 			+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;"value="高中" onclick="wenhuachengdu(this.value)">高中</button>'
 			+'<div>&nbsp;</div>'
 			+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;"value="大专" onclick="wenhuachengdu(this.value)">大专及以上</button>'
-			+'<div>&nbsp;</div>'
+			+'&nbsp;&nbsp;'
 			+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;"value="文盲" onclick="wenhuachengdu(this.value)">文盲或半文盲</button>');
 	H3_2_tblx="whcd";//赋值图标类型为 文化程度
 	H3_2_tblx_2="";//清空图标类型子类型
@@ -516,7 +533,14 @@ function show_wenhuachegndu(){
 
 //健康状况
 function show_jiankangzhuangkuang(){
-	$("#administrative_division").hide();
+	$("#treeview22 li").css("background-color", "#FFFFFF");
+	$("#treeview22 li i").css("color", "#428bca");
+	$("#treeview33 li").css("background-color", "#FFFFFF");
+	$("#treeview33 li i").css("color", "#428bca");
+	if(com_level!="4"){
+		$("#administrative_division").show();
+	}
+	//$("#administrative_division").hide();
 	$("#html_zicaidan").html('<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" onclick="show_jiankangzhuangkuang()">健康状况</button>');
 	H3_2_tblx="jkzk";//赋值图标类型为 健康状况
 	H3_2_tblx_2="";//清空图标类型子类型
@@ -525,7 +549,11 @@ function show_jiankangzhuangkuang(){
 
 //家庭规模
 function show_jiatingguimo(){
-	if(com_level!="3"&&com_level!="4"){
+	$("#treeview22 li").css("background-color", "#FFFFFF");
+	$("#treeview22 li i").css("color", "#428bca");
+	$("#treeview33 li").css("background-color", "#FFFFFF");
+	$("#treeview33 li i").css("color", "#428bca");
+	if(com_level!="4"){
 		$("#administrative_division").show();
 	}
 		$("#html_zicaidan").html(
@@ -548,9 +576,9 @@ function show_jiatingguimo(){
 //				+'<div>&nbsp;</div>'
 				'<h5>按每户人口：</h5>'
 				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="3" onclick="renkouguimo(this.value)">3人</button>'
-				+'&nbsp;&nbsp;'
+				+'<div>&nbsp;</div>'
 				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="4" onclick="renkouguimo(this.value)">4人</button>'
-				+'&nbsp;&nbsp;'
+				+'<div>&nbsp;</div>'
 				+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="5" onclick="renkouguimo(this.value)">5人</button>');
 //		+'<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" value="准格尔旗"onclick="renkouguimo(this.value)">准格尔旗</button>'
 //		+'&nbsp;&nbsp;'
@@ -610,7 +638,14 @@ function show_luoshibangfucuoshi(){
 
 //帮扶责任人
 function showbffzr(){
-	$("#administrative_division").hide();
+	$("#treeview11 li").css("background-color", "#FFFFFF");
+	$("#treeview11 li i").css("color", "#428bca");
+	$("#treeview22 li").css("background-color", "#FFFFFF");
+	$("#treeview22 li i").css("color", "#428bca");
+	//$("#administrative_division").hide();
+	if(com_level!="4"){
+		$("#administrative_division").show();
+	}
 	$("#html_zicaidan").html('<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" onclick="showbffzr()">帮扶责任人</button>');
 	H3_2_tblx="bffzr";//赋值图标类型为 帮扶责任人
 	H3_2_tblx_2="";//清空图标类型子类型
@@ -619,7 +654,13 @@ function showbffzr(){
 
 //驻村工作队
 function showzcgzd(){
-	$("#administrative_division").hide();
+	$("#treeview11 li").css("background-color", "#FFFFFF");
+	$("#treeview11 li i").css("color", "#428bca");
+	$("#treeview22 li").css("background-color", "#FFFFFF");
+	$("#treeview22 li i").css("color", "#428bca");
+	if(com_level!="4"){
+		$("#administrative_division").show();
+	}
 	$("#html_zicaidan").html('<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 13px;" onclick="showzcgzd()">驻村工作队</button>');
 	H3_2_tblx="zcgzd";//赋值图标类型为 帮扶责任人
 	H3_2_tblx_2="";//清空图标类型子类型
@@ -628,16 +669,22 @@ function showzcgzd(){
 
 //加载体现致贫原因图
 function zhipinyuanyin(shujv){
+	var jsonlevel=JSON.stringify(json_level);
+	if(jsonlevel==null){
+		level=com_level;
+		
+	}
+	var jsonname=json_name;
+	if(jsonname==undefined){
+		if(com_level!="4"){
+		jsonname=com_name;
+		}else{
+			jsonname=com_name2;
+		}
+	}
 	var mapdatajson;//定义地图JSON
 	var map_name;//定义地图名称
 	mokuai_name="zpyy"
-	if(com_level=="1"){//如果层级为1，那么加载鄂尔多斯市地图
-		mapdatajson='mapData/eerduosi/ordos.json';//地图JSON
-		map_name='ordos';//地图名称
-	}else{//层级不为1，那么动态加载地图
-		mapdatajson='mapData/eerduosi/'+code+'.json';//地图JSON
-		map_name=code;//地图名称
-	}
 	H3_2_tblx_2=shujv;
 	var myChart = echarts.init(document.getElementById('mapChart'));//声明id为mapChart的div为图形dom
 	var datas;
@@ -657,7 +704,10 @@ function zhipinyuanyin(shujv){
 			shujv:shujv,
 			leixing:H3_2_bzlx,
 			mokuai_name : mokuai_name,
-			year:$('#anniu_2 input[name="v1"]:checked ').val()
+			year:$('#anniu_2 input[name="v1"]:checked ').val(),
+			jsonlevel:jsonlevel,
+			jsonname:jsonname,
+			level:level
 		},
 		success: function (data) {
 			if(shujv=="zpyy"){
@@ -669,28 +719,62 @@ function zhipinyuanyin(shujv){
 				tables+='<tr><td class="text-center">总计</td><td class="text-center" ><span class="c_green">'+zongji+'</span></td></tr>';
 				tables+='<tbody></tbody></table>';
 				$("#tableChart").html(tables); 
-				option.title.text=com_name+'-致贫原因构成情况';//标题名称
-				option.series[0].name=''+shujv+'';//系列名称
+				option.title.text=jsonname+'-致贫原因构成情况';//标题名称
+				option.series[0].name='致贫原因';//系列名称
 				option.series[0].data=data;//数据赋值，从数据库取出的数据赋值
 				option.tooltip.formatter="{a} <br/>{b} : {c}人 ({d}%)";//数据格式化方法，a（系列名称），b（数据项名称），c（数值）, d（百分比）。
 				option.series[0].itemStyle.normal.label.formatter='{b} : {c}人 ({d}%)';//数据格式化方法，a（系列名称），b（数据项名称），c（数值）, d（百分比）。
 				myChart.setOption(option);
 
 			}else{
-				if(data=="0"){
+				var com_level2=data[0].com_level;
+				var isValue=data[0].isvalue;//判读是否有数据
+				if(com_level2=="1"){//如果层级为1，那么加载鄂尔多斯市地图
+					mapdatajson='mapData/eerduosi/ordos.json';//地图JSON
+					map_name='ordos';//地图名称
+				}else if(com_level!="4"){//层级不为1，那么动态加载地图
+					var code2;
+					if(com_level2!="4"){
+						code2=data[0].com_code2
+					}else{
+						code2=data[0].com_code3
+					}
+					
+					mapdatajson='mapData/eerduosi/'+code2+'.json';//地图JSON
+					map_name=code2;//地图名称
+				}else if(com_level=="4"){
+					mapdatajson='mapData/eerduosi/'+code+'.json';//地图JSON
+					map_name=code;//地图名称
+				}
+				if(isValue=="0"){
 					tables+='<table class="table table-hover margin bottom"><thead><tr><th style="width: 60%" class="text-center">类型</th><th style="width: 40%" class="text-center">人数</th>';
 					tables+='<tr><td class="text-center">暂无数据</td><td class="text-center" ><span class="c_green">暂无数据</span></td></tr>';
 					tables+='<tbody></tbody></table>';
 					$("#tableChart").html(tables);
 					myChart.showLoading();//此方法是显示加载动画效果
-					$.getJSON(mapdatajson, function (geoJson) {//获取已经定义好的json
-						myChart.hideLoading();//隐藏加载动画
-						echarts.registerMap(map_name, geoJson);//注册可用的地图，必须在包括 geo 组件或者 map 图表类型的时候才能使用
-						option_map.title.text=com_name+'-'+shujv+'致贫-暂无数据';
-						option_map.series[0].mapType=map_name;
-						option_map.series[0].data = data;
-						myChart.setOption(option_map);
-					});
+					$.ajax({
+						url: mapdatajson,//"/assa/H3_2echarts_5.do",
+						type: "get",
+						async:false,
+						dataType: "json",
+						success: function (geoJson) {
+							myChart.hideLoading();//隐藏加载动画
+							echarts.registerMap(map_name, geoJson);//注册可用的地图，必须在包括 geo 组件或者 map 图表类型的时候才能使用
+							option_map.title.text=jsonname+'-'+shujv+'致贫-暂无数据';
+							option_map.series[0].mapType=map_name;
+							option_map.series[0].data = data;
+							myChart.setOption(option_map);
+						},
+						error:function(){
+							myChart.hideLoading();
+							option.title.text=jsonname+'-'+shujv+'致贫-暂无数据'; //标题名称
+							option.series[0].name=jsonname+'-'+shujv+'致贫'; //系列名称
+							option.series[0].data=data;//饼状图数据赋值
+							option.tooltip.formatte="{a} <br/>{b} : {c}人 "//数据格式化方法，a（系列名称），b（数据项名称），c（数值）, d（百分比）。
+							option.series[0].itemStyle.normal.label.formatter=shujv+': 0人';//数据格式化方法，a（系列名称），b（数据项名称），c（数值）, d（百分比）。
+							myChart.setOption(option);		
+						}
+						})
 				}else{
 					tables+='<table class="table table-hover margin bottom"><thead><tr><th style="width: 60%" class="text-center">'+bg_bt+'</th><th style="width: 40%" class="text-center">人数</th>';//拼接表格标题
 					$.each(data, function(i,item) { //循环添加表中数据
@@ -701,26 +785,44 @@ function zhipinyuanyin(shujv){
 					tables+='<tbody></tbody></table>';
 					$("#tableChart").html(tables);
 					myChart.showLoading();//此方法是显示加载动画效果
-					$.getJSON(mapdatajson, function (geoJson) {//获取已经定义好的json
-						myChart.hideLoading();//隐藏加载动画
-						echarts.registerMap(map_name, geoJson);//注册可用的地图，必须在包括 geo 组件或者 map 图表类型的时候才能使用
-						option_map.title.text=com_name+'-'+shujv+'致贫';//标题名称
-						option_map.series[0].name=shujv+'致贫人数';
-						option_map.series[0].data=data;
-						option_map.series[0].mapType=map_name;
-						var min = 0,max = 0;	//计算地图中下标最大值最小值
-						$.each(data, function(i,item) {
-			 	    		if(item.value>max){
-			 	    			max = item.value;
-			 	    		}
-			 	    		if(item.value<min){
-			 	    			min = item.value;
-			 	    		}
-			 	    	});
-			 	    	option_map.dataRange.max = max;
-			 	    	option_map.dataRange.min = min;
-						myChart.setOption(option_map);
-					});
+					$.ajax({
+						url: mapdatajson,//"/assa/H3_2echarts_5.do",
+						type: "get",
+						async:false,
+						dataType: "json",
+						success: function (geoJson) {
+							myChart.hideLoading();//隐藏加载动画
+							echarts.registerMap(map_name, geoJson);//注册可用的地图，必须在包括 geo 组件或者 map 图表类型的时候才能使用
+							option_map.title.text=jsonname+'-'+shujv+'致贫';//标题名称
+							option_map.series[0].name=shujv+'致贫人数';
+							option_map.series[0].data=data;
+							option_map.series[0].mapType=map_name;
+							var min = 0,max = 0;	//计算地图中下标最大值最小值
+							$.each(data, function(i,item) {
+				 	    		if(item.value>max){
+				 	    			max = item.value;
+				 	    		}
+				 	    		if(item.value<min){
+				 	    			min = item.value;
+				 	    		}
+				 	    	});
+				 	    	option_map.dataRange.max = max;
+				 	    	option_map.dataRange.min = min;
+							myChart.setOption(option_map);
+						},
+						error:function(){
+							myChart.hideLoading();
+							if(shujv==""){
+								shujv="因病致贫";
+							}
+							option.title.text=jsonname+'-'+shujv+'致贫';//标题名称
+							option.series[0].name=jsonname+'-'+shujv+'致贫人数';//系列名称
+							option.series[0].data=data;//数据赋值，从数据库取出的数据赋值
+							option.tooltip.formatte="{a} <br/>{b} : {c}人 ({d}%)";//数据格式化方法，a（系列名称），b（数据项名称），c（数值）, d（百分比）。
+							option.series[0].itemStyle.normal.label.formatter='{b} : {c}人 ({d}%)';//数据格式化方法，a（系列名称），b（数据项名称），c（数值）, d（百分比）。
+							myChart.setOption(option);
+						}
+						})
 				}
 				
 			}
@@ -823,7 +925,12 @@ function show_nianlingjiegou(shujv,id){
 					mapdatajson='mapData/eerduosi/ordos.json';//地图JSON
 					map_name='ordos';//地图名称
 				}else if(com_level!="4"){//层级不为1，那么动态加载地图
-					var code2=data[0].com_code2
+					var code2;
+					if(com_level2!="4"){
+						code2=data[0].com_code2
+					}else{
+						code2=data[0].com_code3
+					}
 					mapdatajson='mapData/eerduosi/'+code2+'.json';//地图JSON
 					map_name=code2;//地图名称
 				}else if(com_level=="4"){
@@ -836,14 +943,29 @@ function show_nianlingjiegou(shujv,id){
 					tables+='<tbody></tbody></table>';
 					$("#tableChart").html(tables);
 					myChart.showLoading();//此方法是显示加载动画效果
-					$.getJSON(mapdatajson, function (geoJson) {//获取已经定义好的json
-						myChart.hideLoading();//隐藏加载动画
-						echarts.registerMap(map_name, geoJson);//注册可用的地图，必须在包括 geo 组件或者 map 图表类型的时候才能使用
-						option_map.title.text=jsonname+'-'+shujv+'人数-暂无数据';
-						option_map.series[0].mapType=map_name;
-						option_map.series[0].data = data;
-						myChart.setOption(option_map);
-					});
+					$.ajax({
+						url: mapdatajson,//"/assa/H3_2echarts_5.do",
+						type: "get",
+						async:false,
+						dataType: "json",
+						success: function (geoJson) {
+							myChart.hideLoading();//隐藏加载动画
+							echarts.registerMap(map_name, geoJson);//注册可用的地图，必须在包括 geo 组件或者 map 图表类型的时候才能使用
+							option_map.title.text=jsonname+'-'+shujv+'人数-暂无数据';
+							option_map.series[0].mapType=map_name;
+							option_map.series[0].data = data;
+							myChart.setOption(option_map);
+						},
+						error:function(){
+							myChart.hideLoading();
+							option.title.text=jsonname+'-'+shujv+'-贫困人口年龄结构---暂无数据'; //标题名称
+							option.series[0].name=jsonname+'-'+shujv; //系列名称
+							option.series[0].data=[{value:0, name:''+shujv},];
+							option.tooltip.formatte="{a} <br/>{b} : {c}人 ";//数据格式化方法，a（系列名称），b（数据项名称），c（数值）, d（百分比）。
+							option.series[0].itemStyle.normal.label.formatter=shujv+': 0人 ';//数据格式化方法，a（系列名称），b（数据项名称），c（数值）, d（百分比）。
+							myChart.setOption(option);		
+						}
+						})
 				}else{//有数据的情况
 					tables+='<table class="table table-hover margin bottom"><thead><tr><th style="width: 60%" class="text-center">'+bg_bt+'</th><th style="width: 40%" class="text-center">人数</th>';
 					$.each(data, function(i,item) {
@@ -854,26 +976,44 @@ function show_nianlingjiegou(shujv,id){
 					tables+='<tbody></tbody></table>';
 					$("#tableChart").html(tables);
 					myChart.showLoading();//此方法是显示加载动画效果
-					$.getJSON(mapdatajson, function (geoJson) {//获取已经定义好的json
-						myChart.hideLoading();//隐藏加载动画
-						echarts.registerMap(map_name, geoJson);//注册可用的地图，必须在包括 geo 组件或者 map 图表类型的时候才能使用
-						option_map.title.text=jsonname+'-'+shujv+'人数';//标题名称
-						option_map.series[0].name=shujv+'人数';
-						option_map.series[0].data=data;
-						option_map.series[0].mapType=map_name;
-						var min = 0,max = 0;
-			 	    	$.each(data, function(i,item) {
-			 	    		if(item.value>max){
-			 	    			max = item.value;
-			 	    		}
-			 	    		if(item.value<min){
-			 	    			min = item.value;
-			 	    		}
-			 	    	});
-			 	    	option_map.dataRange.max = max;
-			 	    	option_map.dataRange.min = min;
-						myChart.setOption(option_map);
-					});
+					$.ajax({
+						url: mapdatajson,//"/assa/H3_2echarts_5.do",
+						type: "get",
+						async:false,
+						dataType: "json",
+						success: function (geoJson) {
+							myChart.hideLoading();//隐藏加载动画
+							echarts.registerMap(map_name, geoJson);//注册可用的地图，必须在包括 geo 组件或者 map 图表类型的时候才能使用
+							option_map.title.text=jsonname+'-'+shujv+'人数';//标题名称
+							option_map.series[0].name=shujv+'人数';
+							option_map.series[0].data=data;
+							option_map.series[0].mapType=map_name;
+							var min = 0,max = 0;
+				 	    	$.each(data, function(i,item) {
+				 	    		if(item.value>max){
+				 	    			max = item.value;
+				 	    		}
+				 	    		if(item.value<min){
+				 	    			min = item.value;
+				 	    		}
+				 	    	});
+				 	    	option_map.dataRange.max = max;
+				 	    	option_map.dataRange.min = min;
+							myChart.setOption(option_map);
+						},
+						error:function(){
+							myChart.hideLoading();
+							if(shujv=="level-1"){
+								shujv=com_name;
+							}
+							option.title.text=jsonname+'-'+shujv+'-贫困人口年龄结构';//标题名称
+							option.series[0].name=jsonname+'-'+shujv+'-贫困人口年龄结构';//系列名称
+							option.series[0].data=data;//数据赋值，从数据库取出的数据赋值
+							option.tooltip.formatte="{a} <br/>{b} : {c}人 ({d}%)";//数据格式化方法，a（系列名称），b（数据项名称），c（数值）, d（百分比）。
+							option.series[0].itemStyle.normal.label.formatter='{b} : {c}人 ({d}%)';//数据格式化方法，a（系列名称），b（数据项名称），c（数值）, d（百分比）。
+							myChart.setOption(option);
+						}
+						})
 				}
 			}
 		},
@@ -884,8 +1024,20 @@ function show_nianlingjiegou(shujv,id){
 
 //加载健康状况图
 function jiankangzhuangk(){
-	$("#administrative_division").hide();
+	//$("#administrative_division").hide();
+	var jsonlevel=JSON.stringify(json_level);
+	if(jsonlevel==null){
+		level=com_level;
+		
+	}
 	var jsonname=json_name;
+	if(jsonname==undefined){
+		if(com_level!="4"){
+		jsonname=com_name;
+		}else{
+			jsonname=com_name2;
+		}
+	}
 	H3_2_tblx_2=shujv;
 	var tables="";//对表格赋值的变量
 	var zongji=0;//健康
@@ -898,7 +1050,10 @@ function jiankangzhuangk(){
 		dataType: "json",
 		data:{
 			leixing:H3_2_bzlx,
-			year:$('#anniu_2 input[name="v1"]:checked ').val()
+			year:$('#anniu_2 input[name="v1"]:checked ').val(),
+			jsonlevel:jsonlevel,
+			jsonname:jsonname,
+			level:level
 		},
 		success: function (data) {
 			var count=[];
@@ -940,7 +1095,7 @@ function jiankangzhuangk(){
 				tables+='<tbody></tbody></table>';
 				$("#tableChart").html(tables);
 			}
-			option_tiao.title.text=com_name+'-贫困人口健康状况';
+			option_tiao.title.text=jsonname+'-贫困人口健康状况';
 			option_tiao.xAxis.data=count3;
 			option_tiao.series[0].data=count;
 			option_tiao.series[1].data=count2;
@@ -1000,7 +1155,13 @@ function renkouguimo(shujv){
 					mapdatajson='mapData/eerduosi/ordos.json';//地图JSON
 					map_name='ordos';//地图名称
 				}else if(com_level!="4"){//层级不为1，那么动态加载地图
-					var code2=data[0].com_code2
+					var code2;
+					if(com_level2!="4"){
+						code2=data[0].com_code2
+					}else{
+						code2=data[0].com_code3
+					}
+					
 					mapdatajson='mapData/eerduosi/'+code2+'.json';//地图JSON
 					map_name=code2;//地图名称
 				}else if(com_level=="4"){
@@ -1013,14 +1174,29 @@ function renkouguimo(shujv){
 					tables+='<tbody></tbody></table>';
 					$("#tableChart").html(tables);
 					myChart.showLoading();//此方法是显示加载动画效果
-					$.getJSON(mapdatajson, function (geoJson) {//获取已经定义好的json
-						myChart.hideLoading();//隐藏加载动画
-						echarts.registerMap(map_name, geoJson);//注册可用的地图，必须在包括 geo 组件或者 map 图表类型的时候才能使用
-						option_map.title.text=jsonname+'-'+shujv+'人家庭数-暂无数据';
-						option_map.series[0].mapType=map_name;
-						option_map.series[0].data = data;
-						myChart.setOption(option_map);
-					});
+					$.ajax({
+						url: mapdatajson,//"/assa/H3_2echarts_5.do",
+						type: "get",
+						async:false,
+						dataType: "json",
+						success: function (geoJson) {
+							myChart.hideLoading();//隐藏加载动画
+							echarts.registerMap(map_name, geoJson);//注册可用的地图，必须在包括 geo 组件或者 map 图表类型的时候才能使用
+							option_map.title.text=jsonname+'-'+shujv+'人家庭数-暂无数据';
+							option_map.series[0].mapType=map_name;
+							option_map.series[0].data = data;
+							myChart.setOption(option_map);
+						},
+						error:function(){
+							myChart.hideLoading();
+							option.title.text=jsonname+'-'+shujv+'人家庭数-暂无数据'; //标题名称
+							option.series[0].name=jsonname+'-'+shujv+'人家庭数'; //系列名称
+							option.series[0].data=data;//饼状图数据赋值
+							option.tooltip.formatte="{a} <br/>{b} : {c}人 "//数据格式化方法，a（系列名称），b（数据项名称），c（数值）, d（百分比）。
+							option.series[0].itemStyle.normal.label.formatter=shujv+': 0人';//数据格式化方法，a（系列名称），b（数据项名称），c（数值）, d（百分比）。
+							myChart.setOption(option);		
+						}
+						})
 				}else{
 					tables+='<table class="table table-hover margin bottom"><thead><tr><th style="width: 60%" class="text-center">'+bg_bt+'</th><th style="width: 40%" class="text-center">户数</th>';
 					$.each(data, function(i,item) {
@@ -1031,27 +1207,45 @@ function renkouguimo(shujv){
 					tables+='<tbody></tbody></table>';
 					$("#tableChart").html(tables);
 					myChart.showLoading();//此方法是显示加载动画效果
-					$.getJSON(mapdatajson, function (geoJson) {//获取已经定义好的json
-						myChart.hideLoading();//隐藏加载动画
-						echarts.registerMap(map_name, geoJson);//注册可用的地图，必须在包括 geo 组件或者 map 图表类型的时候才能使用
-						option_map.title.text=jsonname+'-'+shujv+'人家庭数';//标题名称
-						option_map.series[0].name=shujv+'人数';
-						option_map.series[0].data=data;
-						option_map.series[0].mapType=map_name;
-//						option_map.tooltip.formatter=shujv+'人数<br/>{b}: {c}(户)';
-						var min = 0,max = 0;
-			 	    	$.each(data, function(i,item) {
-			 	    		if(item.value>max){
-			 	    			max = item.value;
-			 	    		}
-			 	    		if(item.value<min){
-			 	    			min = item.value;
-			 	    		}
-			 	    	});
-			 	    	option_map.dataRange.max = max;
-			 	    	option_map.dataRange.min = min;
-						myChart.setOption(option_map);		
-					});
+					$.ajax({
+						url: mapdatajson,//"/assa/H3_2echarts_5.do",
+						type: "get",
+						async:false,
+						dataType: "json",
+						success: function (geoJson) {
+							myChart.hideLoading();//隐藏加载动画
+							echarts.registerMap(map_name, geoJson);//注册可用的地图，必须在包括 geo 组件或者 map 图表类型的时候才能使用
+							option_map.title.text=jsonname+'-'+shujv+'人家庭数';//标题名称
+							option_map.series[0].name=shujv+'人数';
+							option_map.series[0].data=data;
+							option_map.series[0].mapType=map_name;
+//							option_map.tooltip.formatter=shujv+'人数<br/>{b}: {c}(户)';
+							var min = 0,max = 0;
+				 	    	$.each(data, function(i,item) {
+				 	    		if(item.value>max){
+				 	    			max = item.value;
+				 	    		}
+				 	    		if(item.value<min){
+				 	    			min = item.value;
+				 	    		}
+				 	    	});
+				 	    	option_map.dataRange.max = max;
+				 	    	option_map.dataRange.min = min;
+							myChart.setOption(option_map);		
+						},
+						error:function(){
+							myChart.hideLoading();
+							if(shujv=="level-1"){
+								shujv=com_name;
+							}
+							option.title.text=jsonname+'-'+shujv+'人家庭数';//标题名称
+							option.series[0].name=jsonname+'-'+shujv+'人家庭数';//系列名称
+							option.series[0].data=data;//数据赋值，从数据库取出的数据赋值
+							option.tooltip.formatte="{a} <br/>{b} : {c}人 ({d}%)";//数据格式化方法，a（系列名称），b（数据项名称），c（数值）, d（百分比）。
+							option.series[0].itemStyle.normal.label.formatter='{b} : {c}人 ({d}%)';//数据格式化方法，a（系列名称），b（数据项名称），c（数值）, d（百分比）。
+							myChart.setOption(option);
+						}
+						})
 				}
 				
 			}else{
@@ -1088,6 +1282,7 @@ function renkouguimo(shujv){
 			}
 		},
 		error: function () { 
+			
 		} 
 	})
 	
@@ -1095,19 +1290,26 @@ function renkouguimo(shujv){
 
 //文化程度 
 function wenhuachengdu(shujv){
+	var jsonlevel=JSON.stringify(json_level);
+	if(jsonlevel==null){
+		level=com_level;
+		
+	}
+	var jsonname=json_name;
+	if(jsonname==undefined){
+		if(com_level!="4"){
+		jsonname=com_name;
+		}else{
+			jsonname=com_name2;
+		}
+	}
+	
 	H3_2_tblx_2=shujv;
 	var tables="";//对表格赋值的变量
 	var zongji=0;//表格总计
 	var mapdatajson;//定义地图JSON
 	var map_name;//定义地图名称
 	mokuai_name="whcd";
-	if(com_level=="1"){//如果层级为1，那么加载鄂尔多斯市地图
-		mapdatajson='mapData/eerduosi/ordos.json';//地图JSON
-		map_name='ordos';//地图名称
-	}else{//层级不为1，那么动态加载地图
-		mapdatajson='mapData/eerduosi/'+code+'.json';//地图JSON
-		map_name=code;//地图名称
-	}
 	if(shujv=="whcd"){
 		map_url="/assa/H3_pie_All.do";//按照级别来划分url，来判断是病状还是直线
 	}else{
@@ -1123,7 +1325,10 @@ function wenhuachengdu(shujv){
 			shujv:shujv,
 			leixing:H3_2_bzlx,
 			mokuai_name : mokuai_name,
-			year:$('#anniu_2 input[name="v1"]:checked ').val()
+			year:$('#anniu_2 input[name="v1"]:checked ').val(),
+			jsonlevel:jsonlevel,
+			jsonname:jsonname,
+			level:level
 		},
 		success: function (data) {
 			if(shujv=="whcd"){
@@ -1135,28 +1340,63 @@ function wenhuachengdu(shujv){
 				tables+='<tr><td class="text-center">总计</td><td class="text-center" ><span class="c_green">'+zongji+'</span></td></tr>';
 				tables+='<tbody></tbody></table>';
 				$("#tableChart").html(tables);
-				option.title.text=''+com_name+'- 贫困人口文化程度组成';//标题名称
-				option.series[0].name=''+shujv+'';//系列名称
+				option.title.text=''+jsonname+'- 贫困人口文化程度组成';//标题名称
+				option.series[0].name='文化程度';//系列名称
 				option.series[0].data=data;//数据赋值，从数据库取出的数据赋值
 				option.tooltip.formatter="{a} <br/>{b} : {c}人 ({d}%)";//数据格式化方法，a（系列名称），b（数据项名称），c（数值）, d（百分比）。
 				option.series[0].itemStyle.normal.label.formatter='{b} : {c}人 ({d}%)';
 				myChart.setOption(option);
 			}else{//子条件下
-				if(data=="0"){//没有数据
+				var com_level2=data[0].com_level;
+				var isValue=data[0].isvalue;//判读是否有数据
+				if(com_level2=="1"){//如果层级为1，那么加载鄂尔多斯市地图
+					mapdatajson='mapData/eerduosi/ordos.json';//地图JSON
+					map_name='ordos';//地图名称
+				}else if(com_level!="4"){//层级不为1，那么动态加载地图
+					var code2;
+					if(com_level2!="4"){
+						code2=data[0].com_code2
+					}else{
+						code2=data[0].com_code3
+					}
+					
+					mapdatajson='mapData/eerduosi/'+code2+'.json';//地图JSON
+					map_name=code2;//地图名称
+				}else if(com_level=="4"){
+					mapdatajson='mapData/eerduosi/'+code+'.json';//地图JSON
+					map_name=code;//地图名称
+				}
+				
+				if(isValue=="0"){//没有数据
 					//对表格进行赋值
 					tables+='<table class="table table-hover margin bottom"><thead><tr><th style="width: 60%" class="text-center">类型</th><th style="width: 40%" class="text-center">数据</th>';
 					tables+='<tr><td class="text-center">暂无数据</td><td class="text-center" ><span class="c_green">暂无数据</span></td></tr>';
 					tables+='<tbody></tbody></table>';
 					$("#tableChart").html(tables);
 					myChart.showLoading();//此方法是显示加载动画效果
-					$.getJSON(mapdatajson, function (geoJson) {//获取已经定义好的json
-						myChart.hideLoading();//隐藏加载动画
-						echarts.registerMap(map_name, geoJson);//注册可用的地图，必须在包括 geo 组件或者 map 图表类型的时候才能使用
-						option_map.title.text=com_name+"-"+shujv+"-暂无数据";
-						option_map.series[0].mapType=map_name;
-						option_map.series[0].data = data;
-						myChart.setOption(option_map);
-					});
+					$.ajax({
+						url: mapdatajson,//"/assa/H3_2echarts_5.do",
+						type: "get",
+						async:false,
+						dataType: "json",
+						success: function (geoJson) {
+							myChart.hideLoading();//隐藏加载动画
+							echarts.registerMap(map_name, geoJson);//注册可用的地图，必须在包括 geo 组件或者 map 图表类型的时候才能使用
+							option_map.title.text=jsonname+"-"+shujv+"-暂无数据";
+							option_map.series[0].mapType=map_name;
+							option_map.series[0].data = data;
+							myChart.setOption(option_map);
+						},
+						error:function(){
+							myChart.hideLoading();
+							option.title.text=jsonname+'-'+shujv+'贫困人口文化程度组成-暂无数据'; //标题名称
+							option.series[0].name=jsonname+'-'+shujv; //系列名称
+							option.series[0].data=data;//饼状图数据赋值
+							option.tooltip.formatte="{a} <br/>{b} : {c}人 "//数据格式化方法，a（系列名称），b（数据项名称），c（数值）, d（百分比）。
+							option.series[0].itemStyle.normal.label.formatter=shujv+': 0人';//数据格式化方法，a（系列名称），b（数据项名称），c（数值）, d（百分比）。
+							myChart.setOption(option);		
+						}
+						})
 				}else{//有数据
 					//对表格进行赋值	
 					tables+='<table class="table table-hover margin bottom"><thead><tr><th style="width: 60%" class="text-center">'+bg_bt+'</th><th style="width: 40%" class="text-center">户数</th>';
@@ -1175,26 +1415,46 @@ function wenhuachengdu(shujv){
 					}
 					myChart.showLoading();//此方法是显示加载动画效果
 					$.getJSON(mapdatajson, function (geoJson) {//获取已经定义好的json
-						myChart.hideLoading();//隐藏加载动画
-						echarts.registerMap(map_name, geoJson);//注册可用的地图，必须在包括 geo 组件或者 map 图表类型的时候才能使用
-						echarts.registerMap(map_name, geoJson);//注册可用的地图，必须在包括 geo 组件或者 map 图表类型的时候才能使用
-						option_map.title.text=com_name+'-'+shujv+'人均年收入人数';//标题名称
-						option_map.series[0].name=shujv+'人数';
-						option_map.series[0].data=data;
-						option_map.series[0].mapType=map_name;
-						var min = 0,max = 0;
-			 	    	$.each(data, function(i,item) {
-			 	    		if(item.value>max){
-			 	    			max = item.value;
-			 	    		}
-			 	    		if(item.value<min){
-			 	    			min = item.value;
-			 	    		}
-			 	    	});
-			 	    	option_map.dataRange.max = max;
-			 	    	option_map.dataRange.min = min;
-						myChart.setOption(option_map);
+						
 					});
+					$.ajax({
+						url: mapdatajson,//"/assa/H3_2echarts_5.do",
+						type: "get",
+						async:false,
+						dataType: "json",
+						success: function (geoJson) {
+							myChart.hideLoading();//隐藏加载动画
+							echarts.registerMap(map_name, geoJson);//注册可用的地图，必须在包括 geo 组件或者 map 图表类型的时候才能使用
+							option_map.title.text=jsonname+'-'+shujv+'贫困人口文化程度';//标题名称
+							option_map.series[0].name=shujv+'人数';
+							option_map.series[0].data=data;
+							option_map.series[0].mapType=map_name;
+							var min = 0,max = 0;
+				 	    	$.each(data, function(i,item) {
+				 	    		if(item.value>max){
+				 	    			max = item.value;
+				 	    		}
+				 	    		if(item.value<min){
+				 	    			min = item.value;
+				 	    		}
+				 	    	});
+				 	    	option_map.dataRange.max = max;
+				 	    	option_map.dataRange.min = min;
+							myChart.setOption(option_map);
+						},
+						error:function(){
+							myChart.hideLoading();
+							if(shujv=="level-1"){
+								shujv=com_name;
+							}
+							option.title.text=jsonname+'-'+shujv+'贫困人口文化程度';//标题名称
+							option.series[0].name=jsonname+'-'+shujv;//系列名称
+							option.series[0].data=data;//数据赋值，从数据库取出的数据赋值
+							option.tooltip.formatte="{a} <br/>{b} : {c}人 ({d}%)";//数据格式化方法，a（系列名称），b（数据项名称），c（数值）, d（百分比）。
+							option.series[0].itemStyle.normal.label.formatter='{b} : {c}人 ({d}%)';//数据格式化方法，a（系列名称），b（数据项名称），c（数值）, d（百分比）。
+							myChart.setOption(option);
+						}
+						})
 				}
 			}
 		},
@@ -1205,36 +1465,78 @@ function wenhuachengdu(shujv){
 
 //帮扶责任人
 function bangfuzerenren(){
+	var jsonlevel=JSON.stringify(json_level);
+	if(jsonlevel==null){
+		level=com_level;
+		
+	}
+	var jsonname=json_name;
+	if(jsonname==undefined){
+		if(com_level!="4"){
+		jsonname=com_name;
+		}else{
+			jsonname=com_name2;
+		}
+	}
 	H3_2_tblx_2="";
 	var tables="";//对表格赋值的变量
 	var zongji=0;//表格总计
 	var mapdatajson;//定义地图JSON
 	mokuai_name="bffzr"
 	var map_name;//定义地图名称
-	if(com_level=="1"){//如果层级为1，那么加载鄂尔多斯市地图
+	var myChart = echarts.init(document.getElementById('mapChart'));//声明id为mapChart的div为图形dom
+	var data = JSON.parse(ajax_async_t("/assa/H3_map_All.do", {shujv:shujv,leixing:H3_2_bzlx,mokuai_name : mokuai_name,year:$('#anniu_2 input[name="v1"]:checked ').val(),jsonlevel:jsonlevel,
+		jsonname:jsonname,
+		level:level})); //调用ajax通用方法
+	var com_level2=data[0].com_level;
+	var isValue=data[0].isvalue;//判读是否有数据
+	if(com_level2=="1"){//如果层级为1，那么加载鄂尔多斯市地图
 		mapdatajson='mapData/eerduosi/ordos.json';//地图JSON
 		map_name='ordos';//地图名称
-	}else{//层级不为1，那么动态加载地图
+	}else if(com_level!="4"){//层级不为1，那么动态加载地图
+		var code2;
+		if(com_level2!="4"){
+			code2=data[0].com_code2
+		}else{
+			code2=data[0].com_code3
+		}
+		
+		mapdatajson='mapData/eerduosi/'+code2+'.json';//地图JSON
+		map_name=code2;//地图名称
+	}else if(com_level=="4"){
 		mapdatajson='mapData/eerduosi/'+code+'.json';//地图JSON
 		map_name=code;//地图名称
 	}
-	var myChart = echarts.init(document.getElementById('mapChart'));//声明id为mapChart的div为图形dom
-	var data = JSON.parse(ajax_async_t("/assa/H3_map_All.do", {shujv:shujv,leixing:H3_2_bzlx,mokuai_name : mokuai_name,year:$('#anniu_2 input[name="v1"]:checked ').val()})); //调用ajax通用方法
-	if(data=="0"){//没有数据
+	if(isValue=="0"){//没有数据
 		//对表格进行赋值
 		tables+='<table class="table table-hover margin bottom"><thead><tr><th style="width: 60%" class="text-center">类型</th><th style="width: 40%" class="text-center">数据</th>';
 		tables+='<tr><td class="text-center">暂无数据</td><td class="text-center" ><span class="c_green">暂无数据</span></td></tr>';
 		tables+='<tbody></tbody></table>';
 		$("#tableChart").html(tables);
 		myChart.showLoading();//此方法是显示加载动画效果
-		$.getJSON(mapdatajson, function (geoJson) {//获取已经定义好的json
-			myChart.hideLoading();//隐藏加载动画
-			echarts.registerMap(map_name, geoJson);//注册可用的地图，必须在包括 geo 组件或者 map 图表类型的时候才能使用
-			option_map.title.text=com_name+"-帮扶责任人-暂无数据";
-			option_map.series[0].mapType=map_name;
-			option_map.series[0].data = data;
-			myChart.setOption(option_map);
-		});
+		$.ajax({
+			url: mapdatajson,//"/assa/H3_2echarts_5.do",
+			type: "get",
+			async:false,
+			dataType: "json",
+			success: function (geoJson) {
+				myChart.hideLoading();//隐藏加载动画
+				echarts.registerMap(map_name, geoJson);//注册可用的地图，必须在包括 geo 组件或者 map 图表类型的时候才能使用
+				option_map.title.text=jsonname+"-帮扶责任人-暂无数据";
+				option_map.series[0].mapType=map_name;
+				option_map.series[0].data = data;
+				myChart.setOption(option_map);
+			},
+			error:function(){
+				myChart.hideLoading();
+				option.title.text=jsonname+'-'+'帮扶责任人-暂无数据'; //标题名称
+				option.series[0].name=jsonname+'-'+'帮扶责任人'; //系列名称
+				option.series[0].data=data;//饼状图数据赋值
+				option.tooltip.formatte=" {c}人 "//数据格式化方法，a（系列名称），b（数据项名称），c（数值）, d（百分比）。
+				option.series[0].itemStyle.normal.label.formatter='帮扶责任人: 0人';//数据格式化方法，a（系列名称），b（数据项名称），c（数值）, d（百分比）。
+				myChart.setOption(option);		
+			}
+			})
 	}else{//有数据
 		//对表格进行赋值	
 		tables+='<table class="table table-hover margin bottom"><thead><tr><th style="width: 60%" class="text-center">'+bg_bt+'</th><th style="width: 40%" class="text-center">人数</th>';
@@ -1251,61 +1553,121 @@ function bangfuzerenren(){
 		
 		myChart.showLoading();//此方法是显示加载动画效果
 		$.getJSON(mapdatajson, function (geoJson) {//获取已经定义好的json
-			myChart.hideLoading();//隐藏加载动画
-			echarts.registerMap(map_name, geoJson);//注册可用的地图，必须在包括 geo 组件或者 map 图表类型的时候才能使用
-			option_map.title.text= com_name+'-帮扶责任人-人数';//标题名称
-			option_map.series[0].name='帮扶责任人-人数';
-			option_map.series[0].data=data;
-			option_map.series[0].mapType=map_name;
-			var min = 0,max = 0;
- 	    	$.each(data, function(i,item) {
- 	    		if(item.value>max){
- 	    			max = item.value;
- 	    		}
- 	    		if(item.value<min){
- 	    			min = item.value;
- 	    		}
- 	    	});
- 	    	option_map.dataRange.max = max;
- 	    	option_map.dataRange.min = min;
-			myChart.setOption(option_map);
+			
 		});
+		$.ajax({
+			url: mapdatajson,//"/assa/H3_2echarts_5.do",
+			type: "get",
+			async:false,
+			dataType: "json",
+			success: function (geoJson) {
+				myChart.hideLoading();//隐藏加载动画
+				echarts.registerMap(map_name, geoJson);//注册可用的地图，必须在包括 geo 组件或者 map 图表类型的时候才能使用
+				option_map.title.text= com_name+'-帮扶责任人-人数';//标题名称
+				option_map.series[0].name='帮扶责任人-人数';
+				option_map.series[0].data=data;
+				option_map.series[0].mapType=map_name;
+				var min = 0,max = 0;
+	 	    	$.each(data, function(i,item) {
+	 	    		if(item.value>max){
+	 	    			max = item.value;
+	 	    		}
+	 	    		if(item.value<min){
+	 	    			min = item.value;
+	 	    		}
+	 	    	});
+	 	    	option_map.dataRange.max = max;
+	 	    	option_map.dataRange.min = min;
+				myChart.setOption(option_map);
+			},
+			error:function(){
+				myChart.hideLoading();
+				option.title.text=jsonname+'-'+'-帮扶责任人-人数';//标题名称
+				option.series[0].name=jsonname+'-'+'帮扶责任人-人数';//系列名称
+				option.series[0].data=data;//数据赋值，从数据库取出的数据赋值
+				option.tooltip.formatte="{a} <br/>{b} : {c}人 ({d}%)";//数据格式化方法，a（系列名称），b（数据项名称），c（数值）, d（百分比）。
+				option.series[0].itemStyle.normal.label.formatter='{b} : {c}人 ({d}%)';//数据格式化方法，a（系列名称），b（数据项名称），c（数值）, d（百分比）。
+				myChart.setOption(option);
+			}
+			})
 	}
 }
 
 //驻村工作队
 function zhucungzd(){
+	var jsonlevel=JSON.stringify(json_level);
+	if(jsonlevel==null){
+		level=com_level;
+		
+	}
+	var jsonname=json_name;
+	if(jsonname==undefined){
+		if(com_level!="4"){
+		jsonname=com_name;
+		}else{
+			jsonname=com_name2;
+		}
+	}
 	H3_2_tblx_2="";
 	var tables="";//对表格赋值的变量
 	var zongji=0;//表格总计
 	var mapdatajson;//定义地图JSON
 	mokuai_name="zcgzd";
 	var map_name;//定义地图名称
-	if(com_level=="1"){//如果层级为1，那么加载鄂尔多斯市地图
+	var myChart = echarts.init(document.getElementById('mapChart'));//声明id为mapChart的div为图形dom
+	var data = JSON.parse(ajax_async_t("/assa/H3_map_All.do", {shujv:shujv,leixing:H3_2_bzlx,mokuai_name : mokuai_name,year:$('#anniu_2 input[name="v1"]:checked ').val(),jsonlevel:jsonlevel,
+		jsonname:jsonname,
+		level:level})); //调用ajax通用方法
+	var com_level2=data[0].com_level;
+	var isValue=data[0].isvalue;//判读是否有数据
+	if(com_level2=="1"){//如果层级为1，那么加载鄂尔多斯市地图
 		mapdatajson='mapData/eerduosi/ordos.json';//地图JSON
 		map_name='ordos';//地图名称
-	}else{//层级不为1，那么动态加载地图
+	}else if(com_level!="4"){//层级不为1，那么动态加载地图
+		var code2;
+		if(com_level2!="4"){
+			code2=data[0].com_code2
+		}else{
+			code2=data[0].com_code3
+		}
+		
+		mapdatajson='mapData/eerduosi/'+code2+'.json';//地图JSON
+		map_name=code2;//地图名称
+	}else if(com_level=="4"){
 		mapdatajson='mapData/eerduosi/'+code+'.json';//地图JSON
 		map_name=code;//地图名称
 	}
-	var myChart = echarts.init(document.getElementById('mapChart'));//声明id为mapChart的div为图形dom
-	var data = JSON.parse(ajax_async_t("/assa/H3_map_All.do", {shujv:shujv,leixing:H3_2_bzlx,mokuai_name : mokuai_name,year:$('#anniu_2 input[name="v1"]:checked ').val()})); //调用ajax通用方法
-	if(data=="0"){//没有数据
+	if(isValue=="0"){//没有数据
 		//对表格进行赋值
 		tables+='<table class="table table-hover margin bottom"><thead><tr><th style="width: 60%" class="text-center">类型</th><th style="width: 40%" class="text-center">数据</th>';
 		tables+='<tr><td class="text-center">暂无数据</td><td class="text-center" ><span class="c_green">暂无数据</span></td></tr>';
 		tables+='<tbody></tbody></table>';
 		$("#tableChart").html(tables);
 		myChart.showLoading();//此方法是显示加载动画效果
-		$.getJSON(mapdatajson, function (geoJson) {//获取已经定义好的json
-			myChart.hideLoading();//隐藏加载动画
-			echarts.registerMap(map_name, geoJson);//注册可用的地图，必须在包括 geo 组件或者 map 图表类型的时候才能使用
-			option_map.title.text=com_name+"-驻村工作队-暂无数据";
-			option_map.series[0].name='驻村工作队数';
-			option_map.series[0].mapType=map_name;
-			option_map.series[0].data = data;
-			myChart.setOption(option_map);
-		});
+		$.ajax({
+			url: mapdatajson,//"/assa/H3_2echarts_5.do",
+			type: "get",
+			async:false,
+			dataType: "json",
+			success: function (geoJson) {
+				myChart.hideLoading();//隐藏加载动画
+				echarts.registerMap(map_name, geoJson);//注册可用的地图，必须在包括 geo 组件或者 map 图表类型的时候才能使用
+				option_map.title.text=jsonname+"-驻村工作队-暂无数据";
+				option_map.series[0].name='驻村工作队数';
+				option_map.series[0].mapType=map_name;
+				option_map.series[0].data = data;
+				myChart.setOption(option_map);
+			},
+			error:function(){
+				myChart.hideLoading();
+				option.title.text=jsonname+'-'+'驻村工作队-暂无数据'; //标题名称
+				option.series[0].name=jsonname+'-'+'驻村工作队数'; //系列名称
+				option.series[0].data=data;//饼状图数据赋值
+				option.tooltip.formatte="{a} <br/>{b} : {c}人 "//数据格式化方法，a（系列名称），b（数据项名称），c（数值）, d（百分比）。
+				option.series[0].itemStyle.normal.label.formatter='驻村工作队: 0人';//数据格式化方法，a（系列名称），b（数据项名称），c（数值）, d（百分比）。
+				myChart.setOption(option);		
+			}
+			})
 	}else{//有数据
 		//对表格进行赋值	
 		tables+='<table class="table table-hover margin bottom"><thead><tr><th style="width: 60%" class="text-center">'+bg_bt+'</th><th style="width: 40%" class="text-center">有驻村工作队的村数</th>';
@@ -1321,32 +1683,54 @@ function zhucungzd(){
 		$("#tableChart").html(tables);
 		
 		myChart.showLoading();//此方法是显示加载动画效果
-		$.getJSON(mapdatajson, function (geoJson) {//获取已经定义好的json
-			myChart.hideLoading();//隐藏加载动画
-			echarts.registerMap(map_name, geoJson);//注册可用的地图，必须在包括 geo 组件或者 map 图表类型的时候才能使用
-			option_map.title.text=com_name+'-有驻村工作队的村数'//标题名称
-			option_map.series[0].name='有驻村工作队的村数';
-			option_map.series[0].data=data;
-			option_map.series[0].mapType=map_name;
-			var min = 0,max = 0;
- 	    	$.each(data, function(i,item) {
- 	    		if(item.value>max){
- 	    			max = item.value;
- 	    		}
- 	    		if(item.value<min){
- 	    			min = item.value;
- 	    		}
- 	    	});
- 	    	option_map.dataRange.max = max;
- 	    	option_map.dataRange.min = min;
-			myChart.setOption(option_map);
-		});
+		$.ajax({
+			url: mapdatajson,//"/assa/H3_2echarts_5.do",
+			type: "get",
+			async:false,
+			dataType: "json",
+			success: function (geoJson) {
+				myChart.hideLoading();//隐藏加载动画
+				echarts.registerMap(map_name, geoJson);//注册可用的地图，必须在包括 geo 组件或者 map 图表类型的时候才能使用
+				option_map.title.text=com_name+'-有驻村工作队的村数'//标题名称
+				option_map.series[0].name='有驻村工作队的村数';
+				option_map.series[0].data=data;
+				option_map.series[0].mapType=map_name;
+				var min = 0,max = 0;
+	 	    	$.each(data, function(i,item) {
+	 	    		if(item.value>max){
+	 	    			max = item.value;
+	 	    		}
+	 	    		if(item.value<min){
+	 	    			min = item.value;
+	 	    		}
+	 	    	});
+	 	    	option_map.dataRange.max = max;
+	 	    	option_map.dataRange.min = min;
+				myChart.setOption(option_map);
+			},
+			error:function(){
+				myChart.hideLoading();
+				if(shujv==""){
+					shujv='驻村工作队';
+				}
+				option.title.text=jsonname+'-'+'有驻村工作队的村数';//标题名称
+				option.series[0].name=jsonname+'-'+'有驻村工作队的村数';//系列名称
+				option.series[0].data=data;//数据赋值，从数据库取出的数据赋值
+				option.tooltip.formatte="{a} <br/>{b} : {c}人 ({d}%)";//数据格式化方法，a（系列名称），b（数据项名称），c（数值）, d（百分比）。
+				option.series[0].itemStyle.normal.label.formatter='{b} : {c}人 ({d}%)';//数据格式化方法，a（系列名称），b（数据项名称），c（数值）, d（百分比）。
+				myChart.setOption(option);
+			}
+			})
 	}
 }
 
 //落实帮扶比例
 function showlsbfbl(){
-	if(com_level!="3"&&com_level!="4"){
+	$("#treeview11 li").css("background-color", "#FFFFFF");
+	$("#treeview11 li i").css("color", "#428bca");
+	$("#treeview22 li").css("background-color", "#FFFFFF");
+	$("#treeview22 li i").css("color", "#428bca");
+	if(com_level!="4"){
 		$("#administrative_division").show();
 		}
 		$("#html_zicaidan").html(
@@ -1389,7 +1773,11 @@ function showlsbfbl(){
 
 //家庭收支
 function jiatingshouzhizu(){
-	if(com_level!="3"&&com_level!="4"){
+	$("#treeview22 li").css("background-color", "#FFFFFF");
+	$("#treeview22 li i").css("color", "#428bca");
+	$("#treeview33 li").css("background-color", "#FFFFFF");
+	$("#treeview33 li i").css("color", "#428bca");
+	if(com_level!="4"){
 		$("#administrative_division").show();
 	}
 		$("#html_zicaidan").html(
@@ -1537,8 +1925,12 @@ function jiatingshouzhi(shujv,id){
 					mapdatajson='mapData/eerduosi/ordos.json';//地图JSON
 					map_name='ordos';//地图名称
 				}else if(com_level!="4"){//层级不为1，那么动态加载地图
-					
-					var code2=data[0].com_code2
+					var code2;
+					if(com_level2!="4"){
+						code2=data[0].com_code2
+					}else{
+						code2=data[0].com_code3
+					}
 					mapdatajson='mapData/eerduosi/'+code2+'.json';//地图JSON
 					map_name=code2;//地图名称
 				}else if(com_level=="4"){
@@ -1551,14 +1943,30 @@ function jiatingshouzhi(shujv,id){
 					tables+='<tbody></tbody></table>';
 					$("#tableChart").html(tables);
 					myChart.showLoading();//此方法是显示加载动画效果
-					$.getJSON(mapdatajson, function (geoJson) {//获取已经定义好的json
-						myChart.hideLoading();//隐藏加载动画
-						echarts.registerMap(map_name, geoJson);//注册可用的地图，必须在包括 geo 组件或者 map 图表类型的时候才能使用
-						option_map.title.text=jsonname+'-'+shujv+'人均年收入人数-暂无数据';
-						option_map.series[0].mapType=map_name;
-						option_map.series[0].data = data;
-						myChart.setOption(option_map);
-					});
+					$.ajax({
+						url: mapdatajson,//"/assa/H3_2echarts_5.do",
+						type: "get",
+						async:false,
+						dataType: "json",
+						success: function (geoJson) {
+							myChart.hideLoading();//隐藏加载动画
+							echarts.registerMap(map_name, geoJson);//注册可用的地图，必须在包括 geo 组件或者 map 图表类型的时候才能使用
+							option_map.title.text=jsonname+'-'+shujv+'人均年收入人数-暂无数据';
+							option_map.series[0].mapType=map_name;
+							option_map.series[0].data = data;
+							myChart.setOption(option_map);
+						},
+						error:function(){
+							myChart.hideLoading();
+							option.title.text=jsonname+'-'+shujv+'人均年收入人数-暂无数据'; //标题名称
+							option.series[0].name=jsonname+'-'+shujv+'人均年收入人数'; //系列名称
+							option.series[0].data=[{value:0, name:''+shujv},];//饼状图数据赋值
+							option.tooltip.formatter="{a} <br/>{b} : {c}人 ";
+							option.series[0].itemStyle.normal.label.formatter=shujv+': 0人';//数据格式化方法，a（系列名称），b（数据项名称），c（数值）, d（百分比）。
+							myChart.setOption(option);		
+						}
+						})
+						
 				}else{//有数据的情况
 					tables+='<table class="table table-hover margin bottom"><thead><tr><th style="width: 60%" class="text-center">'+bg_bt+'</th><th style="width: 40%" class="text-center">人数</th>';
 					$.each(data, function(i,item) {
@@ -1570,25 +1978,46 @@ function jiatingshouzhi(shujv,id){
 					$("#tableChart").html(tables);
 					myChart.showLoading();//此方法是显示加载动画效果
 					$.getJSON(mapdatajson, function (geoJson) {//获取已经定义好的json
-						myChart.hideLoading();//隐藏加载动画
-						echarts.registerMap(map_name, geoJson);//注册可用的地图，必须在包括 geo 组件或者 map 图表类型的时候才能使用
-						option_map.title.text=jsonname+'-'+shujv+'人均年收入人数';//标题名称
-						option_map.series[0].name=shujv+'人数';
-						option_map.series[0].data=data;
-						option_map.series[0].mapType=map_name;
-						var min = 0,max = 0;
-			 	    	$.each(data, function(i,item) {
-			 	    		if(item.value>max){
-			 	    			max = item.value;
-			 	    		}
-			 	    		if(item.value<min){
-			 	    			min = item.value;
-			 	    		}
-			 	    	});
-			 	    	option_map.dataRange.max = max;
-			 	    	option_map.dataRange.min = min;
-						myChart.setOption(option_map);
+						
 					});
+					$.ajax({
+						url: mapdatajson,//"/assa/H3_2echarts_5.do",
+						type: "get",
+						async:false,
+						dataType: "json",
+						success: function (geoJson) {
+							myChart.hideLoading();//隐藏加载动画
+							echarts.registerMap(map_name, geoJson);//注册可用的地图，必须在包括 geo 组件或者 map 图表类型的时候才能使用
+							option_map.title.text=jsonname+'-'+shujv+'人均年收入人数';//标题名称
+							option_map.series[0].name=shujv+'人数';
+							option_map.series[0].data=data;
+							option_map.series[0].mapType=map_name;
+							var min = 0,max = 0;
+				 	    	$.each(data, function(i,item) {
+				 	    		if(item.value>max){
+				 	    			max = item.value;
+				 	    		}
+				 	    		if(item.value<min){
+				 	    			min = item.value;
+				 	    		}
+				 	    	});
+				 	    	option_map.dataRange.max = max;
+				 	    	option_map.dataRange.min = min;
+							myChart.setOption(option_map);
+						},
+						error:function(){
+							myChart.hideLoading();
+							if(shujv=="level-1"){
+								shujv=com_name;
+							}
+							option.title.text=jsonname+'-'+shujv+'-贫困人口年人均收入';//标题名称
+							option.series[0].name=jsonname+'-'+shujv;//系列名称
+							option.series[0].data=data;//数据赋值，从数据库取出的数据赋值
+							option.tooltip.formatter="{a} <br/>{b} : {c}人 ({d}%)";//数据格式化方法，a（系列名称），b（数据项名称），c（数值）, d（百分比）。
+							option.series[0].itemStyle.normal.label.formatter='{b} : {c}人 ({d}%)';
+							myChart.setOption(option);
+						}
+						})
 				}
 			}
 		},
@@ -1689,7 +2118,12 @@ function bangfubili(shujv,id){
 						mapdatajson='mapData/eerduosi/ordos.json';//地图JSON
 						map_name='ordos';//地图名称
 					}else if(com_level!="4"){//层级不为1，那么动态加载地图
-						var code2=data[0].com_code2
+						var code2;
+						if(com_level2!="4"){
+							code2=data[0].com_code2
+						}else{
+							code2=data[0].com_code3
+						}
 						mapdatajson='mapData/eerduosi/'+code2+'.json';//地图JSON
 						map_name=code2;//地图名称
 					}else if(com_level=="4"){
@@ -1702,14 +2136,29 @@ function bangfubili(shujv,id){
 						tables+='<tbody></tbody></table>';
 						$("#tableChart").html(tables);
 						myChart.showLoading();//此方法是显示加载动画效果
-						$.getJSON(mapdatajson, function (geoJson) {//获取已经定义好的json
-							myChart.hideLoading();//隐藏加载动画
-							echarts.registerMap(map_name, geoJson);//注册可用的地图，必须在包括 geo 组件或者 map 图表类型的时候才能使用
-							option_map.title.text=jsonname+'-'+shujv+'人数-暂无数据';
-							option_map.series[0].mapType=map_name;
-							option_map.series[0].data = data;
-							myChart.setOption(option_map);
-						});
+						$.ajax({
+							url: mapdatajson,//"/assa/H3_2echarts_5.do",
+							type: "get",
+							async:false,
+							dataType: "json",
+							success: function (geoJson) {
+								myChart.hideLoading();//隐藏加载动画
+								echarts.registerMap(map_name, geoJson);//注册可用的地图，必须在包括 geo 组件或者 map 图表类型的时候才能使用
+								option_map.title.text=jsonname+'-'+shujv+'人数-暂无数据';
+								option_map.series[0].mapType=map_name;
+								option_map.series[0].data = data;
+								myChart.setOption(option_map);
+							},
+							error:function(){
+								myChart.hideLoading();
+								option.title.text=jsonname+'-'+shujv+'落实帮扶比例---暂无数据'; //标题名称
+								option.series[0].name=jsonname+'-'+shujv; //系列名称
+								option.series[0].data=[{value:0, name:''+shujv},];//饼状图数据赋值
+								option.tooltip.formatte="{a} <br/>{b} : {c}人 ";//数据格式化方法，a（系列名称），b（数据项名称），c（数值）, d（百分比）。
+								option.series[0].itemStyle.normal.label.formatter=shujv+': 0人';//数据格式化方法，a（系列名称），b（数据项名称），c（数值）, d（百分比）。
+								myChart.setOption(option);		
+							}
+							})
 					}else{//有数据的情况
 						tables+='<table class="table table-hover margin bottom"><thead><tr><th style="width: 60%" class="text-center">'+bg_bt+'</th><th style="width: 40%" class="text-center">人数</th>';
 						$.each(data, function(i,item) {
@@ -1721,26 +2170,47 @@ function bangfubili(shujv,id){
 						$("#tableChart").html(tables);
 						myChart.showLoading();//此方法是显示加载动画效果
 						$.getJSON(mapdatajson, function (geoJson) {//获取已经定义好的json
-							myChart.hideLoading();//隐藏加载动画
-							echarts.registerMap(map_name, geoJson);//注册可用的地图，必须在包括 geo 组件或者 map 图表类型的时候才能使用
-							//echarts.registerMap(map_name, geoJson);//注册可用的地图，必须在包括 geo 组件或者 map 图表类型的时候才能使用
-							option_map.title.text=jsonname+'-'+shujv+'人数';//标题名称
-							option_map.series[0].name=shujv+'人数';
-							option_map.series[0].data=data;
-							option_map.series[0].mapType=map_name;
-							var min = 0,max = 0;
-				 	    	$.each(data, function(i,item) {
-				 	    		if(item.value>max){
-				 	    			max = item.value;
-				 	    		}
-				 	    		if(item.value<min){
-				 	    			min = item.value;
-				 	    		}
-				 	    	});
-				 	    	option_map.dataRange.max = max;
-				 	    	option_map.dataRange.min = min;
-							myChart.setOption(option_map);
+							
 						});
+						$.ajax({
+							url: mapdatajson,//"/assa/H3_2echarts_5.do",
+							type: "get",
+							async:false,
+							dataType: "json",
+							success: function (geoJson) {
+								myChart.hideLoading();//隐藏加载动画
+								echarts.registerMap(map_name, geoJson);//注册可用的地图，必须在包括 geo 组件或者 map 图表类型的时候才能使用
+								//echarts.registerMap(map_name, geoJson);//注册可用的地图，必须在包括 geo 组件或者 map 图表类型的时候才能使用
+								option_map.title.text=jsonname+'-'+shujv+'人数';//标题名称
+								option_map.series[0].name=shujv+'人数';
+								option_map.series[0].data=data;
+								option_map.series[0].mapType=map_name;
+								var min = 0,max = 0;
+					 	    	$.each(data, function(i,item) {
+					 	    		if(item.value>max){
+					 	    			max = item.value;
+					 	    		}
+					 	    		if(item.value<min){
+					 	    			min = item.value;
+					 	    		}
+					 	    	});
+					 	    	option_map.dataRange.max = max;
+					 	    	option_map.dataRange.min = min;
+								myChart.setOption(option_map);
+							},
+							error:function(){
+								myChart.hideLoading();
+								if(shujv=="level-1"){
+									shujv=com_name;
+								}
+								option.title.text=jsonname+'-'+shujv+'-落实帮扶比例';//标题名称
+								option.series[0].name=jsonname+'-'+shujv+'-落实帮扶比例';//系列名称
+								option.series[0].data=data;//数据赋值，从数据库取出的数据赋值
+								option.tooltip.formatte="{a} <br/>{b} : {c}人 ({d}%)";//数据格式化方法，a（系列名称），b（数据项名称），c（数值）, d（百分比）。
+								option.series[0].itemStyle.normal.label.formatter='{b} : {c}人 ({d}%)';//数据格式化方法，a（系列名称），b（数据项名称），c（数值）, d（百分比）。
+								myChart.setOption(option);
+							}
+							})
 					}
 				}
 		},
