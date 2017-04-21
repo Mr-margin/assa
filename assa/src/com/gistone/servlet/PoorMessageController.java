@@ -263,12 +263,17 @@ public class PoorMessageController extends MultiActionController{
 					}
 				}
 			}
+			if(pkids2.toString().length()>0){
 			String count_st_sql2="select count(*) from (select a.pkid from da_household"+str_table+" a where a.pkid in ("+pkids2.substring(0, pkids2.lastIndexOf(","))+ ") GROUP BY a.pkid) ww";
 			SQLAdapter count_st_Adapter2 = new SQLAdapter(count_st_sql2);
 			total= this.getBySqlMapper.findrows(count_st_Adapter2);
 			String people_sql2="select a.pkid,a.v3,a.v4,a.v5,a.v6,a.v9,a.v21,a.v22,a.v23,a.v11,a.sys_standard from da_household"+str_table+" a where a.pkid in ("+pkids2.substring(0, pkids2.lastIndexOf(","))+ ") GROUP BY a.pkid limit "+number+","+size;
 			SQLAdapter Patient_st_Adapter2 = new SQLAdapter(people_sql2);
 			Patient_st_List= this.getBySqlMapper.findRecords(Patient_st_Adapter2);
+			}else{
+				total=0;
+				Patient_st_List=new ArrayList<Map>();
+			}
 			}else{
 				SQLAdapter Patient_st_Adapter = new SQLAdapter(people_sql);
 				Patient_st_List= this.getBySqlMapper.findRecords(Patient_st_Adapter);
