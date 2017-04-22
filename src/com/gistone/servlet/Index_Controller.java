@@ -808,28 +808,35 @@ public class Index_Controller extends MultiActionController{
 		String pkid=company_json.get("pkid").toString();//获取用户名称
 		if(pkid.equals("4")){
 			if(str==""){
-				people_sql = "select a1.pkid,a3.com_name as quname,a1.v1,a1.v2,a1.v3,a1.v4,a2.com_name,a1.v5,a1.sys_company_id,a2.com_f_pkid,(select d.com_f_pkid from sys_company d where pkid = a2.com_f_pkid) as f_pkid ,(select com_name from sys_company where pkid = a2.com_f_pkid) as xiang_com_name,(select com_name  from sys_company where pkid in (select d.com_f_pkid from sys_company d where pkid = a2.com_f_pkid))as qixian_com_name  from  da_company"+year+" a1 "
-						+ "LEFT JOIN sys_company a2 ON a1.v5=a2.pkid LEFT JOIN sys_company a3 ON a1.sys_company_id=a3.pkid  limit "+number+","+size;
-				count_st_sql = "select count(*) from da_company a1";
+				people_sql = "select a1.pkid,a3.com_name as quname,a1.v1,a1.v2,a1.v3,a1.v4,GROUP_CONCAT(a2.com_name) com_name,GROUP_CONCAT(a1.v5) v5,a1.sys_company_id,a2.com_f_pkid,(select d.com_f_pkid from sys_company d where pkid = a2.com_f_pkid) as f_pkid ,(select com_name from sys_company where pkid = a2.com_f_pkid) as xiang_com_name,(select com_name  from sys_company where pkid in (select d.com_f_pkid from sys_company d where pkid = a2.com_f_pkid))as qixian_com_name  from  da_company"+year+" a1 "
+						+ "LEFT JOIN sys_company a2 ON a1.v5=a2.pkid LEFT JOIN sys_company a3 ON a1.sys_company_id=a3.pkid  group by v1,v2,v3,v4,quname,xiang_com_name,qixian_com_name  limit "+number+","+size;
+				count_st_sql =  "select a1.pkid,a3.com_name as quname,a1.v1,a1.v2,a1.v3,a1.v4,GROUP_CONCAT(a2.com_name) com_name,GROUP_CONCAT(a1.v5) v5,a1.sys_company_id,a2.com_f_pkid,(select d.com_f_pkid from sys_company d where pkid = a2.com_f_pkid) as f_pkid ,(select com_name from sys_company where pkid = a2.com_f_pkid) as xiang_com_name,(select com_name  from sys_company where pkid in (select d.com_f_pkid from sys_company d where pkid = a2.com_f_pkid))as qixian_com_name  from  da_company"+year+" a1 "
+						+ "LEFT JOIN sys_company a2 ON a1.v5=a2.pkid LEFT JOIN sys_company a3 ON a1.sys_company_id=a3.pkid  group by v1,v2,v3,v4,quname,xiang_com_name,qixian_com_name";
 			}else{
-				people_sql = "select a1.pkid,a3.com_name as quname,a1.v1,a1.v2,a1.v3,a1.v4,a2.com_name,a1.v5,a1.sys_company_id,a2.com_f_pkid,(select d.com_f_pkid from sys_company d where pkid = a2.com_f_pkid) as f_pkid ,(select com_name from sys_company where pkid = a2.com_f_pkid) as xiang_com_name,(select com_name  from sys_company where pkid in (select d.com_f_pkid from sys_company d where pkid = a2.com_f_pkid))as qixian_com_name  from da_company"+year+" a1 "
-						+ "LEFT JOIN sys_company a2 ON a1.v5=a2.pkid LEFT JOIN sys_company a3 ON a1.sys_company_id=a3.pkid  where "+str.substring(0, str.length()-3)+" limit "+number+","+size;
-				count_st_sql = "select count(*) from da_company"+year+" a1 LEFT JOIN sys_company a2 ON a1.v5=a2.pkid where "+str.substring(0, str.length()-3);
-			}	
+				people_sql = "select a1.pkid,a3.com_name as quname,a1.v1,a1.v2,a1.v3,a1.v4,GROUP_CONCAT(a2.com_name) com_name,GROUP_CONCAT(a1.v5) v5,a1.sys_company_id,a2.com_f_pkid,(select d.com_f_pkid from sys_company d where pkid = a2.com_f_pkid) as f_pkid ,(select com_name from sys_company where pkid = a2.com_f_pkid) as xiang_com_name,(select com_name  from sys_company where pkid in (select d.com_f_pkid from sys_company d where pkid = a2.com_f_pkid))as qixian_com_name  from da_company"+year+" a1 "
+						+ "LEFT JOIN sys_company a2 ON a1.v5=a2.pkid LEFT JOIN sys_company a3 ON a1.sys_company_id=a3.pkid  where "+str.substring(0, str.length()-3)+"  group by v1,v2,v3,v4,quname,xiang_com_name,qixian_com_name limit "+number+","+size;
+/*				count_st_sql = "select count(*) from da_company"+year+" a1 LEFT JOIN sys_company a2 ON a1.v5=a2.pkid where "+str.substring(0, str.length()-3);
+ * 	*/			count_st_sql="select a1.pkid,a3.com_name as quname,a1.v1,a1.v2,a1.v3,a1.v4,GROUP_CONCAT(a2.com_name) com_name,GROUP_CONCAT(a1.v5) v5,a1.sys_company_id,a2.com_f_pkid,(select d.com_f_pkid from sys_company d where pkid = a2.com_f_pkid) as f_pkid ,(select com_name from sys_company where pkid = a2.com_f_pkid) as xiang_com_name,(select com_name  from sys_company where pkid in (select d.com_f_pkid from sys_company d where pkid = a2.com_f_pkid))as qixian_com_name  from da_company"+year+" a1 "
+			+ "LEFT JOIN sys_company a2 ON a1.v5=a2.pkid LEFT JOIN sys_company a3 ON a1.sys_company_id=a3.pkid  where "+str.substring(0, str.length()-3)+"  group by v1,v2,v3,v4,quname,xiang_com_name,qixian_com_name";
+				}	
 		}else{
 			String xian_id=company_json.get("xian_id").toString();//获取用户名称
 			if(str==""){
-				people_sql = "select a1.pkid,a3.com_name as quname,a1.v1,a1.v2,a1.v3,a1.v4,a2.com_name,a1.v5,a1.sys_company_id,a2.com_f_pkid,(select d.com_f_pkid from sys_company d where pkid = a2.com_f_pkid) as f_pkid ,(select com_name from sys_company where pkid = a2.com_f_pkid) as xiang_com_name,(select com_name  from sys_company where pkid in (select d.com_f_pkid from sys_company d where pkid = a2.com_f_pkid))as qixian_com_name  from da_company"+year+" a1 "
-						+ "LEFT JOIN sys_company a2 ON a1.v5=a2.pkid LEFT JOIN sys_company a3 ON a1.sys_company_id=a3.pkid  where sys_company_id="+xian_id+" limit "+number+","+size;
-				count_st_sql = "select count(*) from da_company"+year+" a1 where sys_company_id="+xian_id;
-			}else{
-				people_sql = "select a1.pkid,a3.com_name as quname,a1.v1,a1.v2,a1.v3,a1.v4,a2.com_name,a1.v5,a1.sys_company_id,a2.com_f_pkid,(select d.com_f_pkid from sys_company d where pkid = a2.com_f_pkid) as f_pkid ,(select com_name from sys_company where pkid = a2.com_f_pkid) as xiang_com_name,(select com_name  from sys_company where pkid in (select d.com_f_pkid from sys_company d where pkid = a2.com_f_pkid))as qixian_com_name  from da_company"+year+" a1 "
-						+ "LEFT JOIN sys_company a2 ON a1.v5=a2.pkid LEFT JOIN sys_company a3 ON a1.sys_company_id=a3.pkid  where sys_company_id="+xian_id+" and "+str.substring(0, str.length()-3)+" limit "+number+","+size;
-				count_st_sql = "select count(*) from da_company"+year+" a1 LEFT JOIN sys_company a2 ON a1.v5=a2.pkid where sys_company_id="+xian_id+" and "+str.substring(0, str.length()-3);
-			}	
+				people_sql = "select a1.pkid,a3.com_name as quname,a1.v1,a1.v2,a1.v3,a1.v4,GROUP_CONCAT(a2.com_name) com_name,GROUP_CONCAT(a1.v5) v5,a1.sys_company_id,a2.com_f_pkid,(select d.com_f_pkid from sys_company d where pkid = a2.com_f_pkid) as f_pkid ,(select com_name from sys_company where pkid = a2.com_f_pkid) as xiang_com_name,(select com_name  from sys_company where pkid in (select d.com_f_pkid from sys_company d where pkid = a2.com_f_pkid))as qixian_com_name  from da_company"+year+" a1 "
+						+ "LEFT JOIN sys_company a2 ON a1.v5=a2.pkid LEFT JOIN sys_company a3 ON a1.sys_company_id=a3.pkid  where sys_company_id="+xian_id+"  group by v1,v2,v3,v4,quname,xiang_com_name,qixian_com_name limit "+number+","+size;
+/*				count_st_sql = "select count(*) from da_company"+year+" a1 where sys_company_id="+xian_id;
+*/				count_st_sql="select a1.pkid,a3.com_name as quname,a1.v1,a1.v2,a1.v3,a1.v4,GROUP_CONCAT(a2.com_name) com_name,GROUP_CONCAT(a1.v5) v5,a1.sys_company_id,a2.com_f_pkid,(select d.com_f_pkid from sys_company d where pkid = a2.com_f_pkid) as f_pkid ,(select com_name from sys_company where pkid = a2.com_f_pkid) as xiang_com_name,(select com_name  from sys_company where pkid in (select d.com_f_pkid from sys_company d where pkid = a2.com_f_pkid))as qixian_com_name  from da_company"+year+" a1 "
+		+ "LEFT JOIN sys_company a2 ON a1.v5=a2.pkid LEFT JOIN sys_company a3 ON a1.sys_company_id=a3.pkid  where sys_company_id="+xian_id+"  group by v1,v2,v3,v4,quname,xiang_com_name,qixian_com_name";
+				}else{
+				people_sql = "select a1.pkid,a3.com_name as quname,a1.v1,a1.v2,a1.v3,a1.v4,GROUP_CONCAT(a2.com_name) com_name,GROUP_CONCAT(a1.v5) v5,a1.sys_company_id,a2.com_f_pkid,(select d.com_f_pkid from sys_company d where pkid = a2.com_f_pkid) as f_pkid ,(select com_name from sys_company where pkid = a2.com_f_pkid) as xiang_com_name,(select com_name  from sys_company where pkid in (select d.com_f_pkid from sys_company d where pkid = a2.com_f_pkid))as qixian_com_name  from da_company"+year+" a1 "
+						+ "LEFT JOIN sys_company a2 ON a1.v5=a2.pkid LEFT JOIN sys_company a3 ON a1.sys_company_id=a3.pkid  where sys_company_id="+xian_id+" and "+str.substring(0, str.length()-3)+" group by v1,v2,v3,v4,quname,xiang_com_name,qixian_com_name limit "+number+","+size;
+/*				count_st_sql = "select count(*) from da_company"+year+" a1 LEFT JOIN sys_company a2 ON a1.v5=a2.pkid where sys_company_id="+xian_id+" and "+str.substring(0, str.length()-3);
+*/				count_st_sql="select a1.pkid,a3.com_name as quname,a1.v1,a1.v2,a1.v3,a1.v4,GROUP_CONCAT(a2.com_name) com_name,GROUP_CONCAT(a1.v5) v5,a1.sys_company_id,a2.com_f_pkid,(select d.com_f_pkid from sys_company d where pkid = a2.com_f_pkid) as f_pkid ,(select com_name from sys_company where pkid = a2.com_f_pkid) as xiang_com_name,(select com_name  from sys_company where pkid in (select d.com_f_pkid from sys_company d where pkid = a2.com_f_pkid))as qixian_com_name  from da_company"+year+" a1 "
+		+ "LEFT JOIN sys_company a2 ON a1.v5=a2.pkid LEFT JOIN sys_company a3 ON a1.sys_company_id=a3.pkid  where sys_company_id="+xian_id+"  group by v1,v2,v3,v4,quname,xiang_com_name,qixian_com_name";
+				}	
 		}
 		SQLAdapter count_st_Adapter = new SQLAdapter(count_st_sql);
-		int total = this.getBySqlMapper.findrows(count_st_Adapter);
+		int total = this.getBySqlMapper.findRecords(count_st_Adapter).size();
 		
 		SQLAdapter Admin_st_Adapter = new SQLAdapter(people_sql);
 		List<Map> Admin_st_List = this.getBySqlMapper.findRecords(Admin_st_Adapter);
@@ -883,11 +890,22 @@ public class Index_Controller extends MultiActionController{
 		if(request.getParameter("cha_gcc_ids")!=null&&!request.getParameter("cha_gcc_ids").equals("请选择")){
 			cha_gcc = request.getParameter("cha_gcc_ids").trim();
 		}
+		String arr[] = cha_gcc.split(",");
 		
 		String Sql = "insert into da_company (sys_company_id,v1,v2,v3,v4,v5) values('"+add_qixian+"','"+add_bfdw_mc+"','"+add_bfdw_dz+"','"+add_bfdw_ldxm+"','"+add_bfdw_lddh+"','"+cha_gcc+"')";
-		SQLAdapter people_Adapter = new SQLAdapter(Sql);
+		
+		
 		try{
-			this.getBySqlMapper.insertSelective(people_Adapter);
+			if(arr.length>1){
+				for(int i=0;i<arr.length;i++){
+					Sql = "insert into da_company (sys_company_id,v1,v2,v3,v4,v5) values('"+add_qixian+"','"+add_bfdw_mc+"','"+add_bfdw_dz+"','"+add_bfdw_ldxm+"','"+add_bfdw_lddh+"','"+arr[i]+"')";
+					SQLAdapter people_Adapter = new SQLAdapter(Sql);
+					this.getBySqlMapper.insertSelective(people_Adapter);
+				}
+			}else{
+				SQLAdapter people_Adapter = new SQLAdapter(Sql);
+				this.getBySqlMapper.insertSelective(people_Adapter);
+			}
 			
 			String hou_sql = "select max(pkid) from da_company order by pkid desc";
 			SQLAdapter hou_Adapter = new SQLAdapter(hou_sql);
