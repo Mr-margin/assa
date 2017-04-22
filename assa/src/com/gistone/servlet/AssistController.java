@@ -269,9 +269,10 @@ public class AssistController extends MultiActionController{
 		
 		String where = "";
 		if(sys_company_id!=null&&!sys_company_id.equals("")){
-			where = " where t1.sys_company_id="+sys_company_id;
+			where = " a1.sys_company_id like'%"+sys_company_id+"%'";
 		}
-		String st_sql = "select t1.pkid,t1.v1,t1.v3,t1.v4,t2.com_name,t1.v5 from da_company t1 LEFT JOIN sys_company t2 on t1.v5=t2.pkid "+where;
+		String st_sql = "SELECT   a1.pkid,   a3.com_name AS quname,   a1.v1,   a1.v2,   a1.v3,   a1.v4,   GROUP_CONCAT(a2.com_name)com_name,   GROUP_CONCAT(a1.v5)v5,   a1.sys_company_id,   a2.com_f_pkid,   (      SELECT         d.com_f_pkid      FROM         sys_company d      WHERE         pkid = a2.com_f_pkid   )AS f_pkid,   (      SELECT         com_name      FROM         sys_company      WHERE         pkid = a2.com_f_pkid   )AS xiang_com_name,   (      SELECT         com_name      FROM         sys_company      WHERE         pkid IN(            SELECT               d.com_f_pkid            FROM               sys_company d            WHERE               pkid = a2.com_f_pkid         )   )AS qixian_com_name FROM   da_company a1 LEFT JOIN sys_company a2 ON a1.v5 = a2.pkid LEFT JOIN sys_company a3 ON a1.sys_company_id = a3.pkid "
+				+ " GROUP BY   v1,  v2,   v3,   v4,   quname,   xiang_com_name,   qixian_com_name having"+where;
 		//System.out.println(st_sql);
 		
 		SQLAdapter Patient_st_Adapter = new SQLAdapter(st_sql);

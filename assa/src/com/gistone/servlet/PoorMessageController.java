@@ -997,7 +997,7 @@ public class PoorMessageController extends MultiActionController{
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		String str=request.getParameter("str");
-		String sql="SELECT * from sys_company WHERE com_f_pkid=(SELECT pkid FROM sys_company WHERE com_name='"+str+"')";
+		String sql="SELECT * from sys_company WHERE com_f_pkid in(SELECT pkid FROM sys_company WHERE com_name='"+str+"')";
 		SQLAdapter sqlAdapter =new SQLAdapter(sql);
 		List<Map> list=getBySqlMapper.findRecords(sqlAdapter);
 		
