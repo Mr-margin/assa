@@ -99,7 +99,7 @@ function updata(pkid,a11,a12,a13,a14,a21,a22,a23,a24,a31,a32,a33,a34,a41,a42,a43
 			if(data=="1"){
 				toastr["success"]("修改成功", "数据修改成功");
 			}else{
-				alert("数据保存失败，请检查数据后重试")
+				toastr["error"]("数据保存失败，请检查数据后重试");
 			}
 			
 		},
