@@ -880,11 +880,16 @@ public class Index_Controller extends MultiActionController{
 	//添加帮扶单位
 	public ModelAndView addBfdw(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		String add_bfdw_mc = request.getParameter("add_bfdw_mc");
-		String add_qixian = request.getParameter("add_qixian");
+		
 		String add_bfdw_ldxm = request.getParameter("add_bfdw_ldxm");
 		String add_bfdw_dz = request.getParameter("add_bfdw_dz");
 		String add_bfdw_lddh = request.getParameter("add_bfdw_lddh");
-		
+		String add_qixian = "";
+		if(request.getParameter("add_qixian")!=null&&!request.getParameter("add_qixian").equals("请选择")){
+			 add_qixian = request.getParameter("add_qixian");
+		}else{
+			add_qixian = "";
+		}
 		String cha_gcc = "null";
 
 		if(request.getParameter("cha_gcc_ids")!=null&&!request.getParameter("cha_gcc_ids").equals("请选择")){
@@ -933,21 +938,43 @@ public class Index_Controller extends MultiActionController{
 	//修改帮扶单位
 	public ModelAndView upBfdw(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		String id = request.getParameter("pkid");
-		String up_bfdw_mc = request.getParameter("up_bfdw_mc");
-		String up_qixian = request.getParameter("up_qixian");
-		String up_bfdw_ldxm = request.getParameter("up_bfdw_ldxm");
-		String up_bfdw_dz = request.getParameter("up_bfdw_dz");
-		String up_bfdw_lddh = request.getParameter("up_bfdw_lddh");
+		String up_bfdw_mc = request.getParameter("up_bfdw_mc");//单位 名称
+		String up_qixian = request.getParameter("up_qixian");//旗县
+		String up_bfdw_ldxm = request.getParameter("up_bfdw_ldxm");//领导姓名
+		String up_bfdw_dz = request.getParameter("up_bfdw_dz");//地址
+		String up_bfdw_lddh = request.getParameter("up_bfdw_lddh");//领导电话
 		
 		String cha_gcc = "null";
 		if(request.getParameter("cha_gcc_ids")!=null&&!request.getParameter("cha_gcc_ids").equals("请选择")){
 			cha_gcc = request.getParameter("cha_gcc_ids").trim();
 		}
-		
+		String ids[] = cha_gcc.split(",");
 		String Sql = "update da_company set sys_company_id='"+up_qixian+"', v1='"+up_bfdw_mc+"', v2='"+up_bfdw_dz+"',v3='"+up_bfdw_ldxm+"',v4='"+up_bfdw_lddh+"',v5='"+cha_gcc+"' where pkid="+id;
+	
+		
+		
 		SQLAdapter people_Adapter = new SQLAdapter(Sql);
 		try{
-			this.getBySqlMapper.insertSelective(people_Adapter);
+			if(ids.length>1){
+			//删除原来记录 重新插入新数据
+				Sql = "delete from da_company where v1='"+up_bfdw_mc+"' and v3='"+up_bfdw_ldxm+"' and v4='"+up_bfdw_lddh+"' and v2='"+up_bfdw_dz+"' and sys_company_id ='"+up_qixian+"'";
+				this.getBySqlMapper.deleteSelective(new SQLAdapter(Sql));
+				for(int i=0;i<ids.length;i++){
+					if(i==0){
+						Sql = "insert da_company(pkid,sys_company_id,v1,v2,v3,v4,v5) VALUES('"+id+"','"+up_qixian+"','"+up_bfdw_mc+"','"+up_bfdw_dz+"','"+up_bfdw_ldxm+"','"+up_bfdw_lddh+"','"+ids[i]+"')";
+						this.getBySqlMapper.insertSelective(new SQLAdapter(Sql));
+					}else{
+						Sql = "insert da_company(sys_company_id,v1,v2,v3,v4,v5) VALUES('"+up_qixian+"','"+up_bfdw_mc+"','"+up_bfdw_dz+"','"+up_bfdw_ldxm+"','"+up_bfdw_lddh+"','"+ids[i]+"')";
+						this.getBySqlMapper.insertSelective(new SQLAdapter(Sql));
+					}
+				}
+			}else{
+				Sql = "delete from da_company where v1='"+up_bfdw_mc+"' and v3='"+up_bfdw_ldxm+"' and v4='"+up_bfdw_lddh+"' and v2='"+up_bfdw_dz+"' and sys_company_id ='"+up_qixian+"'";
+				this.getBySqlMapper.deleteSelective(new SQLAdapter(Sql));
+				Sql = "insert da_company(pkid,sys_company_id,v1,v2,v3,v4,v5) VALUES('"+id+"','"+up_qixian+"','"+up_bfdw_mc+"','"+up_bfdw_dz+"','"+up_bfdw_ldxm+"','"+up_bfdw_lddh+"','"+cha_gcc+"')";
+				this.getBySqlMapper.insertSelective(new SQLAdapter(Sql));
+			}
+			
 			
 			HttpSession session = request.getSession();
 			JSONObject json = new JSONObject();
@@ -970,7 +997,14 @@ public class Index_Controller extends MultiActionController{
 	//删除帮扶单位
 	public ModelAndView getDeleteBfdw(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		String pkid = request.getParameter("pkid");
-		String sql = "DELETE from da_company  WHERE pkid="+pkid;
+	    String sql = "select * from da_company where pkid ="+pkid;
+	    List<Map> info = this.getBySqlMapper.findRecords(new SQLAdapter(sql));
+		String up_bfdw_mc = info.get(0).get("v1").toString();//单位 名称
+		String up_qixian = info.get(0).get("sys_company_id").toString();//旗县
+		String up_bfdw_ldxm = info.get(0).get("v3").toString();//领导姓名
+		String up_bfdw_dz = info.get(0).get("v2").toString();//地址
+		String up_bfdw_lddh = info.get(0).get("v4").toString();//领导电话
+			sql = "delete from da_company where v1='"+up_bfdw_mc+"' and v3='"+up_bfdw_ldxm+"' and v4='"+up_bfdw_lddh+"' and v2='"+up_bfdw_dz+"' and sys_company_id ='"+up_qixian+"'";
 		SQLAdapter del_sql = new SQLAdapter(sql);
 		try{
 //			List<Map> Admin_st_List = this.getBySqlMapper.findRecords(del_sql);

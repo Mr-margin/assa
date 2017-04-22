@@ -300,17 +300,7 @@ public class AssistController extends MultiActionController{
 					val.put("v4", Patient_st_map.get("v4")==null?"":Patient_st_map.get("v4"));
 					//选择单位时  多个嘎查村的显示
 					if(Patient_st_map.get("v5")!=null&&Patient_st_map.get("v5").toString().split(",").length>1){
-						String[] ids = Patient_st_map.get("v5").toString().split(",");
-						for(int j=0;j<ids.length;j++){
-							com_sql = "select com_name from sys_company where pkid = '"+ids[j]+"'";
-							SQLAdapter com_sql_Adapter = new SQLAdapter(com_sql);
-							List<Map> com_list =  this.getBySqlMapper.findRecords(com_sql_Adapter);
-							if(com_list.size()>0){
-								com_name += com_list.get(0).get("com_name").toString()+",";
-							}	
-						}
-						val.put("com_name", com_name.substring(0, com_name.length()-1));
-					}else{
+						
 						val.put("com_name", Patient_st_map.get("com_name")==null?"":Patient_st_map.get("com_name"));
 					}
 					
