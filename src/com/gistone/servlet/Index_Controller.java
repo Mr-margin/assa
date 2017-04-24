@@ -61,11 +61,11 @@ public class Index_Controller extends MultiActionController{
 				String sql2="select d.v3,sum2,sum3 from (SELECT v3,sum(v9) AS sum2 FROM da_household where sys_standard='"+gors+"' and v21 ='已脱贫' group by v3) c"+
 						" right JOIN (SELECT v3,sum(v9) AS sum3 FROM da_household_2016 where sys_standard='"+gors+"' and v21 ='已脱贫' group by v3 )d on  c.v3=d.v3";*/
 				String sql = "SELECT  *FROM  (  SELECT     b.v3,     count,      count1,      sum,      sum1    FROM      (  SELECT          v3,          count(*)AS count,          sum(v9)AS sum        FROM "
-						+ "         da_household        WHERE          sys_standard = '"+gors+"'        AND v21 != '已脱贫'        GROUP BY          v3      )a    RIGHT JOIN(      SELECT        v3,        count(*)AS count1,     "
+						+ "         da_household        WHERE          sys_standard = '"+gors+"'        AND v21 != '已脱贫'    and entry_year = '2017'    GROUP BY          v3      )a    RIGHT JOIN(      SELECT        v3,        count(*)AS count1,     "
 						+ "   sum(v9)AS sum1      FROM        da_household_2016      WHERE        sys_standard = '"+gors+"'      AND v21 != '已脱贫'      GROUP BY        v3    )b ON a.v3 = b.v3  )c LEFT JOIN(  SELECT    a.v3,    sum2,   "
-						+ " sum3  FROM    (      SELECT        v3,        count(*)AS sum2      FROM        da_household      WHERE        sys_standard = '"+gors+"'      AND v21 = '已脱贫'      GROUP BY        v3    )a  left JOIN(    SELECT      v3,     "
+						+ " sum3  FROM    (      SELECT        v3,        count(*)AS sum2      FROM        da_household      WHERE        sys_standard = '"+gors+"'      AND v21 = '已脱贫'    and entry_year = '2017'  GROUP BY        v3    )a  left JOIN(    SELECT      v3,     "
 						+ " count(*)AS sum3    FROM      da_household_2016    WHERE      sys_standard = '"+gors+"'    AND v21 = '已脱贫'    GROUP BY      v3  )b ON a.v3 = b.v3  UNION    SELECT      b.v3,      sum2,      sum3    FROM      (    SELECT    v3,   count(*)AS sum2    "
-						+ "    FROM          da_household        WHERE          sys_standard = '"+gors+"'        AND v21 = '已脱贫'        GROUP BY          v3      )a    right JOIN(      SELECT        v3,        count(*)AS sum3      FROM        da_household_2016      WHERE      "
+						+ "    FROM          da_household        WHERE          sys_standard = '"+gors+"'        AND v21 = '已脱贫'   and entry_year = '2017'     GROUP BY          v3      )a    right JOIN(      SELECT        v3,        count(*)AS sum3      FROM        da_household_2016      WHERE      "
 						+ "  sys_standard = '"+gors+"'      AND v21 = '已脱贫'      GROUP BY        v3    )b ON a.v3 = b.v3)d on c.v3 = d.v3";
 				SQLAdapter sqlAdapter =new SQLAdapter(sql);
 				List<Map> sql_list = this.getBySqlMapper.findRecords(sqlAdapter);
@@ -422,12 +422,12 @@ public class Index_Controller extends MultiActionController{
 			ziduan = "v1";
 			tiaojian = " where c.com_level=2 and b2>0 order by b2 desc ";
 		}
-		sql = " SELECT a.v2,b.b1,b2,b22,b3,b33,b4,b6,b7,b8,b9,b10,b11,b12,b13 from (SELECT v2,b1,b2,b3,b4,b6,b7,b8,b9,b10,b11,b12,b13 from (select a.v2,a."+ziduan+" as b1,"+
-				"SUM(a.b2) as b2 , SUM(a.b3) as b3, SUM(a.b4) as b4,SUM(a.b6)as b6,SUM(a.b7)as b7 ,SUM(a.b8) as b8,SUM(a.b9) as b9,SUM(a.b10) as b10,SUM(a.b11) as b11,"+
-				"SUM(a.b12) as b12,SUM(a.b13) as b13,a.b14 from da_statistics a "+
+		sql = " SELECT a.v2,b.b1,b2,b22,b3,b33,b4,b6,b7,b8,b9,b10,b11,b12,b13 from (SELECT v2,b1,b2,b3,b4,b6,b7,b8,b9 from (select a.v2,a."+ziduan+" as b1,"+
+				"SUM(a.b2) as b2 , SUM(a.b3) as b3, SUM(a.b4) as b4,SUM(a.b6)as b6,SUM(a.b7)as b7 ,SUM(a.b8) as b8,SUM(a.b9) as b9,"+
+				"a.b14 from da_statistics a "+
 				" where a.b14='"+ gors +"' "+xc_name+" GROUP BY a."+ziduan+") b join sys_company c on b.b1=c.com_name"+tiaojian+")a right join("+
-				"SELECT v2,b1,b2 b22,b3 b33 from (select a.v2,a."+ziduan+" as b1,"+
-				"SUM(a.b2) as b2 , SUM(a.b3) as b3  from da_statistics_2016 a "+
+				"SELECT v2,b1,b2 b22,b3 b33,b10,b11,b12, b13 from (select a.v2,a."+ziduan+" as b1,"+
+				"SUM(a.b2) as b2 , SUM(a.b3) as b3,	SUM(a.b10)AS b10,SUM(a.b11)AS b11, SUM(a.b12)AS b12, SUM(a.b13)AS b13  from da_statistics_2016 a "+
 				" where a.b14='"+ gors +"' "+xc_name+" GROUP BY a."+ziduan+") b join sys_company c on b.b1=c.com_name"+tiaojian+")b on a.b1=b.b1";
 		SQLAdapter sql_find=new SQLAdapter(sql);
 		List<Map> sql_list = this.getBySqlMapper.findRecords(sql_find);
@@ -809,12 +809,12 @@ public class Index_Controller extends MultiActionController{
 		if(pkid.equals("4")){
 			if(str==""){
 				people_sql = "select a1.pkid,a3.com_name as quname,a1.v1,a1.v2,a1.v3,a1.v4,GROUP_CONCAT(a2.com_name) com_name,GROUP_CONCAT(a1.v5) v5,a1.sys_company_id,a2.com_f_pkid,(select d.com_f_pkid from sys_company d where pkid = a2.com_f_pkid) as f_pkid ,(select com_name from sys_company where pkid = a2.com_f_pkid) as xiang_com_name,(select com_name  from sys_company where pkid in (select d.com_f_pkid from sys_company d where pkid = a2.com_f_pkid))as qixian_com_name  from  da_company"+year+" a1 "
-						+ "LEFT JOIN sys_company a2 ON a1.v5=a2.pkid LEFT JOIN sys_company a3 ON a1.sys_company_id=a3.pkid  group by v1,v2,v3,v4,quname,xiang_com_name,qixian_com_name  limit "+number+","+size;
+						+ "LEFT JOIN sys_company a2 ON a1.v5=a2.pkid LEFT JOIN sys_company a3 ON a1.sys_company_id=a3.pkid  group by v1,v2,v3,v4,quname,xiang_com_name,qixian_com_name  ORDER BY pkid  desc limit "+number+","+size;
 				count_st_sql =  "select a1.pkid,a3.com_name as quname,a1.v1,a1.v2,a1.v3,a1.v4,GROUP_CONCAT(a2.com_name) com_name,GROUP_CONCAT(a1.v5) v5,a1.sys_company_id,a2.com_f_pkid,(select d.com_f_pkid from sys_company d where pkid = a2.com_f_pkid) as f_pkid ,(select com_name from sys_company where pkid = a2.com_f_pkid) as xiang_com_name,(select com_name  from sys_company where pkid in (select d.com_f_pkid from sys_company d where pkid = a2.com_f_pkid))as qixian_com_name  from  da_company"+year+" a1 "
 						+ "LEFT JOIN sys_company a2 ON a1.v5=a2.pkid LEFT JOIN sys_company a3 ON a1.sys_company_id=a3.pkid  group by v1,v2,v3,v4,quname,xiang_com_name,qixian_com_name";
 			}else{
 				people_sql = "select a1.pkid,a3.com_name as quname,a1.v1,a1.v2,a1.v3,a1.v4,GROUP_CONCAT(a2.com_name) com_name,GROUP_CONCAT(a1.v5) v5,a1.sys_company_id,a2.com_f_pkid,(select d.com_f_pkid from sys_company d where pkid = a2.com_f_pkid) as f_pkid ,(select com_name from sys_company where pkid = a2.com_f_pkid) as xiang_com_name,(select com_name  from sys_company where pkid in (select d.com_f_pkid from sys_company d where pkid = a2.com_f_pkid))as qixian_com_name  from da_company"+year+" a1 "
-						+ "LEFT JOIN sys_company a2 ON a1.v5=a2.pkid LEFT JOIN sys_company a3 ON a1.sys_company_id=a3.pkid  where "+str.substring(0, str.length()-3)+"  group by v1,v2,v3,v4,quname,xiang_com_name,qixian_com_name limit "+number+","+size;
+						+ "LEFT JOIN sys_company a2 ON a1.v5=a2.pkid LEFT JOIN sys_company a3 ON a1.sys_company_id=a3.pkid  where "+str.substring(0, str.length()-3)+"  group by v1,v2,v3,v4,quname,xiang_com_name,qixian_com_name ORDER BY pkid  desc limit "+number+","+size;
 /*				count_st_sql = "select count(*) from da_company"+year+" a1 LEFT JOIN sys_company a2 ON a1.v5=a2.pkid where "+str.substring(0, str.length()-3);
  * 	*/			count_st_sql="select a1.pkid,a3.com_name as quname,a1.v1,a1.v2,a1.v3,a1.v4,GROUP_CONCAT(a2.com_name) com_name,GROUP_CONCAT(a1.v5) v5,a1.sys_company_id,a2.com_f_pkid,(select d.com_f_pkid from sys_company d where pkid = a2.com_f_pkid) as f_pkid ,(select com_name from sys_company where pkid = a2.com_f_pkid) as xiang_com_name,(select com_name  from sys_company where pkid in (select d.com_f_pkid from sys_company d where pkid = a2.com_f_pkid))as qixian_com_name  from da_company"+year+" a1 "
 			+ "LEFT JOIN sys_company a2 ON a1.v5=a2.pkid LEFT JOIN sys_company a3 ON a1.sys_company_id=a3.pkid  where "+str.substring(0, str.length()-3)+"  group by v1,v2,v3,v4,quname,xiang_com_name,qixian_com_name";
@@ -823,13 +823,13 @@ public class Index_Controller extends MultiActionController{
 			String xian_id=company_json.get("xian_id").toString();//获取用户名称
 			if(str==""){
 				people_sql = "select a1.pkid,a3.com_name as quname,a1.v1,a1.v2,a1.v3,a1.v4,GROUP_CONCAT(a2.com_name) com_name,GROUP_CONCAT(a1.v5) v5,a1.sys_company_id,a2.com_f_pkid,(select d.com_f_pkid from sys_company d where pkid = a2.com_f_pkid) as f_pkid ,(select com_name from sys_company where pkid = a2.com_f_pkid) as xiang_com_name,(select com_name  from sys_company where pkid in (select d.com_f_pkid from sys_company d where pkid = a2.com_f_pkid))as qixian_com_name  from da_company"+year+" a1 "
-						+ "LEFT JOIN sys_company a2 ON a1.v5=a2.pkid LEFT JOIN sys_company a3 ON a1.sys_company_id=a3.pkid  where sys_company_id="+xian_id+"  group by v1,v2,v3,v4,quname,xiang_com_name,qixian_com_name limit "+number+","+size;
+						+ "LEFT JOIN sys_company a2 ON a1.v5=a2.pkid LEFT JOIN sys_company a3 ON a1.sys_company_id=a3.pkid  where sys_company_id="+xian_id+"  group by v1,v2,v3,v4,quname,xiang_com_name,qixian_com_name ORDER BY pkid  desc limit "+number+","+size;
 /*				count_st_sql = "select count(*) from da_company"+year+" a1 where sys_company_id="+xian_id;
 */				count_st_sql="select a1.pkid,a3.com_name as quname,a1.v1,a1.v2,a1.v3,a1.v4,GROUP_CONCAT(a2.com_name) com_name,GROUP_CONCAT(a1.v5) v5,a1.sys_company_id,a2.com_f_pkid,(select d.com_f_pkid from sys_company d where pkid = a2.com_f_pkid) as f_pkid ,(select com_name from sys_company where pkid = a2.com_f_pkid) as xiang_com_name,(select com_name  from sys_company where pkid in (select d.com_f_pkid from sys_company d where pkid = a2.com_f_pkid))as qixian_com_name  from da_company"+year+" a1 "
 		+ "LEFT JOIN sys_company a2 ON a1.v5=a2.pkid LEFT JOIN sys_company a3 ON a1.sys_company_id=a3.pkid  where sys_company_id="+xian_id+"  group by v1,v2,v3,v4,quname,xiang_com_name,qixian_com_name";
 				}else{
 				people_sql = "select a1.pkid,a3.com_name as quname,a1.v1,a1.v2,a1.v3,a1.v4,GROUP_CONCAT(a2.com_name) com_name,GROUP_CONCAT(a1.v5) v5,a1.sys_company_id,a2.com_f_pkid,(select d.com_f_pkid from sys_company d where pkid = a2.com_f_pkid) as f_pkid ,(select com_name from sys_company where pkid = a2.com_f_pkid) as xiang_com_name,(select com_name  from sys_company where pkid in (select d.com_f_pkid from sys_company d where pkid = a2.com_f_pkid))as qixian_com_name  from da_company"+year+" a1 "
-						+ "LEFT JOIN sys_company a2 ON a1.v5=a2.pkid LEFT JOIN sys_company a3 ON a1.sys_company_id=a3.pkid  where sys_company_id="+xian_id+" and "+str.substring(0, str.length()-3)+" group by v1,v2,v3,v4,quname,xiang_com_name,qixian_com_name limit "+number+","+size;
+						+ "LEFT JOIN sys_company a2 ON a1.v5=a2.pkid LEFT JOIN sys_company a3 ON a1.sys_company_id=a3.pkid  where sys_company_id="+xian_id+" and "+str.substring(0, str.length()-3)+" group by v1,v2,v3,v4,quname,xiang_com_name,qixian_com_name ORDER BY pkid  desc limit "+number+","+size;
 /*				count_st_sql = "select count(*) from da_company"+year+" a1 LEFT JOIN sys_company a2 ON a1.v5=a2.pkid where sys_company_id="+xian_id+" and "+str.substring(0, str.length()-3);
 */				count_st_sql="select a1.pkid,a3.com_name as quname,a1.v1,a1.v2,a1.v3,a1.v4,GROUP_CONCAT(a2.com_name) com_name,GROUP_CONCAT(a1.v5) v5,a1.sys_company_id,a2.com_f_pkid,(select d.com_f_pkid from sys_company d where pkid = a2.com_f_pkid) as f_pkid ,(select com_name from sys_company where pkid = a2.com_f_pkid) as xiang_com_name,(select com_name  from sys_company where pkid in (select d.com_f_pkid from sys_company d where pkid = a2.com_f_pkid))as qixian_com_name  from da_company"+year+" a1 "
 		+ "LEFT JOIN sys_company a2 ON a1.v5=a2.pkid LEFT JOIN sys_company a3 ON a1.sys_company_id=a3.pkid  where sys_company_id="+xian_id+"  group by v1,v2,v3,v4,quname,xiang_com_name,qixian_com_name";
@@ -937,12 +937,19 @@ public class Index_Controller extends MultiActionController{
 
 	//修改帮扶单位
 	public ModelAndView upBfdw(HttpServletRequest request,HttpServletResponse response) throws Exception{
-		String id = request.getParameter("pkid");
-		String up_bfdw_mc = request.getParameter("up_bfdw_mc");//单位 名称
-		String up_qixian = request.getParameter("up_qixian");//旗县
-		String up_bfdw_ldxm = request.getParameter("up_bfdw_ldxm");//领导姓名
-		String up_bfdw_dz = request.getParameter("up_bfdw_dz");//地址
-		String up_bfdw_lddh = request.getParameter("up_bfdw_lddh");//领导电话
+		String id = request.getParameter("pkid").toString();
+		String up_bfdw_mc = request.getParameter("up_bfdw_mc").toString();//单位 名称
+		String up_qixian = request.getParameter("up_qixian").toString();//旗县
+		String up_bfdw_ldxm = request.getParameter("up_bfdw_ldxm").toString();//领导姓名
+		String up_bfdw_dz = request.getParameter("up_bfdw_dz").toString();//地址
+		String up_bfdw_lddh = request.getParameter("up_bfdw_lddh").toString();//领导电话
+		
+		
+		String up_bfdw_mc2 = request.getParameter("up_bfdw_mc2")+"";//单位 名称
+		String up_qixian2 = request.getParameter("up_qixian2")+"";//旗县
+		String up_bfdw_ldxm2 = request.getParameter("up_bfdw_ldxm2")+"";//领导姓名
+		String up_bfdw_dz2 = request.getParameter("up_bfdw_dz2")+"";//地址
+		String up_bfdw_lddh2 = request.getParameter("up_bfdw_lddh2");//领导电话
 		
 		String cha_gcc = "null";
 		if(request.getParameter("cha_gcc_ids")!=null&&!request.getParameter("cha_gcc_ids").equals("请选择")){
@@ -957,7 +964,7 @@ public class Index_Controller extends MultiActionController{
 		try{
 			if(ids.length>1){
 			//删除原来记录 重新插入新数据
-				Sql = "delete from da_company where v1='"+up_bfdw_mc+"' and v3='"+up_bfdw_ldxm+"' and v4='"+up_bfdw_lddh+"' and v2='"+up_bfdw_dz+"' and sys_company_id ='"+up_qixian+"'";
+				Sql = "delete from da_company where v1='"+up_bfdw_mc2+"' and v3='"+up_bfdw_ldxm2+"' and v4='"+up_bfdw_lddh2+"' and v2='"+up_bfdw_dz2+"' and sys_company_id ='"+up_qixian2+"'";
 				this.getBySqlMapper.deleteSelective(new SQLAdapter(Sql));
 				for(int i=0;i<ids.length;i++){
 					if(i==0){
@@ -969,7 +976,7 @@ public class Index_Controller extends MultiActionController{
 					}
 				}
 			}else{
-				Sql = "delete from da_company where v1='"+up_bfdw_mc+"' and v3='"+up_bfdw_ldxm+"' and v4='"+up_bfdw_lddh+"' and v2='"+up_bfdw_dz+"' and sys_company_id ='"+up_qixian+"'";
+				Sql = "delete from da_company where v1='"+up_bfdw_mc2+"' and v3='"+up_bfdw_ldxm2+"' and v4='"+up_bfdw_lddh2+"' and v2='"+up_bfdw_dz2+"' and sys_company_id ='"+up_qixian2+"'";
 				this.getBySqlMapper.deleteSelective(new SQLAdapter(Sql));
 				Sql = "insert da_company(pkid,sys_company_id,v1,v2,v3,v4,v5) VALUES('"+id+"','"+up_qixian+"','"+up_bfdw_mc+"','"+up_bfdw_dz+"','"+up_bfdw_ldxm+"','"+up_bfdw_lddh+"','"+cha_gcc+"')";
 				this.getBySqlMapper.insertSelective(new SQLAdapter(Sql));

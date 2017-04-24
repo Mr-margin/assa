@@ -219,11 +219,13 @@ public class DataStatisticsController  extends MultiActionController{
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		String year=request.getParameter("year");
-		
+		String year2="";
 		if(year.equals("2016")){
 			year="_2016";
+			year2= "2016";
 		}else{
 			year="";
+			year2="2017";
 		}
 		String sfcg="0";//作为是否成功清除表da_statistics的判断依据
 		Date now= new Date();
@@ -242,7 +244,7 @@ public class DataStatisticsController  extends MultiActionController{
 		if(sfcg.equals("1")){//如果清除成功，执行插入数据语句
 			String insert_sql="INSERT INTO da_statistics"+year+" (v1,v2,v3,b2,b3,b4,b6,b7,b8,b9,b10,b11,b12,b13,b14,b15,b16,b17) "
 					+ " select t1.v3 v1,t1.v4 v2,t1.v5 v3,b2,b3,b4,b6,b7,b8,b9,b10,b11,b12,b13,t1.sys_standard b14,'up_time' b15,b16,b17 from("
-					+ "select v3,v4,v5,COUNT(*) as b2,sum(v9) as b3,sys_standard from da_household"+year+" where v21!='已脱贫' group by v3,v4,v5,sys_standard) t1 "
+					+ "select v3,v4,v5,COUNT(*) as b2,sum(v9) as b3,sys_standard from da_household"+year+" where v21!='已脱贫' and entry_year = "+year2+" group by v3,v4,v5,sys_standard) t1 "
 					+ " left join (select v3,v4,v5,COUNT(*) as b4 ,sys_standard from b4_t"+year+" group by v3,v4,v5,sys_standard) t4 on t1.v3=t4.v3 and t1.v4=t4.v4 and t1.v5=t4.v5 and t1.sys_standard=t4.sys_standard "
 					+ " left join (select v3,v4,v5,COUNT(*) as b6 ,sys_standard from b6_t"+year+" group by v3,v4,v5,sys_standard) t6 on t1.v3=t6.v3 and t1.v4=t6.v4 and t1.v5=t6.v5 and t1.sys_standard=t6.sys_standard "
 					+ " left join (select v3,v4,v5,COUNT(*) as b7 ,sys_standard from b7_t"+year+" group by v3,v4,v5,sys_standard) t7 on t1.v3=t7.v3 and t1.v4=t7.v4 and t1.v5=t7.v5 and t1.sys_standard=t7.sys_standard "

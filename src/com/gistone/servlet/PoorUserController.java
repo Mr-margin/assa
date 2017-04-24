@@ -1744,7 +1744,7 @@ public class PoorUserController extends MultiActionController{
 			if(val.get("v31")!=null){
 				total_expenditure+=Float.parseFloat(val.get("v31").toString());
 			}
-			
+		if(data_year.equals("2016")){
 			String is_tuopin_sql = "select v21 from da_household_2016 where pkid = "+pkid;
 			List<Map> is_tuopin_list = this.getBySqlMapper.findRecords(new SQLAdapter(is_tuopin_sql));
 			String is_tuopin = is_tuopin_list.get(0).get("v21").toString();
@@ -1758,7 +1758,7 @@ public class PoorUserController extends MultiActionController{
 			}else{
 				obj.put("tuopin_flag", "2");
 			}
-			
+		}
 			zong.put("zhichu", obj);
 			zong.put("total_expenditure", total_expenditure);
 		}

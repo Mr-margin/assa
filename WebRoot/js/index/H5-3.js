@@ -59,6 +59,7 @@ $(function(){
 	$("#update_bfdw_button").click(function(){
 		$("#cha_gcc_up").css("width","200px");
 		$("#cha_gcc_up_chosen").css("width","200px");
+		$("#cha_gcc_up").find("option").length=0;
 		var row = getSelectedRow();//获取选中的行
 		shoubangfucun();
     	if (typeof row != "undefined") {
@@ -83,8 +84,7 @@ $(function(){
     				html="";
     				//ids为多个的时候
     				for(var item in ids){
-    					html+='<option  value="'+ids[item]+'" >'+com_names[item]+'</option>';
-    						
+    					html+='<option  value="'+ids[item]+'" >'+com_names[item]+'</option>';		
     				}
     				//显示多个村
     				$("#cha_gcc_up").html(html);
@@ -92,21 +92,15 @@ $(function(){
     				for(var i in ids){
     					$("#cha_gcc_up option[value='"+ids[i]+"']").attr("selected","selected");
     				}
-    				
-    				
+
     				//更新数据显示在前端
     				$(".chosen-select").trigger("chosen:updated");//多项选择器动态加载不出数据的问题
-    			}else{
-    				$("#cha_gcc_up").html('<option  value="'+row.v5+'">'+row.com_name+'</option>');	
-    				$("#cha_gcc_up option[value='"+row.v5+"']").attr("selected","selected");
-    				$(".chosen-select").trigger("chosen:updated");//多项选择器动态加载不出数据的问题
     			}
-    			 
+    		}else{
+    			$(".chosen-select option[selected=selected]").remove();
+				$(".chosen-select").trigger("chosen:updated");
     		}
-    		
-    		 
     		xiugaiID=row.pkid;
-    		
     		document.getElementById("up_bf").scrollIntoView();//定位到添加帮扶单位界面
     	}else{
     		toastr["info"]("info", "必须选择一条记录");
@@ -119,7 +113,6 @@ $(function(){
 	        $('#cha_gcc_ids').val(chose_get_value('#cha_gcc_up'));
 	    
 	    });
-	 
 	//点击删除按钮
 	$("#delete_bfdw_button").click(function(){
 		var row = getSelectedRow(metTable);//必须确认先选中一条
@@ -333,6 +326,8 @@ function addBfdw(){
 }
 //修改帮扶单位
 function upBfdw(){
+	var row = getSelectedRow();//获取选中的行
+	
 	$.ajax({
 		url: "/assa/upBfdw.do",
 		type: "POST",
@@ -345,7 +340,12 @@ function upBfdw(){
 			up_bfdw_ldxm:$("#up_bfdw_ldxm").val(),
 			up_bfdw_dz:$("#up_bfdw_dz").val(),
 			up_bfdw_lddh:$("#up_bfdw_lddh").val(),
-			cha_gcc_ids:$("#cha_gcc_ids").val()
+			cha_gcc_ids:$("#cha_gcc_ids").val(),
+			up_bfdw_mc2:row.v1,
+			up_qixian2:row.sys_company_id,
+			up_bfdw_ldxm2:row.v3,
+			up_bfdw_dz2:row.v2,
+			up_bfdw_lddh2:row.v4
 		},
 		success: function (data) {
 			if(data==1){
