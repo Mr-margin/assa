@@ -111,6 +111,8 @@ var com_name2;//村名称
 var shujv;//数据 这是统一往后台传的参数
 var bg_bt="";//表格的表头
 var bg_zj="";//表格里的总计
+var bg_bt2="";//表格的表头
+var bg_zj2="";//表格里的总计
 var mokuai_name;
 var option = {  //饼状图对象
 		title : {	//标题
@@ -1059,7 +1061,22 @@ function jiankangzhuangk(){
 			var count=[];
 			var count2=[];
 			var count3=[];
-			tables+='<table class="table table-hover margin bottom"><thead><tr><th style="width: 50%" class="text-center">'+bg_bt+'</th><th style="width:25%" class="text-center">健康人数</th><th style="width:25%" class="text-center">疾病人数</th>';
+			//var dataJson=JSON.parse(data);
+			var com_level5=data[0].shilevel;
+			if(com_level5==1){
+				bg_bt2="旗县";
+				bg_zj2="全市";
+			}else if(com_level5==2){
+				bg_bt2="苏木乡镇";
+				bg_zj2="全旗";
+			}else if(com_level5==3){
+				bg_bt2="嘎查村";
+				bg_zj2="全乡";
+			}else if(com_level5==4){
+				bg_bt2="嘎查村";
+				bg_zj2="全乡";
+			}
+			tables+='<table class="table table-hover margin bottom"><thead><tr><th style="width: 50%" class="text-center">'+bg_bt2+'</th><th style="width:25%" class="text-center">健康人数</th><th style="width:25%" class="text-center">疾病人数</th>';
 			if(H3_2_bzlx=="国家级贫困人口"){
 				$.each(data,function(i,indx){
 					if(indx.jk=="0"&&indx.jb=="0"){
@@ -1074,7 +1091,7 @@ function jiankangzhuangk(){
 					zongji=parseInt(indx.jk)+parseInt(zongji);
 					zongji_2=parseInt(indx.jb)+parseInt(zongji_2);
 				});
-				tables+='<tr><td class="text-center">'+bg_zj+'</td><td class="text-center" ><span class="c_green">'+zongji+'</span></td><td class="text-center" ><span class="c_green">'+zongji_2+'</span></td></tr>';
+				tables+='<tr><td class="text-center">'+bg_zj2+'</td><td class="text-center" ><span class="c_green">'+zongji+'</span></td><td class="text-center" ><span class="c_green">'+zongji_2+'</span></td></tr>';
 				tables+='<tbody></tbody></table>';
 				$("#tableChart").html(tables);
 			}else{
@@ -1507,6 +1524,19 @@ function bangfuzerenren(){
 		mapdatajson='mapData/eerduosi/'+code+'.json';//地图JSON
 		map_name=code;//地图名称
 	}
+	if(com_level2==1){
+		bg_bt2="旗县";
+		bg_zj2="全市";
+	}else if(com_level2==2){
+		bg_bt2="苏木乡镇";
+		bg_zj2="全旗";
+	}else if(com_level2==3){
+		bg_bt2="嘎查村";
+		bg_zj2="全乡";
+	}else if(com_level2==4){
+		bg_bt2="嘎查村";
+		bg_zj2="全乡";
+	}
 	if(isValue=="0"){//没有数据
 		//对表格进行赋值
 		tables+='<table class="table table-hover margin bottom"><thead><tr><th style="width: 60%" class="text-center">类型</th><th style="width: 40%" class="text-center">数据</th>';
@@ -1539,7 +1569,7 @@ function bangfuzerenren(){
 			})
 	}else{//有数据
 		//对表格进行赋值	
-		tables+='<table class="table table-hover margin bottom"><thead><tr><th style="width: 60%" class="text-center">'+bg_bt+'</th><th style="width: 40%" class="text-center">人数</th>';
+		tables+='<table class="table table-hover margin bottom"><thead><tr><th style="width: 60%" class="text-center">'+bg_bt2+'</th><th style="width: 40%" class="text-center">人数</th>';
 		$.each(data, function(i,item) {
 			if(item.value=="0"){
 			}else{
@@ -1547,14 +1577,11 @@ function bangfuzerenren(){
 				zongji=parseInt(item.value)+parseInt(zongji);
 			}
 		});
-		tables+='<tr><td class="text-center">'+bg_zj+'</td><td class="text-center" ><span class="c_green">'+zongji+'</span></td></tr>';
+		tables+='<tr><td class="text-center">'+bg_zj2+'</td><td class="text-center" ><span class="c_green">'+zongji+'</span></td></tr>';
 		tables+='<tbody></tbody></table>';
 		$("#tableChart").html(tables);
 		
 		myChart.showLoading();//此方法是显示加载动画效果
-		$.getJSON(mapdatajson, function (geoJson) {//获取已经定义好的json
-			
-		});
 		$.ajax({
 			url: mapdatajson,//"/assa/H3_2echarts_5.do",
 			type: "get",
@@ -1563,7 +1590,7 @@ function bangfuzerenren(){
 			success: function (geoJson) {
 				myChart.hideLoading();//隐藏加载动画
 				echarts.registerMap(map_name, geoJson);//注册可用的地图，必须在包括 geo 组件或者 map 图表类型的时候才能使用
-				option_map.title.text= com_name+'-帮扶责任人-人数';//标题名称
+				option_map.title.text= jsonname+'-帮扶责任人-人数';//标题名称
 				option_map.series[0].name='帮扶责任人-人数';
 				option_map.series[0].data=data;
 				option_map.series[0].mapType=map_name;
@@ -1637,6 +1664,19 @@ function zhucungzd(){
 		mapdatajson='mapData/eerduosi/'+code+'.json';//地图JSON
 		map_name=code;//地图名称
 	}
+	if(com_level2==1){
+		bg_bt2="旗县";
+		bg_zj2="全市";
+	}else if(com_level2==2){
+		bg_bt2="苏木乡镇";
+		bg_zj2="全旗";
+	}else if(com_level2==3){
+		bg_bt2="嘎查村";
+		bg_zj2="全乡";
+	}else if(com_level2==4){
+		bg_bt2="嘎查村";
+		bg_zj2="全乡";
+	}
 	if(isValue=="0"){//没有数据
 		//对表格进行赋值
 		tables+='<table class="table table-hover margin bottom"><thead><tr><th style="width: 60%" class="text-center">类型</th><th style="width: 40%" class="text-center">数据</th>';
@@ -1670,7 +1710,7 @@ function zhucungzd(){
 			})
 	}else{//有数据
 		//对表格进行赋值	
-		tables+='<table class="table table-hover margin bottom"><thead><tr><th style="width: 60%" class="text-center">'+bg_bt+'</th><th style="width: 40%" class="text-center">有驻村工作队的村数</th>';
+		tables+='<table class="table table-hover margin bottom"><thead><tr><th style="width: 60%" class="text-center">'+bg_bt2+'</th><th style="width: 40%" class="text-center">有驻村工作队的村数</th>';
 		$.each(data, function(i,item) {
 			if(item.value=="0"){
 			}else{
@@ -1678,7 +1718,7 @@ function zhucungzd(){
 				zongji=parseInt(item.value)+parseInt(zongji);
 			}
 		});
-		tables+='<tr><td class="text-center">'+bg_zj+'</td><td class="text-center" ><span class="c_green">'+zongji+'</span></td></tr>';
+		tables+='<tr><td class="text-center">'+bg_zj2+'</td><td class="text-center" ><span class="c_green">'+zongji+'</span></td></tr>';
 		tables+='<tbody></tbody></table>';
 		$("#tableChart").html(tables);
 		
@@ -1691,7 +1731,7 @@ function zhucungzd(){
 			success: function (geoJson) {
 				myChart.hideLoading();//隐藏加载动画
 				echarts.registerMap(map_name, geoJson);//注册可用的地图，必须在包括 geo 组件或者 map 图表类型的时候才能使用
-				option_map.title.text=com_name+'-有驻村工作队的村数'//标题名称
+				option_map.title.text=jsonname+'-有驻村工作队的村数'//标题名称
 				option_map.series[0].name='有驻村工作队的村数';
 				option_map.series[0].data=data;
 				option_map.series[0].mapType=map_name;
