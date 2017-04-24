@@ -535,6 +535,7 @@ public class SH3_Controller extends MultiActionController{
 		String com_code2="";
 		String com_code3="";
 		int com_f_pkid=0;//上级行政区划id
+		int pkid=0;
 		if (json_level==null) {
 			String shi_sql ="select * from sys_company c where c.com_level='"+ level +"' and c.com_name='"+jsonname+"'";
 			SQLAdapter shi_Adapter = new SQLAdapter(shi_sql);
@@ -554,6 +555,7 @@ public class SH3_Controller extends MultiActionController{
 				com_code3=com_codeList.get(0).get("com_code").toString();
 			}
 			}
+			pkid=Integer.parseInt(shi_listmap.get(0).get("pkid").toString());
 		}else{
 			String shi_sql ="select * from sys_company c where c.pkid='"+ json_level +"'";
 			SQLAdapter shi_Adapter = new SQLAdapter(shi_sql);
@@ -572,6 +574,7 @@ public class SH3_Controller extends MultiActionController{
 					com_code3=com_codeList.get(0).get("com_code").toString();
 				}
 				}
+			pkid=Integer.parseInt(shi_listmap.get(0).get("pkid").toString());
 		}
 		
 		
@@ -1065,20 +1068,21 @@ public class SH3_Controller extends MultiActionController{
 						+ "SELECT c1.com_f_pkid,COUNT(*) count FROM ("
 						+ "SELECT * FROM ("
 						+ "SELECT v5 from  da_company"+year+" WHERE v5 IS NOT NULL"
-						+ ")a1 INNER JOIN sys_company a2 ON (a1.v5=a2.pkid)OR(a1.v5=a2.com_name) WHERE a2.com_f_pkid IN("
-						+ "SELECT pkid FROM sys_company WHERE com_f_pkid='"+com_f_pkid+"') GROUP BY a2.com_name"
+//						+ ")a1 INNER JOIN sys_company a2 ON (a1.v5=a2.pkid)OR(a1.v5=a2.com_name) WHERE a2.com_f_pkid IN("
+						+ ")a1 INNER JOIN sys_company a2 ON (a1.v5=a2.pkid)OR(a1.v5=a2.com_name) WHERE a2.com_f_pkid IN ("
+						+ "SELECT pkid FROM sys_company WHERE com_f_pkid='"+pkid+"') GROUP BY a2.com_name"
 						+ ")c1 GROUP BY c1.com_f_pkid"
 						+ ")d1 LEFT JOIN sys_company d2 ON d1.com_f_pkid=d2.pkid";
 			}else if(shilevel==3){//当层级为3的时候
 				sql="SELECT * FROM ("
 						+ "SELECT v5 from  da_company"+year+" WHERE v5 IS NOT NULL)a1 INNER JOIN sys_company a2 ON (a1.v5=a2.pkid)OR(a1.v5=a2.com_name) "
-						+ "WHERE a2.com_f_pkid ='"+com_f_pkid+"' GROUP BY a2.com_name ";
+						+ "WHERE a2.com_f_pkid ="+pkid+" GROUP BY a2.com_name ";
 			}else if(shilevel==4){//当层级为4的时候
-				com_name=company_json.get("xiang").toString();//获取上级用户名称
-				com_pkid = company_json.get("xiang_id").toString();//获取上级用户id
+//				com_name=company_json.get("xiang").toString();//获取上级用户名称
+//				com_pkid = company_json.get("xiang_id").toString();//获取上级用户id
 				sql="SELECT * FROM ("
 						+ "SELECT v5 from  da_company"+year+" WHERE v5 IS NOT NULL)a1 INNER JOIN sys_company a2 ON (a1.v5=a2.pkid)OR(a1.v5=a2.com_name) "
-						+ "WHERE a2.com_f_pkid ='"+com_f_pkid+"' GROUP BY a2.com_name ";
+						+ "WHERE a2.pkid ="+pkid+" GROUP BY a2.com_name ";
 			}
 			if(shilevel==1||shilevel==2){
 				SQLAdapter sqlAdapter =new SQLAdapter(sql);

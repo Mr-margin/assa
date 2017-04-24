@@ -251,17 +251,18 @@ public class PoorMessageController extends MultiActionController{
 						da_household_ids2.add(dqsrh_map2.get("da_household_id").toString());
 						pkids2.append(dqsrh_map2.get("da_household_id").toString()+",");
 					}
-				}else if(cha_v24_1!=0&&cha_v24_2!=0){
+				}else if(cha_v24_2!=0){
 					if(per_capita_income2>cha_v24_1&&per_capita_income2<=cha_v24_2){
 						da_household_ids2.add(dqsrh_map2.get("da_household_id").toString());
 						pkids2.append(dqsrh_map2.get("da_household_id").toString()+",");
 					}
-				}else if(cha_v24_1==0&&cha_v24_2!=0){
-					if(per_capita_income2<=cha_v24_2){
-						da_household_ids2.add(dqsrh_map2.get("da_household_id").toString());
-						pkids2.append(dqsrh_map2.get("da_household_id").toString()+",");
-					}
 				}
+//				else if(cha_v24_1==0&&cha_v24_2!=0){
+//					if(per_capita_income2<=cha_v24_2){
+//						da_household_ids2.add(dqsrh_map2.get("da_household_id").toString());
+//						pkids2.append(dqsrh_map2.get("da_household_id").toString()+",");
+//					}
+//				}
 			}
 			if(pkids2.toString().length()>0){
 			String count_st_sql2="select count(*) from (select a.pkid from da_household"+str_table+" a where a.pkid in ("+pkids2.substring(0, pkids2.lastIndexOf(","))+ ") GROUP BY a.pkid) ww";
