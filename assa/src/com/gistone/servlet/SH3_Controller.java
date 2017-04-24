@@ -1251,22 +1251,29 @@ public class SH3_Controller extends MultiActionController{
 		}
 		SQLAdapter sqlAdapter =new SQLAdapter(sql);
 		List<Map> sql_list = this.getBySqlMapper.findRecords(sqlAdapter);
-		JSONObject val = new JSONObject();
+		
+		JSONArray jsa=new JSONArray();
 		if(sql_list.size()>0){
-			JSONArray jsa=new JSONArray();
+			
 			for(int i = 0;i<sql_list.size();i++){
+				JSONObject val = new JSONObject();
 				Map Admin_st_map = sql_list.get(i);
 				for (Object key : Admin_st_map.keySet()) {
 					val.put("name", Admin_st_map.get("v3"));
 					val.put("jk", Admin_st_map.get("jk"));
 					val.put("jb", Admin_st_map.get("jb"));
+					val.put("shilevel", shilevel);
 				}
 				jsa.add(val);
 			}
-			response.getWriter().write(jsa.toString());
+			
 		}else{
-			response.getWriter().print("0");
+			JSONObject val = new JSONObject();
+			val.put("shilevel", shilevel);
+			val.put("isValue", "0");
+			jsa.add(val);
 		}
+		response.getWriter().write(jsa.toString());
 		return null;
 	}
 	
