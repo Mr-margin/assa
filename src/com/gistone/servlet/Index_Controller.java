@@ -281,7 +281,7 @@ public class Index_Controller extends MultiActionController{
 			}
 
 			if(code.toString().equals("shi")){//市级
-				String sql="SELECT v3,count(*) AS count FROM da_household  where sys_standard='"+gors+"' and v21!='已脱贫' GROUP BY v3";
+				String sql="SELECT v3,count(*) AS count FROM da_household  where sys_standard='"+gors+"' and v21!='已脱贫' and entry_year = '2017'  GROUP BY v3";
 				SQLAdapter sqlAdapter =new SQLAdapter(sql);
 				List<Map> sql_list = this.getBySqlMapper.findRecords(sqlAdapter);
 				JSONObject val = new JSONObject();
