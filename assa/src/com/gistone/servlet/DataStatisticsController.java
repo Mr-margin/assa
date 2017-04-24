@@ -222,6 +222,8 @@ public class DataStatisticsController  extends MultiActionController{
 		
 		if(year.equals("2016")){
 			year="_2016";
+		}else{
+			year="";
 		}
 		String sfcg="0";//作为是否成功清除表da_statistics的判断依据
 		Date now= new Date();
@@ -280,7 +282,14 @@ public class DataStatisticsController  extends MultiActionController{
 	}
 	
 	public void time_data(HttpServletRequest request,HttpServletResponse response) throws IOException{
-		String sql = "select b15 from da_statistics where pkid=1";
+		String year=request.getParameter("year");
+		
+		if(year!=null&&year.equals("2016")){
+			year="_2016";
+		}else{
+			year="";
+		}
+		String sql = "select b15 from da_statistics"+year+"  where pkid=1";
 		SQLAdapter sql_time = new SQLAdapter(sql);
 		List<Map> time_list = this.getBySqlMapper.findRecords(sql_time);
 		String time="0";
