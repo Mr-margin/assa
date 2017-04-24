@@ -179,7 +179,7 @@ function index_map(code,gors){
 		 	    	option.series[0].data = data;
 		 	    	var min = 0,max = 0;
 		 	    	$.each(data, function(i,item) {
-		 	    		if(item.value>max){
+		 	    		if(item.value*1>max){
 		 	    			max = item.value;
 		 	    		}
 		 	    		if(item.value<min){
