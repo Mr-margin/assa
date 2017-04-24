@@ -44,8 +44,7 @@ $(function () {
 		metTable_b.bootstrapTable('destroy');//销毁现有表格数据
 		bangfuren_initialization();
 	});
-	
-	time();
+	time(year_g);
 	guoding_initialization();
 	shiding_initialization();
 	bangfuren_initialization();
@@ -102,8 +101,8 @@ function get_tj_xiang(chongmingle,str){
 /**
  * 显示刷新时间
  */
-function time(){
-	var data = ajax_async_t("/assa/time_data.do", {}, "text");
+function time(year_g){
+	var data = ajax_async_t("/assa/time_data.do", {year:year_g}, "text");
 	if(data!="0"){
 		var time = data;
 		$(".time").html(time);
@@ -138,7 +137,7 @@ function H5_6sxanniu(){
 					guoding_initialization();//重新初始化数据
 					metTable_s.bootstrapTable('destroy');//销毁现有表格数据
 					shiding_initialization();//重新初始化数据
-					time();
+					time(year_g);
 					$('#shuaxin_time').show();
 					$('#exportExcel_all_dengdai').hide();
 					$('#shuaxin_time1').show();
