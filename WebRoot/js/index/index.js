@@ -134,8 +134,8 @@ function index_map(code,gors){
 		 					dataRange: {//感觉这个是和visualMap一样，对范围进行确定。
 		 						show:true,//是否显示范围条
 		 						left: 'right',
-//		 				        min: 0,
-//		 				        max: 3100,
+		 				        min: 0,
+		 				        max: 3100,
 //		 				        color:["#BADB58"," #C9E47D","#D8EB9A","#E3F5B9","#F2FBDC"],
 		 				        color:["#F40000","#F53D00","#F57B00","#F4B800","#FFFFBE"],
 		 				        text:['高','低'],           // 文本，默认为数值文本
