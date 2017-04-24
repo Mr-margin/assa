@@ -298,12 +298,9 @@ public class AssistController extends MultiActionController{
 					val.put("v1", Patient_st_map.get("v1"));
 					val.put("v3", Patient_st_map.get("v3")==null?"":Patient_st_map.get("v3"));
 					val.put("v4", Patient_st_map.get("v4")==null?"":Patient_st_map.get("v4"));
-					//选择单位时  多个嘎查村的显示
-					if(Patient_st_map.get("v5")!=null&&Patient_st_map.get("v5").toString().split(",").length>1){
-						
+					//选择单位时  多个嘎查村的显示				
 						val.put("com_name", Patient_st_map.get("com_name")==null?"":Patient_st_map.get("com_name"));
-					}
-					
+	
 				}
 				jsa.add(val);
 			}
