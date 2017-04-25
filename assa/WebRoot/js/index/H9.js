@@ -44,7 +44,7 @@ $(function () {
 		metTable_b.bootstrapTable('destroy');//销毁现有表格数据
 		bangfuren_initialization();
 	});
-	time(year_g);
+	time();
 	guoding_initialization();
 	shiding_initialization();
 	bangfuren_initialization();
