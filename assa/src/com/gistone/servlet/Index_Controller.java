@@ -422,7 +422,13 @@ public class Index_Controller extends MultiActionController{
 			ziduan = "v1";
 			tiaojian = " where c.com_level=2 and b2>0 order by b2 desc ";
 		}
-		sql = " SELECT a.v2,b.b1,b2,b22,b3,b33,b4,b6,b7,b8,b9,b10,b11,b12,b13 from (SELECT v2,b1,b2,b3,b4,b6,b7,b8,b9 from (select a.v2,a."+ziduan+" as b1,"+
+		sql = " SELECT a.v2,a.b1,b2,b22,b3,b33,b4,b6,b7,b8,b9,b10,b11,b12,b13 from (SELECT v2,b1,b2,b3,b4,b6,b7,b8,b9 from (select a.v2,a."+ziduan+" as b1,"+
+				"SUM(a.b2) as b2 , SUM(a.b3) as b3, SUM(a.b4) as b4,SUM(a.b6)as b6,SUM(a.b7)as b7 ,SUM(a.b8) as b8,SUM(a.b9) as b9,"+
+				"a.b14 from da_statistics a "+
+				" where a.b14='"+ gors +"' "+xc_name+" GROUP BY a."+ziduan+") b join sys_company c on b.b1=c.com_name"+tiaojian+")a left join("+
+				"SELECT v2,b1,b2 b22,b3 b33,b10,b11,b12, b13 from (select a.v2,a."+ziduan+" as b1,"+
+				"SUM(a.b2) as b2 , SUM(a.b3) as b3,	SUM(a.b10)AS b10,SUM(a.b11)AS b11, SUM(a.b12)AS b12, SUM(a.b13)AS b13  from da_statistics_2016 a "+
+				" where a.b14='"+ gors +"' "+xc_name+" GROUP BY a."+ziduan+") b join sys_company c on b.b1=c.com_name"+tiaojian+")b on a.b1=b.b1 union SELECT a.v2,b.b1,b2,b22,b3,b33,b4,b6,b7,b8,b9,b10,b11,b12,b13 from (SELECT v2,b1,b2,b3,b4,b6,b7,b8,b9 from (select a.v2,a."+ziduan+" as b1,"+
 				"SUM(a.b2) as b2 , SUM(a.b3) as b3, SUM(a.b4) as b4,SUM(a.b6)as b6,SUM(a.b7)as b7 ,SUM(a.b8) as b8,SUM(a.b9) as b9,"+
 				"a.b14 from da_statistics a "+
 				" where a.b14='"+ gors +"' "+xc_name+" GROUP BY a."+ziduan+") b join sys_company c on b.b1=c.com_name"+tiaojian+")a right join("+
