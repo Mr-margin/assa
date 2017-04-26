@@ -604,7 +604,7 @@ public class Index_Controller extends MultiActionController{
 								session.setAttribute("company", namemap);
 
 							}else if(zpong.get("com_level").toString().equals("4")){
-
+								
 								String sql_3 = "select x.*,z.pkid as xian_id,z.com_name as xian,z.com_code as xian_code,y.pkid as xiang_id,y.com_name as xiang,y.com_code as xiang_code from sys_company x join sys_company y on x.com_f_pkid=y.pkid join sys_company z on y.com_f_pkid=z.pkid where x.pkid="+Login_map.get("sys_company_id");
 								SQLAdapter sql_3_Adapter = new SQLAdapter(sql_3);
 								List<Map> sql_3_list = this.getBySqlMapper.findRecords(sql_3_Adapter);
@@ -690,6 +690,44 @@ public class Index_Controller extends MultiActionController{
 							session.setAttribute("weihu_map", weihu_map);
 							//浏览数据的权限
 							company_map.put("com_type", "帮扶人");
+							session.setAttribute("company_map", company_map);
+
+						}else if(Login_map.get("account_type").toString().equals("3")){//只有查询权限用户
+							//超管就是市级的
+							String sql_zong = "select * from sys_company where pkid="+Login_map.get("sys_company_id");
+							SQLAdapter sql_zong_Adapter = new SQLAdapter(sql_zong);
+							List<Map> sql_zong_list = this.getBySqlMapper.findRecords(sql_zong_Adapter);
+							Map zpong = sql_zong_list.get(0);
+							session.setAttribute("company", zpong);
+
+							if(!Login_map.get("sys_role_id").toString().equals("")&&Login_map.get("sys_role_id")!=null){//当用户权限不为null.
+								String sql = "select y.pkid,y.div_id from sys_role_function_many x,sys_function y where x.sys_function_id=y.pkid and"+
+										" x.sys_role_id ="+Login_map.get("sys_role_id");
+								SQLAdapter sql_1_Adapter = new SQLAdapter(sql);
+								List<Map> sql_1_list = this.getBySqlMapper.findRecords(sql_1_Adapter);
+								for(int i = 0;i<sql_1_list.size();i++){
+									Map tep = sql_1_list.get(i);
+									function_map.put(tep.get("div_id"), tep.get("div_id"));
+									weihu_map.put(tep.get("div_id"), "1");
+								}
+							}
+							session.setAttribute("function_map", function_map);
+							//加维护开关权限
+//							String sql_2_2= "select y.pkid,y.div_id,y.maintain from sys_user_function_many x,sys_function y where x.sys_function_id=y.pkid and"+
+//									" sys_user_id=(SELECT sys_personal_id from sys_user WHERE pkid="+Login_map.get("pkid")+")";
+//							SQLAdapter sql_2_2_Adapter = new SQLAdapter(sql_2_2);
+//							List<Map> sql_2_2_list = this.getBySqlMapper.findRecords(sql_2_2_Adapter);
+//							if(sql_2_2_list.size()>0){
+//
+//								function_map = new HashMap();
+//								for(int i = 0;i<sql_2_2_list.size();i++){
+//									Map tep = sql_2_2_list.get(i);
+//									weihu_map.put(tep.get("div_id"), tep.get("maintain"));
+//								}
+//							}
+							session.setAttribute("weihu_map", weihu_map);
+							//浏览数据的权限
+							company_map.put("com_type", "最小权限用户");
 							session.setAttribute("company_map", company_map);
 
 						}
