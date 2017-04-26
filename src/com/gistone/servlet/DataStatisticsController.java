@@ -186,7 +186,7 @@ public class DataStatisticsController  extends MultiActionController{
 	}
 	
 	public String getData(String b2, String str){
-		if(Integer.parseInt(str)<Integer.parseInt(b2)){
+		if(Double.parseDouble(str)<Double.parseDouble(b2)){
 			return "<code>"+str+"</code>";
 		}else{
 			return str;
