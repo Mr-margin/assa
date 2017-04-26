@@ -432,14 +432,14 @@
 															<br>
 															<div class="input-append input-group">
 																<span class="input-group-btn">
-																	<button class="btn btn-success btn-xs" type="button">
+																	<button class="btn btn-success btn-xs" type="button" id="select_file" style="display:none">
 																		<i class="fa fa-copy"></i>&nbsp;&nbsp;<span class="bold">选择文件 </span>
 																	</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 																</span>
 																<input class="input-large form-control" type="text" style="display:none">
 															</div>
 															&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-															<button class="btn btn-success btn-xs" type="button" id="shh_hu_pic">
+															<button class="btn btn-success btn-xs" type="button" id="shh_hu_pic" style="display:none">
 																<i class="fa fa-upload"></i>&nbsp;&nbsp;<span class="bold">上传图片</span>
 															</button>
 															<input type="file" id="filename" name="filename" class="form-control" style="display:none">
@@ -794,7 +794,7 @@
 												</form>
 											</div>
 										</div>
-										<button type="button" class="btn btn-primary" id="save" style="float:right;margin-right:20px; margin-bottom:20px;"><i class="fa fa-save"></i> 保存 </button>
+										<button type="button" class="btn btn-primary" id="save" style="float:right;margin-right:20px; margin-bottom:20px;display:none;"><i class="fa fa-save"></i> 保存 </button>
 										
 									</div>
 								</div>
@@ -1170,7 +1170,7 @@
 												</div>
 											</div>
 										</form>
-										<button type="button" class="btn btn-primary" id="save" style="float:right;margin-right:20px; margin-bottom:0px;"><i class="fa fa-save"></i> 保存 </button>
+										<button type="button" class="btn btn-primary" id="saveSCTJ" style="float:right;margin-right:20px; margin-bottom:0px;display:none"><i class="fa fa-save"></i> 保存 </button>
 										
 									</div>
 								</div>
@@ -1327,7 +1327,7 @@
 										<div class="row">
 											<div class="col-sm-10"></div>
 											<div class="col-sm-1">
-												<button type="button" class="btn btn-primary" id="save"><i class="fa fa-save"></i> 保存 </button>
+												<button type="button" class="btn btn-primary" id="saveSHTJ" style="display:none"><i class="fa fa-save"></i> 保存 </button>
 											</div>
 										</div>
 									</div>
@@ -1725,7 +1725,7 @@
 											<div class="row">
 												<div class="col-sm-5"></div>
 												<div class="col-sm-2" style="text-align:center;">
-													<button type="button" class="btn btn-primary" style="margin-top: 20px;" id="save"><i class="fa fa-save"></i> 保存 </button>
+													<button type="button" class="btn btn-primary" style="margin-top: 20px;display:none" id="saveDQSR"><i class="fa fa-save"></i> 保存 </button>
 												</div>
 											</div>
 										</form>
@@ -1899,7 +1899,7 @@
 											<div class="row">
 												<div class="col-sm-5"></div>
 												<div class="col-sm-2" style="text-align:center;">
-													<button type="button" class="btn btn-primary" style="margin-top: 20px;" id="save"><i class="fa fa-save"></i> 保存 </button>
+													<button type="button" class="btn btn-primary" style="margin-top: 20px;display:none" id="saveDQZC"><i class="fa fa-save"></i> 保存 </button>
 												</div>
 											</div>
 										</form>
@@ -1938,7 +1938,7 @@
 												<div class="input-group"><!-- 搜索 -->
 													<input type="text" placeholder="添加新帮扶责任人" class="input form-control" id="add_bangfuren_test" name="add_bangfuren_test"> 
 													<div class="input-group-btn">
-														<button type="button" onclick="save_bangfuren();" class="btn btn btn-primary" id="add_bangfuren" name="add_bangfuren">
+														<button type="button" onclick="save_bangfuren();" class="btn btn btn-primary" id="add_bangfuren" name="add_bangfuren" style="display:none">
 															<i class="fa fa-save"></i>  保存
 														</button>
 														<ul class="dropdown-menu dropdown-menu-right" role="menu">
@@ -2018,7 +2018,7 @@
 					                        <div class="row">
 												<div class="col-sm-5"></div>
 												<div class="col-sm-2" style="text-align:center;">
-													<button type="button" class="btn btn-primary" style="margin-top: 20px;" id="save"><i class="fa fa-save"></i> 保存 </button>
+													<button type="button" class="btn btn-primary" style="margin-top: 20px;display:none" id="saveBFJH"><i class="fa fa-save"></i> 保存 </button>
 												</div>
 											</div>
 										</form>
@@ -2504,7 +2504,7 @@
 											<div class="row">
 												<div class="col-sm-5"></div>
 												<div class="col-sm-2" style="text-align:center;">
-													<button type="button" class="btn btn-primary" style="margin-top: 20px;" id="save"><i class="fa fa-save"></i> 保存 </button>
+													<button type="button" class="btn btn-primary" style="margin-top: 20px;display:none" id="saveTPJH"><i class="fa fa-save"></i> 保存 </button>
 												</div>
 											</div>
 											
@@ -2531,7 +2531,7 @@
 													<div class="full-height-scroll">
 														<div class="table-responsive">
 															<div class=" " id="tz_cuoshi_tools" role="group">
-							                                    <button id="add_hu_but" onClick="show_add_tz_cuoshi();" type="button" class="btn btn-info btn-outline"><i class="fa fa-save"></i> 添加新措施</button>
+							                                    <button id="add_newMeasures" onClick="show_add_tz_cuoshi();" type="button" class="btn btn-info btn-outline" style="display:none"><i class="fa fa-save"></i> 添加新措施</button>
 							                                </div>
 															<table id="cuoshi_tz_table">
 																<thead>
@@ -2975,7 +2975,7 @@
 											<div class="row">
 												<div class="col-sm-5"></div>
 												<div class="col-sm-2" style="text-align:center;">
-													<button type="button" class="btn btn-primary" style="margin-top: 20px;" id="save"><i class="fa fa-save"></i> 保存 </button>
+													<button type="button" class="btn btn-primary" style="margin-top: 20px;display:none" id="saveBFHSR"><i class="fa fa-save"></i> 保存 </button>
 												</div>
 											</div>
 										</form>
@@ -3166,7 +3166,7 @@
 											<div class="row">
 												<div class="col-sm-5"></div>
 												<div class="col-sm-2" style="text-align:center;">
-													<button type="button" class="btn btn-primary" style="margin-top: 20px;" id="save"><i class="fa fa-save"></i> 保存 </button>
+													<button type="button" class="btn btn-primary" style="margin-top: 20px;display:none" id="saveBFHZC"><i class="fa fa-save"></i> 保存 </button>
 												</div>
 											</div>
 										</form>
