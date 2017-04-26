@@ -2911,6 +2911,12 @@ public class PoorUserController extends MultiActionController{
 	 */
 	public ModelAndView getcuoshi_tz_info(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		
+		HttpSession session=request.getSession();
+		Map Login_map=(Map) session.getAttribute("Login_map");
+		String col_account="";
+		if(Login_map!=null&&!Login_map.isEmpty()){
+			col_account=(String) Login_map.get("col_account");
+		}
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		String pkid = request.getParameter("pkid").trim();//贫困户ID
@@ -3002,8 +3008,10 @@ public class PoorUserController extends MultiActionController{
 						v6_2019 = Patient_st_map.get(key).toString();
 					}
 				}
+				if(!col_account.equals("")&&!col_account.equals("100000")){
 				val.put("caozuo", "<button  type=\"button\" class=\"btn btn-primary btn-xs jbqk\" onclick=\"update_tz_cuoshi('"+v1+"','"+v2+"','"+v3+"',"
-						+ "'"+v4_2016+"','"+v5_2016+"','"+v6_2016+"','"+v4_2017+"','"+v5_2017+"','"+v6_2017+"','"+v4_2018+"','"+v5_2018+"','"+v6_2018+"','"+v4_2019+"','"+v5_2019+"','"+v6_2019+"');\"><i class=\"fa fa-pencil\"></i> 编辑 </button>&nbsp;&nbsp;&nbsp;&nbsp;<button  type=\"button\" class=\"btn btn-primary btn-xs jbqk\" onclick=\"del_tz('"+v1+"','"+v2+"','"+pkid+"');\"><i class=\"fa fa-remove\"></i> 删除 </button>");
+						+ "'"+v4_2016+"','"+v5_2016+"','"+v6_2016+"','"+v4_2017+"','"+v5_2017+"','"+v6_2017+"','"+v4_2018+"','"+v5_2018+"','"+v6_2018+"','"+v4_2019+"','"+v5_2019+"','"+v6_2019+"');\" ><i class=\"fa fa-pencil\"></i> 编辑 </button>&nbsp;&nbsp;&nbsp;&nbsp;<button  type=\"button\" class=\"btn btn-primary btn-xs jbqk\" onclick=\"del_tz('"+v1+"','"+v2+"','"+pkid+"');\"><i class=\"fa fa-remove\"></i> 删除 </button>");
+				}
 				jsa.add(val);
 			}
 			JSONObject json = new JSONObject();
