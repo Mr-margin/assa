@@ -113,6 +113,10 @@ $(document).ready(function(){
 	        $(element).valid();
 	    }
 	});
+//	var col_account=jsondata.Login_map.col_account;//用户名
+//	if(col_account!="100000"){
+//		$("#add_hu_but")
+//	}
 	
 });
 
@@ -302,8 +306,8 @@ function gachacun_initialization(){
 	/*	$("th[data-field=entry_year]").hide();*/
 	}else{
 		$('#fpsc_update_tools').show();
-		$("#huzhu #save").show();
-		$("#add_new_jiatingchngyuan").show();
+		//$("#huzhu #save").show();
+		//$("#add_new_jiatingchngyuan").show();
 		$("#is_2017").show();
 		$("#is_2016").hide();
 		

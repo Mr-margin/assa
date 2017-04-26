@@ -46,6 +46,7 @@ var chaxun = {};//存储表格查询参数
 var number;
 var tjian;
 $(function () {
+	$("#exportJBQK").show();
 	//导出
 	$("#daochu").click(function(){
 		var table=$(".content-head table")[0];

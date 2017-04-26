@@ -11,7 +11,7 @@ $(function () {
 	});
 	
 	//保存收入
-    $("#shouru #save").click(function () {
+    $("#shouru #saveDQSR").click(function () {
     	var validator = $("#shouru_Form").validate();
 		if(validator.form()){
 			shouru_save();
@@ -21,7 +21,7 @@ $(function () {
 	});
     
     //保存支出
-    $("#zhichu #save").click(function () {
+    $("#zhichu #saveDQZC").click(function () {
     	var validator = $("#zhichu_Form").validate();
 		if(validator.form()){
 			zhichu_save();

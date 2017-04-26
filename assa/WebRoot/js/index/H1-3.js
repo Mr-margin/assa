@@ -110,7 +110,7 @@ $(function () {
 //	});
 	
 	//帮扶计划
-	$("#tab-b-3 #save").click(function () {
+	$("#tab-b-3 #saveBFJH").click(function () {
 		var form_val = JSON.stringify(getFormJson("#bangfujihua_Form"));//表单数据字符串
 		$.ajax({  		       
 		    url: "/assa/getSave_Mubiao.do",
@@ -140,7 +140,7 @@ $(function () {
 	});
 	
 	//脱贫计划
-	$("#tab-b-2 #save").click(function () {
+	$("#tab-b-2 #saveTPJH").click(function () {
 		var form_val = JSON.stringify(getFormJson("#tuopinjihua_Form"));//表单数据字符串
 		$.ajax({  		       
 		    url: "/assa/getSave_Jihua.do",
@@ -349,7 +349,7 @@ function data_jiazai_bangfu(id){
 	    	
 	    	$.each(data.bangfu,function(i,item){
 	    		bangfu_html += "<tr><td>"+item.col_name+"</td><td>"+item.com_name+"</td><td>"+item.col_post+"</td><td>"+item.telephone+"</td><td class=\"client-status\">" +
-	    				"<button type=\"button\" class=\"btn btn-primary btn-xs\" onclick='jiechu_bangfu("+item.pkid+");'><i class=\"fa fa-remove\"></i> 解除 </button></td></tr>";
+	    				"<button type=\"button\" class=\"btn btn-primary btn-xs\" onclick='jiechu_bangfu("+item.pkid+");' style=\"display:none;\" id=\"relieveBFZRR\"><i class=\"fa fa-remove\"></i> 解除 </button></td></tr>";
 	    	});
 	    	$('#bangfuren #bangfu_table').html(bangfu_html);
 	    	
