@@ -60,38 +60,46 @@ function guobiao(){//点击国标
 		time();
 		if(com_level=="1"){//市
 			code="shi";
+			pkid = 4;
 		}else if(com_level=="2"){//旗县
 			code=jsondata.company.com_code;
+			pkid = jsondata.company.pkid;
 		}else if(com_level=="3"){//乡镇
 			code=jsondata.company.com_code;
+			pkid = jsondata.company.pkid;
 		}else if(com_level=="4"){//村
 			code=jsondata.company.xiang_code
+			pkid = jsondata.company.pkid;
 		}
 	
 	shuaxin();
 	gors="国家级贫困人口";
-	zongbiao(code,gors);//总表
+	zongbiao(code,gors,pkid);//总表
 	index_map(code,gors);//加载工作首页地图
-	xiafangbiaoge(code,gors);//加载下方表格
+	xiafangbiaoge(code,gors,pkid);//加载下方表格
 }
 function shibiao(code){//点击市标
 		time();
 		//判断层级
 		if(com_level=="1"){//市
 			code="shi";
+			pkid = 4;
 		}else if(com_level=="2"){//旗县
 			code=jsondata.company.com_code;
+			pkid = jsondata.company.pkid;
 		}else if(com_level=="3"){//乡镇
 			code=jsondata.company.com_code;
+			pkid = jsondata.company.pkid;
 		}else if(com_level=="4"){//村
 			code=jsondata.company.xiang_code
+			pkid = jsondata.company.pkid;
 		}
 	
 	shuaxin();//刷新
 	gors="市级低收入人口";
-	zongbiao(code,gors);//总表
+	zongbiao(code,gors,pkid);//总表
 	index_map(code,gors);//加载工作首页地图
-	xiafangbiaoge(code,gors);//加载下方表格
+	xiafangbiaoge(code,gors,pkid);//加载下方表格
 }
 
 //加载工作首页地图
@@ -201,7 +209,7 @@ function index_map(code,gors){
 }
 
 //首页总表
-function zongbiao(code,gors){
+function zongbiao(code,gors,pkid){
 	var aa;//name
 	var dd;//户数
 	var cc;//未脱贫人数
@@ -236,7 +244,8 @@ function zongbiao(code,gors){
 	    dataType: "json",
 	    data:{
 	    	gors:gors,
-	    	code:code
+	    	code:code,
+	    	pkid:pkid
         },
 	    success: function (data) {
 	    	if(data==0){
@@ -318,7 +327,7 @@ function shuaxin(){
 }
 
 //下方的表格
-function xiafangbiaoge(code,gors){
+function xiafangbiaoge(code,gors,pkid){
 	var aa;//名称
 	var bb;//人数
 	var cc;//户数
@@ -358,7 +367,8 @@ function xiafangbiaoge(code,gors){
 	    dataType: "json",
 	    data:{
 	    	gors:gors,
-	    	code:code
+	    	code:code,
+	    	pkid:pkid
         },
 	    success: function (data) {
 	    	if(data==0){

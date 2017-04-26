@@ -45,6 +45,7 @@ public class Index_Controller extends MultiActionController{
 		response.setCharacterEncoding("UTF-8");
 		String gors = request.getParameter("gors");
 		String code = request.getParameter("code");
+		String pkid = request.getParameter("pkid");
 
 		HttpSession session = request.getSession();//取session
 		JSONObject json = new JSONObject();
@@ -60,13 +61,16 @@ public class Index_Controller extends MultiActionController{
 							" right JOIN (SELECT v3,count(*) AS count1 ,sum(v9) AS sum1 FROM da_household_2016 where sys_standard='"+gors+"' and v21 !='已脱贫' group by v3 )b on  a.v3=b.v3";
 				String sql2="select d.v3,sum2,sum3 from (SELECT v3,sum(v9) AS sum2 FROM da_household where sys_standard='"+gors+"' and v21 ='已脱贫' group by v3) c"+
 						" right JOIN (SELECT v3,sum(v9) AS sum3 FROM da_household_2016 where sys_standard='"+gors+"' and v21 ='已脱贫' group by v3 )d on  c.v3=d.v3";*/
-				String sql = "SELECT  *FROM  (  SELECT     b.v3,     count,      count1,      sum,      sum1    FROM      (  SELECT          v3,          count(*)AS count,          sum(v9)AS sum        FROM "
-						+ "         da_household        WHERE          sys_standard = '"+gors+"'        AND v21 != '已脱贫'    and entry_year = '2017'    GROUP BY          v3      )a    RIGHT JOIN(      SELECT        v3,        count(*)AS count1,     "
-						+ "   sum(v9)AS sum1      FROM        da_household_2016      WHERE        sys_standard = '"+gors+"'      AND v21 != '已脱贫'      GROUP BY        v3    )b ON a.v3 = b.v3  )c LEFT JOIN(  SELECT    a.v3,    sum2,   "
-						+ " sum3  FROM    (      SELECT        v3,        count(*)AS sum2      FROM        da_household      WHERE        sys_standard = '"+gors+"'      AND v21 = '已脱贫'    and entry_year = '2017'  GROUP BY        v3    )a  left JOIN(    SELECT      v3,     "
-						+ " count(*)AS sum3    FROM      da_household_2016    WHERE      sys_standard = '"+gors+"'    AND v21 = '已脱贫'    GROUP BY      v3  )b ON a.v3 = b.v3  UNION    SELECT      b.v3,      sum2,      sum3    FROM      (    SELECT    v3,   count(*)AS sum2    "
-						+ "    FROM          da_household        WHERE          sys_standard = '"+gors+"'        AND v21 = '已脱贫'   and entry_year = '2017'     GROUP BY          v3      )a    right JOIN(      SELECT        v3,        count(*)AS sum3      FROM        da_household_2016      WHERE      "
-						+ "  sys_standard = '"+gors+"'      AND v21 = '已脱贫'      GROUP BY        v3    )b ON a.v3 = b.v3)d on c.v3 = d.v3";
+				String sql="select * from  (select * from (select com_name  from sys_company s where s.com_f_pkid = "+pkid+" )a  LEFT JOIN  ( SELECT         b.v3,          count,          count1,          sum,          sum1       FROM          (             SELECT                v3,          "
+						+ "      count(*)AS count,                sum(v9)AS sum             FROM                da_household             WHERE                sys_standard = '"+gors+"'             AND v21 != '已脱贫'             AND entry_year = '2017'             GROUP BY                v3          )a  "
+						+ "     RIGHT JOIN(          SELECT             v3,             count(*)AS count1,             sum(v9)AS sum1          FROM             da_household_2016          WHERE             sys_standard = '"+gors+"'          AND v21 != '已脱贫'          GROUP BY             v3       )b ON a.v3 = b.v3  "
+						+ " UNION  SELECT          a.v3,          count,          count1,          sum,          sum1       FROM          (             SELECT                v3,                count(*)AS count,                sum(v9)AS sum             FROM                da_household             WHERE         "
+						+ "       sys_standard = '"+gors+"'             AND v21 != '已脱贫'             AND entry_year = '2017'             GROUP BY                v3          )a       left JOIN(          SELECT             v3,             count(*)AS count1,             sum(v9)AS sum1          FROM             da_household_2016          WHERE        "
+						+ "     sys_standard = '"+gors+"'          AND v21 != '已脱贫'          GROUP BY             v3       )b ON a.v3 = b.v3  )d on a.com_name = d.v3 )e INNER JOIN ( select * from (select com_name from sys_company s where s.com_f_pkid = "+pkid+")a  LEFT JOIN  (  SELECT       a.v3,       sum2,       sum3    FROM       (          SELECT         "
+						+ "    v3,             count(*)AS sum2          FROM             da_household          WHERE             sys_standard = '"+gors+"'          AND v21 = '已脱贫'          AND entry_year = '2017'          GROUP BY             v3       )a    LEFT JOIN(       SELECT          v3,        "
+						+ "  count(*)AS sum3       FROM          da_household_2016       WHERE          sys_standard = '"+gors+"'       AND v21 = '已脱贫'       GROUP BY          v3    )b ON a.v3 = b.v3      UNION        SELECT          b.v3,          sum2,          sum3       FROM          (         "
+						+ "    SELECT                v3,                count(*)AS sum2             FROM                da_household             WHERE                sys_standard = '"+gors+"'             AND v21 = '已脱贫'             AND entry_year = '2017'             GROUP BY                v3          )a       RIGHT JOIN(   "
+						+ "       SELECT             v3,             count(*)AS sum3          FROM             da_household_2016          WHERE             sys_standard = '"+gors+"'          AND v21 = '已脱贫'          GROUP BY             v3       )b ON a.v3 = b.v3  )d on a.com_name = d.v3 )f on e.com_name = f.com_name ";
 				SQLAdapter sqlAdapter =new SQLAdapter(sql);
 				List<Map> sql_list = this.getBySqlMapper.findRecords(sqlAdapter);
 				/*SQLAdapter sqlAdapter2 =new SQLAdapter(sql2);
@@ -74,19 +78,15 @@ public class Index_Controller extends MultiActionController{
 				
 				if(sql_list.size()>0){
 					JSONArray jsa=new JSONArray();
+					JSONObject val = new JSONObject();
 					for(int i = 0;i<sql_list.size();i++){
-						JSONObject val = new JSONObject();
-						Map Admin_st_map = sql_list.get(i);
-						
-						for (Object key : Admin_st_map.keySet()) {
-							val.put(key, Admin_st_map.get(key));
-						}
-						/*if(sql_list2.size()>0){
-							Map Admin_st_map2 = sql_list2.get(i);
-						for (Object key : Admin_st_map2.keySet()) {
-							val.put(key, Admin_st_map2.get(key));
-						}
-						}*/
+						val.put("v3","".equals(sql_list.get(i).get("com_name")) || sql_list.get(i).get("com_name") == null ?"": sql_list.get(i).get("com_name").toString());
+						val.put("count","".equals(sql_list.get(i).get("count")) || sql_list.get(i).get("count") == null ?"0": sql_list.get(i).get("count").toString());
+						val.put("count1","".equals(sql_list.get(i).get("count1")) || sql_list.get(i).get("count1") == null ?"0": sql_list.get(i).get("count1").toString());
+						val.put("sum","".equals(sql_list.get(i).get("sum")) || sql_list.get(i).get("sum") == null ?"0": sql_list.get(i).get("sum").toString());
+						val.put("sum1","".equals(sql_list.get(i).get("sum1")) || sql_list.get(i).get("sum1") == null ?"0": sql_list.get(i).get("sum1").toString());
+						val.put("sum2","".equals(sql_list.get(i).get("sum2")) || sql_list.get(i).get("sum2") == null ?"0": sql_list.get(i).get("sum2").toString());
+						val.put("sum3","".equals(sql_list.get(i).get("sum3")) || sql_list.get(i).get("sum3") == null ?"0": sql_list.get(i).get("sum3").toString());
 						jsa.add(val);
 					}
 					response.getWriter().write(jsa.toString());
@@ -104,7 +104,8 @@ public class Index_Controller extends MultiActionController{
 							")a right join ("+
 							"SELECT y1.v4 AS v3,count(*) AS count1,sum(y1.v9) AS sum1 FROM da_household_2016 y1 JOIN sys_company y2 ON y1.v3 = y2.com_name where y2.com_code="+code+" AND y1.sys_standard='"+gors+"' and v21!='已脱贫'  group by y1.v4"+
 							" )b on a.v3 = b.v3";*/
-				String sql = "select * from (SELECT	a.v3,	count,	count1,	sum,	sum1 FROM	(SELECT			y1.v4 AS v3,	count(*)AS count,	sum(y1.v9)AS sum		FROM			da_household y1		JOIN sys_company y2 ON y1.v3 = y2.com_name	"
+				/*2017-4-25
+				 * String sql = "select * from (SELECT	a.v3,	count,	count1,	sum,	sum1 FROM	(SELECT			y1.v4 AS v3,	count(*)AS count,	sum(y1.v9)AS sum		FROM			da_household y1		JOIN sys_company y2 ON y1.v3 = y2.com_name	"
 						+ "	WHERE			y2.com_code = "+code+"		AND y1.sys_standard = '"+gors+"'		AND v21 != '已脱贫'	AND entry_year = '2017'	GROUP BY			y1.v4	)a LEFT JOIN(	SELECT		y1.v4 AS v3,count(*)AS count1,sum(y1.v9)AS sum1	FROM		"
 						+ "da_household_2016 y1	JOIN sys_company y2 ON y1.v3 = y2.com_name	WHERE		y2.com_code = "+code+"	AND y1.sys_standard = '"+gors+"'	AND v21 != '已脱贫'	GROUP BY		y1.v4)b ON a.v3 = b.v3 UNION	SELECT		b.v3,count,count1,sum,sum1	FROM	"
 						+ "	(	SELECT				y1.v4 AS v3,		count(*)AS count,		sum(y1.v9)AS sum			FROM				da_household y1			JOIN sys_company y2 ON y1.v3 = y2.com_name			WHERE				y2.com_code = "+code+"		"
@@ -114,7 +115,21 @@ public class Index_Controller extends MultiActionController{
 						+ "	y1.v4	)a LEFT JOIN(	SELECT		y1.v4 AS v3,sum(y1.v9)AS sum3	FROM		da_household_2016 y1	JOIN sys_company y2 ON y1.v3 = y2.com_name	WHERE		y2.com_code = "+code+"	AND y1.sys_standard = '"+gors+"'	AND v21 = '已脱贫'	GROUP BY		y1.v4)b ON a.v3 = b.v3 UNION	"
 						+ "SELECT		b.v3,sum2,sum3	FROM		(	SELECT				y1.v4 AS v3,		count(*)AS sum2			FROM				da_household y1			JOIN sys_company y2 ON y1.v3 = y2.com_name			WHERE				y2.com_code = "+code+"		"
 						+ "	AND y1.sys_standard = '"+gors+"'			AND v21 = '已脱贫'	AND entry_year = '2017'		GROUP BY				y1.v4		)a	RIGHT JOIN(SELECT			y1.v4 AS v3,	count(*)AS sum3		FROM			da_household_2016 y1		JOIN sys_company y2 ON y1.v3 = y2.com_name	"
-						+ "	WHERE			y2.com_code = "+code+"		AND y1.sys_standard = '"+gors+"'		AND v21 = '已脱贫'		GROUP BY			y1.v4	)b ON a.v3 = b.v3)d on c.v3 = d.v3";
+						+ "	WHERE			y2.com_code = "+code+"		AND y1.sys_standard = '"+gors+"'		AND v21 = '已脱贫'		GROUP BY			y1.v4	)b ON a.v3 = b.v3)d on c.v3 = d.v3";*/
+				String sql="select * from  (select * from (select com_name from sys_company s where s.com_f_pkid ="+pkid+" )a  LEFT JOIN  ( SELECT          b.v3,          count,          count1,          sum,          sum1       FROM          (             SELECT              "
+						+ "  y1.v4 as v3,                count(*)AS count,                sum(v9)AS sum             FROM                da_household y1             JOIN sys_company y2 ON y1.v3 = y2.com_name             WHERE                y2.com_code = "+code+"              and sys_standard = '"+gors+"'        "
+						+ "     AND v21 != '已脱贫'             AND entry_year = '2017'             GROUP BY                y1.v4          )a       RIGHT JOIN(          SELECT            y1.v4 as v3,             count(*)AS count1,             sum(v9)AS sum1          FROM             da_household_2016 y1     "
+						+ "     JOIN sys_company y2 ON y1.v3 = y2.com_name          WHERE             y2.com_code = "+code+"          and             sys_standard = '"+gors+"'          AND v21 != '已脱贫'          GROUP BY             y1.v4       )b ON a.v3 = b.v3   UNION  SELECT          a.v3,          count,  "
+						+ "        count1,          sum,          sum1       FROM          (             SELECT                y1.v4 as v3,                count(*)AS count,                sum(v9)AS sum             FROM                da_household y1 					JOIN sys_company y2 ON y1.v3 = y2.com_name 			"
+						+ "			WHERE             y2.com_code = "+code+"             and                sys_standard = '"+gors+"'             AND v21 != '已脱贫'             AND entry_year = '2017'             GROUP BY               y1.v4          )a       left JOIN(          SELECT        y1.v4 as     v3,           "
+						+ "  count(*)AS count1,             sum(v9)AS sum1          FROM             da_household_2016 y1          JOIN sys_company y2 ON y1.v3 = y2.com_name          WHERE             y2.com_code = "+code+" 					and             sys_standard = '"+gors+"'          AND v21 != '已脱贫'    "
+						+ "      GROUP BY             y1.v4        )b ON a.v3 = b.v3  )d on a.com_name = d.v3 )e INNER JOIN ( select * from (select com_name from sys_company s where s.com_f_pkid = "+pkid+")a  LEFT JOIN  (  SELECT       a.v3,       sum2,       sum3    FROM       (          SELECT            y1.v4 as v3,     "
+						+ "        count(*)AS sum2          FROM             da_household y1             JOIN sys_company y2 ON y1.v3 = y2.com_name             WHERE                y2.com_code = "+code+" 					and 						sys_standard = '"+gors+"'          AND v21 = '已脱贫'        "
+						+ "  AND entry_year = '2017'          GROUP BY             y1.v4       )a    LEFT JOIN(       SELECT          y1.v4 as v3,          count(*)AS sum3       FROM          da_household_2016 y1       JOIN sys_company y2 ON y1.v3 = y2.com_name           WHERE             y2.com_code = "+code+"      "
+						+ " and          sys_standard = '"+gors+"'       AND v21 = '已脱贫'       GROUP BY          y1.v4     )b ON a.v3 = b.v3      UNION        SELECT          b.v3,          sum2,          sum3       FROM          (             SELECT              y1.v4 as v3,             count(*)AS sum2          FROM    "
+						+ "         da_household y1             JOIN sys_company y2 ON y1.v3 = y2.com_name             WHERE                y2.com_code = "+code+" 					and 						sys_standard = '"+gors+"'          AND v21 = '已脱贫'          AND entry_year = '2017'          GROUP BY      "
+						+ "       y1.v4          )a       RIGHT JOIN(          SELECT             y1.v4 as v3,          count(*)AS sum3       FROM          da_household_2016 y1       JOIN sys_company y2 ON y1.v3 = y2.com_name           WHERE             y2.com_code = "+code+"       and          sys_standard = '"+gors+"'  "
+						+ "    AND v21 = '已脱贫'       GROUP BY          y1.v4        )b ON a.v3 = b.v3  )d on a.com_name = d.v3 )f on e.com_name = f.com_name  ";
 				SQLAdapter sqlAdapter =new SQLAdapter(sql);
 				List<Map> sql_list = this.getBySqlMapper.findRecords(sqlAdapter);
 				
@@ -122,7 +137,7 @@ public class Index_Controller extends MultiActionController{
 					JSONArray jsa=new JSONArray();
 					JSONObject val = new JSONObject();
 					for(int i = 0;i<sql_list.size();i++){
-						val.put("v3","".equals(sql_list.get(i).get("v3")) || sql_list.get(i).get("v3") == null ?"": sql_list.get(i).get("v3").toString());
+						val.put("v3","".equals(sql_list.get(i).get("com_name")) || sql_list.get(i).get("com_name") == null ?"": sql_list.get(i).get("com_name").toString());
 						val.put("count","".equals(sql_list.get(i).get("count")) || sql_list.get(i).get("count") == null ?"0": sql_list.get(i).get("count").toString());
 						val.put("count1","".equals(sql_list.get(i).get("count1")) || sql_list.get(i).get("count1") == null ?"0": sql_list.get(i).get("count1").toString());
 						val.put("sum","".equals(sql_list.get(i).get("sum")) || sql_list.get(i).get("sum") == null ?"0": sql_list.get(i).get("sum").toString());
@@ -146,7 +161,7 @@ public class Index_Controller extends MultiActionController{
 						")a right join ("+
 						"SELECT y1.v5 AS v3,count(*) AS count1,sum(y1.v9) AS sum1 FROM da_household_2016 y1 JOIN sys_company y2 ON y1.v4 = y2.com_name where y2.com_code='"+code+"' AND y1.sys_standard='"+gors+"' and y1.v21!='已脱贫'  group by y1.v5"+
 						")b on a.v3 = b.v3 ";*/
-				String sql = "SELECT   	*    FROM   	(   		SELECT   			a.v3,   			count,   			count1,   			sum,   			sum1   		FROM   			(   				SELECT   	"
+/*		2017-4-26之前更改		String sql = "SELECT   	*    FROM   	(   		SELECT   			a.v3,   			count,   			count1,   			sum,   			sum1   		FROM   			(   				SELECT   	"
 						+ "			y1.v5 AS v3,   					count(*)AS count,   					sum(y1.v9)AS sum   				FROM   					da_household y1   				JOIN sys_company y2 ON y1.v4 = y2.com_name "
 						+ "  WHERE 			y2.com_code = '"+code+"'  				AND y1.sys_standard = '"+gors+"'   				AND y1.v21 != '已脱贫'  AND entry_year = '2017'  " 
 						+ "	GROUP BY   					y1.v5   			)a   		LEFT JOIN(   			SELECT   				y1.v5 AS v3,   	"
@@ -166,7 +181,21 @@ public class Index_Controller extends MultiActionController{
 						+ "	sum3   		FROM   	(   	SELECT   					y1.v5 AS v3,   					count(*)AS sum2   				FROM   					da_household y1   				JOIN sys_company y2 ON y1.v4 = y2.com_name   		"
 						+ "		WHERE   	y2.com_code = '"+code+"'   				AND y1.sys_standard = '"+gors+"'   				AND v21 = '已脱贫'   	AND entry_year = '2017'			GROUP BY   					y1.v5   			)a   		RIGHT JOIN(   			SELECT   	"
 						+ "			y1.v5 AS v3,   				count(*)AS sum3   			FROM   				da_household_2016 y1   			JOIN sys_company y2 ON y1.v4 = y2.com_name   			WHERE   				y2.com_code = '"+code+"'   			"
-						+ "AND y1.sys_standard = '"+gors+"'   			AND v21 = '已脱贫'   			GROUP BY   				y1.v5   		)b ON a.v3 = b.v3   )d ON c.v3 = d.v3   ";
+						+ "AND y1.sys_standard = '"+gors+"'   			AND v21 = '已脱贫'   			GROUP BY   				y1.v5   		)b ON a.v3 = b.v3   )d ON c.v3 = d.v3   ";*/
+				String sql =" select * from  ( select * from (select com_name from sys_company s where s.com_f_pkid ="+pkid+" )a  LEFT JOIN  ( SELECT          b.v3,          count,          count1,          sum,          sum1       FROM          (             SELECT                y1.v5 as v3,      "
+						+ "          count(*)AS count,                sum(v9)AS sum             FROM                da_household y1             JOIN sys_company y2 ON y1.v4 = y2.com_name             WHERE                y2.com_code = '"+code+"'              and sys_standard = '"+gors+"'          "
+						+ "   AND v21 != '已脱贫'             AND entry_year = '2017'             GROUP BY                y1.v5          )a       RIGHT JOIN(          SELECT            y1.v5 as v3,             count(*)AS count1,             sum(v9)AS sum1          FROM             da_household_2016 y1     "
+						+ "     JOIN sys_company y2 ON y1.v4 = y2.com_name          WHERE             y2.com_code = '"+code+"'          and             sys_standard = '"+gors+"'          AND v21 != '已脱贫'          GROUP BY             y1.v5       )b ON a.v3 = b.v3   UNION  SELECT          a.v3,      "
+						+ "    count,          count1,          sum,          sum1       FROM          (             SELECT                y1.v5 as v3,                count(*)AS count,                sum(v9)AS sum             FROM                da_household y1 					JOIN sys_company y2 ON y1.v4 = y2.com_name 		"
+						+ "				WHERE             y2.com_code = '"+code+"'             and                sys_standard = '"+gors+"'             AND v21 != '已脱贫'             AND entry_year = '2017'             GROUP BY               y1.v5          )a       left JOIN(          SELECT              y1.v5 as v3,        "
+						+ "     count(*)AS count1,             sum(v9)AS sum1          FROM             da_household_2016 y1          JOIN sys_company y2 ON y1.v4 = y2.com_name          WHERE             y2.com_code = '"+code+"' 					and             sys_standard = '"+gors+"'          AND v21 != '已脱贫'     "
+						+ "     GROUP BY             y1.v5        )b ON a.v3 = b.v3  )d on a.com_name = d.v3 )e INNER JOIN ( select * from (select com_name from sys_company s where s.com_f_pkid = "+pkid+" )a  LEFT JOIN  (  SELECT       a.v3,       sum2,       sum3    FROM       (          SELECT            y1.v5 as v3,        "
+						+ "     count(*)AS sum2          FROM             da_household y1             JOIN sys_company y2 ON y1.v4 = y2.com_name             WHERE                y2.com_code = '"+code+"' 					and 						sys_standard = '"+gors+"'          AND v21 = '已脱贫'      "
+						+ "    AND entry_year = '2017'          GROUP BY             y1.v5       )a    LEFT JOIN(       SELECT          y1.v5 as v3,          count(*)AS sum3       FROM          da_household_2016 y1       JOIN sys_company y2 ON y1.v4 = y2.com_name           WHERE             y2.com_code = '"+code+"'     "
+						+ "  and          sys_standard = '"+gors+"'       AND v21 = '已脱贫'       GROUP BY          y1.v5     )b ON a.v3 = b.v3      UNION        SELECT          b.v3,          sum2,          sum3       FROM          (             SELECT              y1.v5 as v3,             count(*)AS sum2          FROM        "
+						+ "     da_household y1             JOIN sys_company y2 ON y1.v4 = y2.com_name             WHERE                y2.com_code = '"+code+"' 					and 						sys_standard = '"+gors+"'          AND v21 = '已脱贫'          AND entry_year = '2017'          GROUP BY             y1.v5          )a   "
+						+ "    RIGHT JOIN(          SELECT             y1.v5 as v3,          count(*)AS sum3       FROM          da_household_2016 y1       JOIN sys_company y2 ON y1.v4 = y2.com_name           WHERE             y2.com_code = '"+code+"'       and          sys_standard = '"+gors+"'       AND v21 = '已脱贫'       GROUP BY  "
+						+ "        y1.v5        )b ON a.v3 = b.v3  )d on a.com_name = d.v3 )f on e.com_name = f.com_name ";
 				SQLAdapter sqlAdapter =new SQLAdapter(sql);
 				List<Map> sql_list = this.getBySqlMapper.findRecords(sqlAdapter);
 				
@@ -174,7 +203,7 @@ public class Index_Controller extends MultiActionController{
 					JSONArray jsa=new JSONArray();
 					JSONObject val = new JSONObject();
 					for(int i = 0;i<sql_list.size();i++){
-						val.put("v3","".equals(sql_list.get(i).get("v3")) || sql_list.get(i).get("v3") == null ?"": sql_list.get(i).get("v3").toString());
+						val.put("v3","".equals(sql_list.get(i).get("com_name")) || sql_list.get(i).get("com_name") == null ?"": sql_list.get(i).get("com_name").toString());
 						val.put("count","".equals(sql_list.get(i).get("count")) || sql_list.get(i).get("count") == null ?"0": sql_list.get(i).get("count").toString());
 						val.put("count1","".equals(sql_list.get(i).get("count1")) || sql_list.get(i).get("count1") == null ?"0": sql_list.get(i).get("count1").toString());
 						val.put("sum","".equals(sql_list.get(i).get("sum")) || sql_list.get(i).get("sum") == null ?"0": sql_list.get(i).get("sum").toString());
@@ -188,7 +217,7 @@ public class Index_Controller extends MultiActionController{
 					response.getWriter().print("0");
 				}
 			}else if(company_json.get("com_level").toString().equals("4")==true){
-				String sql="SELECT   	*    FROM   	(   		SELECT   			a.v3,   			count,   			count1,   			sum,   			sum1   		FROM   			(   				SELECT   	"
+				/*String sql="SELECT   	*    FROM   	(   		SELECT   			a.v3,   			count,   			count1,   			sum,   			sum1   		FROM   			(   				SELECT   	"
 						+ "			y1.v5 AS v3,   					count(*)AS count,   					sum(y1.v9)AS sum   				FROM   					da_household y1   				JOIN sys_company y2 ON y1.v4 = y2.com_name "
 						+ "  WHERE 			y2.com_code = '"+code+"'  				AND y1.sys_standard = '"+gors+"'   				AND y1.v21 != '已脱贫'  AND entry_year = '2017' "
 						+ "	GROUP BY   					y1.v5   			)a   		LEFT JOIN(   			SELECT   				y1.v5 AS v3,   	"
@@ -208,7 +237,21 @@ public class Index_Controller extends MultiActionController{
 						+ "	sum3   		FROM   	(   	SELECT   					y1.v5 AS v3,   					count(*)AS sum2   				FROM   					da_household y1   				JOIN sys_company y2 ON y1.v4 = y2.com_name   		"
 						+ "		WHERE   	y2.com_code = '"+code+"'   				AND y1.sys_standard = '"+gors+"'   				AND v21 = '已脱贫'  AND entry_year = '2017' 				GROUP BY   					y1.v5   			)a   		RIGHT JOIN(   			SELECT   	"
 						+ "			y1.v5 AS v3,   				count(*)AS sum3   			FROM   				da_household_2016 y1   			JOIN sys_company y2 ON y1.v4 = y2.com_name   			WHERE   				y2.com_code = '"+code+"'   			"
-						+ "AND y1.sys_standard = '"+gors+"'   			AND v21 = '已脱贫'   			GROUP BY   				y1.v5   		)b ON a.v3 = b.v3   )d ON c.v3 = d.v3   ";
+						+ "AND y1.sys_standard = '"+gors+"'   			AND v21 = '已脱贫'   			GROUP BY   				y1.v5   		)b ON a.v3 = b.v3   )d ON c.v3 = d.v3   ";*/
+				String sql =" select * from  ( select * from (select com_name from sys_company s where s.com_f_pkid ="+pkid+" )a  LEFT JOIN  ( SELECT          b.v3,          count,          count1,          sum,          sum1       FROM          (             SELECT                y1.v5 as v3,      "
+						+ "          count(*)AS count,                sum(v9)AS sum             FROM                da_household y1             JOIN sys_company y2 ON y1.v4 = y2.com_name             WHERE                y2.com_code = '"+code+"'              and sys_standard = '"+gors+"'          "
+						+ "   AND v21 != '已脱贫'             AND entry_year = '2017'             GROUP BY                y1.v5          )a       RIGHT JOIN(          SELECT            y1.v5 as v3,             count(*)AS count1,             sum(v9)AS sum1          FROM             da_household_2016 y1     "
+						+ "     JOIN sys_company y2 ON y1.v4 = y2.com_name          WHERE             y2.com_code = '"+code+"'          and             sys_standard = '"+gors+"'          AND v21 != '已脱贫'          GROUP BY             y1.v5       )b ON a.v3 = b.v3   UNION  SELECT          a.v3,      "
+						+ "    count,          count1,          sum,          sum1       FROM          (             SELECT                y1.v5 as v3,                count(*)AS count,                sum(v9)AS sum             FROM                da_household y1 					JOIN sys_company y2 ON y1.v4 = y2.com_name 		"
+						+ "				WHERE             y2.com_code = '"+code+"'             and                sys_standard = '"+gors+"'             AND v21 != '已脱贫'             AND entry_year = '2017'             GROUP BY               y1.v5          )a       left JOIN(          SELECT              y1.v5 as v3,        "
+						+ "     count(*)AS count1,             sum(v9)AS sum1          FROM             da_household_2016 y1          JOIN sys_company y2 ON y1.v4 = y2.com_name          WHERE             y2.com_code = '"+code+"' 					and             sys_standard = '"+gors+"'          AND v21 != '已脱贫'     "
+						+ "     GROUP BY             y1.v5        )b ON a.v3 = b.v3  )d on a.com_name = d.v3 )e INNER JOIN ( select * from (select com_name from sys_company s where s.com_f_pkid = "+pkid+" )a  LEFT JOIN  (  SELECT       a.v3,       sum2,       sum3    FROM       (          SELECT            y1.v5 as v3,        "
+						+ "     count(*)AS sum2          FROM             da_household y1             JOIN sys_company y2 ON y1.v4 = y2.com_name             WHERE                y2.com_code = '"+code+"' 					and 						sys_standard = '"+gors+"'          AND v21 = '已脱贫'      "
+						+ "    AND entry_year = '2017'          GROUP BY             y1.v5       )a    LEFT JOIN(       SELECT          y1.v5 as v3,          count(*)AS sum3       FROM          da_household_2016 y1       JOIN sys_company y2 ON y1.v4 = y2.com_name           WHERE             y2.com_code = '"+code+"'     "
+						+ "  and          sys_standard = '"+gors+"'       AND v21 = '已脱贫'       GROUP BY          y1.v5     )b ON a.v3 = b.v3      UNION        SELECT          b.v3,          sum2,          sum3       FROM          (             SELECT              y1.v5 as v3,             count(*)AS sum2          FROM        "
+						+ "     da_household y1             JOIN sys_company y2 ON y1.v4 = y2.com_name             WHERE                y2.com_code = '"+code+"' 					and 						sys_standard = '"+gors+"'          AND v21 = '已脱贫'          AND entry_year = '2017'          GROUP BY             y1.v5          )a   "
+						+ "    RIGHT JOIN(          SELECT             y1.v5 as v3,          count(*)AS sum3       FROM          da_household_2016 y1       JOIN sys_company y2 ON y1.v4 = y2.com_name           WHERE             y2.com_code = '"+code+"'       and          sys_standard = '"+gors+"'       AND v21 = '已脱贫'       GROUP BY  "
+						+ "        y1.v5        )b ON a.v3 = b.v3  )d on a.com_name = d.v3 )f on e.com_name = f.com_name ";
 				SQLAdapter sqlAdapter =new SQLAdapter(sql);
 				List<Map> sql_list = this.getBySqlMapper.findRecords(sqlAdapter);
 				
@@ -231,13 +274,24 @@ public class Index_Controller extends MultiActionController{
 				}
 			}
 		}else{//未登录
-			String sql = "SELECT  *FROM  (  SELECT     b.v3,     count,      count1,      sum,      sum1    FROM      (  SELECT          v3,          count(*)AS count,          sum(v9)AS sum        FROM "
+			/*2017-4-25之前更改  原查询不能查全部行政区划只能查询 有未脱贫贫困户的行政区划下的数据
+			 * String sql = "SELECT  *FROM  (  SELECT     b.v3,     count,      count1,      sum,      sum1    FROM      (  SELECT          v3,          count(*)AS count,          sum(v9)AS sum        FROM "
 					+ "         da_household        WHERE          sys_standard = '"+gors+"'        AND v21 != '已脱贫'   AND entry_year = '2017'     GROUP BY          v3      )a    RIGHT JOIN(      SELECT        v3,        count(*)AS count1,     "
 					+ "   sum(v9)AS sum1      FROM        da_household_2016      WHERE        sys_standard = '"+gors+"'      AND v21 != '已脱贫'      GROUP BY        v3    )b ON a.v3 = b.v3  )c LEFT JOIN(  SELECT    a.v3,    sum2,   "
 					+ " sum3  FROM    (      SELECT        v3,        count(*)AS sum2      FROM        da_household      WHERE        sys_standard = '"+gors+"'      AND v21 = '已脱贫'   AND entry_year = '2017'   GROUP BY        v3    )a  left JOIN(    SELECT      v3,     "
 					+ " count(*)AS sum3    FROM      da_household_2016    WHERE      sys_standard = '"+gors+"'    AND v21 = '已脱贫'    GROUP BY      v3  )b ON a.v3 = b.v3  UNION    SELECT      b.v3,      sum2,      sum3    FROM      (    SELECT    v3,   count(*)AS sum2    "
 					+ "    FROM          da_household        WHERE          sys_standard = '"+gors+"'        AND v21 = '已脱贫'   AND entry_year = '2017'     GROUP BY          v3      )a    right JOIN(      SELECT        v3,        count(*)AS sum3      FROM        da_household_2016      WHERE      "
-					+ "  sys_standard = '"+gors+"'      AND v21 = '已脱贫'      GROUP BY        v3    )b ON a.v3 = b.v3)d on c.v3 = d.v3";
+					+ "  sys_standard = '"+gors+"'      AND v21 = '已脱贫'      GROUP BY        v3    )b ON a.v3 = b.v3)d on c.v3 = d.v3";*/
+			String sql="select * from  (select * from (select com_name from sys_company s where s.com_f_pkid ="+pkid+" )a  LEFT JOIN  ( SELECT         b.v3,          count,          count1,          sum,          sum1       FROM          (             SELECT                v3,          "
+					+ "      count(*)AS count,                sum(v9)AS sum             FROM                da_household             WHERE                sys_standard = '"+gors+"'             AND v21 != '已脱贫'             AND entry_year = '2017'             GROUP BY                v3          )a  "
+					+ "     RIGHT JOIN(          SELECT             v3,             count(*)AS count1,             sum(v9)AS sum1          FROM             da_household_2016          WHERE             sys_standard = '"+gors+"'          AND v21 != '已脱贫'          GROUP BY             v3       )b ON a.v3 = b.v3  "
+					+ " UNION  SELECT          a.v3,          count,          count1,          sum,          sum1       FROM          (             SELECT                v3,                count(*)AS count,                sum(v9)AS sum             FROM                da_household             WHERE         "
+					+ "       sys_standard = '"+gors+"'             AND v21 != '已脱贫'             AND entry_year = '2017'             GROUP BY                v3          )a       left JOIN(          SELECT             v3,             count(*)AS count1,             sum(v9)AS sum1          FROM             da_household_2016          WHERE        "
+					+ "     sys_standard = '"+gors+"'          AND v21 != '已脱贫'          GROUP BY             v3       )b ON a.v3 = b.v3  )d on a.com_name = d.v3 )e INNER JOIN ( select * from (select com_name from sys_company s where s.com_f_pkid = "+pkid+")a  LEFT JOIN  (  SELECT       a.v3,       sum2,       sum3    FROM       (          SELECT         "
+					+ "    v3,             count(*)AS sum2          FROM             da_household          WHERE             sys_standard = '"+gors+"'          AND v21 = '已脱贫'          AND entry_year = '2017'          GROUP BY             v3       )a    LEFT JOIN(       SELECT          v3,        "
+					+ "  count(*)AS sum3       FROM          da_household_2016       WHERE          sys_standard = '"+gors+"'       AND v21 = '已脱贫'       GROUP BY          v3    )b ON a.v3 = b.v3      UNION        SELECT          b.v3,          sum2,          sum3       FROM          (         "
+					+ "    SELECT                v3,                count(*)AS sum2             FROM                da_household             WHERE                sys_standard = '"+gors+"'             AND v21 = '已脱贫'             AND entry_year = '2017'             GROUP BY                v3          )a       RIGHT JOIN(   "
+					+ "       SELECT             v3,             count(*)AS sum3          FROM             da_household_2016          WHERE             sys_standard = '"+gors+"'          AND v21 = '已脱贫'          GROUP BY             v3       )b ON a.v3 = b.v3  )d on a.com_name = d.v3 )f on e.com_name = f.com_name ";
 			SQLAdapter sqlAdapter =new SQLAdapter(sql);
 			List<Map> sql_list = this.getBySqlMapper.findRecords(sqlAdapter);
 			
@@ -245,7 +299,7 @@ public class Index_Controller extends MultiActionController{
 				JSONArray jsa=new JSONArray();
 				JSONObject val = new JSONObject();
 				for(int i = 0;i<sql_list.size();i++){
-					val.put("v3","".equals(sql_list.get(i).get("v3")) || sql_list.get(i).get("v3") == null ?"": sql_list.get(i).get("v3").toString());
+					val.put("v3","".equals(sql_list.get(i).get("com_name")) || sql_list.get(i).get("com_name") == null ?"": sql_list.get(i).get("com_name").toString());
 					val.put("count","".equals(sql_list.get(i).get("count")) || sql_list.get(i).get("count") == null ?"0": sql_list.get(i).get("count").toString());
 					val.put("count1","".equals(sql_list.get(i).get("count1")) || sql_list.get(i).get("count1") == null ?"0": sql_list.get(i).get("count1").toString());
 					val.put("sum","".equals(sql_list.get(i).get("sum")) || sql_list.get(i).get("sum") == null ?"0": sql_list.get(i).get("sum").toString());
@@ -391,6 +445,7 @@ public class Index_Controller extends MultiActionController{
 		response.setCharacterEncoding("UTF-8");
 		String gors = request.getParameter("gors");//获取判断国标或者市标的参数
 		String code = request.getParameter("code");//获取行政编码
+		String pkid = request.getParameter("pkid");
 		HttpSession session = request.getSession();//取session
 		JSONObject json = new JSONObject();
 		String sql = "", ziduan = "", tiaojian = "", cun_duyou = "",xc_name = "";
@@ -422,7 +477,7 @@ public class Index_Controller extends MultiActionController{
 			ziduan = "v1";
 			tiaojian = " where c.com_level=2 and b2>0 order by b2 desc ";
 		}
-		sql = " SELECT a.v2,a.b1,b2,b22,b3,b33,b4,b6,b7,b8,b9,b10,b11,b12,b13 from (SELECT v2,b1,b2,b3,b4,b6,b7,b8,b9 from (select a.v2,a."+ziduan+" as b1,"+
+		sql = " select * from (select com_name  from sys_company s where s.com_f_pkid = "+pkid+") d  LEFT JOIN ( SELECT a.v2,a.b1,b2,b22,b3,b33,b4,b6,b7,b8,b9,b10,b11,b12,b13 from (SELECT v2,b1,b2,b3,b4,b6,b7,b8,b9 from (select a.v2,a."+ziduan+" as b1,"+
 				"SUM(a.b2) as b2 , SUM(a.b3) as b3, SUM(a.b4) as b4,SUM(a.b6)as b6,SUM(a.b7)as b7 ,SUM(a.b8) as b8,SUM(a.b9) as b9,"+
 				"a.b14 from da_statistics a "+
 				" where a.b14='"+ gors +"' "+xc_name+" GROUP BY a."+ziduan+") b join sys_company c on b.b1=c.com_name"+tiaojian+")a left join("+
@@ -434,14 +489,14 @@ public class Index_Controller extends MultiActionController{
 				" where a.b14='"+ gors +"' "+xc_name+" GROUP BY a."+ziduan+") b join sys_company c on b.b1=c.com_name"+tiaojian+")a right join("+
 				"SELECT v2,b1,b2 b22,b3 b33,b10,b11,b12, b13 from (select a.v2,a."+ziduan+" as b1,"+
 				"SUM(a.b2) as b2 , SUM(a.b3) as b3,	SUM(a.b10)AS b10,SUM(a.b11)AS b11, SUM(a.b12)AS b12, SUM(a.b13)AS b13  from da_statistics_2016 a "+
-				" where a.b14='"+ gors +"' "+xc_name+" GROUP BY a."+ziduan+") b join sys_company c on b.b1=c.com_name"+tiaojian+")b on a.b1=b.b1";
+				" where a.b14='"+ gors +"' "+xc_name+" GROUP BY a."+ziduan+") b join sys_company c on b.b1=c.com_name"+tiaojian+")b on a.b1=b.b1 )c on d.com_name = c.b1";
 		SQLAdapter sql_find=new SQLAdapter(sql);
 		List<Map> sql_list = this.getBySqlMapper.findRecords(sql_find);
 		JSONObject val = new JSONObject();
 		if(sql_list.size()>0){
 			JSONArray jsa=new JSONArray();
 			for(Map asmap:sql_list){
-				val.put("b1",asmap.get("b1")==null?"":asmap.get("b1"));
+				val.put("b1",asmap.get("com_name")==null?"":asmap.get("com_name"));
 				val.put("b2",asmap.get("b2")==null?"0":asmap.get("b2"));
 				val.put("b3",asmap.get("b3")==null?"0":asmap.get("b3"));
 				val.put("b22",asmap.get("b22")==null?"0":asmap.get("b22"));
