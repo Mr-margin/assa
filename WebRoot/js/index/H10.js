@@ -294,7 +294,7 @@ $(function () {
     	incompletedate();//重新初始化数据
     });
     
-    $('#exportExcel_all').click(function () {
+    $('#exportExcel_allPKH').click(function () {
     	var form_val,form_name,jsonlevel,danxuan_val,jsonname;
     	var Request = new Object();
     	Request = GetRequest();
@@ -322,13 +322,13 @@ $(function () {
     	    },
     	    dataType: "json",
     	    beforeSend: function(){
-    	    	$('#exportExcel_all').hide();
+    	    	$('#exportExcel_allPKH').hide();
     	    	$('#export').hide();
     	    	$('#exportExcel_all_dengdai').show();
     	    	$('#export_jz').show();
     	    },
     	    complete: function(){
-    	    	$('#exportExcel_all').show();
+    	    	$('#exportExcel_allPKH').show();
     	    	$('#export').show();
     	    	$('#exportExcel_all_dengdai').hide();
     	    	$('#export_jz').hide();

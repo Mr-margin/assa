@@ -1,4 +1,6 @@
+var col_account="";
 $(function () {
+	col_account=jsondata.Login_map.col_account;
 	//保存新措施
 	$("#zoufangqingkaung #v1_tj_zoufang").click(function () {
 		if($("#zoufangqingkaung #v1").val()!=''&&$("#zoufangqingkaung #v2").val()!=''&&$("#zoufangqingkaung #v3").val()!=''){
@@ -97,7 +99,8 @@ function zfqk(id){
 function data_jiazai_zoufang(pkid){
 	$("#zoufangqingkaung #v1_bc_zoufang").hide();//保存按钮
 	$("#zoufangqingkaung #v1_tj_zoufang").show();//编辑按钮
-	$("#zoufangqingkaung #new_cuoshi").show();
+	
+	
 	$("#zoufangqingkaung #poht_list_div").hide();
 	$("#zoufangqingkaung #webup_div").hide();
 	
@@ -115,9 +118,16 @@ function data_jiazai_zoufang(pkid){
 	    	type:2
         },
 	    success: function (data) {
+	    	
+	    	if(col_account!="100000"){
+	    		$("#zoufangqingkaung #new_cuoshi").show();
+	    	}else{
+	    		$("#zoufangqingkaung #new_cuoshi").hide();
+	    	}
 	    	//表格数据
 	    	var cuoshi_html = "<tr><th>走访时间</th><th style=\"width:150px\">帮扶干部</th><th style=\"width:250px\">走访情况记录</th><th style=\"text-align:center;\">照片</th><th style=\"text-align:center;\">操作</th></tr>";
 	    	$.each(data.table,function(i,item){
+	    		//col_account=item.col_account;
 	    		item.v1 = item.v1.replace(/[\r\n]/g,"");
 	    		item.v2 = item.v2.replace(/[\r\n]/g,"");
 	    		item.v3 = item.v3.replace(/[\r\n]/g,"");
@@ -137,11 +147,16 @@ function data_jiazai_zoufang(pkid){
 //	    			cuoshi_html += "<td class=\"client-status\"><a onClick=\"zoufang_pic_show("+item.pkid+");\">查看</a>  " +
 //							"<button type=\"button\" class=\"btn btn-primary btn-xs\" onclick='zoufang_pic_load(1,"+item.pkid+");'>上传</button></td>";
 //	    			
-	    			cuoshi_html += "<td  style=\"text-align:center;\" class=\"client-status\"><button type=\"button\" class=\"btn btn-primary btn-xs\" onClick=\"zoufang_pic_show("+item.pkid+");\"><i class=\"fa fa-search\"></i> 查看 </button>  " +
-							"<button type=\"button\" class=\"btn btn-primary btn-xs\" onclick='zoufang_pic_load(2,"+item.pkid+");'><i class=\"fa fa-upload\"></i> 上传 </button></td>";
-	    		//}
-	    		cuoshi_html += "<td  style=\"text-align:center;\" class=\"client-status\"><button type=\"button\" class=\"btn btn-primary btn-xs\" onclick=\"update_zoufang('"+item.pkid+"','"+item.v1+"','"+item.v2+"','"+item.v3+"');\"><i class=\"fa fa-pencil\"></i> 修改 </button>   " +
+	    			cuoshi_html += "<td  style=\"text-align:center;\" class=\"client-status\"><button type=\"button\" class=\"btn btn-primary btn-xs\" onClick=\"zoufang_pic_show("+item.pkid+");\"><i class=\"fa fa-search\"></i> 查看 </button>  " ;
+	    			if(col_account!="100000"){
+	    				cuoshi_html +="<button type=\"button\" class=\"btn btn-primary btn-xs\" onclick='zoufang_pic_load(2,"+item.pkid+");'><i class=\"fa fa-upload\"></i> 上传 </button></td>";
+	    				cuoshi_html += "<td  style=\"text-align:center;\" class=\"client-status\"><button type=\"button\" class=\"btn btn-primary btn-xs\" onclick=\"update_zoufang('"+item.pkid+"','"+item.v1+"','"+item.v2+"','"+item.v3+"');\"><i class=\"fa fa-pencil\"></i> 修改 </button>   " +
 	    				"<button type=\"button\" class=\"btn btn-primary btn-xs\" onclick='del_zoufang("+item.pkid+");'><i class=\"fa fa-remove\"></i> 删除 </button></td></tr>";
+	    			}
+	    			
+							
+	    		//}
+	    		
 	    	});
 	    	$("#zoufangqingkaung #cuoshi_table").html(cuoshi_html);
 	    },

@@ -21,12 +21,12 @@ $(function () {
 	});
     
     //生产条件保存
-    $("#shengchan #save").click(function () {
+    $("#shengchan #saveSCTJ").click(function () {
     	shengchan_save();
 	});
     
     //生活条件保存
-    $("#shenghuo #save").click(function () {
+    $("#shenghuo #saveSHTJ").click(function () {
     	shenghuo_save();
 	});
     

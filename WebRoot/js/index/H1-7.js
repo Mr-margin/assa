@@ -11,7 +11,7 @@ $(function () {
 	});
 	
 	//保存收入
-    $("#bangfuhoushouru #save").click(function () {
+    $("#bangfuhoushouru #saveBFHSR").click(function () {
     	var validator = $("#bangfuhoushouru_Form").validate();
 		if(validator.form()){
 			bangfuhoushouru_save();
@@ -21,7 +21,7 @@ $(function () {
 	});
     
     //保存支出
-    $("#bangfuhouzhichu #save").click(function () {
+    $("#bangfuhouzhichu #saveBFHZC").click(function () {
     	var validator = $("#bangfuhouzhichu_Form").validate();
 		if(validator.form()){
 			bangfuhouzhichu_save();
