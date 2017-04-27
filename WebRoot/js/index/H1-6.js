@@ -224,25 +224,33 @@ function chengxiao_pic_show(pkid){
 	    	//现有图片
 	    	var tupian_html = "";
 	    	$.each(data.pic,function(i,item){
-	    		tupian_html += "<li id=\"pin_li_"+item.pkid+"\"><p class=\"imgWrap\"><a href=\""+item.pic_path+"\" title=\"帮扶成效图片\" data-gallery=\"\">" +
-	    				"<img src=\""+item.pic_path+"\" style=\"margin:0;vertical-align:baseline;width:130px;height:85px;\"></a></p>" +
-	    				"<div id=\"pin_del_"+item.pkid+"\" class=\"file-panel\" style=\"height: 0px;\"><span class=\"cancel\" onclick='pic_del_chengxiao("+item.pkid+","+pkid+");'>删除</span></div></li>";
+	    		if(col_account!="100000"){
+	    			tupian_html += "<li id=\"pin_li_"+item.pkid+"\"><p class=\"imgWrap\"><a href=\""+item.pic_path+"\" title=\"帮扶成效图片\" data-gallery=\"\">" +
+    				"<img src=\""+item.pic_path+"\" style=\"margin:0;vertical-align:baseline;width:130px;height:85px;\"></a></p>" +
+    				"<div id=\"pin_del_"+item.pkid+"\" class=\"file-panel\" style=\"height: 0px;\"><span class=\"cancel\" onclick='pic_del_chengxiao("+item.pkid+","+pkid+");'>删除</span></div></li>";
+	    		}else{
+	    			tupian_html += "<li id=\"pin_li_"+item.pkid+"\"><p class=\"imgWrap\"><a href=\""+item.pic_path+"\" title=\"帮扶成效图片\" data-gallery=\"\">" +
+    				"<img src=\""+item.pic_path+"\" style=\"margin:0;vertical-align:baseline;width:130px;height:85px;\"></a></p></li>";
+	    		}
 	    	});
 	    	
 	    	$('#bangfuchengxiao #poht_list').html(tupian_html);//要先循环一遍加上html后 再循环一遍，添加事件
-	    	$.each(data.pic,function(i,item){
-	    		$("#bangfuchengxiao #pin_li_"+item.pkid).mouseenter(function(){  
-	    			$("#bangfuchengxiao #pin_del_"+item.pkid).stop().animate({
-		            	height: 30
-		            });
-	    		}); 
-	    		
-	    		$("#bangfuchengxiao #pin_li_"+item.pkid).mouseleave(function(){
-	    			$("#bangfuchengxiao #pin_del_"+item.pkid).stop().animate({
-			                height: 0
-			        });
-			    });
-	    	});
+	    	if(col_account!="100000"){
+	    		$.each(data.pic,function(i,item){
+		    		$("#bangfuchengxiao #pin_li_"+item.pkid).mouseenter(function(){  
+		    			$("#bangfuchengxiao #pin_del_"+item.pkid).stop().animate({
+			            	height: 30
+			            });
+		    		}); 
+		    		
+		    		$("#bangfuchengxiao #pin_li_"+item.pkid).mouseleave(function(){
+		    			$("#bangfuchengxiao #pin_del_"+item.pkid).stop().animate({
+				                height: 0
+				        });
+				    });
+		    	});
+	    	}
+	    	
 	    	
 	    },
 	    error: function () { 
