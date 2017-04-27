@@ -1,4 +1,7 @@
+var col_account="";
 $(function () {
+	
+	col_account=jsondata.Login_map.col_account;
 //	//开始编辑
 //	$("#bangfuren #v1_button").click(function () {
 //		$("#bangfuren #v1").hide();
@@ -348,8 +351,13 @@ function data_jiazai_bangfu(id){
 	    	var bangfu_html = "<tr><th>姓名</th><th>单位</th><th>职务</th><th>电话</th><th>操作</th></tr>";
 	    	
 	    	$.each(data.bangfu,function(i,item){
+	    		if(col_account!="100000"){
 	    		bangfu_html += "<tr><td>"+item.col_name+"</td><td>"+item.com_name+"</td><td>"+item.col_post+"</td><td>"+item.telephone+"</td><td class=\"client-status\">" +
-	    				"<button type=\"button\" class=\"btn btn-primary btn-xs\" onclick='jiechu_bangfu("+item.pkid+");' style=\"display:none;\" id=\"relieveBFZRR\"><i class=\"fa fa-remove\"></i> 解除 </button></td></tr>";
+	    				"<button type=\"button\" class=\"btn btn-primary btn-xs\" onclick='jiechu_bangfu("+item.pkid+");'><i class=\"fa fa-remove\"></i> 解除 </button></td></tr>";
+	    		}else{
+	    			bangfu_html += "<tr><td>"+item.col_name+"</td><td>"+item.com_name+"</td><td>"+item.col_post+"</td><td>"+item.telephone+"</td><td class=\"client-status\"></td></tr>";
+	    		}
+	    		
 	    	});
 	    	$('#bangfuren #bangfu_table').html(bangfu_html);
 	    	

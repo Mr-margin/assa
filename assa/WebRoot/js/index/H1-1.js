@@ -113,7 +113,7 @@ $(function () {
     });
     
     //易地扶贫搬迁保存
-    $("#yidifupinbanqian #save").click(function () {
+    $("#yidifupinbanqian #saveYDFPBQ").click(function () {
     	yidifupinbanqian_save();
 	});
     
