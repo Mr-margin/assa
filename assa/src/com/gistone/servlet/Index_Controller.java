@@ -335,7 +335,7 @@ public class Index_Controller extends MultiActionController{
 			}
 
 			if(code.toString().equals("shi")){//市级
-				String sql="SELECT v3,count(*) AS count FROM da_household  where sys_standard='"+gors+"' and v21!='已脱贫' and entry_year = '2017'  GROUP BY v3";
+				String sql="select * from (select com_name from sys_company  s  where s.com_f_pkid = 4)b  LEFT JOIN (select * from (SELECT v3,count(*) AS count FROM da_household  where sys_standard='"+gors+"' and v21!='已脱贫' and entry_year = '2017'  GROUP BY v3)a)c on b.com_name = c.v3";
 				SQLAdapter sqlAdapter =new SQLAdapter(sql);
 				List<Map> sql_list = this.getBySqlMapper.findRecords(sqlAdapter);
 				JSONObject val = new JSONObject();
@@ -344,7 +344,7 @@ public class Index_Controller extends MultiActionController{
 					for(int i = 0;i<sql_list.size();i++){
 						Map Admin_st_map = sql_list.get(i);
 						for(int j = 0; j<Admin_st_map.size(); j++){
-							val.put("name", Admin_st_map.get("v3"));
+							val.put("name", Admin_st_map.get("com_name"));
 							val.put("value", Admin_st_map.get("count")==null?"0":Admin_st_map.get("count").toString());
 						}
 						jsa.add(val);
@@ -356,7 +356,7 @@ public class Index_Controller extends MultiActionController{
 			}else{
 				if(company_json.get("com_level").toString().equals("2")==true){//二级单位
 
-					String sql="SELECT a1.v4 AS v3,COUNT(*) AS count from da_household a1 JOIN sys_company a2 on a1.v3 = a2.com_name WHERE a2.com_code='"+code+"' AND a1.sys_standard='"+gors+"' and a1.v21!='已脱贫' AND entry_year = '2017' GROUP BY a1.v4";
+					String sql="select * from (select com_name from sys_company  s  where s.com_f_pkid = "+company_json.get("pkid").toString()+")b LEFT JOIN (select * from ( SELECT a1.v4 AS v3,COUNT(*) AS count from da_household a1 JOIN sys_company a2 on a1.v3 = a2.com_name WHERE a2.com_code='"+code+"' AND a1.sys_standard='"+gors+"' and a1.v21!='已脱贫' AND entry_year = '2017' GROUP BY a1.v4)a)c on b.com_name = c.v3";
 					SQLAdapter sqlAdapter =new SQLAdapter(sql);
 					List<Map> sql_list = this.getBySqlMapper.findRecords(sqlAdapter);
 					JSONObject val = new JSONObject();
@@ -365,7 +365,7 @@ public class Index_Controller extends MultiActionController{
 						for(int i = 0;i<sql_list.size();i++){
 							Map Admin_st_map = sql_list.get(i);
 							for(int j = 0; j<Admin_st_map.size(); j++){
-								val.put("name", Admin_st_map.get("v3"));
+								val.put("name", Admin_st_map.get("com_name"));
 								val.put("value",  Admin_st_map.get("count")==null?"0":Admin_st_map.get("count").toString());
 							}
 							jsa.add(val);
@@ -375,7 +375,7 @@ public class Index_Controller extends MultiActionController{
 						response.getWriter().print("0");
 					}
 				}else if(company_json.get("com_level").toString().equals("3")==true){//三级单位
-					String sql="SELECT a1.v5 AS v3,COUNT(*) AS count from da_household a1 JOIN sys_company a2 on a1.v4 = a2.com_name WHERE a2.com_code='"+code+"' AND a1.sys_standard='"+gors+"' and a1.v21!='已脱贫' AND entry_year = '2017' GROUP BY a1.v5";
+					String sql="select * from (select com_name from sys_company  s  where s.com_f_pkid = "+company_json.get("pkid").toString()+")b LEFT JOIN (select * from (SELECT a1.v5 AS v3,COUNT(*) AS count from da_household a1 JOIN sys_company a2 on a1.v4 = a2.com_name WHERE a2.com_code='"+code+"' AND a1.sys_standard='"+gors+"' and a1.v21!='已脱贫' AND entry_year = '2017' GROUP BY a1.v5)a)c on b.com_name = c.v3";
 					SQLAdapter sqlAdapter =new SQLAdapter(sql);
 					List<Map> sql_list = this.getBySqlMapper.findRecords(sqlAdapter);
 					JSONObject val = new JSONObject();
@@ -384,7 +384,7 @@ public class Index_Controller extends MultiActionController{
 						for(int i = 0;i<sql_list.size();i++){
 							Map Admin_st_map = sql_list.get(i);
 							for(int j = 0; j<Admin_st_map.size(); j++){
-								val.put("name", Admin_st_map.get("v3"));
+								val.put("name", Admin_st_map.get("com_name"));
 								val.put("value",  Admin_st_map.get("count")==null?"0":Admin_st_map.get("count").toString());
 							}
 							jsa.add(val);
@@ -394,7 +394,7 @@ public class Index_Controller extends MultiActionController{
 						response.getWriter().print("0");
 					}
 				}else if(company_json.get("com_level").toString().equals("4")==true){//四级单位
-					String sql="SELECT a1.v5 AS v3,COUNT(*) AS count from da_household a1 JOIN sys_company a2 on a1.v4 = a2.com_name WHERE a2.com_code='"+code+"' AND a1.sys_standard='"+gors+"' and a1.v21!='已脱贫' AND entry_year = '2017' GROUP BY a1.v5";
+					String sql="select * from (select com_name from sys_company  s  where s.com_f_pkid = "+company_json.get("pkid").toString()+")b LEFT JOIN (select * from (SELECT a1.v5 AS v3,COUNT(*) AS count from da_household a1 JOIN sys_company a2 on a1.v4 = a2.com_name WHERE a2.com_code='"+code+"' AND a1.sys_standard='"+gors+"' and a1.v21!='已脱贫' AND entry_year = '2017' GROUP BY a1.v5)a)c on b.com_name = c.v3";
 					SQLAdapter sqlAdapter =new SQLAdapter(sql);
 					List<Map> sql_list = this.getBySqlMapper.findRecords(sqlAdapter);
 					JSONObject val = new JSONObject();
@@ -403,7 +403,7 @@ public class Index_Controller extends MultiActionController{
 						for(int i = 0;i<sql_list.size();i++){
 							Map Admin_st_map = sql_list.get(i);
 							for(int j = 0; j<Admin_st_map.size(); j++){
-								val.put("name", Admin_st_map.get("v3"));
+								val.put("name", Admin_st_map.get("com_name"));
 								val.put("value",  Admin_st_map.get("count")==null?"0":Admin_st_map.get("count").toString());
 							}
 							jsa.add(val);
@@ -416,7 +416,7 @@ public class Index_Controller extends MultiActionController{
 			}
 
 		}else{//如果session为空，即未登录
-			String sql="SELECT v3,count(*) AS count FROM da_household  where sys_standard='"+gors+"' and v21!='已脱贫' AND entry_year = '2017' GROUP BY v3";
+			String sql="select * from (select com_name from sys_company  s  where s.com_f_pkid = 4)b LEFT JOIN (select * from (SELECT v3,count(*) AS count FROM da_household  where sys_standard='"+gors+"' and v21!='已脱贫' AND entry_year = '2017' GROUP BY v3)a)c on b.com_name = c.v3";
 			SQLAdapter sqlAdapter =new SQLAdapter(sql);
 			List<Map> sql_list = this.getBySqlMapper.findRecords(sqlAdapter);
 			JSONObject val = new JSONObject();
@@ -425,7 +425,7 @@ public class Index_Controller extends MultiActionController{
 				for(int i = 0;i<sql_list.size();i++){
 					Map Admin_st_map = sql_list.get(i);
 					for(int j = 0; j<Admin_st_map.size(); j++){
-						val.put("name", Admin_st_map.get("v3"));
+						val.put("name", Admin_st_map.get("com_name"));
 						val.put("value",  Admin_st_map.get("count")==null?"0":Admin_st_map.get("count").toString());
 					}
 					jsa.add(val);
