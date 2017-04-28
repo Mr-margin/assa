@@ -676,6 +676,7 @@ public class PoorUserController extends MultiActionController{
 			obj.put("v16",val.get("v16")==null?"":val.get("v16"));//务工情况
 			obj.put("v17",val.get("v17")==null?"":val.get("v17"));//务工时间
 			obj.put("sys_standard",val.get("sys_standard")==null?"":val.get("sys_standard"));//识别标准
+			obj.put("v21",val.get("v21")==null?"":val.get("v21"));//是否脱贫
 			obj.put("v22",val.get("v22")==null?"":val.get("v22"));//贫苦户属性
 			obj.put("v23",val.get("v23")==null?"":val.get("v23"));//致贫原因
 			obj.put("v29",val.get("v29")==null?"":val.get("v29"));//是否军烈属
@@ -823,6 +824,7 @@ public class PoorUserController extends MultiActionController{
 		String pkid = request.getParameter("pkid");
 		String form_val = request.getParameter("form_val");
 		JSONObject form_json = JSONObject.fromObject(form_val);//表单数据
+		String v21 = form_json.get("v21").toString();
 		
 		String where = "";
 		String jiatingwhere = "";
@@ -946,11 +948,20 @@ public class PoorUserController extends MultiActionController{
 			where += "v8='',";
 		}
 		if(form_json.get("sys_standard")!=null&&!form_json.get("sys_standard").equals("")){//下拉框，一定有值，但是要筛除“请选择”
-			if(form_json.get("sys_standard").equals("请选择")){
-				where += "sys_standard='',init_flag='',";
+			if(v21.equals("已脱贫")){
+				if(form_json.get("sys_standard").equals("请选择")){
+					where += "sys_standard='',";
+				}else{
+					where += "sys_standard='"+form_json.get("sys_standard")+"',";
+				}
 			}else{
-				where += "sys_standard='"+form_json.get("sys_standard")+"',init_flag='"+form_json.get("sys_standard")+"',";
+				if(form_json.get("sys_standard").equals("请选择")){
+					where += "sys_standard='',init_flag='',";
+				}else{
+					where += "sys_standard='"+form_json.get("sys_standard")+"',init_flag='"+form_json.get("sys_standard")+"',";
+				}
 			}
+			
 		}
 		if(form_json.get("v22")!=null&&!form_json.get("v22").equals("")){//下拉框，一定有值，但是要筛除“请选择”
 			if(form_json.get("v22").equals("请选择")){
