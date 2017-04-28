@@ -300,6 +300,7 @@ function jbqk(id){
 	    	$('#huzhu #v26').val(data.huzhu.v26);//开户银行
 	    	$('#huzhu #v27').val(data.huzhu.v27);//银行账号
 	    	$('#huzhu #v17').val(data.huzhu.v17);//务工时间
+	    	$('#huzhu #v21').val(data.huzhu.v21);//脱贫标志
 	    	if(data.huzhu.v16==''){
 	    		$('#huzhu #v16').val("请选择");//务工情况
 	    	}else{
