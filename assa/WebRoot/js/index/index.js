@@ -185,16 +185,19 @@ function index_map(code,gors){
 		 					}]
 		 	        	};
 		 	    	option.series[0].data = data;
-		 	    	var min = 0,max = 0;
-		 	    	$.each(data, function(i,item) {
-		 	    		if(item.value*1>max){
-		 	    			max = item.value;
-		 	    		}
-		 	    		if(item.value<min){
-		 	    			min = item.value;
-		 	    		}
-		 	    	});
-		 	    	option.dataRange.max = max;
+		 	    	var min = 0,max = 10;
+		 	    	if(data.length>0){
+
+		 	    		$.each(data, function(i,item) {
+			 	    		if(item.value*1>max){
+			 	    			max = item.value;
+			 	    		}
+			 	    		if(item.value<min){
+			 	    			min = item.value;
+			 	    		}
+			 	    	});
+		 	    	}
+		 	    	option.dataRange.max = max;	    	
 		 	    	option.dataRange.min = min;
 		 		    myChart.setOption(option);
 		 	    },
