@@ -444,11 +444,20 @@ public class AnController extends MultiActionController{
 			obj.put("name", poor_list.get(i).get("v6"));// 贫困户主
 			obj.put("pid", poor_list.get(i).get("pkid"));// 贫困户主id
 			for (int j = 0; j < criterion_map.size(); j++) {
+				// 原始标准
 				if ("".equals(poor_list.get(i).get("sys_standard"))|| poor_list.get(i).get("sys_standard") == null) {
-					obj.put("criterion", "2");// 标准
+					obj.put("criterion", "2");
 				} else {
 					if (poor_list.get(i).get("sys_standard").toString().equals(criterion[j])) {
 						obj.put("criterion", criterion_map.get(criterion[j]));// 标准
+					}
+				}
+				//现在标准
+				if ("".equals(poor_list.get(i).get("init_flag"))|| poor_list.get(i).get("init_flag") == null) {
+					obj.put("nowcriterion", "2");
+				} else {
+					if (poor_list.get(i).get("init_flag").toString().equals(criterion[j])) {
+						obj.put("nowcriterion", criterion_map.get(criterion[j]));// 标准
 					}
 				}
 			}
@@ -495,7 +504,7 @@ public class AnController extends MultiActionController{
 		response.setCharacterEncoding("UTF-8");
 		String pkid=request.getParameter("pid");
 		try {
-			String sql="SELECT basic_address,v3,v4,v5,v26,v27,v23,v33,sys_standard,v29,v30,v31,V6,pkid,v25,v8,v22,v11,v7,entry_year,pic_path, ROUND((dqsz-dqzc)/v9,2) bfq,ROUND((dqszh-dqzch)/v9,2) bfh FROM  da_household a LEFT JOIN  "+
+			String sql="SELECT basic_address,v3,v4,v5,v26,v27,v23,v33,sys_standard,v29,v30,v31,V6,pkid,v25,v8,v22,v11,v7,entry_year,init_flag,pic_path, ROUND((dqsz-dqzc)/v9,2) bfq,ROUND((dqszh-dqzch)/v9,2) bfh FROM  da_household a LEFT JOIN  "+
 					"(select pic_path,pic_pkid from da_pic WHERE pic_type='4' )c ON a.pkid=c.pic_pkid LEFT JOIN  "+
 					"(select v39 dqsz,da_household_id FROM da_current_income)d ON a.pkid=d.da_household_id LEFT JOIN  "+
 					"(select v31 dqzc,da_household_id FROM da_current_expenditure ) e ON a.pkid=e.da_household_id LEFT JOIN"+
@@ -519,6 +528,7 @@ public class AnController extends MultiActionController{
 		}else{
 			obj.put("pyear",list.get(0).get("entry_year"));//贫困户年份
 		}
+		
 		if("".equals(list.get(0).get("v25"))||list.get(0).get("v25")==null){
 			obj.put("v25", "");//联系电话
 		}else{
@@ -535,9 +545,14 @@ public class AnController extends MultiActionController{
 			obj.put("v27",list.get(0).get("v27"));//银行账号
 		}
 		if("".equals(list.get(0).get("sys_standard"))||list.get(0).get("sys_standard")==null){
-			obj.put("a", "");//识别标准
+			obj.put("a", "");//识别标准  原始
 		}else{
 			obj.put("a", list.get(0).get("sys_standard"));//识别标准
+		}
+		if("".equals(list.get(0).get("init_flag"))||list.get(0).get("init_flag")==null){
+			obj.put("aa", "");//贫困户标准  退出  变化的
+		}else{
+			obj.put("aa",list.get(0).get("init_flag"));//贫困户标准
 		}
 		if("".equals(list.get(0).get("pic_path"))||list.get(0).get("pic_path")==null){
 			obj.put("b", "");//图片
