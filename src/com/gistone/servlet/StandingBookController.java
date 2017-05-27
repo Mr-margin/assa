@@ -953,7 +953,7 @@ public class StandingBookController extends MultiActionController{
 	          
 				//贫困户基本信息
 				String sql_1 = "select t1.pkid,t1.v3,t1.v4,t1.v5,t1.v6,t1.v8,t1.v9,t1.v22,t1.v29,t1.v30,t1.v31,t1.v23,t1.v33,t1.v25,t1.v26,t1.v27,t1.sys_standard,t2.basic_address,t2.basic_explain "
-						+ "from da_household"+year+" t1 join da_household_basic"+year+" t2 on t1.pkid=t2.da_household_id ";
+ 						+ "from da_household"+year+" t1 join da_household_basic"+year+" t2 on t1.pkid=t2.da_household_id ";
 				
 				if((request.getParameter("cha_bfdw")!=null&&!request.getParameter("cha_bfdw").equals(""))||(request.getParameter("cha_bfzrr")!=null&&!request.getParameter("cha_bfzrr").equals(""))){
 					if(request.getParameter("cha_bfdw")!=null&&!request.getParameter("cha_bfdw").equals("")){
@@ -1079,6 +1079,7 @@ public class StandingBookController extends MultiActionController{
 		        	sheet_2.addCell(new Label( 19 , conut_2 ,s2_list.get(0).get("v32")==null?"":s2_list.get(0).get("v32").toString() ,coty));
 		        	sheet_2.setRowView(conut_2, 500); // 设置第一行的高度
 		        	conut_2++;
+		        	//查户主
 		        	String cha_sql="select da_household_id, v3,v4,v5,v6,v7,v8,v10,v11,v12,v13,v14,v15,v16,v17,v18,v19,v20,v28,v32 from da_member"+year+" where da_household_id="+s1_map.get("pkid");
 		        	SQLAdapter sqlAdapter=new SQLAdapter(cha_sql);
 		        	List<Map> cha_list=this.getBySqlMapper.findRecords(sqlAdapter);

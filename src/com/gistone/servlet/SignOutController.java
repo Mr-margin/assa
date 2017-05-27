@@ -171,14 +171,14 @@ public class SignOutController extends MultiActionController{
 				str = " and v3='"+company_json.get("xian")+"' and v4="+company_json.get("xiang")+"' and v5="+company_json.get("cun")+"'";
 			}
 			//查询init_flag是市级低收入人口
-			String count_s_sql = "select count(*) from da_household where init_flag='市级低收入人口' and (v3 like '%"+search+"%' or v4 like '%"+search+"%' or v5 like '%"+search+"%' or v6 like '%"+search+"%' or v9 like '%"+search+"%') "+str;
+			String count_s_sql = "select count(*) from da_household where init_flag='市级低收入人口' and (v3 like '"+search+"%' or v4 like '"+search+"%' or v5 like '"+search+"%' or v6 like '"+search+"%' or v9 like '"+search+"%') "+str;
 			
 			//符合市级低收入户要求帮扶后人均纯收入比帮扶前增长20%、帮扶后人均纯收入大于1万元、不是危房、所有家庭成员均参加新农合、养老保险 条件的sql 语句
 			String sql = "";
 					sql += "select pkid,v3,v4,v5,v6,v9, round(((v39-v31)/v9),2) hrj,round((ABS((d39-d31))/v9),2) drj,";
 					sql += "round(((((v39-v31)/v9)-(ABS((d39-d31)/v9)))/ (ABS((d39-d31)/v9)))*100,2) jisuan from  ( ";
 					sql +="select pkid,v3,v4,v5,v6,v9,init_flag from da_household where  init_flag='市级低收入人口' and v21!='已脱贫'";
-					sql += " and (v3 like '%"+search+"%' or v4 like '%"+search+"%' or v5 like '%"+search+"%' or v6 like '%"+search+"%' or v9 like '%"+search+"%') "+str+" ";
+					sql += " and (v3 like '"+search+"%' or v4 like '"+search+"%' or v5 like '"+search+"%' or v6 like '"+search+"%' or v9 like '"+search+"%') "+str+" ";
 					sql += ") a LEFT JOIN (select da_household_id,v2 from da_life  where v2 ='否')b ON a.pkid=b.da_household_id LEFT JOIN (";
 					sql += "select da_household_id,v39 from da_helpback_income where v39 is not null ) q1 on a.pkid=q1.da_household_id LEFT JOIN(";
 				
