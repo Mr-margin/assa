@@ -243,19 +243,19 @@ public class DataStatisticsController  extends MultiActionController{
 		}
 		if(sfcg.equals("1")){//如果清除成功，执行插入数据语句
 			String insert_sql="INSERT INTO da_statistics"+year+" (v1,v2,v3,b2,b3,b4,b6,b7,b8,b9,b10,b11,b12,b13,b14,b15,b16,b17) "
-					+ " select t1.v3 v1,t1.v4 v2,t1.v5 v3,b2,b3,b4,b6,b7,b8,b9,b10,b11,b12,b13,t1.sys_standard b14,'up_time' b15,b16,b17 from("
-					+ "select v3,v4,v5,COUNT(*) as b2,sum(v9) as b3,sys_standard from da_household"+year+" where v21!='已脱贫' and entry_year = "+year2+" group by v3,v4,v5,sys_standard) t1 "
-					+ " left join (select v3,v4,v5,COUNT(*) as b4 ,sys_standard from b4_t"+year+" group by v3,v4,v5,sys_standard) t4 on t1.v3=t4.v3 and t1.v4=t4.v4 and t1.v5=t4.v5 and t1.sys_standard=t4.sys_standard "
-					+ " left join (select v3,v4,v5,COUNT(*) as b6 ,sys_standard from b6_t"+year+" group by v3,v4,v5,sys_standard) t6 on t1.v3=t6.v3 and t1.v4=t6.v4 and t1.v5=t6.v5 and t1.sys_standard=t6.sys_standard "
-					+ " left join (select v3,v4,v5,COUNT(*) as b7 ,sys_standard from b7_t"+year+" group by v3,v4,v5,sys_standard) t7 on t1.v3=t7.v3 and t1.v4=t7.v4 and t1.v5=t7.v5 and t1.sys_standard=t7.sys_standard "
-					+ " left join (select v3,v4,v5,COUNT(*) as b8 ,sys_standard from b8_t"+year+" group by v3,v4,v5,sys_standard) t8 on t1.v3=t8.v3 and t1.v4=t8.v4 and t1.v5=t8.v5 and t1.sys_standard=t8.sys_standard "
-					+ " left join (select v3,v4,v5,COUNT(*) as b9 ,sys_standard from b9_t"+year+" group by v3,v4,v5,sys_standard) t9 on t1.v3=t9.v3 and t1.v4=t9.v4 and t1.v5=t9.v5  and t1.sys_standard=t9.sys_standard "
-					+ " left join (select v3,v4,v5,COUNT(*) as b10 ,sys_standard from b10_t"+year+" group by v3,v4,v5,sys_standard) t10 on t1.v3=t10.v3 and t1.v4=t10.v4 and t1.v5=t10.v5 and t1.sys_standard=t10.sys_standard "
-					+ " left join (select v3,v4,v5,COUNT(*) as b11 ,sys_standard from b11_t"+year+" group by v3,v4,v5,sys_standard) t11 on t1.v3=t11.v3 and t1.v4=t11.v4 and t1.v5=t11.v5 and t1.sys_standard=t11.sys_standard "
-					+ " left join (select v3,v4,v5,COUNT(*) as b12 ,sys_standard from b12_t"+year+" group by v3,v4,v5,sys_standard) t12 on t1.v3=t12.v3 and t1.v4=t12.v4 and t1.v5=t12.v5 and t1.sys_standard=t12.sys_standard "
-					+ " left join (select v3,v4,v5,COUNT(*) as b13 ,sys_standard from b13_t"+year+" group by v3,v4,v5,sys_standard) t13 on t1.v3=t13.v3 and t1.v4=t13.v4 and t1.v5=t13.v5 and t1.sys_standard=t13.sys_standard"
-					+ " left join (select v3,v4,v5,COUNT(*) as b16 ,sys_standard from b14_t"+year+" group by v3,v4,v5,sys_standard) t14 on t1.v3=t14.v3 and t1.v4=t14.v4 and t1.v5=t14.v5 and t1.sys_standard=t14.sys_standard "
-					+ " left join (select v3,v4,v5,COUNT(*) as b17 ,sys_standard from b15_t"+year+" group by v3,v4,v5,sys_standard) t15 on t1.v3=t15.v3 and t1.v4=t15.v4 and t1.v5=t15.v5 and t1.sys_standard=t15.sys_standard";
+					+ " select t1.v3 v1,t1.v4 v2,t1.v5 v3,b2,b3,b4,b6,b7,b8,b9,b10,b11,b12,b13,t1.init_flag b14,'up_time' b15,b16,b17 from("
+					+ "select v3,v4,v5,COUNT(*) as b2,sum(v9) as b3,init_flag from da_household"+year+" where v21!='已脱贫' and entry_year = "+year2+" group by v3,v4,v5,init_flag) t1 "
+					+ " left join (select v3,v4,v5,COUNT(*) as b4 ,init_flag from b4_t"+year+" group by v3,v4,v5,init_flag) t4 on t1.v3=t4.v3 and t1.v4=t4.v4 and t1.v5=t4.v5 and t1.init_flag=t4.init_flag "
+					+ " left join (select v3,v4,v5,COUNT(*) as b6 ,init_flag from b6_t"+year+" group by v3,v4,v5,init_flag) t6 on t1.v3=t6.v3 and t1.v4=t6.v4 and t1.v5=t6.v5 and t1.init_flag=t6.init_flag "
+					+ " left join (select v3,v4,v5,COUNT(*) as b7 ,init_flag from b7_t"+year+" group by v3,v4,v5,init_flag) t7 on t1.v3=t7.v3 and t1.v4=t7.v4 and t1.v5=t7.v5 and t1.init_flag=t7.init_flag "
+					+ " left join (select v3,v4,v5,COUNT(*) as b8 ,init_flag from b8_t"+year+" group by v3,v4,v5,init_flag) t8 on t1.v3=t8.v3 and t1.v4=t8.v4 and t1.v5=t8.v5 and t1.init_flag=t8.init_flag "
+					+ " left join (select v3,v4,v5,COUNT(*) as b9 ,init_flag from b9_t"+year+" group by v3,v4,v5,init_flag) t9 on t1.v3=t9.v3 and t1.v4=t9.v4 and t1.v5=t9.v5  and t1.init_flag=t9.init_flag "
+					+ " left join (select v3,v4,v5,COUNT(*) as b10 ,init_flag from b10_t"+year+" group by v3,v4,v5,init_flag) t10 on t1.v3=t10.v3 and t1.v4=t10.v4 and t1.v5=t10.v5 and t1.init_flag=t10.init_flag "
+					+ " left join (select v3,v4,v5,COUNT(*) as b11 ,init_flag from b11_t"+year+" group by v3,v4,v5,init_flag) t11 on t1.v3=t11.v3 and t1.v4=t11.v4 and t1.v5=t11.v5 and t1.init_flag=t11.init_flag "
+					+ " left join (select v3,v4,v5,COUNT(*) as b12 ,init_flag from b12_t"+year+" group by v3,v4,v5,init_flag) t12 on t1.v3=t12.v3 and t1.v4=t12.v4 and t1.v5=t12.v5 and t1.init_flag=t12.init_flag "
+					+ " left join (select v3,v4,v5,COUNT(*) as b13 ,init_flag from b13_t"+year+" group by v3,v4,v5,init_flag) t13 on t1.v3=t13.v3 and t1.v4=t13.v4 and t1.v5=t13.v5 and t1.init_flag=t13.init_flag"
+					+ " left join (select v3,v4,v5,COUNT(*) as b16 ,init_flag from b14_t"+year+" group by v3,v4,v5,init_flag) t14 on t1.v3=t14.v3 and t1.v4=t14.v4 and t1.v5=t14.v5 and t1.init_flag=t14.init_flag "
+					+ " left join (select v3,v4,v5,COUNT(*) as b17 ,init_flag from b15_t"+year+" group by v3,v4,v5,init_flag) t15 on t1.v3=t15.v3 and t1.v4=t15.v4 and t1.v5=t15.v5 and t1.init_flag=t15.init_flag";
 			try {
 				SQLAdapter insert_sqlAdapter = new SQLAdapter(insert_sql);
 				this.getBySqlMapper.findRecords(insert_sqlAdapter);
