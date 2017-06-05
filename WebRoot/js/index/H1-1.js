@@ -313,6 +313,10 @@ function jbqk(id){
 	    		$('#huzhu #sys_standard').val(data.huzhu.sys_standard);//识别标准
 	    	}
 	    	$('#huzhu #v8').val(data.huzhu.v8);//证件号码
+	    	if(jsondata.company.com_level=="3"||jsondata.company.com_level=="4"){
+	    		$("#huzhu #v6").attr("disabled","disabled");
+	    		$("#huzhu #v8").attr("disabled","disabled");
+	    	}
 	    	//$('#huzhu #hz_jtzz').val(data.huzhu.basic_address);//家庭住址
 	    	//家庭住址
 	    	//旗县
@@ -727,6 +731,10 @@ function jiating(i,pkid,pic){
 		$('#jiatingchengyuan #v7').val($('#jiatingchengyuan #jiating_table #v7_'+i).html());
 	}
 	$('#jiatingchengyuan #v8').val($('#jiatingchengyuan #jiating_table #v8_'+i).html());//证件号码
+	if(jsondata.company.com_level=="3"||jsondata.company.com_level=="4"){
+		$("#jiatingchengyuan #v6").attr("disabled","disabled");
+		$("#jiatingchengyuan #v8").attr("disabled","disabled");
+	}
 	if($('#jiatingchengyuan #jiating_table #v10_'+i).html()==''){
 		$('#jiatingchengyuan #v10').val("请选择");//与户主关系
 	}else{
@@ -871,9 +879,11 @@ function huzhu_save(){
 		toastr["warning"]("warning", "识别标准必须选择");
 	}else if($("#huzhu_Form #v6").val()==''){
 		toastr["warning"]("warning", "户主姓名必须填写");
-	}else if($("#huzhu_pic_show")[0].src.indexOf("zw.jpg")>0){
-		toastr["warning"]("warning", "户主照片必须上传");
-	}else if($("#huzhu_Form #v7").val()=='请选择'){
+	}
+//	else if($("#huzhu_pic_show")[0].src.indexOf("zw.jpg")>0){
+//		toastr["warning"]("warning", "户主照片必须上传");
+//	}
+	else if($("#huzhu_Form #v7").val()=='请选择'){
 		toastr["warning"]("warning", "户主性别必须选择");	
 	}else if($("#huzhu_Form #v11").val()=='请选择'){
 		toastr["warning"]("warning", "户主民族必须选择");	
