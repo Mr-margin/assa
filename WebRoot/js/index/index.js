@@ -504,3 +504,16 @@ function xiafangbiaoge(code,gors,pkid){
 	    } 
 	})
 }
+//加载更多列
+function show_column(){
+	$("#home_table").attr("class","col-sm-11");
+	$("#home_map").hide();
+	$("#show_more").html('<a href="javascript:void(0);" onclick="hide_column()"> <i class="fa fa-angle-double-left"></i></a>');
+}
+//隐藏列
+function hide_column(){
+	$("#home_table").attr("class","col-sm-6");
+	$("#home_map").show();
+	$("#show_more").html('<a href="javascript:void(0);" onclick="show_column()"> <i class="fa fa-angle-double-right"></i></a>');
+}
+
