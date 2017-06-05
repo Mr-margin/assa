@@ -863,7 +863,7 @@ function gachacun_initialization(){
 		},
 		onLoadSuccess: function (data) {
 			//console.log($("#total_number").html());
-			$("th[data-field=v9] .th-inner" ).html("家庭人口(总人口数:"+data.total_number+")")
+			$("th[data-field=v9] .th-inner" ).html("家庭人口<span style='color:red'>(总贫困人口数:"+data.total_number+"人,总贫困户数:"+data.total+"户)</span>")
 			//$("#total_number").html("("+data.total_number+")");
 			//console.log(">>.."+$(".th-inner #total_number").html());
 			//$("#total_number").html("("+data.total_number+")");
