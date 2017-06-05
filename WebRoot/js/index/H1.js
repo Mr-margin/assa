@@ -300,7 +300,7 @@ function gachacun_initialization(){
 	if($('#data_year').val()=='2016'){
 		$('#fpsc_update_tools').hide();
 		$("#huzhu #save").hide();
-		$("#add_new_jiatingchngyuan").hide();
+		$("#add_new_jiatingchngyuan2").hide();
 		$("#is_2016").show();
 		$("#is_2017").hide();
 	/*	$("th[data-field=entry_year]").hide();*/
@@ -308,6 +308,11 @@ function gachacun_initialization(){
 		$('#fpsc_update_tools').show();
 		//$("#huzhu #save").show();
 		//$("#add_new_jiatingchngyuan").show();
+		if(jsondata.company.com_level=="3"||jsondata.company.com_level=="4"){
+			$("#add_new_jiatingchngyuan2").hide();
+		}else{
+			$("#add_new_jiatingchngyuan2").show();
+		}
 		$("#is_2017").show();
 		$("#is_2016").hide();
 		
