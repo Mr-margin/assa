@@ -703,7 +703,11 @@ function show_table(temp_data){
 			'<td class="text-center">'+no_tuo_17_hu+'</td><td class="text-center">'+no_tuo_17_person+'</td><td class="text-center">'+yes_tuo_17_hu+'</td><td class="text-center">'+count_16_hu+'</td><td class="text-center">'+sum_16_person+'</td><td class="text-center">'+count_16_hu_yes+'</td><td class="text-center">'+sum_16_person_yes+'</td>'+
 			'<td class="text-center">'+count_16_hu_no+'</td><td class="text-center">'+sum_16_person_no+'</td><td class="text-center">'+no_tuo_16_hu+'</td><td class="text-center">'+no_tuo_16_person+'</td><td class="text-center">'+yes_tuo_16_hu+'</td></tr>';	
 		}else{
-			if((item.count=="0" || item.count == undefined) && item.sum=="0" && item.sum1=="0" && item.sum2 =="0" && item.sum3=="0" && item.count1 == "0"){
+		
+			if((item.count=="0" || item.count == undefined) && item.sum=="0" && item.sum1=="0" && item.sum2 =="0" && item.sum3=="0" && item.count1 == "0"
+				&& item.no_tuo_17_hu=="0" && item.no_tuo_17_person == "0"&& item.yes_tuo_17_hu=="0" && item.no_tuo_16_hu == "0"&& item.no_tuo_16_person == "0"&& item.yes_tuo_16_hu == "0"&& item.count_17_hu == "0"&& item.sum_17_person == "0"&& item.count_16_hu == "0"
+					&& item.sum_16_person == "0"&& item.count_17_hu_no == "0"&& item.sum_17_person_no == "0"&& item.count_16_hu_no == "0"&& item.sum_16_person_no == "0"&& item.count_17_hu_yes == "0"&& item.sum_17_person_yes == "0"
+						&& item.count_16_hu_yes == "0"&& item.sum_16_person_yes == "0"){
     			html+='<tr class="hid" hidden><td class="text-center">'+com_name+'</td><td class="text-center" >'+count_17_hu+'</td><td class="text-center" >'+sum_17_person+'</td><td class="text-center" >'+count_17_hu_yes+'</td><td class="text-center" >'+sum_17_person_yes+'</td><td class="text-center" >'+count_17_hu_no+'</td><td class="text-center" >'+sum_17_person_no+'</td>'+
     			'<td class="text-center">'+no_tuo_17_hu+'</td><td class="text-center">'+no_tuo_17_person+'</td><td class="text-center">'+yes_tuo_17_hu+'</td><td class="text-center">'+count_16_hu+'</td><td class="text-center">'+sum_16_person+'</td><td class="text-center">'+count_16_hu_yes+'</td><td class="text-center">'+sum_16_person_yes+'</td>'+
     			'<td class="text-center">'+count_16_hu_no+'</td><td class="text-center">'+sum_16_person_no+'</td><td class="text-center">'+no_tuo_16_hu+'</td><td class="text-center">'+no_tuo_16_person+'</td><td class="text-center">'+yes_tuo_16_hu+'</td></tr>';	
