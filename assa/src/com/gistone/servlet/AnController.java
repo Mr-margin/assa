@@ -428,13 +428,6 @@ public class AnController extends MultiActionController{
 		 JSONArray cha_json = new JSONArray();
 		 List<Map> cha_list = this.getBySqlMapper.findRecords(cha_sqlAdapter);
 		 List<Map> cha_list1 = this.getBySqlMapper.findRecords(cha_sqlAdapter1);
-		 JSONObject cha_obj = new JSONObject();
-		 
-		 cha_obj.put("gh",cha_list.get(0).get("num"));
-		 cha_obj.put("gs",cha_list.get(0).get("ren"));
-		 cha_obj.put("sh",cha_list1.get(0).get("num"));
-		 cha_obj.put("sc",cha_list1.get(0).get("ren"));
-		 cha_json.add(cha_obj);
 		 
 		 JSONArray jsonArray=new JSONArray();
 		 JSONArray jsonBfdwArray=new JSONArray();//帮扶干部信息
@@ -519,7 +512,7 @@ public class AnController extends MultiActionController{
 			}
 			jsonArray.add(obj);
 		}
-		response.getWriter().write("{\"isError\":\"0\",\"result\":{\"count\":{\"gh\":"+cha_list.get(0).get("num")+",\"gs\":"+cha_list.get(0).get("ren")+",\"sh\":"+cha_list1.get(0).get("num")+",\"sc\":"+cha_list1.get(0).get("ren")+"},\"basic\":"+jsonArray.toString()+"}}");
+		response.getWriter().write("{\"isError\":\"0\",\"result\":{\"count\":{\"gh\":"+(cha_list.get(0).get("num")==null?0:cha_list.get(0).get("num"))+",\"gs\":"+(cha_list.get(0).get("ren")==null?0:cha_list.get(0).get("ren"))+",\"sh\":"+(cha_list1.get(0).get("num")==null?0:cha_list1.get(0).get("num"))+",\"sc\":"+(cha_list1.get(0).get("ren")==null?0:cha_list1.get(0).get("ren"))+"},\"basic\":"+jsonArray.toString()+"}}");
 		 return null;
 	}
 	/**
