@@ -517,7 +517,11 @@ function show_table(temp_data){
 	var sum_17_person_yes = 0;//17年已脱总贫困人口
 	var count_16_hu_yes = 0;//16年已脱总贫困户数
 	var sum_16_person_yes = 0;//16年已脱总贫困人口
+	var guo_17_shi = 0
+	var guo_16_shi = 0;
 	
+	var guo_17_shis = 0
+	var guo_16_shis = 0;
 	var no_tuo_17_hus = 0;//count  17年未脱贫贫困户 分市贫 国贫
 	var no_tuo_17_persons = 0;//count  17年未脱贫贫困人口 分市贫 国贫
 	var yes_tuo_17_hus = 0;//已脱贫贫困户17年  分国贫市贫
@@ -552,10 +556,10 @@ function show_table(temp_data){
 	}
 	
 	$("#title").html('<tr><th style="width: 5.25%" class="text-center" id="index_yi_title">旗县</th><th style="width: 5.25%" class="text-center">总户数(2017)</th><th style="width: 5.25%" class="text-center">总人口(2017)</th>'+
-	'<th style="width: 5.25%" class="text-center">已脱贫总户(2017)</th><th style="width: 5.25%" class="text-center">已脱贫总人口(2017)</th><th style="width: 5.25%" class="text-center">未脱贫总户(2017)</th><th style="width: 5.25%" class="text-center">未脱贫总人口(2017)</th>'+
-	'	<th style="width: 5.25%" class="text-center">总户数(2016)</th><th style="width: 5.25%" class="text-center">总人口(2016)</th>'+
-	'<th style="width: 5.25%" class="text-center">已脱贫总户(2016)</th><th style="width: 5.25%" class="text-center">已脱贫总人口(2016)</th><th style="width: 5.25%" class="text-center">未脱贫总户(2016)</th><th style="width: 5.25%" class="text-center">未脱贫总人口(2016)</th>'+
-	'</tr>');
+	'<th style="width: 5.25%" class="text-center">已脱贫总户数(2017)</th><th style="width: 5.25%" class="text-center">已脱贫总人口(2017)</th><th style="width: 5.25%" class="text-center">未脱贫总户数(2017)</th><th style="width: 5.25%" class="text-center">未脱贫总人口(2017)</th>'+
+	'<th style="width: 5.25%" class="text-center">国转市(2017)</th>	<th style="width: 5.25%" class="text-center">总户数(2016)</th><th style="width: 5.25%" class="text-center">总人口(2016)</th>'+
+	'<th style="width: 5.25%" class="text-center">已脱贫总户数(2016)</th><th style="width: 5.25%" class="text-center">已脱贫总人口(2016)</th><th style="width: 5.25%" class="text-center">未脱贫总户数(2016)</th><th style="width: 5.25%" class="text-center">未脱贫总人口(2016)</th>'+
+	'<th style="width: 5.25%" class="text-center">国转市(2016)</th></tr>');
 	$.each(temp_data, function(i,item) {
 		com_name=item.v3;//name
 	
@@ -655,13 +659,30 @@ function show_table(temp_data){
 			sum_16_person_nos=parseInt(item.sum_16_person_no)+parseInt(sum_16_person_nos);
 		}
 		
+		//国转市体现
+		var v1 = parseInt(item.count_16_hu_no) -(parseInt(item.count_16_hu)-parseInt(item.count_16_hu_yes));
+		v1 = Math.abs(v1);
+		if(v1==0){
+			guo_16_shi='<span class="c_red">0</span>';
+		} else{
+			guo_16_shi='<span class="c_green">'+v1+'</span>';
+			guo_16_shis=parseInt(v1)+parseInt(guo_16_shis);
+		}
+		var v2 = parseInt(item.count_17_hu_no) -(parseInt(item.count_17_hu)-parseInt(item.count_17_hu_yes));
+		v2 = Math.abs(v2);
+		if(v2==0){
+			guo_17_shi='<span class="c_red">0</span>';
+		} else{
+			guo_17_shi='<span class="c_green">'+v2+'</span>';
+			guo_17_shis=parseInt(v2)+parseInt(guo_17_shis);
+		}
 		
 	
 		
 		if(state=='show'){
 			html+='<tr><td class="text-center">'+com_name+'</td><td class="text-center" >'+count_17_hu+'</td><td class="text-center" >'+sum_17_person+'</td><td class="text-center" >'+count_17_hu_yes+'</td><td class="text-center" >'+sum_17_person_yes+'</td><td class="text-center" >'+count_17_hu_no+'</td><td class="text-center" >'+sum_17_person_no+'</td>'+
-			'<td class="text-center">'+count_16_hu+'</td><td class="text-center">'+sum_16_person+'</td><td class="text-center">'+count_16_hu_yes+'</td><td class="text-center">'+sum_16_person_yes+'</td>'+
-			'<td class="text-center">'+count_16_hu_no+'</td><td class="text-center">'+sum_16_person_no+'</td></tr>';	
+			'<td class="text-center">'+guo_17_shi+'</td><td class="text-center">'+count_16_hu+'</td><td class="text-center">'+sum_16_person+'</td><td class="text-center">'+count_16_hu_yes+'</td><td class="text-center">'+sum_16_person_yes+'</td>'+
+			'<td class="text-center">'+count_16_hu_no+'</td><td class="text-center">'+sum_16_person_no+'</td><td class="text-center">'+guo_16_shi+'</td></tr>';	
 		}else{
 		
 			if((item.count=="0" || item.count == undefined) && (item.sum=="0"|| item.sum == undefined) &&(item.sum1=="0"|| item.sum1 == undefined)  && (item.sum2 =="0"|| item.sum2 == undefined) && (item.sum3=="0" || item.sum3 == undefined)&& (item.count1 == "0"|| item.count1 == undefined)
@@ -670,12 +691,12 @@ function show_table(temp_data){
 					&& (item.sum_16_person == "0"|| item.sum_16_person == undefined)&& (item.count_17_hu_no == "0"|| item.count_17_hu_no == undefined)&& (item.sum_17_person_no == "0"&& item.sum_17_person_no == "0"|| item.sum_17_person_no == undefined)&& (item.sum_16_person_no == "0"|| item.sum_16_person_no == undefined)&&( item.count_17_hu_yes == "0"|| item.count_17_hu_yes == undefined)&& (item.sum_17_person_yes == "0"|| item.sum_17_person_yes == undefined)
 						&& (item.count_16_hu_yes == "0"|| item.count_16_hu_yes == undefined)&& (item.sum_16_person_yes == "0"|| item.sum_16_person_yes == undefined)){
     			html+='<tr class="hid" hidden><td class="text-center">'+com_name+'</td><td class="text-center" >'+count_17_hu+'</td><td class="text-center" >'+sum_17_person+'</td><td class="text-center" >'+count_17_hu_yes+'</td><td class="text-center" >'+sum_17_person_yes+'</td><td class="text-center" >'+count_17_hu_no+'</td><td class="text-center" >'+sum_17_person_no+'</td>'+
-    			'<td class="text-center">'+count_16_hu+'</td><td class="text-center">'+sum_16_person+'</td><td class="text-center">'+count_16_hu_yes+'</td><td class="text-center">'+sum_16_person_yes+'</td>'+
-    			'<td class="text-center">'+count_16_hu_no+'</td><td class="text-center">'+sum_16_person_no+'</td></tr>';	
+    			'<td class="text-center">'+guo_17_shi+'</td><td class="text-center">'+count_16_hu+'</td><td class="text-center">'+sum_16_person+'</td><td class="text-center">'+count_16_hu_yes+'</td><td class="text-center">'+sum_16_person_yes+'</td>'+
+    			'<td class="text-center">'+count_16_hu_no+'</td><td class="text-center">'+sum_16_person_no+'</td><td class="text-center">'+guo_16_shi+'</td></tr>';	
 			}else{
     			html+='<tr><td class="text-center">'+com_name+'</td><td class="text-center" >'+count_17_hu+'</td><td class="text-center" >'+sum_17_person+'</td><td class="text-center" >'+count_17_hu_yes+'</td><td class="text-center" >'+sum_17_person_yes+'</td><td class="text-center" >'+count_17_hu_no+'</td><td class="text-center" >'+sum_17_person_no+'</td>'+
-    			'<td class="text-center">'+count_16_hu+'</td><td class="text-center">'+sum_16_person+'</td><td class="text-center">'+count_16_hu_yes+'</td><td class="text-center">'+sum_16_person_yes+'</td>'+
-    			'<td class="text-center">'+count_16_hu_no+'</td><td class="text-center">'+sum_16_person_no+'</td></tr>';	
+    			'<td class="text-center">'+guo_17_shi+'</td><td class="text-center">'+count_16_hu+'</td><td class="text-center">'+sum_16_person+'</td><td class="text-center">'+count_16_hu_yes+'</td><td class="text-center">'+sum_16_person_yes+'</td>'+
+    			'<td class="text-center">'+count_16_hu_no+'</td><td class="text-center">'+sum_16_person_no+'</td><td class="text-center">'+guo_16_shi+'</td></tr>';	
 			}
 		}
 	});
@@ -743,9 +764,19 @@ function show_table(temp_data){
 		sum_16_person_nos='<span class="c_green">'+sum_16_person_nos+'</span>';
 	}
 	
+	if(guo_17_shis=="0"||guo_17_shis==null){
+		guo_17_shis='<span class="c_red">0</span>';
+	}else{
+		guo_17_shis='<span class="c_green">'+guo_17_shis+'</span>';
+	}
+	if(guo_16_shis=="0"||guo_16_shis==null){
+		guo_16_shis='<span class="c_red">0</span>';
+	}else{
+		guo_16_shis='<span class="c_green">'+guo_16_shis+'</span>';
+	}
 	html+='<tr><td class="text-center">'+hha+'</td><td class="text-center" >'+count_17_hus+'</td><td class="text-center" >'+sum_17_persons+'</td><td class="text-center" >'+count_17_hu_yess+'</td><td class="text-center" >'+sum_17_person_yess+'</td><td class="text-center" >'+count_17_hu_nos+'</td><td class="text-center" >'+sum_17_person_nos+'</td>'+
-	'<td class="text-center">'+count_16_hus+'</td><td class="text-center">'+sum_16_persons+'</td><td class="text-center">'+count_16_hu_yess+'</td><td class="text-center">'+sum_16_person_yess+'</td>'+
-	'<td class="text-center">'+count_16_hu_nos+'</td><td class="text-center">'+sum_16_person_nos+'</td></tr>';			    
+	'<td class="text-center">'+guo_17_shis+'</td><td class="text-center">'+count_16_hus+'</td><td class="text-center">'+sum_16_persons+'</td><td class="text-center">'+count_16_hu_yess+'</td><td class="text-center">'+sum_16_person_yess+'</td>'+
+	'<td class="text-center">'+count_16_hu_nos+'</td><td class="text-center">'+sum_16_person_nos+'</td><td class="text-center">'+guo_16_shis+'</td></tr>';			    
 	$("#shangfangzongbiao").html(html);
 }
 
@@ -784,8 +815,8 @@ function hide_table(tamp_data){
 		$("#index_er_title").html("嘎查村");
 		hha="全乡";
 	}
-	$("#title").html('<tr><th style="width: 14%" class="text-center" id="index_yi_title">旗县</th><th style="width: 14%" class="text-center">未脱贫贫困户(2017)</th><th style="width: 14%" class="text-center">未脱贫贫困人口(2017)</th>'+
-			'<th style="width: 14%" class="text-center">已脱贫户数(2017)</th>	<th style="width: 14%" class="text-center">未脱贫贫困户(2016)</th><th style="width: 14%" class="text-center">未脱贫贫困人口(2016)</th><th style="width: 14%" class="text-center">已脱贫户数(2016)</th></tr> ');
+	$("#title").html('<tr><th style="width: 14%" class="text-center" id="index_yi_title">旗县</th><th style="width: 14%" class="text-center">未脱贫总户数(2017)</th><th style="width: 14%" class="text-center">未脱贫总人口(2017)</th>'+
+			'<th style="width: 14%" class="text-center">已脱贫户数(2017)</th>	<th style="width: 14%" class="text-center">未脱贫总户数(2016)</th><th style="width: 14%" class="text-center">未脱贫总人口(2016)</th><th style="width: 14%" class="text-center">已脱贫总户数(2016)</th></tr> ');
 	$.each(temp_data, function(i,item) {
 		com_name=item.v3;//name
 	
