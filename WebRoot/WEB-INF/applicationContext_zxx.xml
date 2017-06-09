@@ -23,6 +23,8 @@
 				<prop key="addBfdw.do">IndexContriller</prop>
 				<prop key="upBfdw.do">IndexContriller</prop>
 				<prop key="getDeleteBfdw.do">IndexContriller</prop>
+				<prop key="setYear.do">IndexContriller</prop>
+				
 				
 				
 				<prop key="loginin.do">IndexContriller</prop>

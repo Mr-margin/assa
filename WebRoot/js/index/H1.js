@@ -130,6 +130,7 @@ $(function () {
     	chaxun.cha_smx = $("#cha_smx").val();
     	chaxun.cha_gcc = $("#cha_gcc").val();
     	chaxun.cha_sbbz = $("#cha_sbbz").val();
+    	chaxun.cha_init_flag = $("#init_flag").val();
     	chaxun.cha_pksx = $("#cha_pksx").val();
     	chaxun.cha_zpyy = $("#cha_zpyy").val();
     	chaxun.cha_mz = $("#cha_mz").val();
@@ -171,6 +172,7 @@ $(function () {
     	$("#cha_smx").val("请选择");
     	$("#cha_gcc").val("请选择");
     	$("#cha_sbbz").val("请选择");
+    	$("#init_flag").val("请选择");
     	$("#cha_pksx").val("请选择");
     	$("#cha_zpyy").val("请选择");
     	$("#cha_mz").val("请选择");
@@ -385,5 +387,6 @@ function queryParams_bxbxxb(params) {  //配置参数
     temp.cha_v8_1 = chaxun.cha_v8_1;
     temp.cha_year = chaxun.cha_year;
     temp.data_year = chaxun.data_year;
+    temp.cha_init_flag = chaxun.cha_init_flag;
     return temp;
 }

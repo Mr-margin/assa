@@ -67,7 +67,7 @@ public class MaintainController extends MultiActionController{
 		public ModelAndView getSaveMaintainController(HttpServletRequest request,HttpServletResponse response) throws IOException{
 			response.setCharacterEncoding("UTF-8");
 			request.setCharacterEncoding("UTF-8");
-			
+			String time_sql = "select start_time,end_time,entry_year from sys_user where pkid = 1";
 			
 			String sql="select pkid,modular_name ,maintain from sys_function";
 			SQLAdapter sqlAdapter =new SQLAdapter(sql);
@@ -80,7 +80,15 @@ public class MaintainController extends MultiActionController{
 				obj.put("maintain",val.get("maintain")==null?"-":val.get("maintain"));
 				jsonArray.add(obj);
 			}
-			response.getWriter().write(jsonArray.toString());
+			
+			List<Map> year_list = this.getBySqlMapper.findRecords(new SQLAdapter(time_sql));
+			JSONObject json = new JSONObject();
+			if(year_list.size()>0){
+				json.put("start_time", year_list.get(0).get("start_time"));
+				json.put("end_time", year_list.get(0).get("end_time"));
+				json.put("entry_year", year_list.get(0).get("entry_year"));
+			}
+			response.getWriter().write("{\"data1\":"+jsonArray.toString()+",\"data2\":"+json+"}");
 			response.getWriter().close();
 			return null;
 			

@@ -504,6 +504,16 @@ public class StandingBookController extends MultiActionController{
 		}
 		
 		String ss=request.getParameter("cha_bfdw");
+		String cha_init_flag = "";//现识别标准
+		String cha_year="";
+		if(request.getParameter("cha_year")!=null&&!request.getParameter("cha_year").equals("")){
+			cha_year = request.getParameter("cha_year").trim();
+			str += " t1.entry_year= "+cha_year+" and";
+		}
+		if(request.getParameter("cha_init_flag")!=null&&!request.getParameter("cha_init_flag").equals("请选择")){
+			cha_init_flag = request.getParameter("cha_init_flag").trim();
+			str += " t1.init_flag='"+cha_init_flag+"' and";
+		}
 		if(request.getParameter("cha_v6")!=null&&!request.getParameter("cha_v6").equals("")){
 			cha_v6 = request.getParameter("cha_v6").trim();
 			str += " t1.v6 like '%"+cha_v6+"%' and";
@@ -610,7 +620,7 @@ public class StandingBookController extends MultiActionController{
 				
 				//贫困户基本信息
 				String sql_1 = "select t1.pkid,t1.v3,t1.v4,t1.v5,t1.v6,t1.v8,t1.v9,t1.v22,t1.v29,t1.v30,t1.v31,t1.v23,t1.v33,t1.v25,t1.v26,t1.v27,t1.sys_standard,t2.basic_address,t2.basic_explain "
-						+ "from da_household"+year+" t1 join da_household_basic"+year+" t2 on t1.pkid=t2.da_household_id ";
+						+ "from da_household"+year+" t1 left join da_household_basic"+year+" t2 on t1.pkid=t2.da_household_id ";
 				
 				if((request.getParameter("cha_bfdw")!=null&&!request.getParameter("cha_bfdw").equals(""))||(request.getParameter("cha_bfzrr")!=null&&!request.getParameter("cha_bfzrr").equals(""))){
 					if(request.getParameter("cha_bfdw")!=null&&!request.getParameter("cha_bfdw").equals("")){
@@ -848,6 +858,16 @@ public class StandingBookController extends MultiActionController{
 			year = "";
 		}
 		String ss=request.getParameter("cha_bfdw");
+		String cha_init_flag = "";//现识别标准
+		String cha_year="";
+		if(request.getParameter("cha_year")!=null&&!request.getParameter("cha_year").equals("")){
+			cha_year = request.getParameter("cha_year").trim();
+			str += " t1.entry_year= "+cha_year+" and";
+		}
+		if(request.getParameter("cha_init_flag")!=null&&!request.getParameter("cha_init_flag").equals("请选择")){
+			cha_init_flag = request.getParameter("cha_init_flag").trim();
+			str += " t1.init_flag='"+cha_init_flag+"' and";
+		}
 		if(request.getParameter("cha_v6")!=null&&!request.getParameter("cha_v6").equals("")){
 			cha_v6 = request.getParameter("cha_v6").trim();
 			str += " t1.v6 like '%"+cha_v6+"%' and";
@@ -953,7 +973,7 @@ public class StandingBookController extends MultiActionController{
 	          
 				//贫困户基本信息
 				String sql_1 = "select t1.pkid,t1.v3,t1.v4,t1.v5,t1.v6,t1.v8,t1.v9,t1.v22,t1.v29,t1.v30,t1.v31,t1.v23,t1.v33,t1.v25,t1.v26,t1.v27,t1.sys_standard,t2.basic_address,t2.basic_explain "
- 						+ "from da_household"+year+" t1 join da_household_basic"+year+" t2 on t1.pkid=t2.da_household_id ";
+ 						+ "from da_household"+year+" t1 left join da_household_basic"+year+" t2 on t1.pkid=t2.da_household_id ";
 				
 				if((request.getParameter("cha_bfdw")!=null&&!request.getParameter("cha_bfdw").equals(""))||(request.getParameter("cha_bfzrr")!=null&&!request.getParameter("cha_bfzrr").equals(""))){
 					if(request.getParameter("cha_bfdw")!=null&&!request.getParameter("cha_bfdw").equals("")){
@@ -1160,6 +1180,16 @@ public class StandingBookController extends MultiActionController{
 			year = "";
 		}
 		String ss=request.getParameter("cha_bfdw");
+		String cha_init_flag = "";//现识别标准
+		String cha_year="";
+		if(request.getParameter("cha_year")!=null&&!request.getParameter("cha_year").equals("")){
+			cha_year = request.getParameter("cha_year").trim();
+			str += " t1.entry_year= "+cha_year+" and";
+		}
+		if(request.getParameter("cha_init_flag")!=null&&!request.getParameter("cha_init_flag").equals("请选择")){
+			cha_init_flag = request.getParameter("cha_init_flag").trim();
+			str += " t1.init_flag='"+cha_init_flag+"' and";
+		}
 		if(request.getParameter("cha_v6")!=null&&!request.getParameter("cha_v6").equals("")){
 			cha_v6 = request.getParameter("cha_v6").trim();
 			str += " t1.v6 like '%"+cha_v6+"%' and";
@@ -1996,6 +2026,16 @@ public class StandingBookController extends MultiActionController{
 			year = "";
 		}
 		String ss=request.getParameter("cha_bfdw");
+		String cha_init_flag = "";//现识别标准
+		String cha_year="";
+		if(request.getParameter("cha_year")!=null&&!request.getParameter("cha_year").equals("")){
+			cha_year = request.getParameter("cha_year").trim();
+			str += " t1.entry_year= "+cha_year+" and";
+		}
+		if(request.getParameter("cha_init_flag")!=null&&!request.getParameter("cha_init_flag").equals("请选择")){
+			cha_init_flag = request.getParameter("cha_init_flag").trim();
+			str += " t1.init_flag='"+cha_init_flag+"' and";
+		}
 		if(request.getParameter("cha_v6")!=null&&!request.getParameter("cha_v6").equals("")){
 			cha_v6 = request.getParameter("cha_v6").trim();
 			str += " t1.v6 like '%"+cha_v6+"%' and";
@@ -2327,6 +2367,16 @@ public class StandingBookController extends MultiActionController{
 			year = "";
 		}
 		String ss=request.getParameter("cha_bfdw");
+		String cha_init_flag = "";//现识别标准
+		String cha_year="";
+		if(request.getParameter("cha_year")!=null&&!request.getParameter("cha_year").equals("")){
+			cha_year = request.getParameter("cha_year").trim();
+			str += " t1.entry_year= "+cha_year+" and";
+		}
+		if(request.getParameter("cha_init_flag")!=null&&!request.getParameter("cha_init_flag").equals("请选择")){
+			cha_init_flag = request.getParameter("cha_init_flag").trim();
+			str += " t1.init_flag='"+cha_init_flag+"' and";
+		}
 		if(request.getParameter("cha_v6")!=null&&!request.getParameter("cha_v6").equals("")){
 			cha_v6 = request.getParameter("cha_v6").trim();
 			str += " t1.v6 like '%"+cha_v6+"%' and";
@@ -2727,6 +2777,16 @@ public class StandingBookController extends MultiActionController{
 			year = "";
 		}
 		String ss=request.getParameter("cha_bfdw");
+		String cha_init_flag = "";//现识别标准
+		String cha_year="";
+		if(request.getParameter("cha_year")!=null&&!request.getParameter("cha_year").equals("")){
+			cha_year = request.getParameter("cha_year").trim();
+			str += " t1.entry_year= "+cha_year+" and";
+		}
+		if(request.getParameter("cha_init_flag")!=null&&!request.getParameter("cha_init_flag").equals("请选择")){
+			cha_init_flag = request.getParameter("cha_init_flag").trim();
+			str += " t1.init_flag='"+cha_init_flag+"' and";
+		}
 		if(request.getParameter("cha_v6")!=null&&!request.getParameter("cha_v6").equals("")){
 			cha_v6 = request.getParameter("cha_v6").trim();
 			str += " t1.v6 like '%"+cha_v6+"%' and";
@@ -3014,6 +3074,16 @@ public class StandingBookController extends MultiActionController{
 			year = "";
 		}
 		String ss=request.getParameter("cha_bfdw");
+		String cha_init_flag = "";//现识别标准
+		String cha_year="";
+		if(request.getParameter("cha_year")!=null&&!request.getParameter("cha_year").equals("")){
+			cha_year = request.getParameter("cha_year").trim();
+			str += " t1.entry_year= "+cha_year+" and";
+		}
+		if(request.getParameter("cha_init_flag")!=null&&!request.getParameter("cha_init_flag").equals("请选择")){
+			cha_init_flag = request.getParameter("cha_init_flag").trim();
+			str += " t1.init_flag='"+cha_init_flag+"' and";
+		}
 		if(request.getParameter("cha_v6")!=null&&!request.getParameter("cha_v6").equals("")){
 			cha_v6 = request.getParameter("cha_v6").trim();
 			str += " t1.v6 like '%"+cha_v6+"%' and";
@@ -3555,6 +3625,16 @@ public class StandingBookController extends MultiActionController{
 			year = "";
 		}
 		String ss=request.getParameter("cha_bfdw");
+		String cha_init_flag = "";//现识别标准
+		String cha_year="";
+		if(request.getParameter("cha_year")!=null&&!request.getParameter("cha_year").equals("")){
+			cha_year = request.getParameter("cha_year").trim();
+			str += " t1.entry_year= "+cha_year+" and";
+		}
+		if(request.getParameter("cha_init_flag")!=null&&!request.getParameter("cha_init_flag").equals("请选择")){
+			cha_init_flag = request.getParameter("cha_init_flag").trim();
+			str += " t1.init_flag='"+cha_init_flag+"' and";
+		}
 		if(request.getParameter("cha_v6")!=null&&!request.getParameter("cha_v6").equals("")){
 			cha_v6 = request.getParameter("cha_v6").trim();
 			str += " t1.v6 like '%"+cha_v6+"%' and";

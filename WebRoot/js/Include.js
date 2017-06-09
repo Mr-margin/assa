@@ -90,6 +90,7 @@ function loadSMLibs(str) {//
 		inputScript('js/index/H5-3.js?'+ver);
 	}else if(str=='5-2'){
 		inputScript('js/index/H5-2.js?'+ver);
+		inputScript('js/plugins/datapicker/bootstrap-datepicker.js');//简单好用的日期选择器
 	}else if(str=='5-1'){
 		inputScript('js/plugins/suggest/bootstrap-suggest.min.js');//按钮式下拉菜单组件的搜索建议插件
 		inputScript('js/plugins/datapicker/bootstrap-datepicker.js');//简单好用的日期选择器

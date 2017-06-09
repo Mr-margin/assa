@@ -1,17 +1,31 @@
 $(function () {
 	if(jsondata==null){//未登录
 		com_level="1";
+
 	}else{//登录成功
 		com_level=jsondata.company.com_level;//用户层级
 //		$("#gonggao").modal();
 	}
-	
-	guobiao();//所有业务数据，默认国标
+
 
 	//加载国标市标按钮
 	$("#anniu_1").html('<button type="button" class="btn btn-primary btn-xs" onclick="guobiao1()" style="font-size: 14px;">国家级贫困人口</button><div style="display:inline;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><button type="button" class="btn btn-outline btn-primary btn-xs" onclick="shibiao_1()" style="font-size: 14px;">市级低收入人口</button>');
 	$("#anniu_3").html('<button type="button" class="btn btn-primary btn-xs" onclick="guobiao1()" style="font-size: 14px;">国家级贫困人口</button><div style="display:inline;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><button type="button" class="btn btn-outline btn-primary btn-xs" onclick="shibiao_1()" style="font-size: 14px;">市级低收入人口</button><H5 style="display:inline; margin-left: 500px;">统计时间截止到：<code id="atime"></code></H5>');
+	$("#anniu_2").html('<button type="button" class="btn-outline btn-primary btn-xs" id="show" value="hide"  style="font-size: 14px;">显示全部行政区划</button><div style="display:inline;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>');
+	guobiao();//所有业务数据，默认国标
 	
+	$("#show").click(function(){
+		//如果被隐藏 则显示 
+		if($(".hid").is(":hidden")){
+			$(".hid").show();	
+			$(".hid").val("show");
+			$("#show").text("隐藏部分行政区划");		
+			}else{
+			$(".hid").hide();
+			$(".hid").val("hide");
+			$("#show").text("显示全部行政区划");		
+			}
+	});
 	//validate实时验证
 	$("#changepassword_form").validate({
 		onfocusout: function(element){
@@ -46,11 +60,13 @@ function time(){
 function guobiao1(){//控制点击 国标 按钮后的显隐
 	$("#anniu_1").html('<button type="button" class="btn btn-primary btn-xs" onclick="guobiao1()" style="font-size: 14px;">国家级贫困人口</button><div style="display:inline;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><button type="button" class="btn btn-outline btn-primary btn-xs" onclick="shibiao_1()" style="font-size: 14px;">市级低收入人口</button>');
 	$("#anniu_3").html('<button type="button" class="btn btn-primary btn-xs" onclick="guobiao1()" style="font-size: 14px;">国家级贫困人口</button><div style="display:inline;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><button type="button" class="btn btn-outline btn-primary btn-xs" onclick="shibiao_1()" style="font-size: 14px;">市级低收入人口</button><H5 style="display:inline; margin-left: 500px;">统计时间截止到：<code id="atime"></code></H5>');
+	$("#show").text("显示全部行政区划");	
 	guobiao();
 }
 function shibiao_1(){//控制点击 市标 按钮后的显隐
 	$("#anniu_1").html('<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 14px;" onclick="guobiao1()">国家级贫困人口</button><div style="display:inline;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><button type="button" class="btn btn-primary btn-xs" style="font-size: 14px;" onclick="shibiao1()">市级低收入人口</button>');
 	$("#anniu_3").html('<button type="button" class="btn btn-outline btn-primary btn-xs" style="font-size: 14px;" onclick="guobiao1()">国家级贫困人口</button><div style="display:inline;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><button type="button" class="btn btn-primary btn-xs" style="font-size: 14px;" onclick="shibiao1()">市级低收入人口</button><H5 style="display:inline; margin-left: 500px;">统计时间截止到：<code id="atime"></code></H5>');
+	$("#show").text("显示全部行政区划");	
 	shibiao();
 }
 
@@ -210,23 +226,26 @@ function index_map(code,gors){
 	}
 	
 }
-
+var temp_data;
 //首页总表
 function zongbiao(code,gors,pkid){
-	var aa;//name
-	var dd;//户数
-	var cc;//未脱贫人数
-	var ycc;//已脱贫人数
-	var last_dd;//去年户数
-	var last_cc;//去年未脱贫人数
-	var last_ycc;//去年已脱贫人数
-	var hha;//统计名称
-	var hhh=0;//总户数
-	var hhr=0;//未脱贫总人数
-	var yhhr=0;//已脱贫总人数
-	var last_hhh=0;//去年总户数
-	var last_hhr=0;//去年总人数
-	var last_yhhr=0;//去年总人数
+	var state = $("#show").val();
+	var com_name;//name
+
+	var no_tuo_17_hu;//count  17年未脱贫贫困户 分市贫 国贫
+	var no_tuo_17_person;//count  17年未脱贫贫困人口 分市贫 国贫
+	var yes_tuo_17_hu;//已脱贫贫困户17年  分国贫市贫
+	var no_tuo_16_hu;//count  16年未脱贫贫困户 分市贫 国贫
+	var no_tuo_16_person;//count  16年未脱贫贫困人口 分市贫 国贫
+	var yes_tuo_16_hu;//已脱贫贫困户16年  分国贫市贫
+	
+	var no_tuo_17_hus = 0;//count  17年未脱贫贫困户 分市贫 国贫
+	var no_tuo_17_persons = 0;//count  17年未脱贫贫困人口 分市贫 国贫
+	var yes_tuo_17_hus = 0;//已脱贫贫困户17年  分国贫市贫
+	var no_tuo_16_hus = 0;//count  16年未脱贫贫困户 分市贫 国贫
+	var no_tuo_16_persons = 0;//count  16年未脱贫贫困人口 分市贫 国贫
+	var yes_tuo_16_hus = 0;//已脱贫贫困户16年  分国贫市贫
+
 	if(com_level==1){//当为不同用户的时候，表头改变。
 		$("#index_yi_title").html("旗县");
 		hha="全市";
@@ -254,68 +273,16 @@ function zongbiao(code,gors,pkid){
 	    	if(data==0){
 	    		$("#shangfangzongbiao").html('<h3>暂无数据</h3>');
 	    	}else{
+	    		temp_data=data;
 	    		var html="";
-		    	$.each(data, function(i,item) {
-		    		aa=item.v3;//name
-		    		
-		    		if(aa.indexOf("村村")>-1){//截取字符串
-		    			if(aa.substring(aa.length-2,aa.length)=='委会'){
-		    				aa = aa.substring(0,aa.length-3);
-		    			}else if(aa.indexOf("村民委员会")>-1){
-		    				aa = aa.substring(0,aa.length-5);
-		    			}
-		    		}else{
-		    			if(aa.substring(aa.length-2,aa.length)=='委会'){
-		    				aa = aa.substring(0,aa.length-2);
-		    			}else if(aa.indexOf("村民委员会")>-1){
-		    				aa = aa.substring(0,aa.length-4);
-		    			}
-		    		}
-		    		if(item.count=="0" || item.count == undefined){//户数
-		    			dd='<span class="c_red">0</span>';
-		    		}else{
-		    			dd='<span class="c_green">'+item.count+'</span>';
-		    			hhh=parseInt(item.count)+parseInt(hhh);
-		    		}
-		    		//去年户数
-//		    		alert(item.count1)
-		    		if ( item.count1 == "0"  ){
-		    			last_dd='<span class="c_red">0</span>';
-		    		}else{
-		    			last_dd='<span class="c_green">'+item.count1+'</span>';
-		    			last_hhh=parseInt(item.count1)+parseInt(last_hhh);
-		    		}
-		    		if(item.sum=="0" || item.sum == undefined){//未脱贫人数
-		    			cc='<span class="c_red">0</span>';
-		    		}else{
-		    			cc='<span class="c_green">'+item.sum+'</span>';
-		    			hhr=parseInt(item.sum)+parseInt(hhr);
-		    		}
-		    		if(item.sum2=="0" || item.sum2 == undefined){//已脱贫人数
-		    			ycc='<span class="c_red">0</span>';
-		    		}else{
-		    			ycc='<span class="c_green">'+item.sum2+'</span>';
-		    			yhhr=parseInt(item.sum2)+parseInt(yhhr);
-		    		}
-		    		//去年人数
-		    		if(item.sum1=="0"){//未脱贫人数
-		    			last_cc='<span class="c_red">0</span>';
-		    		}else{
-		    			last_cc='<span class="c_green">'+item.sum1+'</span>';
-		    			last_hhr=parseInt(item.sum1)+parseInt(last_hhr);
-		    		}
-		    		if(item.sum3=="0" || item.sum3 == undefined){//已脱贫人数
-		    			last_ycc='<span class="c_red">0</span>';
-		    		}else{
-		    			last_ycc='<span class="c_green">'+item.sum3+'</span>';
-		    			last_yhhr=parseInt(item.sum3)+parseInt(last_yhhr);
-		    		}
-		    		html+='<tr><td class="text-center">'+aa+'</td><td class="text-center" >'+dd+'</td><td class="text-center" >'+cc+'</td><td class="text-center" >'+ycc+'</td><td class="text-center" >'+last_dd+'</td><td class="text-center" >'+last_cc+'</td><td class="text-center" >'+last_ycc+'</td></tr>';
-		    		
-		    	});
-		    	html+='<tr><td class="text-center">'+hha+'</td><td class="text-center" ><span class="c_green">'+hhh+'</span></td><td class="text-center" ><span class="c_green">'+hhr+'</span></td><td class="text-center" ><span class="c_green">'+yhhr+'</span></td><td class="text-center" ><span class="c_green">'+last_hhh+'</span></td><td class="text-center" ><span class="c_green">'+last_hhr+'</span></td><td class="text-center" ><span class="c_green">'+last_yhhr+'</span></td></tr>';
-		    	$("#shangfangzongbiao").html(html);
+	    		if($("#home_table").attr("class")=='col-sm-6'){
+		    		hide_table(temp_data);
+	    		}else{
+	    			show_table(temp_data);
+	    		}
 	    	}
+	    	
+    		
 	    },
 	    error: function () { 
 //	    	alert("错误");
@@ -509,11 +476,488 @@ function show_column(){
 	$("#home_table").attr("class","col-sm-11");
 	$("#home_map").hide();
 	$("#show_more").html('<a href="javascript:void(0);" onclick="hide_column()"> <i class="fa fa-angle-double-left"></i></a>');
+	$("#show_more").css("margin-top", "25%");
+	$("#anniu_2").css("margin-left", "45%");
+
+	show_table(temp_data);
+	
 }
 //隐藏列
 function hide_column(){
 	$("#home_table").attr("class","col-sm-6");
+	hide_table(temp_data);
+	$("#show_more").html('<a href="javascript:void(0);" onclick="show_column()"> <i class="fa fa-angle-double-right" ></i></a>');
+	$("#show_more").css("margin-top", "0");
+	$("#anniu_2").css("margin-left", "20%");
+	
 	$("#home_map").show();
-	$("#show_more").html('<a href="javascript:void(0);" onclick="show_column()"> <i class="fa fa-angle-double-right"></i></a>');
+	//重新加载地图 
+	index_map(code,gors);//加载工作首页地图
+
+
+}
+
+function show_table(temp_data){
+	var state = $("#show").val();
+	var html="";
+	
+	var no_tuo_17_hu = 0;//count  17年未脱贫贫困户 分市贫 国贫
+	var no_tuo_17_person = 0;//count  17年未脱贫贫困人口 分市贫 国贫
+	var yes_tuo_17_hu = 0;//已脱贫贫困户17年  分国贫市贫
+	var no_tuo_16_hu = 0;//count  16年未脱贫贫困户 分市贫 国贫
+	var no_tuo_16_person = 0;//count  16年未脱贫贫困人口 分市贫 国贫
+	var yes_tuo_16_hu = 0;//已脱贫贫困户16年  分国贫市贫
+	var count_17_hu = 0;//17年总贫困户数
+	var sum_17_person = 0;//17年总贫困人口
+	var count_16_hu = 0;//16年总贫困户数
+	var sum_16_person = 0;//16年总贫困人口
+	var count_17_hu_no = 0;//17年未脱贫总贫困户数
+	var sum_17_person_no = 0;//17年未脱贫总贫困人口
+	var count_16_hu_no = 0;//16年未脱贫总贫困户数
+	var sum_16_person_no = 0;//16年未脱贫总贫困人口
+	var  count_17_hu_yes = 0;//17年已脱贫总贫困户数
+	var sum_17_person_yes = 0;//17年已脱总贫困人口
+	var count_16_hu_yes = 0;//16年已脱总贫困户数
+	var sum_16_person_yes = 0;//16年已脱总贫困人口
+	
+	var no_tuo_17_hus = 0;//count  17年未脱贫贫困户 分市贫 国贫
+	var no_tuo_17_persons = 0;//count  17年未脱贫贫困人口 分市贫 国贫
+	var yes_tuo_17_hus = 0;//已脱贫贫困户17年  分国贫市贫
+	var no_tuo_16_hus = 0;//count  16年未脱贫贫困户 分市贫 国贫
+	var no_tuo_16_persons = 0;//count  16年未脱贫贫困人口 分市贫 国贫
+	var yes_tuo_16_hus = 0;//已脱贫贫困户16年  分国贫市贫
+	var count_17_hus = 0;//17年总贫困户数
+	var sum_17_persons = 0;//17年总贫困人口
+	var count_16_hus = 0;//16年总贫困户数
+	var sum_16_persons = 0;//16年总贫困人口
+	var count_17_hu_nos = 0;//17年未脱贫总贫困户数
+	var sum_17_person_nos = 0;//17年未脱贫总贫困人口
+	var count_16_hu_nos = 0;//16年未脱贫总贫困户数
+	var sum_16_person_nos = 0;//16年未脱贫总贫困人口
+	var  count_17_hu_yess = 0;//17年已脱贫总贫困户数
+	var sum_17_person_yess = 0;//17年已脱总贫困人口
+	var count_16_hu_yess = 0;//16年已脱总贫困户数
+	var sum_16_person_yess = 0;//16年已脱总贫困人口
+	
+	if(com_level==1){//当为不同用户的时候，表头改变。
+		$("#index_er_title").html("旗县");
+		hha="全市";
+	}else if(com_level==2){
+		$("#index_er_title").html("苏木乡镇");
+		hha="全旗";
+	}else if(com_level==3){
+		$("#index_er_title").html("嘎查村");
+		hha="全乡";
+	}else if(com_level==4){
+		$("#index_er_title").html("嘎查村");
+		hha="全乡";
+	}
+	
+	$("#title").html('<tr><th style="width: 5.25%" class="text-center" id="index_yi_title">旗县</th><th style="width: 5.25%" class="text-center">总户数(2017)</th><th style="width: 5.25%" class="text-center">总人口(2017)</th>'+
+	'<th style="width: 5.25%" class="text-center">已脱贫总户(2017)</th><th style="width: 5.25%" class="text-center">已脱贫总人口(2017)</th><th style="width: 5.25%" class="text-center">未脱贫总户(2017)</th><th style="width: 5.25%" class="text-center">未脱贫总人口(2017)</th>'+
+	'<th style="width: 5.25%" class="text-center">未脱贫户(2017)</th><th style="width: 5.25%" class="text-center">未脱贫人口(2017)</th><th style="width: 5.25%" class="text-center">已脱贫户(2017)</th>	<th style="width: 5.25%" class="text-center">总户数(2016)</th><th style="width: 5.25%" class="text-center">总人口(2016)</th>'+
+	'<th style="width: 5.25%" class="text-center">已脱贫总户(2016)</th><th style="width: 5.25%" class="text-center">已脱贫总人口(2016)</th><th style="width: 5.25%" class="text-center">未脱贫总户(2016)</th><th style="width: 5.25%" class="text-center">未脱贫总人口(2016)</th>'+
+	'<th style="width: 5.25%" class="text-center">未脱贫户(2016)</th><th style="width: 5.25%" class="text-center">未脱贫人口(2016)</th><th style="width: 5.25%" class="text-center">已脱贫户(2016)</th</tr>');
+	$.each(temp_data, function(i,item) {
+		com_name=item.v3;//name
+	
+		if(com_name.indexOf("村村")>-1){//截取字符串
+			if(com_name.substring(com_name.length-2,aa.length)=='委会'){
+				com_name = com_name.substring(0,com_name.length-3);
+			}else if(com_name.indexOf("村民委员会")>-1){
+				com_name = com_name.substring(0,com_name.length-5);
+			}
+		}else{
+			if(com_name.substring(com_name.length-2,com_name.length)=='委会'){
+				com_name = com_name.substring(0,com_name.length-2);
+			}else if(com_name.indexOf("村民委员会")>-1){
+				com_name = com_name.substring(0,com_name.length-4);
+			}
+		}
+	
+		if(item.count_17_hu=="0" || item.count_17_hu == undefined){//户数
+			count_17_hu='<span class="c_red">0</span>';
+		}else{
+			count_17_hu='<span class="c_green">'+item.count_17_hu+'</span>';
+			count_17_hus=parseInt(item.count_17_hu)+parseInt(count_17_hus);
+		}
+		if(item.sum_17_person=="0" || item.sum_17_person == undefined){//户数
+			sum_17_person='<span class="c_red">0</span>';
+		}else{
+			sum_17_person='<span class="c_green">'+item.sum_17_person+'</span>';
+			sum_17_persons=parseInt(item.sum_17_person)+parseInt(sum_17_persons);
+		}
+		
+		if(item.count_17_hu_yes=="0" || item.count_17_hu_yes == undefined){//户数
+			count_17_hu_yes='<span class="c_red">0</span>';
+		}else{
+			count_17_hu_yes='<span class="c_green">'+item.count_17_hu_yes+'</span>';
+			count_17_hu_yess=parseInt(item.count_17_hu_yes)+parseInt(count_17_hu_yess);
+		}
+		
+		if(item.sum_17_person_yes=="0" || item.sum_17_person_yes == undefined){//户数
+			sum_17_person_yes='<span class="c_red">0</span>';
+		}else{
+			sum_17_person_yes='<span class="c_green">'+item.sum_17_person_yes+'</span>';
+			sum_17_person_yess=parseInt(item.sum_17_person_yes)+parseInt(sum_17_person_yess);
+		}
+		if(item.count_17_hu_no=="0" || item.count_17_hu_no == undefined){//户数
+			count_17_hu_no='<span class="c_red">0</span>';
+		}else{
+			count_17_hu_no='<span class="c_green">'+item.count_17_hu_no+'</span>';
+			count_17_hu_nos=parseInt(item.count_17_hu_no)+parseInt(count_17_hu_nos);
+		}
+		
+		if(item.sum_17_person_no=="0" || item.sum_17_person_no == undefined){//户数
+			sum_17_person_no='<span class="c_red">0</span>';
+		}else{
+			sum_17_person_no='<span class="c_green">'+item.sum_17_person_no+'</span>';
+			sum_17_person_nos=parseInt(item.sum_17_person_no)+parseInt(sum_17_person_nos);
+		}
+		
+		
+		if(item.count=="0" || item.count == undefined){//未脱贫户数  分国贫市贫
+			no_tuo_17_hu='<span class="c_red">0</span>';
+		}else{
+			no_tuo_17_hu='<span class="c_green">'+item.count+'</span>';
+			no_tuo_17_hus=parseInt(item.count)+parseInt(no_tuo_17_hus);
+		}
+		if(item.sum=="0" || item.sum == undefined){//未脱贫人数  分国贫市贫
+			no_tuo_17_person='<span class="c_red">0</span>';
+		}else{
+			no_tuo_17_person='<span class="c_green">'+item.sum+'</span>';
+			no_tuo_17_persons=parseInt(item.sum)+parseInt(no_tuo_17_persons);
+		}
+		
+		
+		if(item.sum2=="0" || item.sum2 == undefined){//已脱贫户数 分国贫市贫
+			yes_tuo_17_hu='<span class="c_red">0</span>';
+		}else{
+			yes_tuo_17_hu='<span class="c_green">'+item.sum2+'</span>';
+			yes_tuo_17_hus=parseInt(item.sum2)+parseInt(yes_tuo_17_hus);
+		}
+		
+	
+		if(item.count_16_hu=="0" || item.count_16_hu == undefined){//户数
+			count_16_hu='<span class="c_red">0</span>';
+		}else{
+			count_16_hu='<span class="c_green">'+item.count_16_hu+'</span>';
+			count_16_hus=parseInt(item.count_16_hu)+parseInt(count_16_hus);
+		}
+		if(item.sum_16_person=="0" || item.sum_16_person == undefined){//户数
+			sum_16_person='<span class="c_red">0</span>';
+		}else{
+			sum_16_person='<span class="c_green">'+item.sum_16_person+'</span>';
+			sum_16_persons=parseInt(item.sum_16_person)+parseInt(sum_16_persons);
+		}
+		
+		if(item.count_16_hu_yes=="0" || item.count_16_hu_yes == undefined){//户数
+			count_16_hu_yes='<span class="c_red">0</span>';
+		}else{
+			count_16_hu_yes='<span class="c_green">'+item.count_16_hu_yes+'</span>';
+			count_16_hu_yess=parseInt(item.count_16_hu_yes)+parseInt(count_16_hu_yess);
+		}
+		
+		if(item.sum_16_person_yes=="0" || item.sum_16_person_yes == undefined){//户数
+			count_16_hu_yes='<span class="c_red">0</span>';
+		}else{
+			sum_16_person_yes='<span class="c_green">'+item.sum_16_person_yes+'</span>';
+			sum_16_person_yess=parseInt(item.sum_16_person_yes)+parseInt(sum_16_person_yess);
+		}
+		if(item.count_16_hu_no=="0" || item.count_16_hu_no == undefined){//户数
+			count_16_hu_no='<span class="c_red">0</span>';
+		}else{
+			count_16_hu_no='<span class="c_green">'+item.count_16_hu_no+'</span>';
+			count_16_hu_nos=parseInt(item.count_16_hu_no)+parseInt(count_16_hu_nos);
+		}
+		if(item.sum_16_person_no=="0" || item.sum_16_person_no == undefined){//户数
+			sum_16_person_no='<span class="c_red">0</span>';
+		}else{
+			sum_16_person_no='<span class="c_green">'+item.sum_16_person_no+'</span>';
+			sum_16_person_nos=parseInt(item.sum_16_person_no)+parseInt(sum_16_person_nos);
+		}
+		if(item.count1=="0" || item.count1 == undefined){//户数
+			no_tuo_16_hu='<span class="c_red">0</span>';
+		}else{
+			no_tuo_16_hu='<span class="c_green">'+item.count1+'</span>';
+			no_tuo_16_hus=parseInt(item.count1)+parseInt(no_tuo_16_hus);
+		}
+		
+		if(item.sum1=="0" || item.sum1 == undefined){//户数
+			no_tuo_16_person='<span class="c_red">0</span>';
+		}else{
+			no_tuo_16_person='<span class="c_green">'+item.sum1+'</span>';
+			no_tuo_16_persons=parseInt(item.sum1)+parseInt(no_tuo_16_persons);
+		}
+		if(item.sum3=="0" || item.sum3 == undefined){//户数
+			yes_tuo_16_hu='<span class="c_red">0</span>';
+		}else{
+			yes_tuo_16_hu='<span class="c_green">'+item.sum3+'</span>';
+			yes_tuo_16_hus=parseInt(item.sum3)+parseInt(yes_tuo_16_hus);
+		}
+		
+	
+		
+		if(state=='show'){
+			html+='<tr><td class="text-center">'+com_name+'</td><td class="text-center" >'+count_17_hu+'</td><td class="text-center" >'+sum_17_person+'</td><td class="text-center" >'+count_17_hu_yes+'</td><td class="text-center" >'+sum_17_person_yes+'</td><td class="text-center" >'+count_17_hu_no+'</td><td class="text-center" >'+sum_17_person_no+'</td>'+
+			'<td class="text-center">'+no_tuo_17_hu+'</td><td class="text-center">'+no_tuo_17_person+'</td><td class="text-center">'+yes_tuo_17_hu+'</td><td class="text-center">'+count_16_hu+'</td><td class="text-center">'+sum_16_person+'</td><td class="text-center">'+count_16_hu_yes+'</td><td class="text-center">'+sum_16_person_yes+'</td>'+
+			'<td class="text-center">'+count_16_hu_no+'</td><td class="text-center">'+sum_16_person_no+'</td><td class="text-center">'+no_tuo_16_hu+'</td><td class="text-center">'+no_tuo_16_person+'</td><td class="text-center">'+yes_tuo_16_hu+'</td></tr>';	
+		}else{
+			if((item.count=="0" || item.count == undefined) && item.sum=="0" && item.sum1=="0" && item.sum2 =="0" && item.sum3=="0" && item.count1 == "0"){
+    			html+='<tr class="hid" hidden><td class="text-center">'+com_name+'</td><td class="text-center" >'+count_17_hu+'</td><td class="text-center" >'+sum_17_person+'</td><td class="text-center" >'+count_17_hu_yes+'</td><td class="text-center" >'+sum_17_person_yes+'</td><td class="text-center" >'+count_17_hu_no+'</td><td class="text-center" >'+sum_17_person_no+'</td>'+
+    			'<td class="text-center">'+no_tuo_17_hu+'</td><td class="text-center">'+no_tuo_17_person+'</td><td class="text-center">'+yes_tuo_17_hu+'</td><td class="text-center">'+count_16_hu+'</td><td class="text-center">'+sum_16_person+'</td><td class="text-center">'+count_16_hu_yes+'</td><td class="text-center">'+sum_16_person_yes+'</td>'+
+    			'<td class="text-center">'+count_16_hu_no+'</td><td class="text-center">'+sum_16_person_no+'</td><td class="text-center">'+no_tuo_16_hu+'</td><td class="text-center">'+no_tuo_16_person+'</td><td class="text-center">'+yes_tuo_16_hu+'</td></tr>';	
+			}else{
+    			html+='<tr><td class="text-center">'+com_name+'</td><td class="text-center" >'+count_17_hu+'</td><td class="text-center" >'+sum_17_person+'</td><td class="text-center" >'+count_17_hu_yes+'</td><td class="text-center" >'+sum_17_person_yes+'</td><td class="text-center" >'+count_17_hu_no+'</td><td class="text-center" >'+sum_17_person_no+'</td>'+
+    			'<td class="text-center">'+no_tuo_17_hu+'</td><td class="text-center">'+no_tuo_17_person+'</td><td class="text-center">'+yes_tuo_17_hu+'</td><td class="text-center">'+count_16_hu+'</td><td class="text-center">'+sum_16_person+'</td><td class="text-center">'+count_16_hu_yes+'</td><td class="text-center">'+sum_16_person_yes+'</td>'+
+    			'<td class="text-center">'+count_16_hu_no+'</td><td class="text-center">'+sum_16_person_no+'</td><td class="text-center">'+no_tuo_16_hu+'</td><td class="text-center">'+no_tuo_16_person+'</td><td class="text-center">'+yes_tuo_16_hu+'</td></tr>';	
+			}
+		}
+	});
+	//给合计加颜色
+	if(count_17_hus=="0"||count_17_hus==null){
+		count_17_hus='<span class="c_red">0</span>';
+	}else{
+		count_17_hus='<span class="c_green">'+count_17_hus+'</span>';
+	}
+	if(sum_17_persons=="0"||sum_17_persons==null){
+		sum_17_persons='<span class="c_red">0</span>';
+	}else{
+		sum_17_persons='<span class="c_green">'+sum_17_persons+'</span>';
+	}
+	if(count_17_hu_yess=="0"||count_17_hu_yess==null){
+		count_17_hu_yess='<span class="c_red">0</span>';
+	}else{
+		count_17_hu_yess='<span class="c_green">'+count_17_hu_yess+'</span>';
+	}
+	if(sum_17_person_yess=="0"||sum_17_person_yess==null){
+		sum_17_person_yess='<span class="c_red">0</span>';
+	}else{
+		sum_17_person_yess='<span class="c_green">'+sum_17_person_yess+'</span>';
+	}
+	if(count_17_hu_nos=="0"||count_17_hu_nos==null){
+		count_17_hu_nos='<span class="c_red">0</span>';
+	}else{
+		count_17_hu_nos='<span class="c_green">'+count_17_hu_nos+'</span>';
+	}
+	if(sum_17_person_nos=="0"||sum_17_person_nos==null){
+		sum_17_person_nos='<span class="c_red">0</span>';
+	}else{
+		sum_17_person_nos='<span class="c_green">'+sum_17_person_nos+'</span>';
+	}
+	if(no_tuo_17_hus=="0"||no_tuo_17_hus==null){
+		no_tuo_17_hus='<span class="c_red">0</span>';
+	}else{
+		no_tuo_17_hus='<span class="c_green">'+no_tuo_17_hus+'</span>';
+	}
+	if(no_tuo_17_persons=="0"||no_tuo_17_persons==null){
+		no_tuo_17_persons='<span class="c_red">0</span>';
+	}else{
+		no_tuo_17_persons='<span class="c_green">'+no_tuo_17_persons+'</span>';
+	}
+	if(yes_tuo_17_hus=="0"||yes_tuo_17_hus==null){
+		yes_tuo_17_hus='<span class="c_red">0</span>';
+	}else{
+		yes_tuo_17_hus='<span class="c_green">'+yes_tuo_17_hus+'</span>';
+	}
+	if(count_16_hus=="0"||count_16_hus==null){
+		count_16_hus='<span class="c_red">0</span>';
+	}else{
+		count_16_hus='<span class="c_green">'+count_16_hus+'</span>';
+	}
+	if(sum_16_persons=="0"||sum_16_persons==null){
+		sum_16_persons='<span class="c_red">0</span>';
+	}else{
+		sum_16_persons='<span class="c_green">'+sum_16_persons+'</span>';
+	}
+	if(count_16_hu_yess=="0"||count_16_hu_yess==null){
+		count_16_hu_yess='<span class="c_red">0</span>';
+	}else{
+		count_16_hu_yess='<span class="c_green">'+count_16_hu_yess+'</span>';
+	}
+	
+	if(sum_16_person_yess=="0"||sum_16_person_yess==null){
+		sum_16_person_yess='<span class="c_red">0</span>';
+	}else{
+		sum_16_person_yess='<span class="c_green">'+sum_16_person_yess+'</span>';
+	}
+	if(count_16_hu_nos=="0"||count_16_hu_nos==null){
+		count_16_hu_nos='<span class="c_red">0</span>';
+	}else{
+		count_16_hu_nos='<span class="c_green">'+count_16_hu_nos+'</span>';
+	}
+	if(sum_16_person_nos=="0"||sum_16_person_nos==null){
+		sum_16_person_nos='<span class="c_red">0</span>';
+	}else{
+		sum_16_person_nos='<span class="c_green">'+sum_16_person_nos+'</span>';
+	}
+	if(no_tuo_16_hus=="0"||no_tuo_16_hus==null){
+		no_tuo_16_hus='<span class="c_red">0</span>';
+	}else{
+		no_tuo_16_hus='<span class="c_green">'+no_tuo_16_hus+'</span>';
+	}
+	
+	if(no_tuo_16_persons=="0"||no_tuo_16_persons==null){
+		no_tuo_16_persons='<span class="c_red">0</span>';
+	}else{
+		no_tuo_16_persons='<span class="c_green">'+no_tuo_16_persons+'</span>';
+	}
+	if(yes_tuo_16_hus=="0"||yes_tuo_16_hus==null){
+		yes_tuo_16_hus='<span class="c_red">0</span>';
+	}else{
+		yes_tuo_16_hus='<span class="c_green">'+yes_tuo_16_hus+'</span>';
+	}
+	html+='<tr><td class="text-center">'+hha+'</td><td class="text-center" >'+count_17_hus+'</td><td class="text-center" >'+sum_17_persons+'</td><td class="text-center" >'+count_17_hu_yess+'</td><td class="text-center" >'+sum_17_person_yess+'</td><td class="text-center" >'+count_17_hu_nos+'</td><td class="text-center" >'+sum_17_person_nos+'</td>'+
+	'<td class="text-center">'+no_tuo_17_hus+'</td><td class="text-center">'+no_tuo_17_persons+'</td><td class="text-center">'+yes_tuo_17_hus+'</td><td class="text-center">'+count_16_hus+'</td><td class="text-center">'+sum_16_persons+'</td><td class="text-center">'+count_16_hu_yess+'</td><td class="text-center">'+sum_16_person_yess+'</td>'+
+	'<td class="text-center">'+count_16_hu_nos+'</td><td class="text-center">'+sum_16_person_nos+'</td><td class="text-center">'+no_tuo_16_hus+'</td><td class="text-center">'+no_tuo_16_persons+'</td><td class="text-center">'+yes_tuo_16_hus+'</td></tr>';			    
+	$("#shangfangzongbiao").html(html);
+}
+
+function hide_table(tamp_data){
+	var state = $("#show").val();
+	var html="";
+	var no_tuo_17_hus = 0;//count  17年未脱贫贫困户 分市贫 国贫
+	var no_tuo_17_persons = 0;//count  17年未脱贫贫困人口 分市贫 国贫
+	var yes_tuo_17_hus = 0;//已脱贫贫困户17年  分国贫市贫
+	var no_tuo_16_hus = 0;//count  16年未脱贫贫困户 分市贫 国贫
+	var no_tuo_16_persons = 0;//count  16年未脱贫贫困人口 分市贫 国贫
+	var yes_tuo_16_hus = 0;//已脱贫贫困户16年  分国贫市贫
+	var count_17_hus = 0;//17年总贫困户数
+	var sum_17_persons = 0;//17年总贫困人口
+	var count_16_hus = 0;//16年总贫困户数
+	var sum_16_persons = 0;//16年总贫困人口
+	var count_17_hu_nos = 0;//17年未脱贫总贫困户数
+	var sum_17_person_nos = 0;//17年未脱贫总贫困人口
+	var count_16_hu_nos = 0;//16年未脱贫总贫困户数
+	var sum_16_person_nos = 0;//16年未脱贫总贫困人口
+	var  count_17_hu_yess = 0;//17年已脱贫总贫困户数
+	var sum_17_person_yess = 0;//17年已脱总贫困人口
+	var count_16_hu_yess = 0;//16年已脱总贫困户数
+	var sum_16_person_yess = 0;//16年已脱总贫困人口
+	
+	if(com_level==1){//当为不同用户的时候，表头改变。
+		$("#index_er_title").html("旗县");
+		hha="全市";
+	}else if(com_level==2){
+		$("#index_er_title").html("苏木乡镇");
+		hha="全旗";
+	}else if(com_level==3){
+		$("#index_er_title").html("嘎查村");
+		hha="全乡";
+	}else if(com_level==4){
+		$("#index_er_title").html("嘎查村");
+		hha="全乡";
+	}
+	$("#title").html('<tr><th style="width: 14%" class="text-center" id="index_yi_title">旗县</th><th style="width: 14%" class="text-center">未脱贫贫困户(2017)</th><th style="width: 14%" class="text-center">未脱贫贫困人口(2017)</th>'+
+			'<th style="width: 14%" class="text-center">已脱贫户数(2017)</th>	<th style="width: 14%" class="text-center">未脱贫贫困户(2016)</th><th style="width: 14%" class="text-center">未脱贫贫困人口(2016)</th><th style="width: 14%" class="text-center">已脱贫户数(2016)</th></tr> ');
+	$.each(temp_data, function(i,item) {
+		com_name=item.v3;//name
+	
+		if(com_name.indexOf("村村")>-1){//截取字符串
+			if(com_name.substring(com_name.length-2,aa.length)=='委会'){
+				com_name = com_name.substring(0,com_name.length-3);
+			}else if(com_name.indexOf("村民委员会")>-1){
+				com_name = com_name.substring(0,com_name.length-5);
+			}
+		}else{
+			if(com_name.substring(com_name.length-2,com_name.length)=='委会'){
+				com_name = com_name.substring(0,com_name.length-2);
+			}else if(com_name.indexOf("村民委员会")>-1){
+				com_name = com_name.substring(0,com_name.length-4);
+			}
+		}
+		
+		if(item.count=="0" || item.count == undefined){//未脱贫户数  分国贫市贫
+			no_tuo_17_hu='<span class="c_red">0</span>';
+		}else{
+			no_tuo_17_hu='<span class="c_green">'+item.count+'</span>';
+			no_tuo_17_hus=parseInt(item.count)+parseInt(no_tuo_17_hus);
+		}
+		if(item.sum=="0" || item.sum == undefined){//未脱贫人数  分国贫市贫
+			no_tuo_17_person='<span class="c_red">0</span>';
+		}else{
+			no_tuo_17_person='<span class="c_green">'+item.sum+'</span>';
+			no_tuo_17_persons=parseInt(item.sum)+parseInt(no_tuo_17_persons);
+		}
+		
+		
+		if(item.sum2=="0" || item.sum2 == undefined){//已脱贫户数 分国贫市贫
+			yes_tuo_17_hu='<span class="c_red">0</span>';
+		}else{
+			yes_tuo_17_hu='<span class="c_green">'+item.sum2+'</span>';
+			yes_tuo_17_hus=parseInt(item.sum2)+parseInt(yes_tuo_17_hus);
+		}
+		
+		if(item.count1=="0" || item.count1 == undefined){//户数
+			no_tuo_16_hu='<span class="c_red">0</span>';
+		}else{
+			no_tuo_16_hu='<span class="c_green">'+item.count1+'</span>';
+			no_tuo_16_hus=parseInt(item.count1)+parseInt(no_tuo_16_hus);
+		}
+		
+		if(item.sum1=="0" || item.sum1 == undefined){//户数
+			no_tuo_16_person='<span class="c_red">0</span>';
+		}else{
+			no_tuo_16_person='<span class="c_green">'+item.sum1+'</span>';
+			no_tuo_16_persons=parseInt(item.sum1)+parseInt(no_tuo_16_persons);
+		}
+		if(item.sum3=="0" || item.sum3 == undefined){//户数
+			yes_tuo_16_hu='<span class="c_red">0</span>';
+		}else{
+			yes_tuo_16_hu='<span class="c_green">'+item.sum3+'</span>';
+			yes_tuo_16_hus=parseInt(item.sum3)+parseInt(yes_tuo_16_hus);
+		}
+
+		if(state=='show'){
+			html+='<tr><td class="text-center">'+com_name+'</td><td class="text-center">'+no_tuo_17_hu+'</td><td class="text-center">'+no_tuo_17_person+'</td><td class="text-center">'+yes_tuo_17_hu+'</td>'+
+			'<td class="text-center">'+no_tuo_16_hu+'</td><td class="text-center">'+no_tuo_16_person+'</td><td class="text-center">'+yes_tuo_16_hu+'</td></tr>';	
+		}else{
+			if((item.count=="0" || item.count == undefined) && item.sum=="0" && item.sum1=="0" && item.sum2 =="0" && item.sum3=="0" && item.count1 == "0"){
+    			html+='<tr class="hid" hidden><td class="text-center">'+com_name+'</td><td class="text-center">'+no_tuo_17_hu+'</td><td class="text-center">'+no_tuo_17_person+'</td><td class="text-center">'+yes_tuo_17_hu+'</td>'+
+    			'<td class="text-center">'+no_tuo_16_hu+'</td><td class="text-center">'+no_tuo_16_person+'</td><td class="text-center">'+yes_tuo_16_hu+'</td></tr>';	
+			}else{
+    			html+='<tr><td class="text-center">'+com_name+'</td><td class="text-center">'+no_tuo_17_hu+'</td><td class="text-center">'+no_tuo_17_person+'</td><td class="text-center">'+yes_tuo_17_hu+'</td>'+
+    			'<td class="text-center">'+no_tuo_16_hu+'</td><td class="text-center">'+no_tuo_16_person+'</td><td class="text-center">'+yes_tuo_16_hu+'</td></tr>';	
+			}
+		}
+	});
+	
+	//给合计加颜色
+	
+	if(no_tuo_17_hus=="0"||no_tuo_17_hus==null){
+		no_tuo_17_hus='<span class="c_red">0</span>';
+	}else{
+		no_tuo_17_hus='<span class="c_green">'+no_tuo_17_hus+'</span>';
+	}
+	if(no_tuo_17_persons=="0"||no_tuo_17_persons==null){
+		no_tuo_17_persons='<span class="c_red">0</span>';
+	}else{
+		no_tuo_17_persons='<span class="c_green">'+no_tuo_17_persons+'</span>';
+	}
+	if(yes_tuo_17_hus=="0"||yes_tuo_17_hus==null){
+		yes_tuo_17_hus='<span class="c_red">0</span>';
+	}else{
+		yes_tuo_17_hus='<span class="c_green">'+yes_tuo_17_hus+'</span>';
+	}
+
+	if(no_tuo_16_hus=="0"||no_tuo_16_hus==null){
+		no_tuo_16_hus='<span class="c_red">0</span>';
+	}else{
+		no_tuo_16_hus='<span class="c_green">'+no_tuo_16_hus+'</span>';
+	}
+	
+	if(no_tuo_16_persons=="0"||no_tuo_16_persons==null){
+		no_tuo_16_persons='<span class="c_red">0</span>';
+	}else{
+		no_tuo_16_persons='<span class="c_green">'+no_tuo_16_persons+'</span>';
+	}
+	if(yes_tuo_16_hus=="0"||yes_tuo_16_hus==null){
+		yes_tuo_16_hus='<span class="c_red">0</span>';
+	}else{
+		yes_tuo_16_hus='<span class="c_green">'+yes_tuo_16_hus+'</span>';
+	}
+	html+='<tr><td class="text-center">'+hha+'</td><td class="text-center">'+no_tuo_17_hus+'</td><td class="text-center">'+no_tuo_17_persons+'</td><td class="text-center">'+yes_tuo_17_hus+'</td>'+
+	'<td class="text-center">'+no_tuo_16_hus+'</td><td class="text-center">'+no_tuo_16_persons+'</td><td class="text-center">'+yes_tuo_16_hus+'</td></tr>';			    
+	$("#shangfangzongbiao").html(html);
 }
 
