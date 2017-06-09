@@ -372,8 +372,8 @@ public class AnController extends MultiActionController{
 	 * @throws IOException
 	 */
 	public  ModelAndView getShowPoor(HttpServletRequest request,HttpServletResponse response) throws IOException{
-		request.setCharacterEncoding("UTF-8");
-		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=UTF-8");
+	    response.setCharacterEncoding("UTF-8");
 		Map map=new HashMap();
 		map.put("因病", "1");
 		map.put("因残", "2");
@@ -420,9 +420,9 @@ public class AnController extends MultiActionController{
 				name1=cha_list.get(0).get("com_name").toString();
 			}
 		}
-		 String poor_sql = "SELECT v6,pkid,sys_standard,v9,v23 from da_household where v5='"+name+"' and v4='"+name1+"'";
-		 String cha_sql = " select sys_standard, sum(v9) ren,count(*) num from( "+poor_sql+") aa where sys_standard='国家级贫困人口' ";
-		 String cha_sql1 = " select sys_standard, sum(v9) ren,count(*) num from( "+poor_sql+") aa where sys_standard='市级低收入人口' ";
+		 String poor_sql = "SELECT v6,pkid,init_flag,sys_standard,v9,v23 from da_household where v5='"+name+"' and v4='"+name1+"'";
+		 String cha_sql = " select sys_standard,init_flag, sum(v9) ren,count(*) num from( "+poor_sql+") aa where init_flag='国家级贫困人口' ";
+		 String cha_sql1 = " select sys_standard,init_flag, sum(v9) ren,count(*) num from( "+poor_sql+") aa where init_flag='市级低收入人口' ";
 		 SQLAdapter cha_sqlAdapter = new SQLAdapter (cha_sql);
 		 SQLAdapter cha_sqlAdapter1 = new SQLAdapter (cha_sql1);
 		 JSONArray cha_json = new JSONArray();
@@ -437,12 +437,42 @@ public class AnController extends MultiActionController{
 		 cha_json.add(cha_obj);
 		 
 		 JSONArray jsonArray=new JSONArray();
+		 JSONArray jsonBfdwArray=new JSONArray();//帮扶干部信息
 		SQLAdapter poor_Adapter = new SQLAdapter(poor_sql);
+		String bfdwSql = "";
 		List<Map> poor_list = this.getBySqlMapper.findRecords(poor_Adapter);
 		for (int i = 0; i < poor_list.size(); i++) {
 			JSONObject obj = new JSONObject();
 			obj.put("name", poor_list.get(i).get("v6"));// 贫困户主
 			obj.put("pid", poor_list.get(i).get("pkid"));// 贫困户主id
+			//查询帮扶干部、单位、电话开始
+			bfdwSql="select sp.col_name,sp.col_post,sp.telephone from (select * from sys_personal_household_many where da_household_id='"+poor_list.get(i).get("pkid")+"' )sph left join sys_personal sp on sph.sys_personal_id=sp.pkid ";
+			SQLAdapter bfdw_sqlAdapter = new SQLAdapter (bfdwSql);
+			List<Map> bfdw_list = this.getBySqlMapper.findRecords(bfdw_sqlAdapter);
+			if(bfdw_list.size()>0){
+				for(int b=0;b<bfdw_list.size();b++){
+					JSONObject ob = new JSONObject();
+					if ("".equals(bfdw_list.get(b).get("col_name"))|| bfdw_list.get(b).get("col_name") == null) {
+						ob.put("name", "");// 帮扶干部名称
+					} else {
+						ob.put("name",bfdw_list.get(b).get("col_name"));// 帮扶干部名称
+					}
+					if ("".equals(bfdw_list.get(b).get("col_post"))|| bfdw_list.get(b).get("col_post") == null) {
+						ob.put("dep", "");// 干部所在单位
+					} else {
+						ob.put("dep",bfdw_list.get(b).get("col_post"));// 干部所在单位
+					}
+					if ("".equals(bfdw_list.get(b).get("telephone"))|| bfdw_list.get(b).get("telephone") == null) {
+						ob.put("telephone", "");// 帮扶干部名称
+					} else {
+						ob.put("telephone",bfdw_list.get(b).get("telephone"));// 帮扶干部名称
+					}
+					jsonBfdwArray.add(ob);
+				}
+			}
+			obj.put("bfgb", jsonBfdwArray);
+			//查询帮扶干部、单位、电话结束
+			
 			for (int j = 0; j < criterion_map.size(); j++) {
 				// 原始标准
 				if ("".equals(poor_list.get(i).get("sys_standard"))|| poor_list.get(i).get("sys_standard") == null) {
@@ -500,11 +530,11 @@ public class AnController extends MultiActionController{
 	 * @throws IOException 
 	 */
 	public ModelAndView getPoorDetailed(HttpServletRequest request,HttpServletResponse response) throws IOException{
-		request.setCharacterEncoding("UTF-8");
-		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=UTF-8");
+	    response.setCharacterEncoding("UTF-8");
 		String pkid=request.getParameter("pid");
 		try {
-			String sql="SELECT basic_address,v3,v4,v5,v26,v27,v23,v33,sys_standard,v29,v30,v31,V6,pkid,v25,v8,v22,v11,v7,entry_year,init_flag,pic_path, ROUND((dqsz-dqzc)/v9,2) bfq,ROUND((dqszh-dqzch)/v9,2) bfh FROM  da_household a LEFT JOIN  "+
+			String sql="SELECT basic_address,v3,v4,v5,v21,v26,v27,v23,v33,sys_standard,v29,v30,v31,V6,pkid,v25,v8,v22,v11,v7,entry_year,init_flag,pic_path, ROUND((dqsz-dqzc)/v9,2) bfq,ROUND((dqszh-dqzch)/v9,2) bfh FROM  da_household a LEFT JOIN  "+
 					"(select pic_path,pic_pkid from da_pic WHERE pic_type='4' )c ON a.pkid=c.pic_pkid LEFT JOIN  "+
 					"(select v39 dqsz,da_household_id FROM da_current_income)d ON a.pkid=d.da_household_id LEFT JOIN  "+
 					"(select v31 dqzc,da_household_id FROM da_current_expenditure ) e ON a.pkid=e.da_household_id LEFT JOIN"+
@@ -527,6 +557,12 @@ public class AnController extends MultiActionController{
 			obj.put("pyear", "2017");//贫困户年份
 		}else{
 			obj.put("pyear",list.get(0).get("entry_year"));//贫困户年份
+		}
+		
+		if("".equals(list.get(0).get("v21"))||list.get(0).get("v21")==null){
+			obj.put("tpsx", "");//脱贫属性
+		}else{
+			obj.put("tpsx",list.get(0).get("v21"));//脱贫属性
 		}
 		
 		if("".equals(list.get(0).get("v25"))||list.get(0).get("v25")==null){
