@@ -242,9 +242,9 @@ public class DataStatisticsController  extends MultiActionController{
 			sfcg="0";//清除失败为0
 		}
 		if(sfcg.equals("1")){//如果清除成功，执行插入数据语句
-			String insert_sql="INSERT INTO da_statistics"+year+" (v1,v2,v3,b2,b3,b4,b6,b7,b8,b9,b10,b11,b12,b13,b14,b15,b16,b17) "
-					+ " select t1.v3 v1,t1.v4 v2,t1.v5 v3,b2,b3,b4,b6,b7,b8,b9,b10,b11,b12,b13,t1.init_flag b14,'up_time' b15,b16,b17 from("
-					+ "select v3,v4,v5,COUNT(*) as b2,sum(v9) as b3,init_flag from da_household"+year+" where v21!='已脱贫' and entry_year = "+year2+" group by v3,v4,v5,init_flag) t1 "
+			String insert_sql="INSERT INTO da_statistics"+year+" (v1,v2,v3,b2,b3,b4,b6,b7,b8,b9,b10,b11,b12,b13,b14,b15,b16,b17,entry_year) "
+					+ " select t1.v3 v1,t1.v4 v2,t1.v5 v3,b2,b3,b4,b6,b7,b8,b9,b10,b11,b12,b13,t1.init_flag b14,'up_time' b15,b16,b17,entry_year from("
+					+ "select v3,v4,v5,COUNT(*) as b2,sum(v9) as b3,init_flag,entry_year from da_household"+year+" where v21!='已脱贫'  group by v3,v4,v5,init_flag,entry_year) t1 "
 					+ " left join (select v3,v4,v5,COUNT(*) as b4 ,init_flag from b4_t"+year+" group by v3,v4,v5,init_flag) t4 on t1.v3=t4.v3 and t1.v4=t4.v4 and t1.v5=t4.v5 and t1.init_flag=t4.init_flag "
 					+ " left join (select v3,v4,v5,COUNT(*) as b6 ,init_flag from b6_t"+year+" group by v3,v4,v5,init_flag) t6 on t1.v3=t6.v3 and t1.v4=t6.v4 and t1.v5=t6.v5 and t1.init_flag=t6.init_flag "
 					+ " left join (select v3,v4,v5,COUNT(*) as b7 ,init_flag from b7_t"+year+" group by v3,v4,v5,init_flag) t7 on t1.v3=t7.v3 and t1.v4=t7.v4 and t1.v5=t7.v5 and t1.init_flag=t7.init_flag "

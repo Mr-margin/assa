@@ -476,7 +476,6 @@ function show_column(){
 	$("#home_table").attr("class","col-sm-11");
 	$("#home_map").hide();
 	$("#show_more").html('<a href="javascript:void(0);" onclick="hide_column()"> <i class="fa fa-angle-double-left"></i></a>');
-	$("#show_more").css("margin-top", "25%");
 	$("#anniu_2").css("margin-left", "45%");
 
 	show_table(temp_data);
@@ -488,7 +487,6 @@ function hide_column(){
 	hide_table(temp_data);
 	$("#show_more").html('<a href="javascript:void(0);" onclick="show_column()"> <i class="fa fa-angle-double-right" ></i></a>');
 	$("#show_more").css("margin-top", "0");
-	$("#anniu_2").css("margin-left", "20%");
 	
 	$("#home_map").show();
 	//重新加载地图 
@@ -555,9 +553,9 @@ function show_table(temp_data){
 	
 	$("#title").html('<tr><th style="width: 5.25%" class="text-center" id="index_yi_title">旗县</th><th style="width: 5.25%" class="text-center">总户数(2017)</th><th style="width: 5.25%" class="text-center">总人口(2017)</th>'+
 	'<th style="width: 5.25%" class="text-center">已脱贫总户(2017)</th><th style="width: 5.25%" class="text-center">已脱贫总人口(2017)</th><th style="width: 5.25%" class="text-center">未脱贫总户(2017)</th><th style="width: 5.25%" class="text-center">未脱贫总人口(2017)</th>'+
-	'<th style="width: 5.25%" class="text-center">未脱贫户(2017)</th><th style="width: 5.25%" class="text-center">未脱贫人口(2017)</th><th style="width: 5.25%" class="text-center">已脱贫户(2017)</th>	<th style="width: 5.25%" class="text-center">总户数(2016)</th><th style="width: 5.25%" class="text-center">总人口(2016)</th>'+
+	'	<th style="width: 5.25%" class="text-center">总户数(2016)</th><th style="width: 5.25%" class="text-center">总人口(2016)</th>'+
 	'<th style="width: 5.25%" class="text-center">已脱贫总户(2016)</th><th style="width: 5.25%" class="text-center">已脱贫总人口(2016)</th><th style="width: 5.25%" class="text-center">未脱贫总户(2016)</th><th style="width: 5.25%" class="text-center">未脱贫总人口(2016)</th>'+
-	'<th style="width: 5.25%" class="text-center">未脱贫户(2016)</th><th style="width: 5.25%" class="text-center">未脱贫人口(2016)</th><th style="width: 5.25%" class="text-center">已脱贫户(2016)</th</tr>');
+	'</tr>');
 	$.each(temp_data, function(i,item) {
 		com_name=item.v3;//name
 	
@@ -616,26 +614,6 @@ function show_table(temp_data){
 		}
 		
 		
-		if(item.count=="0" || item.count == undefined){//未脱贫户数  分国贫市贫
-			no_tuo_17_hu='<span class="c_red">0</span>';
-		}else{
-			no_tuo_17_hu='<span class="c_green">'+item.count+'</span>';
-			no_tuo_17_hus=parseInt(item.count)+parseInt(no_tuo_17_hus);
-		}
-		if(item.sum=="0" || item.sum == undefined){//未脱贫人数  分国贫市贫
-			no_tuo_17_person='<span class="c_red">0</span>';
-		}else{
-			no_tuo_17_person='<span class="c_green">'+item.sum+'</span>';
-			no_tuo_17_persons=parseInt(item.sum)+parseInt(no_tuo_17_persons);
-		}
-		
-		
-		if(item.sum2=="0" || item.sum2 == undefined){//已脱贫户数 分国贫市贫
-			yes_tuo_17_hu='<span class="c_red">0</span>';
-		}else{
-			yes_tuo_17_hu='<span class="c_green">'+item.sum2+'</span>';
-			yes_tuo_17_hus=parseInt(item.sum2)+parseInt(yes_tuo_17_hus);
-		}
 		
 	
 		if(item.count_16_hu=="0" || item.count_16_hu == undefined){//户数
@@ -659,7 +637,7 @@ function show_table(temp_data){
 		}
 		
 		if(item.sum_16_person_yes=="0" || item.sum_16_person_yes == undefined){//户数
-			count_16_hu_yes='<span class="c_red">0</span>';
+			sum_16_person_yes='<span class="c_red">0</span>';
 		}else{
 			sum_16_person_yes='<span class="c_green">'+item.sum_16_person_yes+'</span>';
 			sum_16_person_yess=parseInt(item.sum_16_person_yes)+parseInt(sum_16_person_yess);
@@ -676,45 +654,28 @@ function show_table(temp_data){
 			sum_16_person_no='<span class="c_green">'+item.sum_16_person_no+'</span>';
 			sum_16_person_nos=parseInt(item.sum_16_person_no)+parseInt(sum_16_person_nos);
 		}
-		if(item.count1=="0" || item.count1 == undefined){//户数
-			no_tuo_16_hu='<span class="c_red">0</span>';
-		}else{
-			no_tuo_16_hu='<span class="c_green">'+item.count1+'</span>';
-			no_tuo_16_hus=parseInt(item.count1)+parseInt(no_tuo_16_hus);
-		}
 		
-		if(item.sum1=="0" || item.sum1 == undefined){//户数
-			no_tuo_16_person='<span class="c_red">0</span>';
-		}else{
-			no_tuo_16_person='<span class="c_green">'+item.sum1+'</span>';
-			no_tuo_16_persons=parseInt(item.sum1)+parseInt(no_tuo_16_persons);
-		}
-		if(item.sum3=="0" || item.sum3 == undefined){//户数
-			yes_tuo_16_hu='<span class="c_red">0</span>';
-		}else{
-			yes_tuo_16_hu='<span class="c_green">'+item.sum3+'</span>';
-			yes_tuo_16_hus=parseInt(item.sum3)+parseInt(yes_tuo_16_hus);
-		}
 		
 	
 		
 		if(state=='show'){
 			html+='<tr><td class="text-center">'+com_name+'</td><td class="text-center" >'+count_17_hu+'</td><td class="text-center" >'+sum_17_person+'</td><td class="text-center" >'+count_17_hu_yes+'</td><td class="text-center" >'+sum_17_person_yes+'</td><td class="text-center" >'+count_17_hu_no+'</td><td class="text-center" >'+sum_17_person_no+'</td>'+
-			'<td class="text-center">'+no_tuo_17_hu+'</td><td class="text-center">'+no_tuo_17_person+'</td><td class="text-center">'+yes_tuo_17_hu+'</td><td class="text-center">'+count_16_hu+'</td><td class="text-center">'+sum_16_person+'</td><td class="text-center">'+count_16_hu_yes+'</td><td class="text-center">'+sum_16_person_yes+'</td>'+
-			'<td class="text-center">'+count_16_hu_no+'</td><td class="text-center">'+sum_16_person_no+'</td><td class="text-center">'+no_tuo_16_hu+'</td><td class="text-center">'+no_tuo_16_person+'</td><td class="text-center">'+yes_tuo_16_hu+'</td></tr>';	
+			'<td class="text-center">'+count_16_hu+'</td><td class="text-center">'+sum_16_person+'</td><td class="text-center">'+count_16_hu_yes+'</td><td class="text-center">'+sum_16_person_yes+'</td>'+
+			'<td class="text-center">'+count_16_hu_no+'</td><td class="text-center">'+sum_16_person_no+'</td></tr>';	
 		}else{
 		
-			if((item.count=="0" || item.count == undefined) && item.sum=="0" && item.sum1=="0" && item.sum2 =="0" && item.sum3=="0" && item.count1 == "0"
-				&& item.no_tuo_17_hu=="0" && item.no_tuo_17_person == "0"&& item.yes_tuo_17_hu=="0" && item.no_tuo_16_hu == "0"&& item.no_tuo_16_person == "0"&& item.yes_tuo_16_hu == "0"&& item.count_17_hu == "0"&& item.sum_17_person == "0"&& item.count_16_hu == "0"
-					&& item.sum_16_person == "0"&& item.count_17_hu_no == "0"&& item.sum_17_person_no == "0"&& item.count_16_hu_no == "0"&& item.sum_16_person_no == "0"&& item.count_17_hu_yes == "0"&& item.sum_17_person_yes == "0"
-						&& item.count_16_hu_yes == "0"&& item.sum_16_person_yes == "0"){
+			if((item.count=="0" || item.count == undefined) && (item.sum=="0"|| item.sum == undefined) &&(item.sum1=="0"|| item.sum1 == undefined)  && (item.sum2 =="0"|| item.sum2 == undefined) && (item.sum3=="0" || item.sum3 == undefined)&& (item.count1 == "0"|| item.count1 == undefined)
+				&&( item.count_17_hu == "0"|| item.count_17_hu == undefined)&&
+				(item.sum_17_person == "0"|| item.sum_17_person == undefined)&&( item.count_16_hu == "0"|| item.count_16_hu == undefined)
+					&& (item.sum_16_person == "0"|| item.sum_16_person == undefined)&& (item.count_17_hu_no == "0"|| item.count_17_hu_no == undefined)&& (item.sum_17_person_no == "0"&& item.sum_17_person_no == "0"|| item.sum_17_person_no == undefined)&& (item.sum_16_person_no == "0"|| item.sum_16_person_no == undefined)&&( item.count_17_hu_yes == "0"|| item.count_17_hu_yes == undefined)&& (item.sum_17_person_yes == "0"|| item.sum_17_person_yes == undefined)
+						&& (item.count_16_hu_yes == "0"|| item.count_16_hu_yes == undefined)&& (item.sum_16_person_yes == "0"|| item.sum_16_person_yes == undefined)){
     			html+='<tr class="hid" hidden><td class="text-center">'+com_name+'</td><td class="text-center" >'+count_17_hu+'</td><td class="text-center" >'+sum_17_person+'</td><td class="text-center" >'+count_17_hu_yes+'</td><td class="text-center" >'+sum_17_person_yes+'</td><td class="text-center" >'+count_17_hu_no+'</td><td class="text-center" >'+sum_17_person_no+'</td>'+
-    			'<td class="text-center">'+no_tuo_17_hu+'</td><td class="text-center">'+no_tuo_17_person+'</td><td class="text-center">'+yes_tuo_17_hu+'</td><td class="text-center">'+count_16_hu+'</td><td class="text-center">'+sum_16_person+'</td><td class="text-center">'+count_16_hu_yes+'</td><td class="text-center">'+sum_16_person_yes+'</td>'+
-    			'<td class="text-center">'+count_16_hu_no+'</td><td class="text-center">'+sum_16_person_no+'</td><td class="text-center">'+no_tuo_16_hu+'</td><td class="text-center">'+no_tuo_16_person+'</td><td class="text-center">'+yes_tuo_16_hu+'</td></tr>';	
+    			'<td class="text-center">'+count_16_hu+'</td><td class="text-center">'+sum_16_person+'</td><td class="text-center">'+count_16_hu_yes+'</td><td class="text-center">'+sum_16_person_yes+'</td>'+
+    			'<td class="text-center">'+count_16_hu_no+'</td><td class="text-center">'+sum_16_person_no+'</td></tr>';	
 			}else{
     			html+='<tr><td class="text-center">'+com_name+'</td><td class="text-center" >'+count_17_hu+'</td><td class="text-center" >'+sum_17_person+'</td><td class="text-center" >'+count_17_hu_yes+'</td><td class="text-center" >'+sum_17_person_yes+'</td><td class="text-center" >'+count_17_hu_no+'</td><td class="text-center" >'+sum_17_person_no+'</td>'+
-    			'<td class="text-center">'+no_tuo_17_hu+'</td><td class="text-center">'+no_tuo_17_person+'</td><td class="text-center">'+yes_tuo_17_hu+'</td><td class="text-center">'+count_16_hu+'</td><td class="text-center">'+sum_16_person+'</td><td class="text-center">'+count_16_hu_yes+'</td><td class="text-center">'+sum_16_person_yes+'</td>'+
-    			'<td class="text-center">'+count_16_hu_no+'</td><td class="text-center">'+sum_16_person_no+'</td><td class="text-center">'+no_tuo_16_hu+'</td><td class="text-center">'+no_tuo_16_person+'</td><td class="text-center">'+yes_tuo_16_hu+'</td></tr>';	
+    			'<td class="text-center">'+count_16_hu+'</td><td class="text-center">'+sum_16_person+'</td><td class="text-center">'+count_16_hu_yes+'</td><td class="text-center">'+sum_16_person_yes+'</td>'+
+    			'<td class="text-center">'+count_16_hu_no+'</td><td class="text-center">'+sum_16_person_no+'</td></tr>';	
 			}
 		}
 	});
@@ -749,21 +710,7 @@ function show_table(temp_data){
 	}else{
 		sum_17_person_nos='<span class="c_green">'+sum_17_person_nos+'</span>';
 	}
-	if(no_tuo_17_hus=="0"||no_tuo_17_hus==null){
-		no_tuo_17_hus='<span class="c_red">0</span>';
-	}else{
-		no_tuo_17_hus='<span class="c_green">'+no_tuo_17_hus+'</span>';
-	}
-	if(no_tuo_17_persons=="0"||no_tuo_17_persons==null){
-		no_tuo_17_persons='<span class="c_red">0</span>';
-	}else{
-		no_tuo_17_persons='<span class="c_green">'+no_tuo_17_persons+'</span>';
-	}
-	if(yes_tuo_17_hus=="0"||yes_tuo_17_hus==null){
-		yes_tuo_17_hus='<span class="c_red">0</span>';
-	}else{
-		yes_tuo_17_hus='<span class="c_green">'+yes_tuo_17_hus+'</span>';
-	}
+	
 	if(count_16_hus=="0"||count_16_hus==null){
 		count_16_hus='<span class="c_red">0</span>';
 	}else{
@@ -795,25 +742,10 @@ function show_table(temp_data){
 	}else{
 		sum_16_person_nos='<span class="c_green">'+sum_16_person_nos+'</span>';
 	}
-	if(no_tuo_16_hus=="0"||no_tuo_16_hus==null){
-		no_tuo_16_hus='<span class="c_red">0</span>';
-	}else{
-		no_tuo_16_hus='<span class="c_green">'+no_tuo_16_hus+'</span>';
-	}
 	
-	if(no_tuo_16_persons=="0"||no_tuo_16_persons==null){
-		no_tuo_16_persons='<span class="c_red">0</span>';
-	}else{
-		no_tuo_16_persons='<span class="c_green">'+no_tuo_16_persons+'</span>';
-	}
-	if(yes_tuo_16_hus=="0"||yes_tuo_16_hus==null){
-		yes_tuo_16_hus='<span class="c_red">0</span>';
-	}else{
-		yes_tuo_16_hus='<span class="c_green">'+yes_tuo_16_hus+'</span>';
-	}
 	html+='<tr><td class="text-center">'+hha+'</td><td class="text-center" >'+count_17_hus+'</td><td class="text-center" >'+sum_17_persons+'</td><td class="text-center" >'+count_17_hu_yess+'</td><td class="text-center" >'+sum_17_person_yess+'</td><td class="text-center" >'+count_17_hu_nos+'</td><td class="text-center" >'+sum_17_person_nos+'</td>'+
-	'<td class="text-center">'+no_tuo_17_hus+'</td><td class="text-center">'+no_tuo_17_persons+'</td><td class="text-center">'+yes_tuo_17_hus+'</td><td class="text-center">'+count_16_hus+'</td><td class="text-center">'+sum_16_persons+'</td><td class="text-center">'+count_16_hu_yess+'</td><td class="text-center">'+sum_16_person_yess+'</td>'+
-	'<td class="text-center">'+count_16_hu_nos+'</td><td class="text-center">'+sum_16_person_nos+'</td><td class="text-center">'+no_tuo_16_hus+'</td><td class="text-center">'+no_tuo_16_persons+'</td><td class="text-center">'+yes_tuo_16_hus+'</td></tr>';			    
+	'<td class="text-center">'+count_16_hus+'</td><td class="text-center">'+sum_16_persons+'</td><td class="text-center">'+count_16_hu_yess+'</td><td class="text-center">'+sum_16_person_yess+'</td>'+
+	'<td class="text-center">'+count_16_hu_nos+'</td><td class="text-center">'+sum_16_person_nos+'</td></tr>';			    
 	$("#shangfangzongbiao").html(html);
 }
 

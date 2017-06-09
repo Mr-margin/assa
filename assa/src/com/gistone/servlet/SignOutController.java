@@ -241,7 +241,7 @@ public class SignOutController extends MultiActionController{
 				for ( int i = 0 ; i < pkid.length ; i ++ ) {
 					if( "0".equals(type) ) {
 						String sql = "update da_household set init_flag='市级低收入人口' where pkid = "+pkid[i];
-						String tui_sql = "select v21 from da_household_2016 where pkid="+pkid[i];
+						String tui_sql = "select v21 from da_household where pkid="+pkid[i];
 						List<Map> tui_list =  this.getBySqlMapper.findRecords(new SQLAdapter(tui_sql));
 						if(tui_list.get(0).get("v21").equals("已脱贫")){
 							response.getWriter().write("2");
@@ -258,7 +258,7 @@ public class SignOutController extends MultiActionController{
 						
 					}else if ( "1".equals(type) ) {
 						String sql = "update da_household set v21='已脱贫' where pkid = "+pkid[i];
-						String tui_sql = "select v21 from da_household_2016 where pkid="+pkid[i];
+						String tui_sql = "select v21 from da_household where pkid="+pkid[i];
 						List<Map> tui_list =  this.getBySqlMapper.findRecords(new SQLAdapter(tui_sql));
 						if(tui_list.get(0).get("v21").equals("已脱贫")){
 							response.getWriter().write("2");
