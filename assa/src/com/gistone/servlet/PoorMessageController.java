@@ -46,6 +46,7 @@ public class PoorMessageController extends MultiActionController{
 		String cha_smx ="";//苏木乡
 		String cha_gcc ="";//嘎查村
 		String cha_sbbz ="";//识别标准
+		String cha_init_flag = "";//现识别标准
 		String cha_pksx ="";//贫困户属性
 		String cha_zpyy ="";//致贫原因
 		String cha_mz ="";//户主民族
@@ -60,8 +61,8 @@ public class PoorMessageController extends MultiActionController{
 		String cha_v8_2 = "";//年龄范围截止时间
 		float cha_v24_1 = 0f;//年龄范围开始时间
 		float cha_v24_2 = 0f;//年龄范围截止时间
-		String cha_year = request.getParameter("cha_year");//查找的年份
-		
+		String data_year ="";//数据年份
+		String cha_year = "";//查找的年份
 		String hz_sql="";
 		String str = "";
 		
@@ -121,6 +122,10 @@ public class PoorMessageController extends MultiActionController{
 				cha_v24_2 = Float.parseFloat(request.getParameter("cha_v24_2").trim());
 				//str += " ROUND(a.v24,2)<"+cha_v24_2+" and";
 			}
+		if(request.getParameter("cha_year")!=null&&!request.getParameter("cha_year").equals("")){
+			cha_year = request.getParameter("cha_year").trim();
+			str += " a.entry_year= "+cha_year+" and";
+		}
 		if(request.getParameter("cha_qx")!=null&&!request.getParameter("cha_qx").equals("请选择")){
 			cha_qx = request.getParameter("cha_qx").trim();
 			str += " a.v3 like '%"+cha_qx+"%' and";
@@ -136,6 +141,10 @@ public class PoorMessageController extends MultiActionController{
 		if(request.getParameter("cha_sbbz")!=null&&!request.getParameter("cha_sbbz").equals("请选择")){
 			cha_sbbz = request.getParameter("cha_sbbz").trim();
 			str += " a.sys_standard like '%"+cha_sbbz+"%' and";
+		}
+		if(request.getParameter("cha_init_flag")!=null&&!request.getParameter("cha_init_flag").equals("请选择")){
+			cha_init_flag = request.getParameter("cha_init_flag").trim();
+			str += " a.init_flag='"+cha_init_flag+"' and";
 		}
 		if(request.getParameter("cha_pksx")!=null&&!request.getParameter("cha_pksx").equals("请选择")){
 			cha_pksx = request.getParameter("cha_pksx").trim();
@@ -164,7 +173,7 @@ public class PoorMessageController extends MultiActionController{
 			str += " a.v21='"+cha_banqian+"' and";
 		}
 		String  str_table = "";
-		if( "2016".equals(cha_year) ) {
+		if( "2016".equals(data_year) ) {
 			str_table = "_2016";
 		} else {
 			str_table = "";
@@ -172,7 +181,7 @@ public class PoorMessageController extends MultiActionController{
 		
 		String total_number_sql="select a.v9,a.pkid from da_household"+str_table+" a ";//统计总人口数
 		String count_st_sql = "select count(*) from (select a.pkid from da_household"+str_table+" a ";
-		String people_sql = "select a.pkid,a.v3,a.v4,a.v5,a.v6,a.v9,a.v21,a.v22,a.v23,a.v11,a.sys_standard from da_household"+str_table+" a ";
+		String people_sql = "select a.pkid,a.v3,a.v4,a.v5,a.v6,a.v9,a.v21,a.v22,a.v23,a.v11,a.sys_standard,a.init_flag from da_household"+str_table+" a ";
 		//如果帮扶人和帮扶单位条件被选择
 		if((request.getParameter("cha_bfdw")!=null&&!request.getParameter("cha_bfdw").equals(""))||(request.getParameter("cha_bfzrr")!=null&&!request.getParameter("cha_bfzrr").equals(""))){
 			if(request.getParameter("cha_bfdw")!=null&&!request.getParameter("cha_bfdw").equals("")){
@@ -1157,7 +1166,7 @@ public class PoorMessageController extends MultiActionController{
 		String cha_v8 = "";//身份证号
 		String cha_v8_1 = "";//年龄范围开始时间
 		String cha_v8_2 = "";//年龄范围截止时间
-		String cha_year = request.getParameter("cha_year");//查找的年份
+		String data_year = request.getParameter("data_year");//查找的年份
 		
 		String hz_sql="";
 		String str = "";
@@ -1248,7 +1257,7 @@ public class PoorMessageController extends MultiActionController{
 			str += " a.v21='"+cha_banqian+"' and";
 		}
 		String  str_table = "";
-		if( "2016".equals(cha_year) ) {
+		if( "2016".equals(data_year) ) {
 			str_table = "_2016";
 		} else {
 			str_table = "";

@@ -100,7 +100,7 @@ public class SH3_Controller extends MultiActionController{
 			int sdsqian = 0; //3000-4000元
 			int sdwqian = 0; //4000-5000元
 			int wys = 0; //5000元以上
-			String pkid_sql = "SELECT pkid,v9 FROM da_household"+year+" where  sys_standard='"+ leixing_name +"'"+shilevel_sql+"";
+			String pkid_sql = "SELECT pkid,v9 FROM da_household"+year+" where  sys_standard='"+ leixing_name +"'"+shilevel_sql+"  and v21 = '未脱贫'";
 			SQLAdapter pkidAdapter = new SQLAdapter(pkid_sql);
 			List<Map> pkidList = this.getBySqlMapper.findRecords(pkidAdapter);
 			StringBuilder pkids=new StringBuilder();
@@ -235,19 +235,19 @@ public class SH3_Controller extends MultiActionController{
 			if (shilevel==1) {	//当层级为1时
 				sql="SELECT SUM(t2.b2) as b2,SUM(t12.b12) as b12,(SUM(t2.b2)-SUM(t12.b12)) as b3 from "+ 
 						  " (select v3,COUNT(*) as b2 from da_household"+year+" where sys_standard='"+ leixing_name +"'  group by v3 ORDER BY v3) t2 "+ 
-						  " left join (select v3,COUNT(*) as b12 from b12_t"+year+" where sys_standard='"+ leixing_name +"'  group by v3 ORDER BY v3) t12 on t2.v3=t12.v3 ";
+						  " left join (select v3,COUNT(*) as b12 from b12_t_first"+year+" where sys_standard='"+ leixing_name +"'  group by v3 ORDER BY v3) t12 on t2.v3=t12.v3 ";
 			}else if (shilevel==2) {	//当层级为2时
 				sql="SELECT SUM(t2.b2) as b2,SUM(t12.b12) as b12,(SUM(t2.b2)-SUM(t12.b12)) as b3 from "+ 
 						  " (select v4,COUNT(*) as b2 from da_household"+year+" where sys_standard='"+ leixing_name +"' and v3 like '%"+shi_name+"%'  group by v4 ORDER BY v4) t2 "+ 
-						  " left join (select v4,COUNT(*) as b12 from b12_t"+year+" where sys_standard='"+ leixing_name +"' and v3 like '%"+shi_name+"%' group by v4 ORDER BY v4) t12 on t2.v4=t12.v4 ";
+						  " left join (select v4,COUNT(*) as b12 from b12_t_first"+year+" where sys_standard='"+ leixing_name +"' and v3 like '%"+shi_name+"%' group by v4 ORDER BY v4) t12 on t2.v4=t12.v4 ";
 			}else if (shilevel==3) {	//当层级为3时
 				sql="SELECT SUM(t2.b2) as b2,SUM(t12.b12) as b12,(SUM(t2.b2)-SUM(t12.b12)) as b3 from "+ 
 						  " (select v5,COUNT(*) as b2 from da_household"+year+" where sys_standard='"+ leixing_name +"' and v4 like '%"+shi_name+"%'  group by v5 ORDER BY v5) t2 "+ 
-						  " left join (select v5,COUNT(*) as b12 from b12_t"+year+" where sys_standard='"+ leixing_name +"' and v4 like '%"+shi_name+"%' group by v5 ORDER BY v5) t12 on t2.v5=t12.v5 ";
+						  " left join (select v5,COUNT(*) as b12 from b12_t_first"+year+" where sys_standard='"+ leixing_name +"' and v4 like '%"+shi_name+"%' group by v5 ORDER BY v5) t12 on t2.v5=t12.v5 ";
 			}else if (shilevel==4) {	//当层级为3时
 				sql="SELECT SUM(t2.b2) as b2,SUM(t12.b12) as b12,(SUM(t2.b2)-SUM(t12.b12)) as b3 from "+ 
 						  " (select v5,COUNT(*) as b2 from da_household"+year+" where sys_standard='"+ leixing_name +"' and v5 like '%"+shi_name+"%'  group by v5 ORDER BY v5) t2 "+ 
-						  " left join (select v5,COUNT(*) as b12 from b12_t"+year+" where sys_standard='"+ leixing_name +"' and v5 like '%"+shi_name+"%' group by v5 ORDER BY v5) t12 on t2.v5=t12.v5 ";
+						  " left join (select v5,COUNT(*) as b12 from b12_t_first"+year+" where sys_standard='"+ leixing_name +"' and v5 like '%"+shi_name+"%' group by v5 ORDER BY v5) t12 on t2.v5=t12.v5 ";
 			}
 			
 			SQLAdapter quan_sql_Adapter = new SQLAdapter(sql);
@@ -284,7 +284,7 @@ public class SH3_Controller extends MultiActionController{
 				region=" and v5='"+shi_name+"' ";
 				region2=" and y.v5='"+shi_name+"' ";
 			}
-			sql = "select t1.huv23 AS v3,(t1.hu+t2.jia) as count from(select v23 as huv23,count(*) as hu from da_household"+year+" WHERE sys_standard='"+leixing_name+"' "+region+" group by v23) t1 join (select y.v23 as jiav23,count(*) as jia from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' "+region2+" group by y.v23)t2 on t1.huv23=t2.jiav23 ";
+			sql = "select t1.huv23 AS v3,(t1.hu+t2.jia) as count from(select v23 as huv23,count(*) as hu from da_household"+year+" WHERE sys_standard='"+leixing_name+"' "+region+" and v21 = '未脱贫' group by v23) t1 join (select y.v23 as jiav23,count(*) as jia from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' "+region2+" and x.v21 = '未脱贫' group by y.v23)t2 on t1.huv23=t2.jiav23 ";
 			//sql = "SELECT count(v9)as count,v23 as v3 FROM da_household"+year+" WHERE sys_standard='"+leixing_name+"' "+region+" GROUP BY v23";
 			SQLAdapter sqlAdapter =new SQLAdapter(sql);
 			List<Map> sql_list = this.getBySqlMapper.findRecords(sqlAdapter);
@@ -324,7 +324,7 @@ public class SH3_Controller extends MultiActionController{
 				region=" and v5 like '%"+shi_name+"%' ";
 				region2=" and x.v5 like '%"+shi_name+"%' ";
 			}
-			sql = "select t1.huv12 AS v12,(if(isnull(t1.hu),0,t1.hu)+if(isnull(t2.jia),0,t2.jia)) as count from(select v12 as huv12,count(*) as hu from da_household"+year+" WHERE sys_standard='"+leixing_name+"' "+region+" group by v12) t1 join (select y.v12 as jiav12,count(*) as jia from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' "+region2+" group by y.v12)t2 on t1.huv12=t2.jiav12 ";
+			sql = "select t1.huv12 AS v12,(if(isnull(t1.hu),0,t1.hu)+if(isnull(t2.jia),0,t2.jia)) as count from(select v12 as huv12,count(*) as hu from da_household"+year+" WHERE sys_standard='"+leixing_name+"' "+region+" and v21 = '未脱贫' group by v12) t1 join (select y.v12 as jiav12,count(*) as jia from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' "+region2+" and x.v21 = '未脱贫' group by y.v12)t2 on t1.huv12=t2.jiav12 ";
 			SQLAdapter sqlAdapter = new SQLAdapter(sql);
 			List<Map> sql_list = this.getBySqlMapper.findRecords(sqlAdapter);
 			JSONObject val = new JSONObject();
@@ -396,7 +396,7 @@ public class SH3_Controller extends MultiActionController{
 			}else if (shilevel==4) {
 				XZQH=" and y.v5 like '%"+ shi_name +"%' ";
 			}
-			sql="select nnum,count(*)as count from (select substring(v8,7,4) as nnum from da_household"+year+" where (CHAR_LENGTH(v8)=18 OR CHAR_LENGTH(v8)=20)"+shilevel_sql+"AND sys_standard='"+leixing_name+"'UNION ALL select substring(y.v8,7,4) as nnum  from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' and (CHAR_LENGTH(y.v8)=18 OR CHAR_LENGTH(y.v8)=20) "+XZQH+") x group by nnum";
+			sql="select nnum,count(*)as count from (select substring(v8,7,4) as nnum from da_household"+year+" where (CHAR_LENGTH(v8)=18 OR CHAR_LENGTH(v8)=20)"+shilevel_sql+"AND sys_standard='"+leixing_name+"'  AND v21 = '未脱贫' UNION ALL select substring(y.v8,7,4) as nnum  from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"'  AND x.v21 = '未脱贫' and (CHAR_LENGTH(y.v8)=18 OR CHAR_LENGTH(y.v8)=20) "+XZQH+") x group by nnum";
 			SQLAdapter sqlAdapter =new SQLAdapter(sql);
 			List<Map> sql_list = this.getBySqlMapper.findRecords(sqlAdapter);
 			JSONObject val = new JSONObject();
@@ -467,7 +467,7 @@ public class SH3_Controller extends MultiActionController{
 //			com_name=company_json.get("xiang").toString();//获取上级用户名称
 //				sql="SELECT v9,COUNT(v9) as count FROM da_household"+year+" where sys_standard='"+leixing_name+"' and v4='"+com_name+"' GROUP BY v9";
 //			}
-			sql="SELECT v9,COUNT(v9) as count FROM da_household"+year+" where sys_standard='"+leixing_name+"'"+shilevel_sql+" GROUP BY v9";
+			sql="SELECT v9,COUNT(v9) as count FROM da_household"+year+" where sys_standard='"+leixing_name+"' and v21='未脱贫' "+shilevel_sql+" GROUP BY v9";
 			SQLAdapter sqlAdapter =new SQLAdapter(sql);
 			List<Map> sql_list = this.getBySqlMapper.findRecords(sqlAdapter);
 			JSONObject val = new JSONObject();
@@ -1013,19 +1013,19 @@ public class SH3_Controller extends MultiActionController{
 			if(shilevel==1){//当层级为1的时候
 				sql="SELECT b2.v3,COUNT(*)as count FROM("
 						+ "SELECT a2.* FROM sys_personal"+year+" a1 INNER JOIN sys_personal_household_many"+year+" a2 ON  a1.pkid=a2.sys_personal_id "
-						+ ")b1 INNER JOIN da_household"+year+" b2 ON b1.da_household_id = b2.pkid WHERE b2.sys_standard='"+leixing_name+"' and b2.v2='鄂尔多斯市' GROUP BY b2.v3";
+						+ ")b1 INNER JOIN da_household"+year+" b2 ON b1.da_household_id = b2.pkid WHERE b2.sys_standard='"+leixing_name+"'  and b2.v21 = '未脱贫' and b2.v2='鄂尔多斯市' GROUP BY b2.v3";
 			}else if(shilevel==2){//当层级为2的时候
 				sql="SELECT b2.v4 as v3,COUNT(*)as count FROM("
 						+ "SELECT a2.* FROM sys_personal"+year+" a1 INNER JOIN sys_personal_household_many"+year+" a2 ON  a1.pkid=a2.sys_personal_id "
-						+ ")b1 INNER JOIN da_household"+year+" b2 ON b1.da_household_id = b2.pkid  WHERE b2.sys_standard='"+leixing_name+"' AND b2.v3='"+shi_name+"' GROUP BY b2.v4";
+						+ ")b1 INNER JOIN da_household"+year+" b2 ON b1.da_household_id = b2.pkid  WHERE b2.sys_standard='"+leixing_name+"'  and b2.v21 = '未脱贫' AND b2.v3='"+shi_name+"' GROUP BY b2.v4";
 			}else if(shilevel==3){//当层级为3的时候
 				sql="SELECT b2.v5 as v3,COUNT(*)as count FROM("
 						+ "SELECT a2.* FROM sys_personal"+year+" a1 INNER JOIN sys_personal_household_many"+year+" a2 ON  a1.pkid=a2.sys_personal_id "
-						+ ")b1 INNER JOIN da_household"+year+" b2 ON b1.da_household_id = b2.pkid  WHERE b2.sys_standard='"+leixing_name+"' AND b2.v4='"+shi_name+"' GROUP BY b2.v5";
+						+ ")b1 INNER JOIN da_household"+year+" b2 ON b1.da_household_id = b2.pkid  WHERE b2.sys_standard='"+leixing_name+"'  and b2.v21 = '未脱贫' AND b2.v4='"+shi_name+"' GROUP BY b2.v5";
 			}else if(shilevel==4){//当层级为4的时候
 				sql="SELECT b2.v5 as v3,COUNT(*)as count FROM("
 						+ "SELECT a2.* FROM sys_personal"+year+" a1 INNER JOIN sys_personal_household_many"+year+" a2 ON  a1.pkid=a2.sys_personal_id "
-						+ ")b1 INNER JOIN da_household"+year+" b2 ON b1.da_household_id = b2.pkid  WHERE b2.sys_standard='"+leixing_name+"' AND b2.v5='"+shi_name+"' GROUP BY b2.v5";
+						+ ")b1 INNER JOIN da_household"+year+" b2 ON b1.da_household_id = b2.pkid  WHERE b2.sys_standard='"+leixing_name+"'  and b2.v21 = '未脱贫' AND b2.v5='"+shi_name+"' GROUP BY b2.v5";
 			}
 			SQLAdapter sqlAdapter =new SQLAdapter(sql);
 			List<Map> sql_list = this.getBySqlMapper.findRecords(sqlAdapter);
@@ -1196,7 +1196,7 @@ public class SH3_Controller extends MultiActionController{
 		String sql="";
 		JSONArray json= new JSONArray();
 		if(shilevel==1){//市级用户
-			sql="SELECT c1.v3 as v3,IFNULL(c2.jk,0)AS jk,IFNULL(c2.jb ,0)AS jb FROM(SELECT v3,0 FROM da_household"+year+"  GROUP BY v3)c1 LEFT JOIN(SELECT a1.v3 as v3,IFNULL(a1.count,0) as jb,IFNULL(a2.count2,0) as jk FROM (select x1.huv3 AS v3,(x1.hu+x2.jia) as count from(select v3 as huv3,count(*) as hu from da_household"+year+" WHERE sys_standard='"+leixing_name+"' AND v14 !='健康' and v2 like '%"+shi_name+"%' group by v3) x1 join (select y.v3 as jiav3,count(*) as jia from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' AND y.v14 !='健康' and y.v2 like '%"+shi_name+"%' group by y.v3)x2 on x1.huv3=x2.jiav3) a1 LEFT JOIN (select x1.huv3 AS v32,(x1.hu+x2.jia) as count2 from(select v3 as huv3,count(*) as hu from da_household"+year+" WHERE sys_standard='"+leixing_name+"' AND v14 ='健康' and v2 like '%"+shi_name+"%' group by v3) x1 join (select y.v3 as jiav3,count(*) as jia from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' AND y.v14 ='健康' and y.v2 like '%"+shi_name+"%' group by y.v3)x2 on x1.huv3=x2.jiav3) a2 ON a1.v3 = a2.v32)c2 on c1.v3=c2.v3";
+			sql="SELECT c1.v3 as v3,IFNULL(c2.jk,0)AS jk,IFNULL(c2.jb ,0)AS jb FROM(SELECT v3,0 FROM da_household"+year+"  GROUP BY v3)c1 LEFT JOIN(SELECT a1.v3 as v3,IFNULL(a1.count,0) as jb,IFNULL(a2.count2,0) as jk FROM (select x1.huv3 AS v3,(x1.hu+x2.jia) as count from(select v3 as huv3,count(*) as hu from da_household"+year+" WHERE sys_standard='"+leixing_name+"' AND v14 !='健康' and  v2 like '%"+shi_name+"%' and v21 = '未脱贫' group by v3) x1 join (select y.v3 as jiav3,count(*) as jia from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' AND y.v14 !='健康' and y.v2 like '%"+shi_name+"%' and y.v21 = '未脱贫' group by y.v3)x2 on x1.huv3=x2.jiav3) a1 LEFT JOIN (select x1.huv3 AS v32,(x1.hu+x2.jia) as count2 from(select v3 as huv3,count(*) as hu from da_household"+year+" WHERE sys_standard='"+leixing_name+"' AND v14 ='健康' and v2 like '%"+shi_name+"%' and v21 = '未脱贫' group by v3) x1 join (select y.v3 as jiav3,count(*) as jia from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' AND y.v14 ='健康' and y.v2 like '%"+shi_name+"%' and y.v21 = '未脱贫' group by y.v3)x2 on x1.huv3=x2.jiav3) a2 ON a1.v3 = a2.v32)c2 on c1.v3=c2.v3";
 		}else if(shilevel==2){//旗县用户
 			
 //			String sql1 = "select count(*) jk,b.v4 from (select * from da_household"+year+" where v3 like '%"+shi_name+"%' and sys_standard='"+leixing_name+"') a left JOIN "+
@@ -1243,11 +1243,11 @@ public class SH3_Controller extends MultiActionController{
 //			
 //			response.getWriter().write(json.toString());
 //			return  null;
-			sql="SELECT c1.v3 as v3,IFNULL(c2.jk,0)AS jk,IFNULL(c2.jb ,0)AS jb FROM(SELECT v4 as v3,0 FROM da_household"+year+" WHERE v3 like '%"+shi_name+"%' GROUP BY v4)c1 LEFT JOIN(SELECT a1.v3 as v3,IFNULL(a1.count,0) as jb,IFNULL(a2.count2,0) as jk FROM (select x1.huv3 AS v3,(x1.hu+x2.jia) as count from(select v4 as huv3,count(*) as hu from da_household"+year+" WHERE sys_standard='"+leixing_name+"' AND v3 like '%"+shi_name+"%' AND v14 !='健康' group by v4) x1 join (select y.v4 as jiav3,count(*) as jia from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' AND x.v3  like '%"+shi_name+"%' AND y.v14 !='健康' group by y.v4)x2 on x1.huv3=x2.jiav3) a1 LEFT JOIN (select x1.huv3 AS v32,(x1.hu+x2.jia) as count2 from(select v4 as huv3,count(*) as hu from da_household"+year+" WHERE sys_standard='"+leixing_name+"' AND v3 like '%"+shi_name+"%' AND v14 ='健康' group by v4) x1 join (select y.v4 as jiav3,count(*) as jia from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' AND x.v3 like '%"+shi_name+"%' AND y.v14 ='健康' group by y.v4)x2 on x1.huv3=x2.jiav3) a2 ON a1.v3 = a2.v32)c2 on c1.v3=c2.v3";
+			sql="SELECT c1.v3 as v3,IFNULL(c2.jk,0)AS jk,IFNULL(c2.jb ,0)AS jb FROM(SELECT v4 as v3,0 FROM da_household"+year+" WHERE v3 like '%"+shi_name+"%' GROUP BY v4)c1 LEFT JOIN(SELECT a1.v3 as v3,IFNULL(a1.count,0) as jb,IFNULL(a2.count2,0) as jk FROM (select x1.huv3 AS v3,(x1.hu+x2.jia) as count from(select v4 as huv3,count(*) as hu from da_household"+year+" WHERE sys_standard='"+leixing_name+"' AND v3 like '%"+shi_name+"%' AND v14 !='健康'  AND v21 = '未脱贫' group by v4) x1 join (select y.v4 as jiav3,count(*) as jia from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' AND x.v3  like '%"+shi_name+"%' AND y.v14 !='健康'  AND y.v21 = '未脱贫' group by y.v4)x2 on x1.huv3=x2.jiav3) a1 LEFT JOIN (select x1.huv3 AS v32,(x1.hu+x2.jia) as count2 from(select v4 as huv3,count(*) as hu from da_household"+year+" WHERE sys_standard='"+leixing_name+"' AND v3 like '%"+shi_name+"%' AND v14 ='健康' AND v21 = '未脱贫' group by v4) x1 join (select y.v4 as jiav3,count(*) as jia from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' AND x.v3 like '%"+shi_name+"%' AND y.v14 ='健康' AND y.v21 = '未脱贫' group by y.v4)x2 on x1.huv3=x2.jiav3) a2 ON a1.v3 = a2.v32)c2 on c1.v3=c2.v3";
 		}else if(shilevel==3){//乡级用户
-			sql="SELECT c1.v3 as v3,IFNULL(c2.jk,0)AS jk,IFNULL(c2.jb ,0)AS jb FROM(SELECT v5 as v3,0 FROM da_household"+year+" WHERE v4 like '%"+shi_name+"%' GROUP BY v5)c1 LEFT JOIN(SELECT a1.v3 as v3,IFNULL(a1.count,0) as jb,IFNULL(a2.count2,0) as jk FROM (select x1.huv3 AS v3,(x1.hu+x2.jia) as count from(select v5 as huv3,count(*) as hu from da_household"+year+" WHERE sys_standard='"+leixing_name+"' AND v4  like '%"+shi_name+"%' AND v14 !='健康' group by v5) x1 join (select y.v5 as jiav3,count(*) as jia from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' AND x.v4 like '%"+shi_name+"%' AND y.v14 !='健康' group by y.v5)x2 on x1.huv3=x2.jiav3) a1 LEFT JOIN (select x1.huv3 AS v32,(x1.hu+x2.jia) as count2 from(select v5 as huv3,count(*) as hu from da_household"+year+" WHERE sys_standard='"+leixing_name+"' AND v4 like '%"+shi_name+"%' AND v14 ='健康' group by v5) x1 join (select y.v5 as jiav3,count(*) as jia from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' AND x.v4 like '%"+shi_name+"%' AND y.v14 ='健康' group by y.v5)x2 on x1.huv3=x2.jiav3) a2 ON a1.v3 = a2.v32)c2 on c1.v3=c2.v3";
+			sql="SELECT c1.v3 as v3,IFNULL(c2.jk,0)AS jk,IFNULL(c2.jb ,0)AS jb FROM(SELECT v5 as v3,0 FROM da_household"+year+" WHERE v4 like '%"+shi_name+"%' GROUP BY v5)c1 LEFT JOIN(SELECT a1.v3 as v3,IFNULL(a1.count,0) as jb,IFNULL(a2.count2,0) as jk FROM (select x1.huv3 AS v3,(x1.hu+x2.jia) as count from(select v5 as huv3,count(*) as hu from da_household"+year+" WHERE sys_standard='"+leixing_name+"' AND v4  like '%"+shi_name+"%' AND v14 !='健康'  AND v21 = '未脱贫' group by v5) x1 join (select y.v5 as jiav3,count(*) as jia from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' AND x.v4 like '%"+shi_name+"%' AND y.v14 !='健康' AND y.v21 = '未脱贫'  group by y.v5)x2 on x1.huv3=x2.jiav3) a1 LEFT JOIN (select x1.huv3 AS v32,(x1.hu+x2.jia) as count2 from(select v5 as huv3,count(*) as hu from da_household"+year+" WHERE sys_standard='"+leixing_name+"' AND v4 like '%"+shi_name+"%' AND v14 ='健康' AND v21 = '未脱贫' group by v5) x1 join (select y.v5 as jiav3,count(*) as jia from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' AND x.v4 like '%"+shi_name+"%' AND y.v14 ='健康' AND y.v21 = '未脱贫' group by y.v5)x2 on x1.huv3=x2.jiav3) a2 ON a1.v3 = a2.v32)c2 on c1.v3=c2.v3";
 		}else if(shilevel==4){//村级用户
-			sql="SELECT c1.v3 as v3,IFNULL(c2.jk,0)AS jk,IFNULL(c2.jb ,0)AS jb FROM(SELECT v5 as v3,0 FROM da_household"+year+" WHERE v5 like '%"+shi_name+"%' GROUP BY v5)c1 LEFT JOIN(SELECT a1.v3 as v3,IFNULL(a1.count,0) as jb,IFNULL(a2.count2,0) as jk FROM (select x1.huv3 AS v3,(x1.hu+x2.jia) as count from(select v5 as huv3,count(*) as hu from da_household"+year+" WHERE sys_standard='"+leixing_name+"' AND v5 like  '%"+shi_name+"%' AND v14 !='健康' group by v5) x1 join (select y.v5 as jiav3,count(*) as jia from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' AND x.v5 like '%"+shi_name+"%' AND y.v14 !='健康' group by y.v5)x2 on x1.huv3=x2.jiav3) a1 LEFT JOIN (select x1.huv3 AS v32,(x1.hu+x2.jia) as count2 from(select v5 as huv3,count(*) as hu from da_household"+year+" WHERE sys_standard='"+leixing_name+"' AND v5 like '%"+shi_name+"%' AND v14 ='健康' group by v5) x1 join (select y.v5 as jiav3,count(*) as jia from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' AND x.v5 like '%"+shi_name+"%' AND y.v14 ='健康' group by y.v5)x2 on x1.huv3=x2.jiav3) a2 ON a1.v3 = a2.v32)c2 on c1.v3=c2.v3";
+			sql="SELECT c1.v3 as v3,IFNULL(c2.jk,0)AS jk,IFNULL(c2.jb ,0)AS jb FROM(SELECT v5 as v3,0 FROM da_household"+year+" WHERE v5 like '%"+shi_name+"%' GROUP BY v5)c1 LEFT JOIN(SELECT a1.v3 as v3,IFNULL(a1.count,0) as jb,IFNULL(a2.count2,0) as jk FROM (select x1.huv3 AS v3,(x1.hu+x2.jia) as count from(select v5 as huv3,count(*) as hu from da_household"+year+" WHERE sys_standard='"+leixing_name+"' AND v5 like  '%"+shi_name+"%' AND v14 !='健康'  AND v21 = '未脱贫' group by v5) x1 join (select y.v5 as jiav3,count(*) as jia from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' AND x.v5 like '%"+shi_name+"%' AND y.v14 !='健康' AND y.v21 = '未脱贫' group by y.v5)x2 on x1.huv3=x2.jiav3) a1 LEFT JOIN (select x1.huv3 AS v32,(x1.hu+x2.jia) as count2 from(select v5 as huv3,count(*) as hu from da_household"+year+" WHERE sys_standard='"+leixing_name+"' AND v5 like '%"+shi_name+"%' AND v14 ='健康' AND v21 = '未脱贫' group by v5) x1 join (select y.v5 as jiav3,count(*) as jia from da_household"+year+" x join da_member"+year+" y on x.pkid=y.da_household_id where x.sys_standard='"+leixing_name+"' AND x.v5 like '%"+shi_name+"%' AND y.v14 ='健康' AND y.v21 = '未脱贫' group by y.v5)x2 on x1.huv3=x2.jiav3) a2 ON a1.v3 = a2.v32)c2 on c1.v3=c2.v3";
 		}
 		SQLAdapter sqlAdapter =new SQLAdapter(sql);
 		List<Map> sql_list = this.getBySqlMapper.findRecords(sqlAdapter);

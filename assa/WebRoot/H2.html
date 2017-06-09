@@ -136,9 +136,7 @@
 															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 3px;">旗县</label>
 															<div class="col-sm-7">
 																<select class="form-control m-b" id="cha_qx" name="cha_qx" onchange="getinfo_xiang(this.value,$('#cha_smx'))">
-																	<option>请选择</option>
-																	<option>杭锦旗</option>
-																	<option>市级标准</option>
+																	<option>请选择</option>																	
 																</select>
 															</div>
 														</div>
@@ -164,9 +162,20 @@
 													<div class="form-group" style="margin-bottom: 0px">
 	
 														<div class="col-sm-4">
-															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 3px;">识别标准</label>
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 3px;">原识别标准</label>
 															<div class="col-sm-7">
 																<select class="form-control m-b" id="cha_sbbz" name="cha_sbbz">
+																	<option>请选择</option>
+																	<option>国家级贫困人口</option>
+																	<option>市级低收入人口</option>
+																</select>
+															</div>
+														</div>
+														
+														<div class="col-sm-4">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 5px;">现识别标准</label>
+															<div class="col-sm-7">
+																<select class="form-control m-b" id="init_flag" name="init_flag">
 																	<option>请选择</option>
 																	<option>国家级贫困人口</option>
 																	<option>市级低收入人口</option>
@@ -189,6 +198,11 @@
 															</div>
 														</div>
 	
+														
+	
+													</div>
+													<div class="form-group" style="margin-bottom: 0px">
+	
 														<div class="col-sm-4">
 															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 3px;">主要致贫原因</label>
 															<div class="col-sm-7">
@@ -200,10 +214,7 @@
 																</select>
 															</div>
 														</div>
-	
-													</div>
-													<div class="form-group" style="margin-bottom: 0px">
-	
+																
 														<div class="col-sm-4">
 															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 3px;">户主民族</label>
 															<div class="col-sm-7">
@@ -226,6 +237,11 @@
 															</div>
 														</div>
 	
+														
+	
+													</div>
+													<div class="form-group" style="margin-bottom: 0px">
+														
 														<div class="col-sm-4">
 															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 3px;">脱贫属性</label>
 															<div class="col-sm-7">
@@ -237,10 +253,7 @@
 																</select>
 															</div>
 														</div>
-	
-													</div>
-													<div class="form-group" style="margin-bottom: 0px">
-	
+														
 														<div class="col-sm-4">
 															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 3px;">户主姓名</label>
 															<div class="col-sm-7">
@@ -253,17 +266,10 @@
 																<input type="text" placeholder="请填写身份证号" class="form-control" id="cha_v8" name="cha_v8">
 															</div>
 														</div>
-														<div class="col-sm-4">
-															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 3px;">数据年份</label>
-															<div class="col-sm-7">
-																<select class="form-control m-b" id="cha_year" name="cha_year">
-																	<option>2017</option>
-																	<option>2016</option>
-																</select>
-															</div>
-														</div>
+														
 														</div>
 													<div class="form-group" style="margin-bottom: 0px">
+																								
 														<div class="col-sm-4">
 															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 3px;">帮扶单位</label>
 															<div class="col-sm-7">
@@ -295,7 +301,7 @@
 														
 													</div>
 													<div class="form-group" style="margin-bottom: 0px">
-													    <div class="col-sm-4" style="margin-top: 15px;">
+														 <div class="col-sm-4" style="margin-top: 15px;">
 														 <label class="col-sm-5 control-label" style="text-align:right;margin-top: 3px;">人均纯收入(帮扶后)</label>
 															<div class="col-sm-7 input-daterange input-group">
 																<input type="text" placeholder="0.00" class="form-control" id="cha_v24_1" name="cha_v24_1">
@@ -303,6 +309,31 @@
 																<input type="text" placeholder="0.00" class="form-control" id="cha_v24_2" name="cha_v24_2">
 															</div>
 													    </div>
+													    
+														<div class="col-sm-4" style="margin-top: 15px;">
+															<label class="col-sm-5 control-label" style="margin-top: 3px;">贫困户年份</label>
+															<div class="col-sm-7">
+																<select class="form-control m-b" id="cha_year" name="cha_year">
+																	<option>2017</option>
+																	<option>2016</option>
+																</select>
+															</div>
+														</div>
+													
+													   
+													    <div class="col-sm-4" style="margin-top: 15px;">
+															<label class="col-sm-5 control-label" style="text-align:right;margin-top: 3px;">数据年份</label>
+															<div class="col-sm-7">
+																<select class="form-control m-b" id="data_year" name="data_year">
+																	<option>2017</option>
+																	<option>2016</option>
+																</select>
+															</div>
+														</div>
+														
+													</div>
+													
+													<div class="form-group" style="margin-bottom: 0px">
 														<div class="col-sm-4" style="float:right;margin-top: 15px;">
 															<div class="col-sm-3"></div>
 															<div class="col-sm-9">
@@ -364,7 +395,8 @@
 				                                            <th data-field="v9" data-halign="center" data-align="center">家庭人口</th>
 				                                            <th data-field="v21" data-halign="center" data-align="center">脱贫属性</th>
 				                                            <th data-field="v22" data-halign="center" data-align="center">贫困户属性</th>
-				                                            <th data-field="sys_standard" data-halign="center" data-align="center">识别标准</th>
+				                                            <th data-field="sys_standard" data-halign="center" data-align="center">原识别标准</th>
+				                                      		 <th data-field="init_flag" data-halign="center" data-align="center">现识别标准</th>                                       
 				                                            <th data-field="chakan" data-halign="center" data-align="center">查看</th>
 				                                        </tr>
 				                                    </thead>

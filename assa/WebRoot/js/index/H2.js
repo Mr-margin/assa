@@ -285,7 +285,10 @@ $(function () {
     	chaxun.cha_v8_2 = $("#cha_v8_2").val();//年龄范围截止时间
     	chaxun.cha_v24_1 = $("#cha_v24_1").val();//人均纯收入最小值
     	chaxun.cha_v24_2 = $("#cha_v24_2").val();//人均纯收入最大值
-    	chaxun.cha_year = $("#cha_year").val();
+    	chaxun.data_year = $("#data_year").val();//数据年份
+    	chaxun.cha_year =  $("#cha_year").val(); //贫困户年份
+    	chaxun.cha_init_flag = $("#init_flag").val();
+
     	$("#yeqian").hide();
     	metTable_bxbxxb.bootstrapTable('destroy');//销毁现有表格数据
     	gachacun_initialization();//重新初始化数据
@@ -299,7 +302,8 @@ $(function () {
     	    dataType: "json",
     	    data:{cha_qx:$("#cha_qx").val(),cha_smx:$("#cha_smx").val(),cha_gcc:$("#cha_gcc").val(),cha_sbbz:$("#cha_sbbz").val(),cha_pksx:$("#cha_pksx").val(),
     	    	cha_zpyy:$("#cha_zpyy").val(),cha_mz:$("#cha_mz").val(),cha_renkou:$("#cha_renkou").val(),cha_banqian:$("#cha_banqian").val(),cha_v6:$("#cha_v6").val(),
-    	    	cha_v8:$("#cha_v8").val(),cha_v8_1:$("#cha_v8_1").val(),cha_v8_2:$("#cha_v8_2").val(),cha_v24_1:$("#cha_v24_1").val(),cha_v24_2:$("#cha_v24_2").val(),cha_bfdw:$("#cha_bfdw").val(),cha_bfzrr:$("#cha_bfzrr").val(),year:$("#cha_year").val()
+    	    	cha_v8:$("#cha_v8").val(),cha_v8_1:$("#cha_v8_1").val(),cha_v8_2:$("#cha_v8_2").val(),cha_v24_1:$("#cha_v24_1").val(),cha_v24_2:$("#cha_v24_2").val(),
+    	    	cha_bfdw:$("#cha_bfdw").val(),cha_bfzrr:$("#cha_bfzrr").val(),year:$("#data_year").val(),cha_year:$("#cha_year").val(),cha_init_flag:$("#init_flag").val()
     	    	},
     	   
     	    beforeSend: function(){
@@ -347,7 +351,8 @@ $(function () {
     	    dataType: "json",
     	    data:{cha_qx:$("#cha_qx").val(),cha_smx:$("#cha_smx").val(),cha_gcc:$("#cha_gcc").val(),cha_sbbz:$("#cha_sbbz").val(),cha_pksx:$("#cha_pksx").val(),
     	    	cha_zpyy:$("#cha_zpyy").val(),cha_mz:$("#cha_mz").val(),cha_renkou:$("#cha_renkou").val(),cha_banqian:$("#cha_banqian").val(),cha_v6:$("#cha_v6").val(),
-    	    	cha_v8:$("#cha_v8").val(),cha_v8_1:$("#cha_v8_1").val(),cha_v8_2:$("#cha_v8_2").val(),cha_v24_1:$("#cha_v24_1").val(),cha_v24_2:$("#cha_v24_2").val(),cha_bfdw:$("#cha_bfdw").val(),cha_bfzrr:$("#cha_bfzrr").val(),year:$("#cha_year").val()
+    	    	cha_v8:$("#cha_v8").val(),cha_v8_1:$("#cha_v8_1").val(),cha_v8_2:$("#cha_v8_2").val(),cha_v24_1:$("#cha_v24_1").val(),cha_v24_2:$("#cha_v24_2").val(),
+    	    	cha_bfdw:$("#cha_bfdw").val(),cha_bfzrr:$("#cha_bfzrr").val(),year:$("#data_year").val(),cha_year:$("#cha_year").val(),cha_init_flag:$("#init_flag").val()
     	    	},
     	   
     	    beforeSend: function(){
@@ -396,7 +401,8 @@ $(function () {
     	    dataType: "json",
     	    data:{cha_qx:$("#cha_qx").val(),cha_smx:$("#cha_smx").val(),cha_gcc:$("#cha_gcc").val(),cha_sbbz:$("#cha_sbbz").val(),cha_pksx:$("#cha_pksx").val(),
     	    	cha_zpyy:$("#cha_zpyy").val(),cha_mz:$("#cha_mz").val(),cha_renkou:$("#cha_renkou").val(),cha_banqian:$("#cha_banqian").val(),cha_v6:$("#cha_v6").val(),
-    	    	cha_v8:$("#cha_v8").val(),cha_v8_1:$("#cha_v8_1").val(),cha_v8_2:$("#cha_v8_2").val(),cha_v24_1:$("#cha_v24_1").val(),cha_v24_2:$("#cha_v24_2").val(),cha_bfdw:$("#cha_bfdw").val(),cha_bfzrr:$("#cha_bfzrr").val(),year:$("#cha_year").val()
+    	    	cha_v8:$("#cha_v8").val(),cha_v8_1:$("#cha_v8_1").val(),cha_v8_2:$("#cha_v8_2").val(),cha_v24_1:$("#cha_v24_1").val(),cha_v24_2:$("#cha_v24_2").val(),
+    	    	cha_bfdw:$("#cha_bfdw").val(),cha_bfzrr:$("#cha_bfzrr").val(),year:$("#data_year").val(),cha_year:$("#cha_year").val(),cha_init_flag:$("#init_flag").val()
     	    	},
     	   
     	    beforeSend: function(){
@@ -446,7 +452,8 @@ $(function () {
     	    dataType: "json",
     	    data:{cha_qx:$("#cha_qx").val(),cha_smx:$("#cha_smx").val(),cha_gcc:$("#cha_gcc").val(),cha_sbbz:$("#cha_sbbz").val(),cha_pksx:$("#cha_pksx").val(),
     	    	cha_zpyy:$("#cha_zpyy").val(),cha_mz:$("#cha_mz").val(),cha_renkou:$("#cha_renkou").val(),cha_banqian:$("#cha_banqian").val(),cha_v6:$("#cha_v6").val(),
-    	    	cha_v8:$("#cha_v8").val(),cha_v8_1:$("#cha_v8_1").val(),cha_v8_2:$("#cha_v8_2").val(),cha_v24_1:$("#cha_v24_1").val(),cha_v24_2:$("#cha_v24_2").val(),cha_bfdw:$("#cha_bfdw").val(),cha_bfzrr:$("#cha_bfzrr").val(),year:$("#cha_year").val()
+    	    	cha_v8:$("#cha_v8").val(),cha_v8_1:$("#cha_v8_1").val(),cha_v8_2:$("#cha_v8_2").val(),cha_v24_1:$("#cha_v24_1").val(),cha_v24_2:$("#cha_v24_2").val(),
+    	    	cha_bfdw:$("#cha_bfdw").val(),cha_bfzrr:$("#cha_bfzrr").val(),year:$("#data_year").val(),cha_year:$("#cha_year").val(),cha_init_flag:$("#init_flag").val()
     	    	},
     	   
     	    beforeSend: function(){
@@ -496,7 +503,8 @@ $(function () {
     	    dataType: "json",
     	    data:{cha_qx:$("#cha_qx").val(),cha_smx:$("#cha_smx").val(),cha_gcc:$("#cha_gcc").val(),cha_sbbz:$("#cha_sbbz").val(),cha_pksx:$("#cha_pksx").val(),
     	    	cha_zpyy:$("#cha_zpyy").val(),cha_mz:$("#cha_mz").val(),cha_renkou:$("#cha_renkou").val(),cha_banqian:$("#cha_banqian").val(),cha_v6:$("#cha_v6").val(),
-    	    	cha_v8:$("#cha_v8").val(),cha_v8_1:$("#cha_v8_1").val(),cha_v8_2:$("#cha_v8_2").val(),cha_v24_1:$("#cha_v24_1").val(),cha_v24_2:$("#cha_v24_2").val(),cha_bfdw:$("#cha_bfdw").val(),cha_bfzrr:$("#cha_bfzrr").val(),year:$("#cha_year").val()
+    	    	cha_v8:$("#cha_v8").val(),cha_v8_1:$("#cha_v8_1").val(),cha_v8_2:$("#cha_v8_2").val(),cha_v24_1:$("#cha_v24_1").val(),cha_v24_2:$("#cha_v24_2").val(),
+    	    	cha_bfdw:$("#cha_bfdw").val(),cha_bfzrr:$("#cha_bfzrr").val(),year:$("#data_year").val(),cha_year:$("#cha_year").val(),cha_init_flag:$("#init_flag").val()
     	    	},
     	   
     	    beforeSend: function(){
@@ -544,7 +552,8 @@ $(function () {
     	    dataType: "json",
     	    data:{cha_qx:$("#cha_qx").val(),cha_smx:$("#cha_smx").val(),cha_gcc:$("#cha_gcc").val(),cha_sbbz:$("#cha_sbbz").val(),cha_pksx:$("#cha_pksx").val(),
     	    	cha_zpyy:$("#cha_zpyy").val(),cha_mz:$("#cha_mz").val(),cha_renkou:$("#cha_renkou").val(),cha_banqian:$("#cha_banqian").val(),cha_v6:$("#cha_v6").val(),
-    	    	cha_v8:$("#cha_v8").val(),cha_v8_1:$("#cha_v8_1").val(),cha_v8_2:$("#cha_v8_2").val(),cha_v24_1:$("#cha_v24_1").val(),cha_v24_2:$("#cha_v24_2").val(),cha_bfdw:$("#cha_bfdw").val(),cha_bfzrr:$("#cha_bfzrr").val(),year:$("#cha_year").val()
+    	    	cha_v8:$("#cha_v8").val(),cha_v8_1:$("#cha_v8_1").val(),cha_v8_2:$("#cha_v8_2").val(),cha_v24_1:$("#cha_v24_1").val(),cha_v24_2:$("#cha_v24_2").val(),
+    	    	cha_bfdw:$("#cha_bfdw").val(),cha_bfzrr:$("#cha_bfzrr").val(),year:$("#data_year").val(),cha_year:$("#cha_year").val(),cha_init_flag:$("#init_flag").val()
     	    	},
     	   
     	    beforeSend: function(){
@@ -592,7 +601,8 @@ $(function () {
     	    dataType: "json",
     	    data:{cha_qx:$("#cha_qx").val(),cha_smx:$("#cha_smx").val(),cha_gcc:$("#cha_gcc").val(),cha_sbbz:$("#cha_sbbz").val(),cha_pksx:$("#cha_pksx").val(),
     	    	cha_zpyy:$("#cha_zpyy").val(),cha_mz:$("#cha_mz").val(),cha_renkou:$("#cha_renkou").val(),cha_banqian:$("#cha_banqian").val(),cha_v6:$("#cha_v6").val(),
-    	    	cha_v8:$("#cha_v8").val(),cha_v8_1:$("#cha_v8_1").val(),cha_v8_2:$("#cha_v8_2").val(),cha_v24_1:$("#cha_v24_1").val(),cha_v24_2:$("#cha_v24_2").val(),cha_bfdw:$("#cha_bfdw").val(),cha_bfzrr:$("#cha_bfzrr").val(),year:$("#cha_year").val()
+    	    	cha_v8:$("#cha_v8").val(),cha_v8_1:$("#cha_v8_1").val(),cha_v8_2:$("#cha_v8_2").val(),cha_v24_1:$("#cha_v24_1").val(),cha_v24_2:$("#cha_v24_2").val(),
+    	    	cha_bfdw:$("#cha_bfdw").val(),cha_bfzrr:$("#cha_bfzrr").val(),year:$("#data_year").val(),cha_year:$("#cha_year").val(),cha_init_flag:$("#init_flag").val()
     	    	},
     	   
     	    beforeSend: function(){
@@ -641,7 +651,8 @@ $(function () {
     	    dataType: "json",
     	    data:{cha_qx:$("#cha_qx").val(),cha_smx:$("#cha_smx").val(),cha_gcc:$("#cha_gcc").val(),cha_sbbz:$("#cha_sbbz").val(),cha_pksx:$("#cha_pksx").val(),
     	    	cha_zpyy:$("#cha_zpyy").val(),cha_mz:$("#cha_mz").val(),cha_renkou:$("#cha_renkou").val(),cha_banqian:$("#cha_banqian").val(),cha_v6:$("#cha_v6").val(),
-    	    	cha_v8:$("#cha_v8").val(),cha_v8_1:$("#cha_v8_1").val(),cha_v8_2:$("#cha_v8_2").val(),cha_v24_1:$("#cha_v24_1").val(),cha_v24_2:$("#cha_v24_2").val(),cha_bfdw:$("#cha_bfdw").val(),cha_bfzrr:$("#cha_bfzrr").val(),year:$("#cha_year").val()
+    	    	cha_v8:$("#cha_v8").val(),cha_v8_1:$("#cha_v8_1").val(),cha_v8_2:$("#cha_v8_2").val(),cha_v24_1:$("#cha_v24_1").val(),cha_v24_2:$("#cha_v24_2").val(),
+    	    	cha_bfdw:$("#cha_bfdw").val(),cha_bfzrr:$("#cha_bfzrr").val(),year:$("#data_year").val(),cha_year:$("#cha_year").val(),cha_init_flag:$("#init_flag").val()
     	    	},
     	   
     	    beforeSend: function(){
@@ -690,6 +701,7 @@ $(function () {
     	$("#cha_smx").val("请选择");
     	$("#cha_gcc").val("请选择");
     	$("#cha_sbbz").val("请选择");
+    	$("#init_flag").val("请选择");
     	$("#cha_pksx").val("请选择");
     	$("#cha_zpyy").val("请选择");
     	$("#cha_mz").val("请选择");
@@ -704,6 +716,7 @@ $(function () {
     	$("#cha_v24_2").val("");
     	$("#cha_banqian").val("请选择");
     	$("#cha_year").val("2017");
+    	$("#data_year").val("2017");
     	$('#chauxnshiousuo').click();
     	chaxun = {};
     	$("#yeqian").hide();
@@ -729,7 +742,7 @@ function handle_shijianzhou(){
     	    dataType: "json",
     	    data:{
     	    	pkid: shijianzhou_pkid,
-    	    	year: $("#cha_year").val(),
+    	    	year: $("#data_year").val(),
     	    	str: str,
     	    	
             },
@@ -900,7 +913,9 @@ function queryParams_bxbxxb(params) {  //配置参数
     temp.cha_v8_2 = chaxun.cha_v8_2;
     temp.cha_v24_1 = chaxun.cha_v24_1;
     temp.cha_v24_2 = chaxun.cha_v24_2;
+    temp.data_year = chaxun.data_year;
     temp.cha_year = chaxun.cha_year;
+    temp.cha_init_flag = chaxun.cha_init_flag;
 	return temp;
 }
 
@@ -926,7 +941,7 @@ function savePoorMessage(pkid){
 	    async:true,
 	    dataType:"json",
 	    data:{
-	    	pkid:pkid,year:$("#cha_year").val()
+	    	pkid:pkid,year:$("#data_year").val()
         },
 	    success: function (data) {
 	    	if(data.data4[0].sh_v3=="是"){
@@ -2758,7 +2773,7 @@ function detailFormatter1(index, row) {
 function queryParams_cuoshi(params) {  //配置参数
 	var temp = {};
     temp.pkid = $("#hu_pkid").val();
-    temp.year = $("#cha_year").val();
+    temp.year = $("#data_year").val();
    
     return temp;
 }
@@ -2779,7 +2794,7 @@ function method1(tableid) {
 	    async:true,
 	    dataType: "json",
 	    data:{
-	    	pkid:shijianzhou_pkid,year:$("#cha_year").val()
+	    	pkid:shijianzhou_pkid,year:$("#data_year").val()
         },
 	    beforeSend: function(){
 	    },

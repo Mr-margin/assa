@@ -99,15 +99,35 @@ public class PoorUserController extends MultiActionController{
 		String xaing=request.getParameter("xaing");
 		String cun=request.getParameter("cun");
 		String huname=request.getParameter("huname");
-		
-		SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");  
-        String newFileName = df.format(new Date()) + "_" + new Random().nextInt(1000);
         int da_household_id = 0;
+        String entry_year = "";
+        String start_time = "";
+        String end_time = "";
+        String create_time = "";
         SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String create_time = sf.format(new Date());
-        SimpleDateFormat df2 = new SimpleDateFormat("yyyy"); 
-        Date date=new Date();
-        int entry_year=Integer.parseInt(df2.format(date));
+		create_time = sf.format(new Date());
+		String sql = "select start_time,end_time,entry_year from sys_user where pkid = 1";
+		List<Map> year_list = this.getBySqlMapper.findRecords(new SQLAdapter(sql));
+		if(year_list.size()>0){
+	        SimpleDateFormat sf2 = new SimpleDateFormat("yyyy-MM-dd");
+			start_time= year_list.get(0).get("start_time").toString();
+			end_time = year_list.get(0).get("end_time").toString();
+			Date start = sf2.parse(start_time);
+			Date end = sf2.parse(end_time);
+			Date now = new Date();
+			if(now.getTime() >= start.getTime() && now.getTime() <= end.getTime()){
+				entry_year = year_list.get(0).get("entry_year").toString();
+			}else{
+				SimpleDateFormat df2 = new SimpleDateFormat("yyyy"); 
+				Date date=new Date();
+				entry_year =df2.format(date);
+			}
+		}else{
+		    SimpleDateFormat df2 = new SimpleDateFormat("yyyy"); 
+		    Date date=new Date();
+		    entry_year =df2.format(date);
+		}
+       
         try{
         	String add_sql = "insert into da_household(v1,v2,v3,v4,v5,v6,v9,v21,entry_year,create_time) values('内蒙古自治区','鄂尔多斯市','"+qx+"','"+xaing+"','"+cun+"','"+huname+"','1','未脱贫','"+entry_year+"','"+create_time+"')";
     		SQLAdapter Metadata_table_Adapter = new SQLAdapter(add_sql);
@@ -288,6 +308,7 @@ public class PoorUserController extends MultiActionController{
 		String cha_smx ="";//苏木乡
 		String cha_gcc ="";//嘎查村
 		String cha_sbbz ="";//识别标准
+		String cha_init_flag = "";//现识别标准
 		String cha_pksx ="";//贫困户属性
 		String cha_zpyy ="";//致贫原因
 		String cha_mz ="";//户主民族
@@ -349,6 +370,10 @@ public class PoorUserController extends MultiActionController{
 			cha_sbbz = request.getParameter("cha_sbbz").trim();
 			str += " a.sys_standard='"+cha_sbbz+"' and";
 		}
+		if(request.getParameter("cha_init_flag")!=null&&!request.getParameter("cha_init_flag").equals("请选择")){
+			cha_init_flag = request.getParameter("cha_init_flag").trim();
+			str += " a.init_flag='"+cha_init_flag+"' and";
+		}
 		if(request.getParameter("cha_pksx")!=null&&!request.getParameter("cha_pksx").equals("请选择")){
 			cha_pksx = request.getParameter("cha_pksx").trim();
 			str += " a.v22='"+cha_pksx+"' and";
@@ -379,7 +404,7 @@ public class PoorUserController extends MultiActionController{
 		}
 		if(data_year.equals("2017")){
 			String count_st_sql = "select count(*) from (select a.pkid from da_household a ";
-			String people_sql = "select a.pkid,a.v3,a.v4,a.v5,a.v6,a.v9,a.v22,a.v23,a.v11,a.sys_standard,a.entry_year from da_household a ";
+			String people_sql = "select a.pkid,a.v3,a.v4,a.v5,a.v6,a.v9,a.v22,a.v23,a.v11,a.sys_standard,init_flag,a.entry_year from da_household a ";
 			
 			//如果帮扶人和帮扶单位条件被选择
 			if((request.getParameter("cha_bfdw")!=null&&!request.getParameter("cha_bfdw").equals(""))||(request.getParameter("cha_bfzrr")!=null&&!request.getParameter("cha_bfzrr").equals(""))){
@@ -435,7 +460,12 @@ public class PoorUserController extends MultiActionController{
 								val.put(key, Patient_st_map.get(key).toString().substring(0, 2));
 							}
 						}
-						
+						 
+						if(key.toString().equals("init_flag")){
+							if(Patient_st_map.get(key)!=null&&!Patient_st_map.get(key).equals("")){
+								val.put(key, Patient_st_map.get(key).toString().substring(0, 2));
+							}
+						}
 						if(key.toString().equals("pkid")){
 							HttpSession session = request.getSession();
 	//						JSONObject json = new JSONObject();
