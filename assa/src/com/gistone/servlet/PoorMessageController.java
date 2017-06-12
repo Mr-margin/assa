@@ -175,9 +175,9 @@ public class PoorMessageController extends MultiActionController{
 			str += " a.v21='"+cha_banqian+"' and";
 		}
 		String  str_table = "";
-		if( "2016".equals(data_year) ) {
+		if(request.getParameter("data_year")!=null && request.getParameter("data_year").toString().equals("2016")){
 			str_table = "_2016";
-		} else {
+		}else{
 			str_table = "";
 		}
 		
