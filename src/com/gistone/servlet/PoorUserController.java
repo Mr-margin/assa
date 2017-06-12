@@ -530,7 +530,7 @@ public class PoorUserController extends MultiActionController{
 			}
 			}else{    //----------2016年数据表查询-----------
 				String count_st_sql = "select count(*) from (select a.pkid from da_household_2016 a ";
-				String people_sql = "select a.pkid,a.v3,a.v4,a.v5,a.v6,a.v9,a.v22,a.v23,a.v11,a.sys_standard,entry_year from da_household_2016 a ";
+				String people_sql = "select a.pkid,a.v3,a.v4,a.v5,a.v6,a.v9,a.v22,a.v23,a.v11,a.sys_standard,init_flag,entry_year from da_household_2016 a ";
 				
 				//如果帮扶人和帮扶单位条件被选择
 				if((request.getParameter("cha_bfdw")!=null&&!request.getParameter("cha_bfdw").equals(""))||(request.getParameter("cha_bfzrr")!=null&&!request.getParameter("cha_bfzrr").equals(""))){
@@ -587,6 +587,11 @@ public class PoorUserController extends MultiActionController{
 								}
 							}
 							
+							if(key.toString().equals("init_flag")){
+								if(Patient_st_map.get(key)!=null&&!Patient_st_map.get(key).equals("")){
+									val.put(key, Patient_st_map.get(key).toString().substring(0, 2));
+								}
+							}
 							if(key.toString().equals("pkid")){
 								HttpSession session = request.getSession();
 //								JSONObject json = new JSONObject();
