@@ -183,7 +183,7 @@ $(function () {
     	$("#cha_v8").val();
     	$("#cha_v8_1").val("请选择");
     	$("#cha_banqian").val("请选择");
-    	$("#cha_year").val("2017");
+    	$("#cha_year").val("请选择");
     	$("#data_year").val("2017");
     	$('#chauxnshiousuo').click();
     	chaxun = {};

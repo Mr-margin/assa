@@ -122,9 +122,11 @@ public class PoorMessageController extends MultiActionController{
 				cha_v24_2 = Float.parseFloat(request.getParameter("cha_v24_2").trim());
 				//str += " ROUND(a.v24,2)<"+cha_v24_2+" and";
 			}
-		if(request.getParameter("cha_year")!=null&&!request.getParameter("cha_year").equals("")){
+		if(request.getParameter("cha_year")!=null&&!request.getParameter("cha_year").equals("请选择")){
 			cha_year = request.getParameter("cha_year").trim();
 			str += " a.entry_year= "+cha_year+" and";
+		}else{
+			str += "";
 		}
 		if(request.getParameter("cha_qx")!=null&&!request.getParameter("cha_qx").equals("请选择")){
 			cha_qx = request.getParameter("cha_qx").trim();

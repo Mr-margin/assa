@@ -715,7 +715,7 @@ $(function () {
     	$("#cha_v24_1").val("");
     	$("#cha_v24_2").val("");
     	$("#cha_banqian").val("请选择");
-    	$("#cha_year").val("2017");
+    	$("#cha_year").val("请选择");
     	$("#data_year").val("2017");
     	$('#chauxnshiousuo').click();
     	chaxun = {};

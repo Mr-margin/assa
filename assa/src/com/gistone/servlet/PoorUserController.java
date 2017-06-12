@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -108,13 +109,14 @@ public class PoorUserController extends MultiActionController{
 		create_time = sf.format(new Date());
 		String sql = "select start_time,end_time,entry_year from sys_user where pkid = 1";
 		List<Map> year_list = this.getBySqlMapper.findRecords(new SQLAdapter(sql));
-		if(year_list.size()>0){
+		if(year_list.size()>0 && !"".equals(year_list.get(0).get("start_time").toString())){
 	        SimpleDateFormat sf2 = new SimpleDateFormat("yyyy-MM-dd");
 			start_time= year_list.get(0).get("start_time").toString();
 			end_time = year_list.get(0).get("end_time").toString();
 			Date start = sf2.parse(start_time);
 			Date end = sf2.parse(end_time);
 			Date now = new Date();
+			now = sf2.parse(sf2.format(now));
 			if(now.getTime() >= start.getTime() && now.getTime() <= end.getTime()){
 				entry_year = year_list.get(0).get("entry_year").toString();
 			}else{
@@ -329,9 +331,11 @@ public class PoorUserController extends MultiActionController{
 		}else{
 			data_year = "2017";
 		}
-		if(request.getParameter("cha_year")!=null&&!request.getParameter("cha_year").equals("")){
+		if(request.getParameter("cha_year")!=null&&!request.getParameter("cha_year").equals("请选择")){
 			cha_year = request.getParameter("cha_year").trim();
 			str += " a.entry_year= "+cha_year+" and";
+		}else{
+			str +="";
 		}
 		if(request.getParameter("cha_v6")!=null&&!request.getParameter("cha_v6").equals("")){
 			cha_v6 = request.getParameter("cha_v6").trim();
