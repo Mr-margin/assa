@@ -430,7 +430,6 @@ public class AnController extends MultiActionController{
 		 List<Map> cha_list1 = this.getBySqlMapper.findRecords(cha_sqlAdapter1);
 		 
 		 JSONArray jsonArray=new JSONArray();
-		 JSONArray jsonBfdwArray=new JSONArray();//帮扶干部信息
 		SQLAdapter poor_Adapter = new SQLAdapter(poor_sql);
 		String bfdwSql = "";
 		List<Map> poor_list = this.getBySqlMapper.findRecords(poor_Adapter);
@@ -442,6 +441,7 @@ public class AnController extends MultiActionController{
 			bfdwSql="select sp.col_name,sp.col_post,sp.telephone from (select * from sys_personal_household_many where da_household_id='"+poor_list.get(i).get("pkid")+"' )sph left join sys_personal sp on sph.sys_personal_id=sp.pkid ";
 			SQLAdapter bfdw_sqlAdapter = new SQLAdapter (bfdwSql);
 			List<Map> bfdw_list = this.getBySqlMapper.findRecords(bfdw_sqlAdapter);
+			JSONArray jsonBfdwArray=new JSONArray();//帮扶干部信息
 			if(bfdw_list.size()>0){
 				for(int b=0;b<bfdw_list.size();b++){
 					JSONObject ob = new JSONObject();
