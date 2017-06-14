@@ -438,7 +438,7 @@ public class AnController extends MultiActionController{
 			obj.put("name", poor_list.get(i).get("v6"));// 贫困户主
 			obj.put("pid", poor_list.get(i).get("pkid"));// 贫困户主id
 			//查询帮扶干部、单位、电话开始
-			bfdwSql="select sp.col_name,sp.col_post,sp.telephone from (select * from sys_personal_household_many where da_household_id='"+poor_list.get(i).get("pkid")+"' )sph left join sys_personal sp on sph.sys_personal_id=sp.pkid ";
+			bfdwSql="select sp.col_name,sp.col_post,sp.telephone from (select * from sys_personal_household_many where da_household_id='"+poor_list.get(i).get("pkid")+"' )sph join sys_personal sp on sph.sys_personal_id=sp.pkid ";
 			SQLAdapter bfdw_sqlAdapter = new SQLAdapter (bfdwSql);
 			List<Map> bfdw_list = this.getBySqlMapper.findRecords(bfdw_sqlAdapter);
 			JSONArray jsonBfdwArray=new JSONArray();//帮扶干部信息
