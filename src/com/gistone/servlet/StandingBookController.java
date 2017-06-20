@@ -506,7 +506,7 @@ public class StandingBookController extends MultiActionController{
 		String ss=request.getParameter("cha_bfdw");
 		String cha_init_flag = "";//现识别标准
 		String cha_year="";
-		if(request.getParameter("cha_year")!=null&&!request.getParameter("cha_year").equals("")){
+		if(request.getParameter("cha_year")!=null&&!request.getParameter("cha_year").equals("请选择")){
 			cha_year = request.getParameter("cha_year").trim();
 			str += " t1.entry_year= "+cha_year+" and";
 		}
@@ -860,7 +860,7 @@ public class StandingBookController extends MultiActionController{
 		String ss=request.getParameter("cha_bfdw");
 		String cha_init_flag = "";//现识别标准
 		String cha_year="";
-		if(request.getParameter("cha_year")!=null&&!request.getParameter("cha_year").equals("")){
+		if(request.getParameter("cha_year")!=null&&!request.getParameter("cha_year").equals("请选择")){
 			cha_year = request.getParameter("cha_year").trim();
 			str += " t1.entry_year= "+cha_year+" and";
 		}
@@ -1182,7 +1182,7 @@ public class StandingBookController extends MultiActionController{
 		String ss=request.getParameter("cha_bfdw");
 		String cha_init_flag = "";//现识别标准
 		String cha_year="";
-		if(request.getParameter("cha_year")!=null&&!request.getParameter("cha_year").equals("")){
+		if(request.getParameter("cha_year")!=null&&!request.getParameter("cha_year").equals("请选择")){
 			cha_year = request.getParameter("cha_year").trim();
 			str += " t1.entry_year= "+cha_year+" and";
 		}
@@ -2028,7 +2028,7 @@ public class StandingBookController extends MultiActionController{
 		String ss=request.getParameter("cha_bfdw");
 		String cha_init_flag = "";//现识别标准
 		String cha_year="";
-		if(request.getParameter("cha_year")!=null&&!request.getParameter("cha_year").equals("")){
+		if(request.getParameter("cha_year")!=null&&!request.getParameter("cha_year").equals("请选择")){
 			cha_year = request.getParameter("cha_year").trim();
 			str += " t1.entry_year= "+cha_year+" and";
 		}
@@ -2369,7 +2369,7 @@ public class StandingBookController extends MultiActionController{
 		String ss=request.getParameter("cha_bfdw");
 		String cha_init_flag = "";//现识别标准
 		String cha_year="";
-		if(request.getParameter("cha_year")!=null&&!request.getParameter("cha_year").equals("")){
+		if(request.getParameter("cha_year")!=null&&!request.getParameter("cha_year").equals("请选择")){
 			cha_year = request.getParameter("cha_year").trim();
 			str += " t1.entry_year= "+cha_year+" and";
 		}
@@ -2779,7 +2779,7 @@ public class StandingBookController extends MultiActionController{
 		String ss=request.getParameter("cha_bfdw");
 		String cha_init_flag = "";//现识别标准
 		String cha_year="";
-		if(request.getParameter("cha_year")!=null&&!request.getParameter("cha_year").equals("")){
+		if(request.getParameter("cha_year")!=null&&!request.getParameter("cha_year").equals("请选择")){
 			cha_year = request.getParameter("cha_year").trim();
 			str += " t1.entry_year= "+cha_year+" and";
 		}
@@ -3076,7 +3076,7 @@ public class StandingBookController extends MultiActionController{
 		String ss=request.getParameter("cha_bfdw");
 		String cha_init_flag = "";//现识别标准
 		String cha_year="";
-		if(request.getParameter("cha_year")!=null&&!request.getParameter("cha_year").equals("")){
+		if(request.getParameter("cha_year")!=null&&!request.getParameter("cha_year").equals("请选择")){
 			cha_year = request.getParameter("cha_year").trim();
 			str += " t1.entry_year= "+cha_year+" and";
 		}
@@ -3627,7 +3627,7 @@ public class StandingBookController extends MultiActionController{
 		String ss=request.getParameter("cha_bfdw");
 		String cha_init_flag = "";//现识别标准
 		String cha_year="";
-		if(request.getParameter("cha_year")!=null&&!request.getParameter("cha_year").equals("")){
+		if(request.getParameter("cha_year")!=null&&!request.getParameter("cha_year").equals("请选择")){
 			cha_year = request.getParameter("cha_year").trim();
 			str += " t1.entry_year= "+cha_year+" and";
 		}
